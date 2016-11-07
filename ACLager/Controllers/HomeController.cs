@@ -18,6 +18,7 @@ namespace ACLager.Controllers {
                 new HomeMenuBlock("amber", "Brugere", "Håndtering af brugere"),
                 new HomeMenuBlock("blue", "Lokationer", "Håndtering af lokationer"),
                 new HomeMenuBlock("cyan", "Aktivitetshistorik", "Se aktivitetshistorik"),
+                new HomeMenuBlock("green", "Oversigt over spild", "Se spildrapporter"),
                 new HomeMenuBlock("green", "Oversigt over spild", "Se spildrapporter")
             };
 

@@ -1,4 +1,7 @@
-﻿
+﻿@using ACLager.Models
+@using Microsoft.Ajax.Utilities
+@model ACLager.ViewModels.InventoryViewModel
+
 @{
     ViewBag.Title = "index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -38,12 +41,13 @@
                         </tr>
                     </thead>
                     <tbody class="list">
-
-
-                        <tr id="NormalRow01">
+                        @foreach (Item item in Model.Items) {
+  
+                        
+                        <tr id=@String.Format("NormalRow"+item.ID)>
 
                             <td class="sort-name">
-                                <h4>Chokolademus</h4>
+                                <h4>@item.Name</h4>
                             </td>
                             <td class="sort-location">
                                 <h3>
@@ -52,194 +56,44 @@
                             </td>
                             <td class="sort-amount">
                                 <h4>
-                                    <strong>401</strong>
-                                    <small>stk.</small>
+                                    <strong>@item.Amount</strong>
+                                    <small>kg.</small>
                                 </h4>
                             </td>
                             <td class="sort-expdate">
-                                <h4>23-05-2018</h4>
+                                <h4>
+                                    @if (item.ExpirationDate != null) {
+                                        @item.ExpirationDate.Value.ToShortDateString()
+                                    }
+
+                                </h4>
                             </td>
                             <td>
                                 <button type="button" class="btn btn-lg btn-primary foldout-btn" data-rowid="InfoRow01">Flere valg <i class="material-icons">expand_more</i></button>
                             </td>
                         </tr>
-                        <tr id="InfoRow01" class="info-row" style="display:none;">
-                            <td>
-                                sdf
-                            </td>
-                            <td>
-                                <strong>Leverandør:</strong>
-                                Toms Chokolade A/S
-                            </td>
-                            <td>
-                                <strong>Leveret dato:</strong>
-                                14-10-2016
-                            </td>
-                            <td>
-                                <strong>Note:</strong>
-                                Kasser af 10 stk denne gang
-                            </td>
-                            <td>
-                                <a href="#" class="btn btn-raised btn-sm btn-info">Flyt</a>
-                            </td>
-                        </tr>
-
-                        <tr id="NormalRow02">
-
-                            <td class="sort-name">
-                                <h4>Chokolademus</h4>
-                            </td>
-                            <td class="sort-location">
-                                <h3>
-                                    <strong>2H-02</strong>
-                                </h3>
-                            </td>
-                            <td class="sort-amount">
-                                <h4>
-                                    <strong>404</strong>
-                                    <small>stk.</small>
-                                </h4>
-                            </td>
-                            <td class="sort-expdate">
-                                <h4>23-05-2018</h4>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-lg btn-primary foldout-btn" data-rowid="InfoRow02">Flere valg <i class="material-icons">expand_more</i></button>
-                            </td>
-                        </tr>
-                        <tr id="InfoRow02" class="info-row" style="display:none;">
-                            <td>
-                                sdf
-                            </td>
-                            <td>
-                                <strong>Leverandør:</strong>
-                                Toms Chokolade A/S
-                            </td>
-                            <td>
-                                <strong>Leveret dato:</strong>
-                                14-10-2016
-                            </td>
-                            <td>
-                                <strong>Note:</strong>
-                                Kasser af 10 stk denne gang
-                            </td>
-                            <td>
-                                <a href="#" class="btn btn-raised btn-sm btn-info">Flyt</a>
-                            </td>
-                        </tr>
-
-                        <tr id="NormalRow03">
-
-                            <td class="sort-name">
-                                <h4>Chokolademus</h4>
-                            </td>
-                            <td class="sort-location">
-                                <h3>
-                                    <strong>2H-03</strong>
-                                </h3>
-                            </td>
-                            <td class="sort-amount">
-                                <h4>
-                                    <strong>409</strong>
-                                    <small>stk.</small>
-                                </h4>
-                            </td>
-                            <td class="sort-expdate">
-                                <h4>23-05-2018</h4>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-lg btn-primary foldout-btn" data-rowid="InfoRow03">Flere valg <i class="material-icons">expand_more</i></button>
-                            </td>
-                        </tr>
-                        <tr id="InfoRow03" class="info-row" style="display:none;">
-                            <td>
-                                sdf
-                            </td>
-                            <td>
-                                <strong>Leverandør:</strong>
-                                Toms Chokolade A/S
-                            </td>
-                            <td>
-                                <strong>Leveret dato:</strong>
-                                14-10-2016
-                            </td>
-                            <td>
-                                <strong>Note:</strong>
-                                Kasser af 10 stk denne gang
-                            </td>
-                            <td>
-                                <a href="#" class="btn btn-raised btn-sm btn-info">Flyt</a>
-                            </td>
-                        </tr>
-
-                        <tr id="NormalRow04">
-
-                            <td class="sort-name">
-                                <h4>Chokolademus</h4>
-                            </td>
-                            <td class="sort-location">
-                                <h3>
-                                    <strong>2H-04</strong>
-                                </h3>
-                            </td>
-                            <td class="sort-amount">
-                                <h4>
-                                    <strong>416</strong>
-                                    <small>stk.</small>
-                                </h4>
-                            </td>
-                            <td class="sort-expdate">
-                                <h4>23-05-2018</h4>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-lg btn-primary foldout-btn" data-rowid="InfoRow04">Flere valg <i class="material-icons">expand_more</i></button>
-                            </td>
-                        </tr>
-                        <tr id="InfoRow04" class="info-row" style="display:none;">
-                            <td>
-                                sdf
-                            </td>
-                            <td>
-                                <strong>Leverandør:</strong>
-                                Toms Chokolade A/S
-                            </td>
-                            <td>
-                                <strong>Leveret dato:</strong>
-                                14-10-2016
-                            </td>
-                            <td>
-                                <strong>Note:</strong>
-                                Kasser af 10 stk denne gang
-                            </td>
-                            <td>
-                                <a href="#" class="btn btn-raised btn-sm btn-info">Flyt</a>
-                            </td>
-                        </tr>
-
-                        <tr id="NormalRow05">
-
-                            <td class="sort-name">
-                                <h4>Chokolademus</h4>
-                            </td>
-                            <td class="sort-location">
-                                <h3>
-                                    <strong>2H-05</strong>
-                                </h3>
-                            </td>
-                            <td class="sort-amount">
-                                <h4>
-                                    <strong>425</strong>
-                                    <small>stk.</small>
-                                </h4>
-                            </td>
-                            <td class="sort-expdate">
-                                <h4>23-05-2018</h4>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-lg btn-primary foldout-btn" data-rowid="InfoRow05">Flere valg <i class="material-icons">expand_more</i></button>
-                            </td>
-                        </tr>
-                     </tbody>
+                            <tr id="@String.Format("InfoRow" + item.ID)" class="info-row" style="display: none;">
+                                <td>
+                                    sdf
+                                </td>
+                                <td>
+                                    <strong>Leverandør:</strong>
+                                    @item.Supplier
+                                </td>
+                                <td>
+                                    <strong>Leveret dato:</strong>
+                                    @item.DeliveryDate.ToShortDateString()
+                                </td>
+                                <td>
+                                    <strong>Note:</strong>
+                                    Bandit
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-raised btn-sm btn-info">Flyt</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
                 </table>
             </div>
         </div>

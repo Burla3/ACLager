@@ -207,8 +207,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
+    <Compile Include="Controllers\LogController.cs" />
+    <Compile Include="Controllers\WasteController.cs" />
+    <Compile Include="Controllers\WorkOrderController.cs" />
     <Compile Include="CustomClasses\HomeMenuBlock.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -311,6 +315,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Employee\" />
+    <Folder Include="Views\Log\" />
+    <Folder Include="Views\Waste\" />
+    <Folder Include="Views\WorkOrder\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

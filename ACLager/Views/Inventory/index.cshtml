@@ -44,10 +44,10 @@
                         @foreach (Item item in Model.Items) {
   
                         
-                        <tr id=@String.Format("NormalRow"+item.ID)>
+                        <tr id=@String.Format("NormalRow"+item.uid)>
 
                             <td class="sort-name">
-                                <h4>@item.Name</h4>
+                                <h4>Item name</h4>
                             </td>
                             <td class="sort-location">
                                 <h3>
@@ -56,14 +56,14 @@
                             </td>
                             <td class="sort-amount">
                                 <h4>
-                                    <strong>@item.Amount</strong>
+                                    <strong>@item.amount</strong>
                                     <small>kg.</small>
                                 </h4>
                             </td>
                             <td class="sort-expdate">
                                 <h4>
-                                    @if (item.ExpirationDate != null) {
-                                        @item.ExpirationDate.Value.ToShortDateString()
+                                    @if (item.expiration_date != null) {
+                                        @item.expiration_date.Value.ToShortDateString()
                                     }
 
                                 </h4>
@@ -72,17 +72,17 @@
                                 <button type="button" class="btn btn-lg btn-primary foldout-btn" data-rowid="InfoRow01">Flere valg <i class="material-icons">expand_more</i></button>
                             </td>
                         </tr>
-                            <tr id="@String.Format("InfoRow" + item.ID)" class="info-row" style="display: none;">
+                            <tr id="@String.Format("InfoRow" + item.uid)" class="info-row" style="display: none;">
                                 <td>
                                     sdf
                                 </td>
                                 <td>
                                     <strong>Leverandør:</strong>
-                                    @item.Supplier
+                                    @item.supplier
                                 </td>
                                 <td>
                                     <strong>Leveret dato:</strong>
-                                    @item.DeliveryDate.ToShortDateString()
+                                    @item.delivery_date.ToShortDateString()
                                 </td>
                                 <td>
                                     <strong>Note:</strong>

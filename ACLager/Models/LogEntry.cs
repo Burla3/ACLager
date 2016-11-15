@@ -12,15 +12,11 @@ namespace ACLager.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Item
+    public partial class LogEntry
     {
         public long uid { get; set; }
-        public long item_type { get; set; }
-        public long location { get; set; }
-        public long amount { get; set; }
-        public Nullable<System.DateTime> expiration_date { get; set; }
-        public System.DateTime delivery_date { get; set; }
-        public string supplier { get; set; }
-        public long reserved { get; set; }
+        public System.DateTime date { get; set; }
+        public string type { get; set; }
+        public string log_body { get; set; }
     }
 }

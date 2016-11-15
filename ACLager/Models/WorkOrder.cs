@@ -12,15 +12,13 @@ namespace ACLager.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Item
+    public partial class WorkOrder
     {
         public long uid { get; set; }
-        public long item_type { get; set; }
-        public long location { get; set; }
-        public long amount { get; set; }
-        public Nullable<System.DateTime> expiration_date { get; set; }
-        public System.DateTime delivery_date { get; set; }
-        public string supplier { get; set; }
-        public long reserved { get; set; }
+        public System.DateTime due_date { get; set; }
+        public bool is_complete { get; set; }
+        public long completed_by { get; set; }
+        public string type { get; set; }
+        public long batch_number { get; set; }
     }
 }

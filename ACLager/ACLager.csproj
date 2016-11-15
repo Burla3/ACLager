@@ -217,23 +217,41 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Item.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Item.Context.tt</DependentUpon>
+    <Compile Include="Models\Ingredient.cs">
+      <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Item.cs">
-      <DependentUpon>Item.tt</DependentUpon>
+      <DependentUpon>Models.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Item.Designer.cs">
+    <Compile Include="Models\ItemType.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Location.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Models.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Item.edmx</DependentUpon>
+      <DependentUpon>Models.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Item1.cs">
+    <Compile Include="Models\Models.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Item.tt</DependentUpon>
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Models.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Models.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WorkOrder.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WorkOrderItem.cs">
+      <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
@@ -271,23 +289,23 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EntityDeploy Include="Models\Item.edmx">
+    <EntityDeploy Include="Models\Models.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Item.Designer.cs</LastGenOutput>
+      <LastGenOutput>Models.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\Item.edmx.diagram">
-      <DependentUpon>Item.edmx</DependentUpon>
+    <Content Include="Models\Models.edmx.diagram">
+      <DependentUpon>Models.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Models\Item.Context.tt">
+    <Content Include="Models\Models.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Item.edmx</DependentUpon>
-      <LastGenOutput>Item.Context.cs</LastGenOutput>
+      <DependentUpon>Models.edmx</DependentUpon>
+      <LastGenOutput>Models.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\Item.tt">
+    <Content Include="Models\Models.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Item.edmx</DependentUpon>
-      <LastGenOutput>Item1.cs</LastGenOutput>
+      <DependentUpon>Models.edmx</DependentUpon>
+      <LastGenOutput>Models.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap-material-datetimepicker.js" />
     <Content Include="Scripts\bootstrap.js" />

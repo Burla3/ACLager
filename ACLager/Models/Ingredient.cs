@@ -12,15 +12,12 @@ namespace ACLager.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Item
+    public partial class Ingredient
     {
         public long uid { get; set; }
-        public long item_type { get; set; }
-        public long location { get; set; }
+        public long product { get; set; }
+        public long ingredient1 { get; set; }
         public long amount { get; set; }
-        public Nullable<System.DateTime> expiration_date { get; set; }
-        public System.DateTime delivery_date { get; set; }
-        public string supplier { get; set; }
-        public long reserved { get; set; }
+        public string unit { get; set; }
     }
 }

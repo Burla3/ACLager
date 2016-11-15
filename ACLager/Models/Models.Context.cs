@@ -25,6 +25,14 @@ namespace ACLager.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Ingredient> Ingredients { get; set; }
         public virtual DbSet<Item> Items { get; set; }
+        public virtual DbSet<ItemType> ItemTypes { get; set; }
+        public virtual DbSet<Location> Locations { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<WorkOrderItem> WorkOrderItems { get; set; }
+        public virtual DbSet<WorkOrder> WorkOrders { get; set; }
+        public virtual DbSet<LogEntry> LogEntries { get; set; }
+        public virtual DbSet<WasteReport> WasteReports { get; set; }
     }
 }

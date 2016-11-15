@@ -18,7 +18,7 @@ namespace ACLager.Controllers
             //db.SaveChanges();
 
             IEnumerable<Item> items = from item in db.Items
-                        where item.Amount > 0
+                        where item.amount > 0
                         select item;
 
             return View(new InventoryViewModel(items));

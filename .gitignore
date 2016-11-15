@@ -253,3 +253,6 @@ paket-files/
 ACLager/Models/Item.Designer.cs
 ACLager/Models/Item.edmx
 ACLager/Web.config
+ACLager/Models/Models.Designer.cs
+ACLager/Models/Models.edmx
+ACLager/Web.config

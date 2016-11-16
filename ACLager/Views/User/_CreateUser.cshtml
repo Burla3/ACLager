@@ -1,0 +1,57 @@
+﻿@using ACLager.Models
+@model ACLager.ViewModels.UserViewModel
+
+
+@using (Html.BeginForm("Create", "User")) {
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <div class="col-md-6">
+            <div class="row">
+                <h2>Opret ny bruger</h2>
+            </div>
+                
+            <div class="row">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group label-floating">
+                    @Html.LabelFor(model => model.User.name, htmlAttributes: new { @class = "control-label col-md-2" }, labelText: "Navn")
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.User.name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.User.name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 0">
+                    <div class="col-md-11 col-md-offset-1">
+                        <div class="checkbox">
+                            <label>
+                                @*@Html.LabelFor(model => model.User.is_admin, htmlAttributes: new {@class = "control-label col-md-3"}, labelText: "Administrator")*@
+
+                                Administrator
+                                @Html.EditorFor(model => model.User.is_admin)
+                                @Html.ValidationMessageFor(model => model.User.is_admin, "", new { @class = "text-danger" })
+                            </label>
+
+                            <label>
+                                @*@Html.LabelFor(model => model.User.is_active, htmlAttributes: new { @class = "control-label col-md-3" }, labelText: "Aktive")*@
+                                Aktiv
+                                @Html.EditorFor(model => model.User.is_active, new { @checked = true })
+                                @Html.ValidationMessageFor(model => model.User.is_active, "", new { @class = "text-danger" })
+
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button type="button" class="btn btn-default">Cancel</button>
+                        <input type="submit" value="Create" class="btn btn-default"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}

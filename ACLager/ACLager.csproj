@@ -210,6 +210,8 @@
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
+    <Compile Include="Controllers\ItemTypeController.cs" />
+    <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\WasteController.cs" />
     <Compile Include="Controllers\WorkOrderController.cs" />
@@ -344,6 +346,8 @@
     <Content Include="Views\Log\Index.cshtml" />
     <Content Include="Views\Waste\Index.cshtml" />
     <Content Include="Views\WorkOrder\Index.cshtml" />
+    <Content Include="Views\Location\Index.cshtml" />
+    <Content Include="Views\ItemType\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -14,9 +14,9 @@ namespace ACLager.Models
     
     public partial class Ingredient
     {
-        public long uid { get; set; }
+        public long uid { get; private set; }
         public long product { get; set; }
-        public long ingredient1 { get; set; }
+        public long ingredient { get; set; }
         public long amount { get; set; }
         public string unit { get; set; }
     }

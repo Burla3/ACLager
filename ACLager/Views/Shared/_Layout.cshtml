@@ -31,14 +31,13 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 
-    <!-- Init the material javascript to create neat effects -->
+<!-- Init the material javascript to create neat effects -->
     <script type="text/javascript">
         $(document).ready(function () {
             moment.locale("da");
             $.material.init();
             $(".clickable").click(function (event) {
                 var href = $(this).data("href");
-                console.log(href);
                 if (href) {
                     event.preventDefault();
                     window.location.assign(href);

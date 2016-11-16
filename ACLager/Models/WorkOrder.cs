@@ -14,7 +14,7 @@ namespace ACLager.Models
     
     public partial class WorkOrder
     {
-        public long uid { get; }
+        public long uid { get; private set; }
         public System.DateTime due_date { get; set; }
         public bool is_complete { get; set; }
         public long completed_by { get; set; }

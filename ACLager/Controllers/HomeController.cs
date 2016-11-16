@@ -15,7 +15,7 @@ namespace ACLager.Controllers {
                 new HomeMenuBlock("brown", "Produktion", "Ordrer til produktionsafdelingen.", "WorkOrder", "Production"),
                 new HomeMenuBlock("orange", "Pakkeri", "Ordrer til pakkeriet.", "WorkOrder", "Packaging"),
                 new HomeMenuBlock("deep-orange", "Spildrapport", "Rapportering af spild.", "Waste", "Index"),
-                new HomeMenuBlock("amber", "Brugere", "Håndtering af brugere", "Employee", "Index"),
+                new HomeMenuBlock("amber", "Brugere", "Håndtering af brugere", "User", "Index"),
                 new HomeMenuBlock("blue", "Lokationer", "Håndtering af lokationer", "Location", "Index"),
                 new HomeMenuBlock("cyan", "Aktivitetshistorik", "Se aktivitetshistorik", "Log", "Index"),
                 new HomeMenuBlock("green", "Oversigt over spild", "Se spildrapporter", "Waste", "OverView"),

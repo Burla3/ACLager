@@ -218,10 +218,13 @@
     <Compile Include="CustomClasses\ItemGroup.cs" />
     <Compile Include="CustomClasses\ItemGroupExtractor.cs" />
     <Compile Include="CustomClasses\HomeMenuBlock.cs" />
+    <Compile Include="CustomClasses\LogEntryEventArgs.cs" />
+    <Compile Include="CustomClasses\Logger.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IExtractor.cs" />
+    <Compile Include="Interfaces\ILoggable.cs" />
     <Compile Include="Models\Ingredient.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>

@@ -4,14 +4,20 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ACLager.CustomClasses;
+using ACLager.Interfaces;
 using ACLager.Models;
 using ACLager.ViewModels;
 using Newtonsoft.Json.Linq;
 
 namespace ACLager.Controllers
 {
-    public class InventoryController : Controller
+    public class InventoryController : Controller, ILoggable
     {
+        public InventoryController()
+        {
+            new Logger().Subcribe(this);
+        }
+
         // GET: Inventory
         public ActionResult Index()
         {
@@ -91,5 +97,7 @@ namespace ACLager.Controllers
         {
             throw new NotImplementedException();
         }
+
+        public event ChangedEventHandler Changed;
     }
 }

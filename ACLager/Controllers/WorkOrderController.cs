@@ -4,10 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ACLager.Models;
+using ACLager.Interfaces;
 
 namespace ACLager.Controllers
 {
-    public class WorkOrderController : Controller
+    public class WorkOrderController : Controller, ILoggable
     {
         // GET: WorkOrder
         public ActionResult Index()
@@ -54,5 +55,7 @@ namespace ACLager.Controllers
         {
             throw new NotImplementedException();
         }
+
+        public event ChangedEventHandler Changed;
     }
 }

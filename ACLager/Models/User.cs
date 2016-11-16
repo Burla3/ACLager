@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace ACLager.Models
 {
     using System;
@@ -14,9 +16,14 @@ namespace ACLager.Models
     
     public partial class User
     {
+        public User() {
+        }
+
         public long uid { get; private set; }
-        public bool is_admin { get; set; }
+        [Required] public bool is_admin { get; set; }
+
+        [Required(ErrorMessage = "Du skal indtaste et navn.")]
         public string name { get; set; }
-        public bool is_active { get; set; }
+        [Required] public bool is_active { get; set; }
     }
 }

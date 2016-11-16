@@ -1,4 +1,5 @@
-﻿@using ACLager.Models
+﻿@using ACLager.CustomClasses
+@using ACLager.Models
 @using Microsoft.Ajax.Utilities
 @model ACLager.ViewModels.InventoryViewModel
 
@@ -41,29 +42,32 @@
                         </tr>
                     </thead>
                     <tbody class="list">
-                        @foreach (Item item in Model.Items) {
-  
-                        
-                        <tr id=@String.Format("NormalRow"+item.uid)>
+                        @foreach (ItemGroup itemGroup in Model.ItemGroups) {
+                            foreach (Tuple<Item, Location> itemAndLocation in itemGroup.ItemAndLocations) {
+                                 
+                             
+
+
+                        <tr id=@String.Format("NormalRow")>
 
                             <td class="sort-name">
-                                <h4>Item name</h4>
+                                <h4>@itemGroup.ItemType.name</h4>
                             </td>
                             <td class="sort-location">
                                 <h3>
-                                    <strong>2H-01</strong>
+                                    <strong>@itemAndLocation.Item2.id</strong>
                                 </h3>
                             </td>
                             <td class="sort-amount">
                                 <h4>
-                                    <strong>@item.amount</strong>
-                                    <small>kg.</small>
+                                    <strong>@itemAndLocation.Item1.amount</strong>
+                                    <small>@itemGroup.ItemType.unit</small>
                                 </h4>
                             </td>
                             <td class="sort-expdate">
                                 <h4>
-                                    @if (item.expiration_date != null) {
-                                        @item.expiration_date.Value.ToShortDateString()
+                                    @if (itemAndLocation.Item1.expiration_date != null) {
+                                        @itemAndLocation.Item1.expiration_date.Value.ToShortDateString()
                                     }
 
                                 </h4>
@@ -72,26 +76,23 @@
                                 <button type="button" class="btn btn-lg btn-primary foldout-btn" data-rowid="InfoRow01">Flere valg <i class="material-icons">expand_more</i></button>
                             </td>
                         </tr>
-                            <tr id="@String.Format("InfoRow" + item.uid)" class="info-row" style="display: none;">
-                                <td>
-                                    sdf
-                                </td>
-                                <td>
-                                    <strong>Leverandør:</strong>
-                                    @item.supplier
-                                </td>
-                                <td>
-                                    <strong>Leveret dato:</strong>
-                                    @item.delivery_date.ToShortDateString()
-                                </td>
-                                <td>
-                                    <strong>Note:</strong>
-                                    Bandit
-                                </td>
-                                <td>
-                                    <a href="#" class="btn btn-raised btn-sm btn-info">Flyt</a>
-                                </td>
-                            </tr>
+                                <tr id="@String.Format("InfoRow")" class="info-row" style="display: none;">
+                                    <td>
+                                        sdf
+                                    </td>
+                                    <td>
+                                        <strong>Leverandør:</strong>
+                                        @itemAndLocation.Item1.supplier
+                                    </td>
+                                    <td>
+                                        <strong>Leveret dato:</strong>
+                                        @itemAndLocation.Item1.delivery_date.ToShortDateString()
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-raised btn-sm btn-info">Flyt</a>
+                                    </td>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>

@@ -7,7 +7,7 @@
     @for (int i = 0; i < Model.HomeMenuBlocks.Count; i++) {
 
         <div class="col-sm-6 col-md-4">
-            <div class="panel panel-primary link">
+            <div class="panel panel-primary link clickable" data-href="@Url.Action(Model.HomeMenuBlocks[i].Action, Model.HomeMenuBlocks[i].Controller)">
                 <div class="panel-heading background-override-@Model.HomeMenuBlocks[i].Color">
                     <h2 class="panel-title-freesize">
                         @Model.HomeMenuBlocks[i].Title

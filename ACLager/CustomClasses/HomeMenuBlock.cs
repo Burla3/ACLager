@@ -5,6 +5,14 @@ using System.Web;
 
 namespace ACLager.CustomClasses {
     public class HomeMenuBlock {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="color"></param>
+        /// <param name="title"></param>
+        /// <param name="description"></param>
+        /// <param name="controller"></param>
+        /// <param name="action"></param>
         public HomeMenuBlock(string color, string title, string description, string controller, string action) {
             Color = color;
             Title = title;

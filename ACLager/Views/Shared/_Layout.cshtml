@@ -38,9 +38,10 @@
             $.material.init();
             $(".clickable").click(function (event) {
                 var href = $(this).data("href");
+                console.log(href);
                 if (href) {
                     event.preventDefault();
-                    window.location(href);
+                    window.location.assign(href);
                 }
             });
         });

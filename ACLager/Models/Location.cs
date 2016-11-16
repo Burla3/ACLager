@@ -14,7 +14,7 @@ namespace ACLager.Models
     
     public partial class Location
     {
-        public long uid { get; set; }
+        public long uid { get; }
         public string id { get; set; }
         public bool is_active { get; set; }
     }

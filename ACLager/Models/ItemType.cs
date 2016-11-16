@@ -14,7 +14,7 @@ namespace ACLager.Models
     
     public partial class ItemType
     {
-        public long uid { get; set; }
+        public long uid { get; }
         public string name { get; set; }
         public bool is_active { get; set; }
         public long minimum_amount { get; set; }

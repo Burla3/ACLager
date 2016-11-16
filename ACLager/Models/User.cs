@@ -14,7 +14,7 @@ namespace ACLager.Models
     
     public partial class User
     {
-        public long uid { get; set; }
+        public long uid { get; }
         public bool is_admin { get; set; }
         public string name { get; set; }
         public bool is_active { get; set; }

@@ -68,5 +68,10 @@ namespace ACLager.Controllers
             }
         }
 
+        public IEnumerable<Location> GetLocations()
+        {
+            IEnumerable<Location> locations = _db.Locations.ToList();
+            return locations;
+        }
     }
 }

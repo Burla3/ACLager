@@ -20,7 +20,7 @@ namespace ACLager.Controllers
         /// </summary>
         /// <param name="itemType">The item type to add to the database.</param>
         /// <returns>true if successful</returns>
-        public bool AddItem(ItemType itemType)
+        public bool AddItemType(ItemType itemType)
         {
             throw new NotImplementedException();
         }
@@ -30,7 +30,7 @@ namespace ACLager.Controllers
         /// </summary>
         /// <param name="itemType">The item type to edit in the database.</param>
         /// <returns>true if successful</returns>
-        public bool EditItem(ItemType itemType)
+        public bool EditItemType(ItemType itemType)
         {
             throw new NotImplementedException();
         }
@@ -40,7 +40,7 @@ namespace ACLager.Controllers
         /// </summary>
         /// <param name="uid">The item type with specified <paramref name="uid"/> to delete from the database.</param>
         /// <returns>true if successful</returns>
-        public bool DeleteItem(long uid)
+        public bool DeleteItemType(long uid)
         {
             throw new NotImplementedException();
         }
@@ -49,7 +49,7 @@ namespace ACLager.Controllers
         /// Gets all item types from the database
         /// </summary>
         /// <returns>All item types from the database</returns>
-        public IEnumerable<ItemType> GetItems()
+        public IEnumerable<ItemType> GetItemTypes()
         {
             throw new NotImplementedException();
         }

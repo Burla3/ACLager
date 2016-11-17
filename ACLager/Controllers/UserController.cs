@@ -39,7 +39,7 @@ namespace ACLager.Controllers
         }
 
         /// <summary>
-        /// Edit an employee by updating the name, isActive and isAdmin.
+        /// Edit a user by updating the name, isActive and isAdmin.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="isActive"></param>
@@ -58,21 +58,21 @@ namespace ACLager.Controllers
         }
 
         /// <summary>
-        /// Gets all employees in an IEnumerable.
+        /// Gets all users in an IEnumerable.
         /// </summary>
-        /// <returns>All employees in an IEnumerable</returns>
-        public IEnumerable<User> GetEmployees()
+        /// <returns>All users in an IEnumerable</returns>
+        public IEnumerable<User> GetUsers()
          {
              throw new NotImplementedException();
          }
  
  
          /// <summary>
-         /// Deletes an existing employee.
+         /// Deletes an existing user.
          /// </summary>
          /// <param name="uid"></param>
          /// <returns>Returns true if successful.</returns>
-         public bool DeleteEmployee(long uid)
+         public bool DeleteUser(long uid)
          {
              throw new NotImplementedException();
          }

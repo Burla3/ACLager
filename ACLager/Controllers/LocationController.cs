@@ -24,7 +24,7 @@ namespace ACLager.Controllers
         public bool CreateLocation(string newLocationId)
         {
 
-            var exsistingId = (from location in _db.Locations where location.id == newLocationId select location).First();
+            var exsistingId = _db.Locations.Find(newLocationId);
             if (exsistingId != null)
             {
                 //The id already exists, so the creation is terminated.
@@ -53,7 +53,7 @@ namespace ACLager.Controllers
         /// <returns>Whether or not the deletion was successful</returns>
         public bool DeleteLocation(string toBeDeletedLocationId)
         {
-            var exsistingId = (from location in _db.Locations where location.id == toBeDeletedLocationId select location).First();
+            var exsistingId = _db.Locations.Find(toBeDeletedLocationId);
             if (exsistingId == null)
             {
                 //Location ID does not exsist, so no location to be deleted.

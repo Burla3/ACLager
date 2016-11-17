@@ -52,7 +52,14 @@ namespace ACLager.Controllers
         /// <returns>true if successful</returns>
         public bool EditItemType(ItemType itemType)
         {
-            throw new NotImplementedException();
+            var exsistingItemType = _db.ItemTypes.Find(itemType.uid);
+            if (exsistingItemType != null)
+            {
+                exsistingItemType = itemType;
+                _db.SaveChanges();
+                return true;
+            }
+
         }
 
         /// <summary>
@@ -62,7 +69,7 @@ namespace ACLager.Controllers
         /// <returns>true if successful</returns>
         public bool DeleteItemType(long uid)
         {
-            throw new NotImplementedException();
+            
         }
 
         /// <summary>

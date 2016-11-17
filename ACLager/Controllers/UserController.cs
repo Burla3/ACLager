@@ -13,7 +13,7 @@ namespace ACLager.Controllers
     {
         private readonly ACLagerDatabaseEntities _db = new ACLagerDatabaseEntities();
 
-        // GET: Employee
+        // GET: User
         [HttpGet]
         public ActionResult Index() {
             IEnumerable<User> users = from user in _db.Users
@@ -24,7 +24,7 @@ namespace ACLager.Controllers
 
         [HttpPost]
         public ActionResult CreateUser(User user) {
-
+            //#ServerSidedValidation
             //if (!ModelState.IsValid) {
             //    IEnumerable<User> users = from userdb in _db.Users
             //                              select userdb;
@@ -35,7 +35,7 @@ namespace ACLager.Controllers
             _db.Users.Add(user);
             _db.SaveChanges();
 
-            return Redirect("/User");
+            return RedirectToAction("Index");
         }
 
         /// <summary>
@@ -54,30 +54,21 @@ namespace ACLager.Controllers
 
             _db.SaveChanges();
 
-            return Redirect("/User");
+            return RedirectToAction("Index");
         }
-
-        /// <summary>
-        /// Gets all users in an IEnumerable.
-        /// </summary>
-        /// <returns>All users in an IEnumerable</returns>
-        public IEnumerable<User> GetUsers()
-         {
-             throw new NotImplementedException();
-         }
- 
  
          /// <summary>
          /// Deletes an existing user.
          /// </summary>
          /// <param name="uid"></param>
          /// <returns>Returns true if successful.</returns>
-         public bool DeleteUser(long uid)
-         {
-             throw new NotImplementedException();
+         [HttpPost]
+         public ActionResult DeleteUser(long uid) {                    
+             _db.Users.Remove(_db.Users.Find(uid));
+             _db.SaveChanges();
+
+             return RedirectToAction("Index");
          }
- 
-     
  
          public event ChangedEventHandler Changed;
     }

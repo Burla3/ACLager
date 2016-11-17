@@ -1,0 +1,30 @@
+﻿@using ACLager.Models
+@model User
+
+
+@using (Html.BeginForm("DeleteUser", "User")) {
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => Model.uid)
+
+    <div class="form-horizontal">
+        <div class="col-md-6">
+            <div class="row">
+                <h2>Slet bruger</h2>
+            </div>
+            <div>
+                Vil du gerne slette denne bruger <b>permanent</b> fra systemet?
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button type="button" class="btn btn-default">Fortryd</button>
+                        <input type="submit" value="Slet" class="btn btn-default"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+

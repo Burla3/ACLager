@@ -355,6 +355,7 @@
     <Content Include="Views\User\_CreateUser.cshtml" />
     <Content Include="Views\User\_UserForm.cshtml" />
     <Content Include="Views\User\_EditUser.cshtml" />
+    <Content Include="Views\User\_DeleteUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

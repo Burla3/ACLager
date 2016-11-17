@@ -19,7 +19,7 @@ namespace ACLager.Controllers
             IEnumerable<User> users = from user in _db.Users
                                         select user;
 
-            return View(new UserViewModel(users, new User()));
+            return View(new UserViewModel(users, new User {is_active = true}));
         }
 
         [HttpPost]
@@ -45,8 +45,16 @@ namespace ACLager.Controllers
         /// <param name="isActive"></param>
         /// <param name="isAdmin"></param>
         /// <returns>Returns true if successful.</returns>
-        public bool EditEmployee(string name, bool isActive, bool isAdmin) {
-            throw new NotImplementedException();
+        [HttpPost]
+        public ActionResult EditUser(User user) {
+            User dbUser = _db.Users.Find(user.uid);
+            dbUser.is_active = user.is_active;
+            dbUser.is_admin = user.is_admin;
+            dbUser.name = user.name;
+
+            _db.SaveChanges();
+
+            return Redirect("/User");
         }
 
         /// <summary>

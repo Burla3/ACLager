@@ -55,7 +55,11 @@
     @Html.Partial("_CreateUser")
 </div>
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<div class="row">
+    @Html.Partial("_EditUser")
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 <!-- Init the material javascript to create neat effects -->
@@ -65,5 +69,6 @@
                 valueNames: ['sort-name']
             };
             var userList = new List('userSort', options);
+
         });
 </script>

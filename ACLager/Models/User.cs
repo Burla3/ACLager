@@ -19,7 +19,7 @@ namespace ACLager.Models
         public User() {
         }
 
-        public long uid { get; private set; }
+        public long uid { get; set; }
         [Required] public bool is_admin { get; set; }
 
         [Required(ErrorMessage = "Du skal indtaste et navn.")]

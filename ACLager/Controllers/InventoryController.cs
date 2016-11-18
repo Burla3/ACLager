@@ -73,7 +73,26 @@ namespace ACLager.Controllers
         /// <returns>true if successful</returns>
         public bool PickItem(long uid, long amount)
         {
-            throw new NotImplementedException();
+            ACLagerDatabaseEntities db = new ACLagerDatabaseEntities();
+
+            IEnumerable<Item> items = from item in db.Items
+                                      where item.uid == uid
+                                      select item;
+
+            foreach (Item item in items)
+            {
+                if (item.amount < amount)
+
+                    return false;
+
+                if (item.amount > amount)
+                {
+                    item.amount = item.amount - amount;
+
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>

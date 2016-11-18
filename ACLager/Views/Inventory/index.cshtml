@@ -43,50 +43,45 @@
                     </thead>
                     <tbody class="list">
                         @foreach (ItemGroup itemGroup in Model.ItemGroups) {
-                            foreach (Tuple<Item, Location> itemAndLocation in itemGroup.ItemAndLocations) {
-                                 
-                             
-
-
-                        <tr id=@String.Format("NormalRow")>
-
-                            <td class="sort-name">
-                                <h4>@itemGroup.ItemType.name</h4>
-                            </td>
-                            <td class="sort-location">
-                                <h3>
-                                    <strong>@itemAndLocation.Item2.id</strong>
-                                </h3>
-                            </td>
-                            <td class="sort-amount">
-                                <h4>
-                                    <strong>@itemAndLocation.Item1.amount</strong>
-                                    <small>@itemGroup.ItemType.unit</small>
-                                </h4>
-                            </td>
-                            <td class="sort-expdate">
-                                <h4>
-                                    @if (itemAndLocation.Item1.expiration_date != null) {
-                                        @itemAndLocation.Item1.expiration_date.Value.ToShortDateString()
-                                    }
-
-                                </h4>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-lg btn-primary foldout-btn" data-rowid="InfoRow01">Flere valg <i class="material-icons">expand_more</i></button>
-                            </td>
-                        </tr>
-                                <tr id="@String.Format("InfoRow")" class="info-row" style="display: none;">
+                            foreach (ItemLocationPair itemLocationPair in itemGroup.ItemLocationPairs) {
+                                <tr id=@("NormalRow")>
+                                    <td class="sort-name">
+                                        <h4>@itemGroup.ItemType.name</h4>
+                                    </td>
+                                    <td class="sort-location">
+                                        <h3>
+                                            <strong>@itemLocationPair.Location.id</strong>
+                                        </h3>
+                                    </td>
+                                    <td class="sort-amount">
+                                        <h4>
+                                            <strong>@itemLocationPair.Item.amount</strong>
+                                            <small>@itemGroup.ItemType.unit</small>
+                                        </h4>
+                                    </td>
+                                    <td class="sort-expdate">
+                                        <h4>
+                                            @if (itemLocationPair.Item.expiration_date != null)
+                                            {
+                                                @itemLocationPair.Item.expiration_date.Value.ToShortDateString();
+                                            }
+                                        </h4>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-lg btn-primary foldout-btn" data-rowid="InfoRow01">Flere valg <i class="material-icons">expand_more</i></button>
+                                    </td>
+                                </tr>
+                                <tr id="@("InfoRow")" class="info-row" style="display: none;">
                                     <td>
                                         sdf
                                     </td>
                                     <td>
                                         <strong>Leverandør:</strong>
-                                        @itemAndLocation.Item1.supplier
+                                        @itemLocationPair.Item.supplier
                                     </td>
                                     <td>
                                         <strong>Leveret dato:</strong>
-                                        @itemAndLocation.Item1.delivery_date.ToShortDateString()
+                                        @itemLocationPair.Item.delivery_date.ToShortDateString()
                                     </td>
                                     <td>
                                         <a href="#" class="btn btn-raised btn-sm btn-info">Flyt</a>

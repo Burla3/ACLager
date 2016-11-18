@@ -87,7 +87,8 @@ namespace ACLager.Controllers
 
                 if (item.amount > amount)
                 {
-                    item.amount = item.amount - amount;
+                    long stock = item.amount;
+                    item.amount = stock - amount;
 
                     return true;
                 }
@@ -105,7 +106,22 @@ namespace ACLager.Controllers
         /// <returns>true if successful</returns>
         public bool MoveItem(long uid, long amount, long locationId)
         {
-            throw new NotImplementedException();
+            ACLagerDatabaseEntities db = new ACLagerDatabaseEntities();
+
+            IEnumerable<Item> items = from item in db.Items
+                                      where item.uid == uid
+                                      select item;
+
+            foreach (Item item in items)
+            {
+                item.location = locationId;
+                long stock = item.amount;
+                item.amount = stock + amount;
+
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>

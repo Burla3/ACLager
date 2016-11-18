@@ -22,6 +22,11 @@ namespace ACLager.Controllers
             return View(new UserViewModel(users, new User {is_active = true}));
         }
 
+        /// <summary>
+        /// Creates a user.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Redirects to /User.</returns>
         [HttpPost]
         public ActionResult CreateUser(User user) {
             //#ServerSidedValidation
@@ -39,12 +44,10 @@ namespace ACLager.Controllers
         }
 
         /// <summary>
-        /// Edit a user by updating the name, isActive and isAdmin.
+        /// Edits a User.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="isActive"></param>
-        /// <param name="isAdmin"></param>
-        /// <returns>Returns true if successful.</returns>
+        /// <param name="user"></param>
+        /// <returns>Redirects to /User.</returns>
         [HttpPost]
         public ActionResult EditUser(User user) {
             User dbUser = _db.Users.Find(user.uid);
@@ -61,7 +64,7 @@ namespace ACLager.Controllers
          /// Deletes an existing user.
          /// </summary>
          /// <param name="uid"></param>
-         /// <returns>Returns true if successful.</returns>
+         /// <returns>Redirects to /User.</returns>
          [HttpPost]
          public ActionResult DeleteUser(long uid) {                    
              _db.Users.Remove(_db.Users.Find(uid));

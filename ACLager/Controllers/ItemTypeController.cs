@@ -23,18 +23,10 @@ namespace ACLager.Controllers
         /// <returns>true if successful</returns>
         public bool AddItemType(ItemType itemType)
         {
-            var exsistingItemType = (from itemT in _db.ItemTypes where itemT.name == itemType.name select itemT);
-
-            //An item type with this name exsist, but uses another unit of measurement
-            if (!exsistingItemType.Contains(itemType))
-            {
-                _db.ItemTypes.Add(itemType);
-                _db.SaveChanges();
-                return true;
-            }
-            //An item type with this name does not exist if existingItemType == null
-            //An item with the same name and unit of measurement already exsists
-            else
+            var exsistingItemType = (from itemT in _db.ItemTypes where itemT.name == itemType.name && itemT.unit == itemType.unit select itemT).FirstOrDefault();
+            
+            //An itemtype with the same name and unit does not exsist, add it.
+            if (exsistingItemType != null)
             {
                 if (itemType.is_active == false)
                 {
@@ -42,6 +34,14 @@ namespace ACLager.Controllers
                 }
 
                 return false;
+            }
+            //An item type with this name does not exist if existingItemType == null
+            //An item with the same name and unit of measurement already exsists
+            else
+            {
+                _db.ItemTypes.Add(itemType);
+                _db.SaveChanges();
+                return true;
             }
         }
 
@@ -59,7 +59,11 @@ namespace ACLager.Controllers
                 _db.SaveChanges();
                 return true;
             }
-
+            else
+            {
+                //the item does not exsist, so can't be edited.
+                return false;
+            }
         }
 
         /// <summary>
@@ -69,7 +73,23 @@ namespace ACLager.Controllers
         /// <returns>true if successful</returns>
         public bool DeleteItemType(long uid)
         {
-            
+            //returns null if an itemtype with the uid does not exsist
+            var exsistingItemType = _db.ItemTypes.Find(uid);
+
+            //If it doesen't exsist, it can't be deleted
+            if (exsistingItemType == null)
+            {
+                return false;
+            }
+
+            //Does exsist, so delete;
+            else
+            {
+                _db.ItemTypes.Remove(exsistingItemType);
+                _db.SaveChanges();
+                return true;
+            }
+
         }
 
         /// <summary>
@@ -78,7 +98,8 @@ namespace ACLager.Controllers
         /// <returns>All item types from the database</returns>
         public IEnumerable<ItemType> GetItemTypes()
         {
-            throw new NotImplementedException();
+            IEnumerable<ItemType> itemTypes = _db.ItemTypes.ToList();
+            return itemTypes;
         }
     }
 }

@@ -53,7 +53,18 @@ namespace ACLager.Controllers
         /// <returns>true if successful</returns>
         public bool AddItem(Item item)
         {
-            throw new NotImplementedException();
+            ACLagerDatabaseEntities db = new ACLagerDatabaseEntities();
+
+            if (item != null)
+            {
+                db.Items.Add(item);
+
+                db.SaveChanges();
+
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -80,6 +91,8 @@ namespace ACLager.Controllers
                 {
                     long stock = item.amount;
                     item.amount = stock - amount;
+
+                    db.SaveChanges();
 
                     return true;
                 }
@@ -108,6 +121,8 @@ namespace ACLager.Controllers
                 item.location = locationId;
                 long stock = item.amount;
                 item.amount = stock + amount;
+
+                db.SaveChanges();
 
                 return true;
             }

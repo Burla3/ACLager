@@ -14,11 +14,24 @@ namespace ACLager.Models
     
     public partial class WorkOrder
     {
-        public long uid { get; private set; }
-        public System.DateTime due_date { get; set; }
-        public bool is_complete { get; set; }
-        public long completed_by { get; set; }
-        public string type { get; set; }
-        public long batch_number { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public WorkOrder()
+        {
+            this.WorkOrderItems = new HashSet<WorkOrderItem>();
+            this.WasteReport = new HashSet<WasteReport>();
+        }
+    
+        public long UID { get; private set; }
+        public string Type { get; set; }
+        public long BatchNumber { get; set; }
+        public System.DateTime DueDate { get; set; }
+        public bool IsComplete { get; set; }
+        public Nullable<long> UserUID { get; set; }
+    
+        public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WorkOrderItem> WorkOrderItems { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WasteReport> WasteReport { get; set; }
     }
 }

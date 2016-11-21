@@ -14,10 +14,13 @@ namespace ACLager.Models
     
     public partial class WorkOrderItem
     {
-        public long uid { get; private set; }
-        public long work_order { get; set; }
-        public long item_type { get; set; }
-        public long amount { get; set; }
-        public long progress { get; set; }
+        public long UID { get; private set; }
+        public long Amount { get; set; }
+        public long Progress { get; set; }
+        public long WorkOrderUID { get; set; }
+        public long ItemTypeUID { get; set; }
+    
+        public virtual WorkOrder WorkOrder { get; set; }
+        public virtual ItemType ItemType { get; set; }
     }
 }

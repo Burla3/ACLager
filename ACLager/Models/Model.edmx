@@ -328,7 +328,7 @@
             <PropertyRef Name="UID" />
           </Key>
           <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Private" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="True" />
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="WorkOrders" Relationship="Model.WorkOrderUser" FromRole="User" ToRole="WorkOrder" />

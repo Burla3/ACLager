@@ -17,6 +17,7 @@ namespace ACLager.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
+            this.IsActive = true;
             this.WorkOrders = new HashSet<WorkOrder>();
             this.WasteReports = new HashSet<WasteReport>();
         }

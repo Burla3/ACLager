@@ -207,23 +207,19 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\ItemTypeController.cs" />
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\LogController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\WasteController.cs" />
     <Compile Include="Controllers\WorkOrderController.cs" />
-    <Compile Include="CustomClasses\AllowAll.cs" />
     <Compile Include="CustomClasses\ItemGroup.cs" />
     <Compile Include="CustomClasses\ItemGroupExtractor.cs" />
     <Compile Include="CustomClasses\HomeMenuBlock.cs" />
     <Compile Include="CustomClasses\LogEntryEventArgs.cs" />
     <Compile Include="CustomClasses\Logger.cs" />
-    <Compile Include="CustomClasses\RequireAuthorization.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -364,11 +360,6 @@
     <Content Include="Views\User\_CreateUser.cshtml" />
     <Content Include="Views\User\_UserForm.cshtml" />
     <Content Include="Views\User\_EditUser.cshtml" />
-    <Content Include="Views\Users\Create.cshtml" />
-    <Content Include="Views\Users\Delete.cshtml" />
-    <Content Include="Views\Users\Details.cshtml" />
-    <Content Include="Views\Users\Edit.cshtml" />
-    <Content Include="Views\Users\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

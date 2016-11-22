@@ -23,12 +23,13 @@ namespace ACLager.Controllers
         /// <returns>true if successful</returns>
         public bool AddItemType(ItemType itemType)
         {
+            //checks if an itemtype with the same name and unit of measurement exsists. If not create one.
             var exsistingItemType = (from itemT in _db.ItemTypes where itemT.name == itemType.name && itemT.unit == itemType.unit select itemT).FirstOrDefault();
             
             //An itemtype with the same name and unit does not exsist, add it.
             if (exsistingItemType != null)
             {
-                if (itemType.is_active == false)
+                if (exsistingItemType.is_active == false)
                 {
                     //Hey, it's there it's just inactive
                 }

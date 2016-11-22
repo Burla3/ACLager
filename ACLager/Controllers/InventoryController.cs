@@ -53,7 +53,18 @@ namespace ACLager.Controllers
         /// <returns>true if successful</returns>
         public bool AddItem(Item item)
         {
-            throw new NotImplementedException();
+            ACLagerDatabaseEntities db = new ACLagerDatabaseEntities();
+
+            if (item != null)
+            {
+                db.Items.Add(item);
+
+                db.SaveChanges();
+
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -74,12 +85,15 @@ namespace ACLager.Controllers
             {
                 if (item.amount < amount)
 
+                    //make a error messages
                     return false;
 
                 if (item.amount > amount)
                 {
                     long stock = item.amount;
                     item.amount = stock - amount;
+
+                    db.SaveChanges();
 
                     return true;
                 }
@@ -109,6 +123,8 @@ namespace ACLager.Controllers
                 long stock = item.amount;
                 item.amount = stock + amount;
 
+                db.SaveChanges();
+
                 return true;
             }
 
@@ -121,7 +137,8 @@ namespace ACLager.Controllers
         /// <returns>All items from the database</returns>
         public IEnumerable<Item> GetItems()
         {
-            throw new NotImplementedException();
+            ACLagerDatabaseEntities db = new ACLagerDatabaseEntities();
+            return db.Items;
         }
 
         public event ChangedEventHandler Changed;

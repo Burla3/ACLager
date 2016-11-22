@@ -19,14 +19,14 @@ namespace ACLager.CustomClasses
         {
             LogEntry logEntry = new LogEntry
             {
-                date = DateTime.Now,
-                type = eventArgs.LogType,
-                log_body = eventArgs.LogBody
+                Date = DateTime.Now,
+                Type = eventArgs.LogType,
+                LogBody = eventArgs.LogBody
             };
 
-            using (ACLagerDatabaseEntities db = new ACLagerDatabaseEntities())
+            using (ACLagerDatabase db = new ACLagerDatabase())
             {
-                db.LogEntries.Add(logEntry);
+                db.LogEntrySet.Add(logEntry);
                 db.SaveChanges();
             }
         }

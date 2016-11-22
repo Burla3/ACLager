@@ -11,46 +11,35 @@ namespace ACLager.Controllers
 {
     public class UserController : Controller, ILoggable
     {
-        private readonly ACLagerDatabase db = new ACLagerDatabase();
-
         // GET: User
         [HttpGet]
         public ActionResult Index()
         {
             IEnumerable<User> users;
 
-            using (db)
+            using (ACLagerDatabase db = new ACLagerDatabase())
             {
-                users = db.UserSet;
+                users = db.UserSet.ToList();
             }
-                                        
-            return View(new UserViewModel(users, new User {IsActive = true}));
+
+            return View(new UserViewModel(users, new User()));
         }
         
-        public ActionResult CreateUser()
+        /// <summary>
+        /// Creates a User.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Redirects to /User.</returns>
+        [HttpPost]
+        public ActionResult CreateUser(User user)
         {
-            if (HttpContext.Request.HttpMethod == "GET")
+            using (ACLagerDatabase db = new ACLagerDatabase())
             {
-                return View();
+                db.UserSet.Add(user);
+                db.SaveChanges();
             }
-            else
-            {
-                // Validate form data
 
-                User user = new User
-                {
-                    IsActive = bool.Parse(HttpContext.Request["isActive"]),
-                    IsAdmin = bool.Parse(HttpContext.Request["isAdmin"]),
-                    Name = HttpContext.Request["name"]
-                };
-
-                using (ACLagerDatabase db = new ACLagerDatabase()) {
-                    db.UserSet.Add(user);
-                    db.SaveChanges();
-                }
-
-                return Redirect("/User");
-            }
+            return RedirectToAction("Index");
         }
 
         /// <summary>
@@ -60,7 +49,7 @@ namespace ACLager.Controllers
         /// <returns>Redirects to /User.</returns>
         [HttpPost]
         public ActionResult EditUser(User user) {
-            using (db)
+            using (ACLagerDatabase db = new ACLagerDatabase())
             {
                 User dbUser = db.UserSet.Find(user.UID);
 
@@ -80,11 +69,14 @@ namespace ACLager.Controllers
          /// <param name="uid"></param>
          /// <returns>Redirects to /User.</returns>
          [HttpPost]
-         public ActionResult DeleteUser(long uid) {                    
-             _db.Users.Remove(_db.Users.Find(uid));
-             _db.SaveChanges();
+         public ActionResult DeleteUser(long uid) {
+             using (ACLagerDatabase db = new ACLagerDatabase())
+             {
+                db.UserSet.Remove(db.UserSet.Find(uid));
+                db.SaveChanges();
+            }
 
-             return RedirectToAction("Index");
+            return RedirectToAction("Index");
          }
  
          public event ChangedEventHandler Changed;

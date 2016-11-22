@@ -10,7 +10,6 @@ namespace ACLager.Controllers
 {
     public class WorkOrderController : Controller, ILoggable
     {
-        private readonly ACLagerDatabaseEntities _db = new ACLagerDatabaseEntities();
         // GET: WorkOrder
         public ActionResult Index()
         {
@@ -18,111 +17,88 @@ namespace ACLager.Controllers
         }
         
         /// <summary>
-        /// Gets all work orders and returns them in an IEnumerable.
+        /// Cancels a workorder and its items.
         /// </summary>
-        /// <returns>All users in an IEnumerable</returns>
-        public IEnumerable<WorkOrder> GetWorkOrders()
+        /// <param name="UID">UID of the workorder.</param>
+        /// <returns>Redirects to /WorkOrder.</returns>
+        [HttpPost]
+        public ActionResult CancelWorkOrder(long UID)
         {
-            return _db.WorkOrders;
+            using (ACLagerDatabase db = new ACLagerDatabase())
+            {
+                WorkOrder workOrder = db.WorkOrderSet.Find(UID);
+                IEnumerable<WorkOrderItem> workOrderItems = workOrder.WorkOrderItems;
+
+                foreach (WorkOrderItem workOrderItem in workOrderItems)
+                {
+                    db.WorkOrderItemSet.Remove(workOrderItem);
+                }
+
+                db.WorkOrderSet.Remove(workOrder);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
         }
 
         /// <summary>
-        /// Cancels an existing work order.
+        /// Cancels a workorder item.
         /// </summary>
-        /// <param name="workOrder">The workorder to be deleted</param>
-        /// <returns>Returns true if successful.</returns>
-        public bool CancelWorkOrder(WorkOrder workOrder)
+        /// <param name="UID">UID of the workorder item.</param>
+        /// <returns>Redirects to /WorkOrder</returns>
+        [HttpPost]
+        public ActionResult CancelWorkOrderItem(long UID)
         {
-            var exsistingWorkOrder = _db.WorkOrders.Find(workOrder);
-            if (exsistingWorkOrder != null)
+            using (ACLagerDatabase db = new ACLagerDatabase())
             {
-                _db.WorkOrders.Remove(workOrder);
-                _db.SaveChanges();
-                return true;
+                db.WorkOrderItemSet.Remove(db.WorkOrderItemSet.Find(UID));
+                db.SaveChanges();
             }
-            else
-            {
-                //workorder does not exsist
-                return false;
-            }
-        }
 
-        /// <summary>
-        /// Cancels an existing work order item.
-        /// </summary>
-        /// <param name="workOrderItem">The workorder item to be removed/cancelled </param>
-        /// <returns>Returns true if successful.</returns>
-        public bool CancelWorkOrderItem(WorkOrderItem workOrderItem)
-        {
-            if (_db.WorkOrderItems.Contains(workOrderItem))
-            {
-                _db.WorkOrderItems.Remove(workOrderItem);
-                _db.SaveChanges();
-                return true;
-            }
-            else
-            {
-                //item not found
-                return false;
-            }
-            
+            return RedirectToAction("Index");
         }
-
         
-
         /// <summary>
-        /// Updates the due date for an existing work order.
+        /// Updates a workorder.
         /// </summary>
-        /// <param name="workOrder">The workorder to be updated</param>
-        /// <param name="dueDate">The new duedate for the given workorder</param>
-        /// <returns>Returns true if successful.</returns>
-        public bool UpdateWorkOrder(WorkOrder workOrder, DateTime dueDate) //Hvorfor kun duedate der updates?
-        { 
-            var exsistingWorkOrder = _db.WorkOrders.Find(workOrder);
-            if (exsistingWorkOrder!=null)
-            {
-                exsistingWorkOrder.due_date = dueDate;
-                _db.SaveChanges();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Updates the amount and progress of an existing work order item.
-        /// </summary>
-        /// <param name="amount"> The new amount </param>
-        /// <param name="progress"> The new progress </param>
-        /// <param name="workOrderItem"> The workorderitem to be edited </param>
-        /// <returns>Returns true if successful.</returns>
-        public bool UpdateWorkOrderItem(WorkOrderItem workOrderItem, long amount, long progress)
+        /// <param name="workOrder">The workorder to be updated.</param>
+        /// <returns>Redirects to /WorkOrder.</returns>
+        [HttpPost]
+        public ActionResult UpdateWorkOrder(WorkOrder workOrder)
         {
-            var exsistingWorkOrderItem = _db.WorkOrderItems.Find(workOrderItem);
-            if (exsistingWorkOrderItem != null)
+            using (ACLagerDatabase db = new ACLagerDatabase())
             {
-                exsistingWorkOrderItem.amount = amount;
-                exsistingWorkOrderItem.progress = progress;
-                _db.SaveChanges();
-                return true;
+                WorkOrder dbWorkOrder = db.WorkOrderSet.Find(workOrder.UID);
+
+                dbWorkOrder.DueDate = workOrder.DueDate;
+                db.SaveChanges();
             }
-            else
-            {
-                //The workorderitem does not exsist.
-                return false;
-            }
+
+            return RedirectToAction("Index");
         }
 
         /// <summary>
-        /// Marks a work order as completed by setting the is_completed property on the workorder, 
-        /// and sets the completed_by property to the name from the user.
+        /// Updates a workorder item.
         /// </summary>
-        /// <param name="workOrder"> The workorder to be set as completed </param>
-        /// <param name="completedBy"> The user completing the workorder </param>
-        /// <returns>Returns true if successful.</returns>
-        public bool CompleteWorkOrder(WorkOrder workOrder, User completedBy)
+        /// <param name="workOrderItem">Workorder item to be updated.</param>
+        /// <returns>Redirects to /WorkOrder.</returns>
+        [HttpPost]
+        public ActionResult UpdateWorkOrderItem(WorkOrderItem workOrderItem)
+        {
+            using (ACLagerDatabase db = new ACLagerDatabase())
+            {
+                WorkOrderItem dbWorkOrderItem = db.WorkOrderItemSet.Find(workOrderItem.UID);
+
+                dbWorkOrderItem.Amount = workOrderItem.Amount;
+                dbWorkOrderItem.Progress = workOrderItem.Progress;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        /*
+        public ActionResult CompleteWorkOrder(WorkOrder workOrder, User completedBy)
         {
             //Tries to find the workorder in the database
             var exsistingWorkOrder = _db.WorkOrders.Find(workOrder);
@@ -140,34 +116,26 @@ namespace ACLager.Controllers
                 return false;
             }
         }
-
+        */
+        
         /// <summary>
-        /// Creates a new work order and sets its due_date and type properties.
+        /// Creates a workorder.
         /// </summary>
-        /// <param name="dueDate"> The duedate for the to be created workorder </param>
-        /// <param name="type"> ??? </param>
-        /// <returns>Returns true if successful.</returns>
-        public bool CreateWorkOrder(DateTime dueDate, string type)
+        /// <param name="workOrder">Workorder to be created.</param>
+        /// <returns>Redirects to /WorkOrder.</returns>
+        [HttpPost]
+        public ActionResult CreateWorkOrder(WorkOrder workOrder)
         {
-            //Checks if similar workorders already exsists
-            var exsistingWorkOrder =
-            (from workorder in _db.WorkOrders
-                where workorder.due_date == dueDate && workorder.type == type
-                select workorder);
+            using (ACLagerDatabase db = new ACLagerDatabase())
+            {
+                db.WorkOrderSet.Add(workOrder);
+                db.SaveChanges();
+            }
 
-            if (exsistingWorkOrder.Any())
-            {
-                //Similar workorders exsists, prompt to make sure they want to make a new one?
-                return false;
-            }
-            else
-            {
-                _db.WorkOrders.Add((new WorkOrder() {is_complete = false, type = type, due_date = dueDate}));
-                _db.SaveChanges();
-                return true;
-            }
+            return RedirectToAction("Index");
         }
 
+        /*
         /// <summary>
         /// Creates a new work order item, and sets its work_order, item_type and amount properties.
         /// </summary>
@@ -195,6 +163,7 @@ namespace ACLager.Controllers
                 return true;
             }
         }
+        */
 
         public event ChangedEventHandler Changed;
     }

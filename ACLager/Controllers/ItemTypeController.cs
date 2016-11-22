@@ -9,7 +9,6 @@ namespace ACLager.Controllers
 {
     public class ItemTypeController : Controller
     {
-        private readonly ACLagerDatabaseEntities _db = new ACLagerDatabaseEntities();
         // GET: ItemType
         public ActionResult Index()
         {
@@ -23,26 +22,19 @@ namespace ACLager.Controllers
         /// <returns>true if successful</returns>
         public bool AddItemType(ItemType itemType)
         {
-            //checks if an itemtype with the same name and unit of measurement exsists. If not create one.
-            var exsistingItemType = (from itemT in _db.ItemTypes where itemT.name == itemType.name && itemT.unit == itemType.unit select itemT).FirstOrDefault();
-            
-            //An itemtype with the same name and unit does not exsist, add it.
-            if (exsistingItemType != null)
+            using (ACLagerDatabase db = new ACLagerDatabase())
             {
-                if (exsistingItemType.is_active == false)
+                if (!db.ItemTypeSet.Any(it => it.Name == itemType.Name && it.Unit == itemType.Unit))
                 {
-                    //Hey, it's there it's just inactive
-                }
+                    db.ItemTypeSet.Add(itemType);
+                    db.SaveChanges();
 
-                return false;
-            }
-            //An item type with this name does not exist if existingItemType == null
-            //An item with the same name and unit of measurement already exsists
-            else
-            {
-                _db.ItemTypes.Add(itemType);
-                _db.SaveChanges();
-                return true;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
 
@@ -53,18 +45,19 @@ namespace ACLager.Controllers
         /// <returns>true if successful</returns>
         public bool EditItemType(ItemType itemType)
         {
-            var exsistingItemType = _db.ItemTypes.Find(itemType.uid);
-            if (exsistingItemType != null)
+            using (ACLagerDatabase db = new ACLagerDatabase())
             {
-                exsistingItemType = itemType;
-                _db.SaveChanges();
-                return true;
+                ItemType dbItemType = db.ItemTypeSet.Find(itemType.UID);
+
+                dbItemType.IsActive = itemType.IsActive;
+                dbItemType.Name = itemType.Name;
+                dbItemType.Unit = itemType.Unit;
+                dbItemType.MinimumAmount = itemType.MinimumAmount;
+
+                db.SaveChanges();
             }
-            else
-            {
-                //the item does not exsist, so can't be edited.
-                return false;
-            }
+
+            return true;
         }
 
         /// <summary>
@@ -72,35 +65,15 @@ namespace ACLager.Controllers
         /// </summary>
         /// <param name="uid">The item type with specified <paramref name="uid"/> to delete from the database.</param>
         /// <returns>true if successful</returns>
-        public bool DeleteItemType(long uid)
+        public bool DeleteItemType(long UID)
         {
-            //returns null if an itemtype with the uid does not exsist
-            var exsistingItemType = _db.ItemTypes.Find(uid);
-
-            //If it doesen't exsist, it can't be deleted
-            if (exsistingItemType == null)
+            using (ACLagerDatabase db = new ACLagerDatabase())
             {
-                return false;
+                db.ItemTypeSet.Remove(db.ItemTypeSet.Find(UID));
+                db.SaveChanges();
             }
 
-            //Does exsist, so delete;
-            else
-            {
-                _db.ItemTypes.Remove(exsistingItemType);
-                _db.SaveChanges();
-                return true;
-            }
-
-        }
-
-        /// <summary>
-        /// Gets all item types from the database
-        /// </summary>
-        /// <returns>All item types from the database</returns>
-        public IEnumerable<ItemType> GetItemTypes()
-        {
-            IEnumerable<ItemType> itemTypes = _db.ItemTypes.ToList();
-            return itemTypes;
+            return true;
         }
     }
 }

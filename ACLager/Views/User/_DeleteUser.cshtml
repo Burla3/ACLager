@@ -5,7 +5,7 @@
 @using (Html.BeginForm("DeleteUser", "User")) {
     @Html.AntiForgeryToken()
 
-    @Html.HiddenFor(model => Model.uid)
+    @Html.HiddenFor(model => Model.UID)
 
     <div class="form-horizontal">
         <div class="col-md-6">

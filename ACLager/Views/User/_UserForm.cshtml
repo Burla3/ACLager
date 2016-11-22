@@ -5,8 +5,8 @@
         @*@Html.LabelFor(model => model.User.name, htmlAttributes: new { @class = "control-label col-md-2" }, labelText: "Navn")*@
 
         <label class="control-label" for="name">Navn</label>
-        @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
     </div>
 </div>
 
@@ -17,14 +17,14 @@
                 @*@Html.LabelFor(model => model.User.is_admin, htmlAttributes: new {@class = "control-label col-md-3"}, labelText: "Administrator")*@
 
                 Administrator
-                @Html.CheckBoxFor(model => model.is_admin)
+                @Html.CheckBoxFor(model => model.IsAdmin)
             </label>
 
             <label>
                 @*@Html.LabelFor(model => model.User.is_active, htmlAttributes: new { @class = "control-label col-md-3" }, labelText: "Aktive")*@
 
                 Aktiv
-                @Html.CheckBoxFor(model => model.is_active)
+                @Html.CheckBoxFor(model => model.IsActive)
             </label>
         </div>
     </div>

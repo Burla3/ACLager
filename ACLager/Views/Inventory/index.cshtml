@@ -46,24 +46,24 @@
                             foreach (ItemLocationPair itemLocationPair in itemGroup.ItemLocationPairs) {
                                 <tr id=@("NormalRow")>
                                     <td class="sort-name">
-                                        <h4>@itemGroup.ItemType.name</h4>
+                                        <h4>@itemGroup.ItemType.Name</h4>
                                     </td>
                                     <td class="sort-location">
                                         <h3>
-                                            <strong>@itemLocationPair.Location.id</strong>
+                                            <strong>@itemLocationPair.Location.UID</strong>
                                         </h3>
                                     </td>
                                     <td class="sort-amount">
                                         <h4>
-                                            <strong>@itemLocationPair.Item.amount</strong>
-                                            <small>@itemGroup.ItemType.unit</small>
+                                            <strong>@itemLocationPair.Item.Amount</strong>
+                                            <small>@itemGroup.ItemType.Unit</small>
                                         </h4>
                                     </td>
                                     <td class="sort-expdate">
                                         <h4>
-                                            @if (itemLocationPair.Item.expiration_date != null)
+                                            @if (itemLocationPair.Item.ExpirationDate != null)
                                             {
-                                                @itemLocationPair.Item.expiration_date.Value.ToShortDateString();
+                                                @itemLocationPair.Item.ExpirationDate.Value.ToShortDateString();
                                             }
                                         </h4>
                                     </td>
@@ -77,11 +77,11 @@
                                     </td>
                                     <td>
                                         <strong>Leverandør:</strong>
-                                        @itemLocationPair.Item.supplier
+                                        @itemLocationPair.Item.Supplier
                                     </td>
                                     <td>
                                         <strong>Leveret dato:</strong>
-                                        @itemLocationPair.Item.delivery_date.ToShortDateString()
+                                        @itemLocationPair.Item.DeliveryDate.ToShortDateString()
                                     </td>
                                     <td>
                                         <a href="#" class="btn btn-raised btn-sm btn-info">Flyt</a>

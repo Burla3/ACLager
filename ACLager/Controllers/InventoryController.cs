@@ -137,7 +137,8 @@ namespace ACLager.Controllers
         /// <returns>All items from the database</returns>
         public IEnumerable<Item> GetItems()
         {
-            throw new NotImplementedException();
+            ACLagerDatabaseEntities db = new ACLagerDatabaseEntities();
+            return db.Items;
         }
 
         public event ChangedEventHandler Changed;

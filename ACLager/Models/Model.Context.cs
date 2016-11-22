@@ -13,10 +13,10 @@ namespace ACLager.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ACLagerDatabaseEntities : DbContext
+    public partial class ACLagerDatabase : DbContext
     {
-        public ACLagerDatabaseEntities()
-            : base("name=ACLagerDatabaseEntities")
+        public ACLagerDatabase()
+            : base("name=ACLagerDatabase")
         {
         }
     
@@ -25,14 +25,14 @@ namespace ACLager.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Ingredient> Ingredients { get; set; }
-        public virtual DbSet<Item> Items { get; set; }
-        public virtual DbSet<ItemType> ItemTypes { get; set; }
-        public virtual DbSet<Location> Locations { get; set; }
-        public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<WorkOrderItem> WorkOrderItems { get; set; }
-        public virtual DbSet<WorkOrder> WorkOrders { get; set; }
-        public virtual DbSet<LogEntry> LogEntries { get; set; }
-        public virtual DbSet<WasteReport> WasteReports { get; set; }
+        public virtual DbSet<User> UserSet { get; set; }
+        public virtual DbSet<Location> LocationSet { get; set; }
+        public virtual DbSet<Ingredient> IngredientSet { get; set; }
+        public virtual DbSet<Item> ItemSet { get; set; }
+        public virtual DbSet<ItemType> ItemTypeSet { get; set; }
+        public virtual DbSet<WorkOrder> WorkOrderSet { get; set; }
+        public virtual DbSet<WorkOrderItem> WorkOrderItemSet { get; set; }
+        public virtual DbSet<LogEntry> LogEntrySet { get; set; }
+        public virtual DbSet<WasteReport> WasteReportSet { get; set; }
     }
 }

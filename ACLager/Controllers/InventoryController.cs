@@ -14,6 +14,8 @@ namespace ACLager.Controllers
 {
     public class InventoryController : Controller, ILoggable
     {
+        private readonly ACLagerDatabase db = new ACLagerDatabase();
+
         public InventoryController()
         {
             new Logger().Subcribe(this);
@@ -22,25 +24,27 @@ namespace ACLager.Controllers
         // GET: Inventory
         public ActionResult Index()
         {
+            IEnumerable<ItemType> itemTypes;
+            IEnumerable<Item> items;
+            IEnumerable<Location> locations;
+
+            using (db)
+            {
+                itemTypes = db.ItemTypeSet;
+                items = db.ItemSet;
+                locations = db.LocationSet;
+            }
+
             List<ItemGroup> itemGroups = new List<ItemGroup>();
 
-            using (ACLagerDatabaseEntities db = new ACLagerDatabaseEntities())
-            {
-                IEnumerable<Item> items = db.Items.Where(i => i.amount > 0);
-                IEnumerable<ItemType> itemTypes = db.ItemTypes.Where(it => it.is_active);
-                IEnumerable<Location> locations = db.Locations.Where(l => l.is_active);
+            foreach (ItemType itemType in itemTypes) {
+                List<Tuple<Item, Location>> itemAndLocations = new List<Tuple<Item, Location>>();
 
-                foreach (ItemType itemType in itemTypes)
-                {
-                    List<ItemLocationPair> itemLocationPairs = new List<ItemLocationPair>();
-
-                    foreach (Item item in items.Where(i => itemType.uid == i.item_type))
-                    {
-                        itemLocationPairs.Add(new ItemLocationPair(item, locations.Single(l => l.uid == item.location)));
-                    }
-
-                    itemGroups.Add(new ItemGroup(itemType, itemLocationPairs));
+                foreach (Item item in items.Where(i => itemType.UID == i.ItemTypeUID)) {
+                    itemAndLocations.Add(new Tuple<Item, Location>(item, locations.Single(l => l.UID == item.Location.UID)));
                 }
+
+                itemGroups.Add(new ItemGroup(itemType, itemAndLocations));
             }
 
             return View(new InventoryViewModel(itemGroups));

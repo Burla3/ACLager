@@ -7,8 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-
 namespace ACLager.Models
 {
     using System;
@@ -16,14 +14,22 @@ namespace ACLager.Models
     
     public partial class User
     {
-        public User() {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public User()
+        {
+            this.WorkOrders = new HashSet<WorkOrder>();
+            this.WasteReports = new HashSet<WasteReport>();
         }
-
-        public long uid { get; set; }
-        [Required] public bool is_admin { get; set; }
-
-        [Required(ErrorMessage = "Du skal indtaste et navn.")]
-        public string name { get; set; }
-        [Required] public bool is_active { get; set; }
+    
+        public long UID { get; private set; }
+        public bool IsActive { get; set; }
+        public string Name { get; set; }
+        public bool IsAdmin { get; set; }
+        public short PIN { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WorkOrder> WorkOrders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WasteReport> WasteReports { get; set; }
     }
 }

@@ -14,13 +14,23 @@ namespace ACLager.Models
     
     public partial class Item
     {
-        public long uid { get; private set; }
-        public long item_type { get; set; }
-        public long location { get; set; }
-        public long amount { get; set; }
-        public Nullable<System.DateTime> expiration_date { get; set; }
-        public System.DateTime delivery_date { get; set; }
-        public string supplier { get; set; }
-        public long reserved { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Item()
+        {
+            this.WasteReports = new HashSet<WasteReport>();
+        }
+    
+        public long UID { get; private set; }
+        public long Amount { get; set; }
+        public Nullable<System.DateTime> ExpirationDate { get; set; }
+        public System.DateTime DeliveryDate { get; set; }
+        public string Supplier { get; set; }
+        public long Reserved { get; set; }
+        public long ItemTypeUID { get; set; }
+    
+        public virtual ItemType ItemType { get; set; }
+        public virtual Location Location { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WasteReport> WasteReports { get; set; }
     }
 }

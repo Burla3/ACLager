@@ -14,11 +14,15 @@ namespace ACLager.Models
     
     public partial class WasteReport
     {
-        public long uid { get; private set; }
-        public System.DateTime date { get; set; }
-        public long amount { get; set; }
-        public Nullable<long> work_order { get; set; }
-        public Nullable<long> item { get; set; }
-        public long created_by { get; set; }
+        public long UID { get; private set; }
+        public System.DateTime Date { get; set; }
+        public long Amount { get; set; }
+        public Nullable<long> WorkOrderUID { get; set; }
+        public long ItemUID { get; set; }
+        public long UserUID { get; set; }
+    
+        public virtual WorkOrder WorkOrders { get; set; }
+        public virtual Item Item { get; set; }
+        public virtual User User { get; set; }
     }
 }

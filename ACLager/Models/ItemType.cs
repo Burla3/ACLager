@@ -14,10 +14,25 @@ namespace ACLager.Models
     
     public partial class ItemType
     {
-        public long uid { get; private set; }
-        public string name { get; set; }
-        public bool is_active { get; set; }
-        public long minimum_amount { get; set; }
-        public string unit { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ItemType()
+        {
+            this.Ingredients = new HashSet<Ingredient>();
+            this.Items = new HashSet<Item>();
+            this.WorkOrderItems = new HashSet<WorkOrderItem>();
+        }
+    
+        public long UID { get; private set; }
+        public bool IsActive { get; set; }
+        public string Name { get; set; }
+        public long MinimumAmount { get; set; }
+        public string Unit { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Ingredient> Ingredients { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Item> Items { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WorkOrderItem> WorkOrderItems { get; set; }
     }
 }

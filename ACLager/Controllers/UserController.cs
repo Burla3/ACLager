@@ -11,36 +11,46 @@ namespace ACLager.Controllers
 {
     public class UserController : Controller, ILoggable
     {
-        private readonly ACLagerDatabaseEntities _db = new ACLagerDatabaseEntities();
+        private readonly ACLagerDatabase db = new ACLagerDatabase();
 
         // GET: User
         [HttpGet]
-        public ActionResult Index() {
-            IEnumerable<User> users = from user in _db.Users
-                                        select user;
+        public ActionResult Index()
+        {
+            IEnumerable<User> users;
 
-            return View(new UserViewModel(users, new User {is_active = true}));
+            using (db)
+            {
+                users = db.UserSet;
+            }
+                                        
+            return View(new UserViewModel(users, new User {IsActive = true}));
         }
+        
+        public ActionResult CreateUser()
+        {
+            if (HttpContext.Request.HttpMethod == "GET")
+            {
+                return View();
+            }
+            else
+            {
+                // Validate form data
 
-        /// <summary>
-        /// Creates a user.
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns>Redirects to /User.</returns>
-        [HttpPost]
-        public ActionResult CreateUser(User user) {
-            //#ServerSidedValidation
-            //if (!ModelState.IsValid) {
-            //    IEnumerable<User> users = from userdb in _db.Users
-            //                              select userdb;
+                User user = new User
+                {
+                    IsActive = bool.Parse(HttpContext.Request["isActive"]),
+                    IsAdmin = bool.Parse(HttpContext.Request["isAdmin"]),
+                    Name = HttpContext.Request["name"]
+                };
 
-            //    return View(new UserViewModel(users, new User()));
-            //}
+                using (ACLagerDatabase db = new ACLagerDatabase()) {
+                    db.UserSet.Add(user);
+                    db.SaveChanges();
+                }
 
-            _db.Users.Add(user);
-            _db.SaveChanges();
-
-            return RedirectToAction("Index");
+                return Redirect("/User");
+            }
         }
 
         /// <summary>
@@ -50,12 +60,16 @@ namespace ACLager.Controllers
         /// <returns>Redirects to /User.</returns>
         [HttpPost]
         public ActionResult EditUser(User user) {
-            User dbUser = _db.Users.Find(user.uid);
-            dbUser.is_active = user.is_active;
-            dbUser.is_admin = user.is_admin;
-            dbUser.name = user.name;
+            using (db)
+            {
+                User dbUser = db.UserSet.Find(user.UID);
 
-            _db.SaveChanges();
+                dbUser.IsActive = user.IsActive;
+                dbUser.IsAdmin = user.IsAdmin;
+                dbUser.Name = user.Name;
+
+                db.SaveChanges();
+            }
 
             return RedirectToAction("Index");
         }

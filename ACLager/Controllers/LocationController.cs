@@ -10,70 +10,63 @@ namespace ACLager.Controllers
 {
     public class LocationController : Controller
     {
-        private readonly ACLagerDatabaseEntities _db = new ACLagerDatabaseEntities();
+        private readonly ACLagerDatabase db = new ACLagerDatabase();
         // GET: Location
         public ActionResult Index()
         {
             return View();
         }
+
         /// <summary>
         /// Creates a new location 
         /// </summary>
-        /// <param name="newLocationId">ID of the to be created location</param>
+        /// <param name="location">Location to be created</param>
         /// <returns>Whether or not the creation was successful</returns>
-        public bool CreateLocation(string newLocationId)
+        public bool CreateLocation(Location location)
         {
-            //If a location with the same id does not exsist, return null.
-            var exsistingId = _db.Locations.Find(newLocationId); 
-
-            if (exsistingId != null)
+            using (db)
             {
-                //The id already exists, so the creation is terminated.
-                //some kind of error handling/message
-                return false;
-            }
+                if (db.LocationSet.All(l => l.Name != location.Name)) {
+                    db.LocationSet.Add(location);
+                    db.SaveChanges();
 
-            else
-            {
-                Location newLocation = new Location
-                {
-                    id = newLocationId,
-                    is_active = true
-                };
-                _db.Locations.Add(newLocation);
-                _db.SaveChanges();
-                //returns true for creation completed
-                return true;
+                    return true;
+                } else {
+                    return false;
+                }
             }
 
         }
         /// <summary>
         /// Deletes an existing location
         /// </summary>
-        /// <param name="toBeDeletedLocationId">ID of the to be deleted location</param>
+        /// <param name="UID">UID of the to be deleted location</param>
         /// <returns>Whether or not the deletion was successful</returns>
-        public bool DeleteLocation(string toBeDeletedLocationId)
+        public bool DeleteLocation(long UID)
         {
-            //If a location with the same id does not exsist, return null.
-            var exsistingId = _db.Locations.Find(toBeDeletedLocationId);
+            using (db)
+            {
+                if (db.LocationSet.Any(l => l.UID == UID))
+                {
+                    Location location = db.LocationSet.Single(l => l.UID == UID);
+                    db.LocationSet.Remove(location);
+                    db.SaveChanges();
 
-            if (exsistingId == null)
-            {
-                //Location ID does not exsist, so no location to be deleted.
-                return false;
-            }
-            else
-            {
-                //location exsists, location removed from database.
-                _db.Locations.Remove(exsistingId);
-                _db.SaveChanges();
-                return true;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
 
         public IEnumerable<Location> GetLocations()
         {
-            return _db.Locations;
+            using (db)
+            {
+                return db.LocationSet;
+            }
         }
     }
 }

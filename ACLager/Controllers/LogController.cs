@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ACLager.Models;
+using ACLager.ViewModels;
 
 namespace ACLager.Controllers
 {
@@ -12,16 +13,14 @@ namespace ACLager.Controllers
         // GET: Log
         public ActionResult Index()
         {
-            return View();
-        }
+            IEnumerable<LogEntry> logEntries;
 
-        /// <summary>
-        /// Gets all log entries from the database
-        /// </summary>
-        /// <returns>All log entries from the database</returns>
-        public IEnumerable<LogEntry> GetLogEntries()
-        {
-            throw new NotImplementedException();
+            using (ACLagerDatabase db = new ACLagerDatabase())
+            {
+                logEntries = db.LogEntrySet.ToList();
+            }
+
+            return View(new LogViewModel(logEntries));
         }
     }
 }

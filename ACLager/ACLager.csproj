@@ -331,6 +331,7 @@
     </Content>
     <Content Include="Scripts\bootstrap-material-datetimepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\jquery.transit.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\list.min.js" />
@@ -338,6 +339,7 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\ripples.js" />
+    <Content Include="Scripts\snackbar.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

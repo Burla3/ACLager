@@ -32,11 +32,12 @@
     @RenderSection("scripts", required: false)
 
 <!-- Init the material javascript to create neat effects -->
-    <script type="text/javascript">
-        $(document).ready(function () {
+    <<script type="text/javascript">
+        $(document).ready(function() {
             moment.locale("da");
+            $('.btn[data-toggle="popover"]').popover();
             $.material.init();
-            $(".clickable").click(function (event) {
+            $(".clickable").click(function(event) {
                 var href = $(this).data("href");
                 if (href) {
                     event.preventDefault();
@@ -44,6 +45,6 @@
                 }
             });
         });
-    </script>
+</script>
 </body>
 </html>

@@ -405,7 +405,7 @@ body .container-fluid .jumbotron-danger {
 .input-group-btn .btn.btn-raised:not(.btn-link):active.btn-primary,
 .btn-group-raised .btn:not(.btn-link):active.btn-primary,
 .btn-group-raised .input-group-btn .btn:not(.btn-link):active.btn-primary {
-  background-color: #865e50;
+  background-color: #6c4c40;
 }
 .btn.btn-raised:not(.btn-link):hover.btn-success,
 .input-group-btn .btn.btn-raised:not(.btn-link):hover.btn-success,
@@ -423,7 +423,7 @@ body .container-fluid .jumbotron-danger {
 .input-group-btn .btn.btn-raised:not(.btn-link):active.btn-success,
 .btn-group-raised .btn:not(.btn-link):active.btn-success,
 .btn-group-raised .input-group-btn .btn:not(.btn-link):active.btn-success {
-  background-color: #59b75c;
+  background-color: #46a149;
 }
 .btn.btn-raised:not(.btn-link):hover.btn-info,
 .input-group-btn .btn.btn-raised:not(.btn-link):hover.btn-info,
@@ -441,7 +441,7 @@ body .container-fluid .jumbotron-danger {
 .input-group-btn .btn.btn-raised:not(.btn-link):active.btn-info,
 .btn-group-raised .btn:not(.btn-link):active.btn-info,
 .btn-group-raised .input-group-btn .btn:not(.btn-link):active.btn-info {
-  background-color: #0fb2fc;
+  background-color: #039be0;
 }
 .btn.btn-raised:not(.btn-link):hover.btn-warning,
 .input-group-btn .btn.btn-raised:not(.btn-link):hover.btn-warning,
@@ -3149,6 +3149,9 @@ hr.on-light {
   pointer-events: none;
   color: #757575;
 }
+.sort {
+  margin-bottom: 5px;
+}
 .sort .label-default {
   display: inline;
 }
@@ -3238,4 +3241,78 @@ hr.on-light {
   left: 50%;
   position: absolute;
 }
-/*# sourceMappingURL=bootstrap-material-design.css.map */
+.fixed-button-container {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+}
+td {
+  text-align: center;
+  vertical-align: middle !important;
+}
+th {
+  text-align: center;
+}
+table {
+  table-layout: fixed;
+}
+.table-extra-info-container {
+  display: none;
+}
+.sort {
+  cursor: pointer;
+}
+.noselect {
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Chrome/Safari/Opera */
+  -khtml-user-select: none;
+  /* Konqueror */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+.clickable {
+  cursor: pointer;
+}
+.flow-content {
+  display: none;
+  transition: all 0.3s ease-in-out;
+}
+.btn-flowout {
+  transition: all 0.3s ease-in-out;
+}
+.no-scroll {
+  overflow: hidden;
+}
+#FlowoutBackdrop {
+  position: fixed;
+}
+#FlowoutBackdrop.active {
+  width: 100%;
+  height: 101%;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.12);
+}
+.hiddentrigger {
+  visibility: hidden;
+}
+#AddInventoryItemFormPanel {
+  width: 100%;
+}
+.expansionpanel.row.panel {
+  margin-bottom: 5px;
+  padding: 8px;
+}
+.expansion-control i.material-icons {
+  font-size: 36px;
+}
+.expansion-content {
+  max-height: 0;
+  overflow: hidden;
+}

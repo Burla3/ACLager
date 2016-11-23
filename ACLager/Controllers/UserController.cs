@@ -35,8 +35,14 @@ namespace ACLager.Controllers
         {
             using (ACLagerDatabase db = new ACLagerDatabase())
             {
-                db.UserSet.Add(user);
-                db.SaveChanges();
+                if(db.UserSet.Find(user.Name)!=null)
+                {/*/user with same name exsist, confirm creation*/ }
+                else
+                {
+                    db.UserSet.Add(user);
+                    db.SaveChanges();
+                }
+                
             }
 
             return RedirectToAction("Index");
@@ -51,13 +57,22 @@ namespace ACLager.Controllers
         public ActionResult EditUser(User user) {
             using (ACLagerDatabase db = new ACLagerDatabase())
             {
+                
                 User dbUser = db.UserSet.Find(user.UID);
 
-                dbUser.IsActive = user.IsActive;
-                dbUser.IsAdmin = user.IsAdmin;
-                dbUser.Name = user.Name;
+                if (dbUser!=null)
+                {
+                    dbUser.IsActive = user.IsActive;
+                    dbUser.IsAdmin = user.IsAdmin;
+                    dbUser.Name = user.Name;
 
-                db.SaveChanges();
+                    db.SaveChanges();
+                }
+                else
+                {
+                    //the user specified does not exsist
+                }
+                
             }
 
             return RedirectToAction("Index");
@@ -72,8 +87,15 @@ namespace ACLager.Controllers
          public ActionResult DeleteUser(long uid) {
              using (ACLagerDatabase db = new ACLagerDatabase())
              {
-                db.UserSet.Remove(db.UserSet.Find(uid));
-                db.SaveChanges();
+                if (db.UserSet.Find(uid)!=null)
+                { 
+                    db.UserSet.Remove(db.UserSet.Find(uid));
+                    db.SaveChanges();
+                }
+                else
+                {
+                    //User with given unique ID does not exsist
+                }
             }
 
             return RedirectToAction("Index");

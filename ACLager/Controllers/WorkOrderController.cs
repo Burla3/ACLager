@@ -26,16 +26,25 @@ namespace ACLager.Controllers
         {
             using (ACLagerDatabase db = new ACLagerDatabase())
             {
+                
                 WorkOrder workOrder = db.WorkOrderSet.Find(UID);
                 IEnumerable<WorkOrderItem> workOrderItems = workOrder.WorkOrderItems;
 
-                foreach (WorkOrderItem workOrderItem in workOrderItems)
+                if (workOrder != null)
                 {
-                    db.WorkOrderItemSet.Remove(workOrderItem);
-                }
+                    foreach (WorkOrderItem workOrderItem in workOrderItems)
+                    {
+                        db.WorkOrderItemSet.Remove(workOrderItem);
+                    }
 
-                db.WorkOrderSet.Remove(workOrder);
-                db.SaveChanges();
+                    db.WorkOrderSet.Remove(workOrder);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    //given uid is not on a known workorder.
+                }
+                
             }
 
             return RedirectToAction("Index");
@@ -51,8 +60,15 @@ namespace ACLager.Controllers
         {
             using (ACLagerDatabase db = new ACLagerDatabase())
             {
-                db.WorkOrderItemSet.Remove(db.WorkOrderItemSet.Find(UID));
-                db.SaveChanges();
+                if (db.WorkOrderItemSet.Find(UID) != null)
+                {
+                    db.WorkOrderItemSet.Remove(db.WorkOrderItemSet.Find(UID));
+                    db.SaveChanges();
+                }
+                else
+                {
+                    //workorder with given UID not found.
+                }
             }
 
             return RedirectToAction("Index");
@@ -69,9 +85,16 @@ namespace ACLager.Controllers
             using (ACLagerDatabase db = new ACLagerDatabase())
             {
                 WorkOrder dbWorkOrder = db.WorkOrderSet.Find(workOrder.UID);
-
-                dbWorkOrder.DueDate = workOrder.DueDate;
-                db.SaveChanges();
+                if (dbWorkOrder != null)
+                {
+                    dbWorkOrder.DueDate = workOrder.DueDate;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    //Workorder not found. 
+                }
+                
             }
 
             return RedirectToAction("Index");
@@ -89,9 +112,16 @@ namespace ACLager.Controllers
             {
                 WorkOrderItem dbWorkOrderItem = db.WorkOrderItemSet.Find(workOrderItem.UID);
 
-                dbWorkOrderItem.Amount = workOrderItem.Amount;
-                dbWorkOrderItem.Progress = workOrderItem.Progress;
-                db.SaveChanges();
+                if (dbWorkOrderItem != null)
+                {
+                    dbWorkOrderItem.Amount = workOrderItem.Amount;
+                    dbWorkOrderItem.Progress = workOrderItem.Progress;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    //Workorder does not exsist.
+                }
             }
 
             return RedirectToAction("Index");
@@ -128,8 +158,19 @@ namespace ACLager.Controllers
         {
             using (ACLagerDatabase db = new ACLagerDatabase())
             {
-                db.WorkOrderSet.Add(workOrder);
-                db.SaveChanges();
+                var dbWorkOrder = (db.WorkOrderSet.Where(
+                    workorder => workorder.DueDate == workOrder.DueDate && workorder.Type == workOrder.Type));
+
+                if (dbWorkOrder.Any())
+                {
+                    //Similar workorder(s) exsist, make another?
+                }
+                else
+                {
+                    db.WorkOrderSet.Add(workOrder);
+                    db.SaveChanges();
+                }
+                
             }
 
             return RedirectToAction("Index");

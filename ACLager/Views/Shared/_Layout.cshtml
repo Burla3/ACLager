@@ -16,23 +16,15 @@
     @Scripts.Render("~/bundles/modernizr")
 
 
-</head>
-<body>
-    @if (Model.RenderNavBar) {
-        @Html.Partial("_NavBar");
-    }
-    <div class="container body-content">
-        @RenderBody()
-    </div>
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 
-<!-- Init the material javascript to create neat effects -->
-    <<script type="text/javascript">
+    <!-- Init the material javascript to create neat effects -->
+    <
+    <script type="text/javascript">
         $(document).ready(function() {
             moment.locale("da");
             $('.btn[data-toggle="popover"]').popover();
@@ -45,6 +37,14 @@
                 }
             });
         });
-</script>
+    </script>
+</head>
+<body>
+    @if (Model.RenderNavBar) {
+        @Html.Partial("_NavBar");
+    }
+    <div class="container body-content">
+        @RenderBody()
+    </div>
 </body>
 </html>

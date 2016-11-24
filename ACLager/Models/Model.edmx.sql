@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/24/2016 14:52:20
+-- Date Created: 11/24/2016 15:10:36
 -- Generated from EDMX file: C:\Users\Jens\Documents\ACLager\ACLager\Models\Model.edmx
 -- --------------------------------------------------
 
@@ -38,14 +38,14 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_WorkOrderWasteReport]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[WasteReportSet] DROP CONSTRAINT [FK_WorkOrderWasteReport];
 GO
-IF OBJECT_ID(N'[dbo].[FK_WasteReportItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[WasteReportSet] DROP CONSTRAINT [FK_WasteReportItem];
-GO
 IF OBJECT_ID(N'[dbo].[FK_WasteReportUser]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[WasteReportSet] DROP CONSTRAINT [FK_WasteReportUser];
 GO
 IF OBJECT_ID(N'[dbo].[FK_IngredientItemType1]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[IngredientSet] DROP CONSTRAINT [FK_IngredientItemType1];
+GO
+IF OBJECT_ID(N'[dbo].[FK_WasteReportItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[WasteReportSet] DROP CONSTRAINT [FK_WasteReportItem];
 GO
 
 -- --------------------------------------------------

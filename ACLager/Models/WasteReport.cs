@@ -14,7 +14,7 @@ namespace ACLager.Models
     
     public partial class WasteReport
     {
-        public long UID { get; private set; }
+        public long UID { get; set; }
         public System.DateTime Date { get; set; }
         public long Amount { get; set; }
         public Nullable<long> WorkOrderUID { get; set; }

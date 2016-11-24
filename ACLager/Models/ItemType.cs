@@ -24,7 +24,7 @@ namespace ACLager.Models
             this.WorkOrderItems = new HashSet<WorkOrderItem>();
         }
     
-        public long UID { get; private set; }
+        public long UID { get; set; }
         public string Name { get; set; }
         public long MinimumAmount { get; set; }
         public string Unit { get; set; }

@@ -332,7 +332,7 @@
           <Key>
             <PropertyRef Name="UID" />
           </Key>
-          <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Private" />
+          <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
           <Property Name="Name" Type="String" Nullable="false" />
           <NavigationProperty Name="WorkOrders" Relationship="Model.WorkOrderUser" FromRole="User" ToRole="WorkOrder" />
           <NavigationProperty Name="WasteReports" Relationship="Model.WasteReportUser" FromRole="User" ToRole="WasteReport" />
@@ -345,7 +345,7 @@
           <Key>
             <PropertyRef Name="UID" />
           </Key>
-          <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Private" />
+          <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="True" />
           <NavigationProperty Name="Item" Relationship="Model.ItemLocation" FromRole="Location" ToRole="Item" />
@@ -355,7 +355,7 @@
           <Key>
             <PropertyRef Name="UID" />
           </Key>
-          <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Private" />
+          <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
           <Property Name="Amount" Type="Int64" Nullable="false" />
           <Property Name="Unit" Type="String" Nullable="false" />
           <NavigationProperty Name="IngredientFor" Relationship="Model.IngredientItemType" FromRole="Ingredient" ToRole="ItemType" />
@@ -367,7 +367,7 @@
           <Key>
             <PropertyRef Name="UID" />
           </Key>
-          <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Private" />
+          <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
           <Property Name="Amount" Type="Int64" Nullable="false" />
           <Property Name="ExpirationDate" Type="DateTime" Nullable="true" />
           <Property Name="DeliveryDate" Type="DateTime" Nullable="false" />
@@ -383,7 +383,7 @@
           <Key>
             <PropertyRef Name="UID" />
           </Key>
-          <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Private" />
+          <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="MinimumAmount" Type="Int64" Nullable="false" />
           <Property Name="Unit" Type="String" Nullable="false" />
@@ -398,7 +398,7 @@
           <Key>
             <PropertyRef Name="UID" />
           </Key>
-          <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Private" />
+          <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
           <Property Name="Type" Type="String" Nullable="false" />
           <Property Name="BatchNumber" Type="Int64" Nullable="false" />
           <Property Name="DueDate" Type="DateTime" Nullable="false" />
@@ -412,7 +412,7 @@
           <Key>
             <PropertyRef Name="UID" />
           </Key>
-          <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Private" />
+          <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
           <Property Name="Amount" Type="Int64" Nullable="false" />
           <Property Name="Progress" Type="Int64" Nullable="false" />
           <NavigationProperty Name="WorkOrder" Relationship="Model.WorkOrderItemWorkOrder" FromRole="WorkOrderItem" ToRole="WorkOrder" />
@@ -424,7 +424,7 @@
           <Key>
             <PropertyRef Name="UID" />
           </Key>
-          <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Private" />
+          <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
           <Property Name="Type" Type="String" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" />
           <Property Name="LogBody" Type="String" Nullable="false" />
@@ -433,7 +433,7 @@
           <Key>
             <PropertyRef Name="UID" />
           </Key>
-          <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Private" />
+          <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
           <Property Name="Date" Type="DateTime" Nullable="false" />
           <Property Name="Amount" Type="Int64" Nullable="false" />
           <NavigationProperty Name="WorkOrder" Relationship="Model.WorkOrderWasteReport" FromRole="WasteReport" ToRole="WorkOrder" />

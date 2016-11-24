@@ -7,24 +7,48 @@
 
     @Html.HiddenFor(model => Model.User.UID)
 
-    <div class="form-horizontal">
-        <div class="col-md-6">
-            <div class="row">
-                <h2>Slet bruger</h2>
-            </div>
-            <div>
-                Vil du gerne slette @Model.User.Name <b>permanent</b> fra systemet?
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <button type="button" class="btn btn-default">Fortryd</button>
-                        <input type="submit" value="Slet" class="btn btn-default"/>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+
+            <div class="col-md-6">
+                <div class="panel panel-danger flowout-noclose">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <br>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <fieldset>
+                                <div class="col-md-12">
+                                    <Legend>Slet bruger</Legend>
+                                    Er du sikker på du vil slette denne bruger <strong>permanent</strong> fra systemet?
+                                    <hr/>
+                                    <dl class="dl-horizontal">
+                                        <dt>Brugernummer:</dt>
+                                        <dd>@Model.User.UID</dd>
+                                        <dt>Navn:</dt>
+                                        <dd>@Model.User.Name</dd>
+                                        <dt>Status:</dt>
+                                        <dd>@if (Model.User.IsActive) {
+                                            <span class="label label-success">Aktiv</span>
+                                        } else {
+                                            <span class="label label-default">Inaktiv</span>
+                                        }</dd>
+                                    </dl>
+                                    <hr/>
+                                </div>
+                            </fieldset>
+
+                            <input class="btn btn-raised btn-danger pull-right" type="submit" value="Slet">
+                            <a href="@Url.Action("Index")" class="btn btn-default pull-right flowout-close">Behold</a>
+                        </div>
                     </div>
                 </div>
+                <div class="col-md-3"></div>
             </div>
         </div>
     </div>
-
 }
 

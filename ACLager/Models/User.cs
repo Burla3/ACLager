@@ -24,7 +24,7 @@ namespace ACLager.Models
             this.WasteReports = new HashSet<WasteReport>();
         }
     
-        public long UID { get; private set; }
+        public long UID { get; set; }
         public string Name { get; set; }
         public short PIN { get; set; }
         public bool IsAdmin { get; set; }

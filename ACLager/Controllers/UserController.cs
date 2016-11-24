@@ -63,6 +63,10 @@ namespace ACLager.Controllers {
         /// <returns></returns>
         [HttpGet]
         public ActionResult EditUser(string id) {
+            if (id == null) {
+                return RedirectToAction("Index");
+            }
+
             UserViewModel userViewModel = new UserViewModel();
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 User dbUser = db.UserSet.Find(Int64.Parse(id));
@@ -105,6 +109,10 @@ namespace ACLager.Controllers {
         /// <returns></returns>
         [HttpGet]
         public ActionResult DeleteUser(string id) {
+            if (id == null) {
+                return RedirectToAction("Index");
+            }
+
             UserViewModel userViewModel = new UserViewModel();
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {

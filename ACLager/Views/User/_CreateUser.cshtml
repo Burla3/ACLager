@@ -8,11 +8,9 @@
     <div class="form-horizontal">
         <fieldset>
             <Legend>Opret bruger</Legend>
-
-            <div class="row">
+            <div class="col-md-12">
                 @Html.Partial("_UserForm", Model.User)
             </div>
-
         </fieldset>
 
         <input class="btn btn-raised btn-success pull-right" type="submit" value="Opret">

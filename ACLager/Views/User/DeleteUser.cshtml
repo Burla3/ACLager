@@ -1,11 +1,11 @@
 ﻿@using ACLager.Models
-@model User
+@model ACLager.ViewModels.UserViewModel
 
 
 @using (Html.BeginForm("DeleteUser", "User")) {
     @Html.AntiForgeryToken()
 
-    @Html.HiddenFor(model => Model.UID)
+    @Html.HiddenFor(model => Model.User.UID)
 
     <div class="form-horizontal">
         <div class="col-md-6">
@@ -13,7 +13,7 @@
                 <h2>Slet bruger</h2>
             </div>
             <div>
-                Vil du gerne slette denne bruger <b>permanent</b> fra systemet?
+                Vil du gerne slette @Model.User.Name <b>permanent</b> fra systemet?
             </div>
             <div class="row">
                 <div class="form-group">

@@ -2,14 +2,14 @@
 @model ACLager.ViewModels.UserViewModel
 
 
-@using (Html.BeginForm("CreateUser", "User")) {
+@using (Html.BeginForm("EditUser", "User")) {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
         <fieldset>
             <div class="col-md-12">
                 <div class="row">
-                    <h2>Opret ny bruger</h2>
+                    <h2>Rediger bruger</h2>
                 </div>
 
                 <div class="row">
@@ -20,7 +20,10 @@
             </div>
         </fieldset>
 
-        <input class="btn btn-raised btn-success pull-right" type="submit" value="Opret">
+
+        <input class="btn btn-raised btn-success pull-right" type="submit" value="Rediger">
         <input class="btn btn-default pull-right flowout-close" type="reset" value="Annuller">
     </div>
+
 }
+

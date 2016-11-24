@@ -1,0 +1,75 @@
+﻿@using ACLager.Models
+@model ACLager.ViewModels.UserViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container" id="userSort">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 panel">
+            <form class="bs-component">
+                <div class="form-group form-group-lg label-floating is-empty">
+
+                    <div class="input-group">
+                        <label class="control-label" for="MainFilterAndSearchField">Skriv for at søge i tabellen nedenfor</label>
+                        <input type="text" id="MainFilterAndSearchField" class="form-control search">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary btn-raised" type="button"><i class="material-icons">search</i>Scan til søgning</button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="bs-component">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th class="sort" data-sort="sort-name">Navn<br><span class="label label-default">Klik for at sortere</span><span class="label label-primary asc">Sorteret stigende</span><span class="label label-primary desc">Sorteret faldende</span></th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="list">
+                        @foreach (User user in Model.Users) {
+                            <tr>
+                                <td class="sort-name">
+                                    <h4>@user.Name</h4>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    @Html.Partial("_CreateUser")
+</div>
+
+@*<div class="row">
+        @Html.Partial("_EditUser")
+    </div>
+*@
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<!-- Init the material javascript to create neat effects -->
+<script type="text/javascript">
+        $(document).ready(function() {
+            var options = {
+                valueNames: ['sort-name']
+            };
+            var userList = new List('userSort', options);
+
+        });
+</script>

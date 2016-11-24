@@ -6,7 +6,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container" id="userSort">
+
+<div class="container"></div>
+
+<div class="container" id="inventorySort">
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6 panel">
@@ -17,7 +20,9 @@
                         <label class="control-label" for="MainFilterAndSearchField">Skriv for at søge i tabellen nedenfor</label>
                         <input type="text" id="MainFilterAndSearchField" class="form-control search">
                         <span class="input-group-btn">
-                            <button class="btn btn-primary btn-raised" type="button"><i class="material-icons">search</i>Scan til søgning</button>
+                            <div class="btn btn-primary btn-raised" type="button">
+                                <i class="material-icons">search</i> Scan til søgning
+                            </div>
                         </span>
                     </div>
                 </div>
@@ -26,52 +31,249 @@
         <div class="col-md-3"></div>
     </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="bs-component">
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th class="sort" data-sort="sort-name">Navn<br><span class="label label-default">Klik for at sortere</span><span class="label label-primary asc">Sorteret stigende</span><span class="label label-primary desc">Sorteret faldende</span></th>
-
-                        </tr>
-                    </thead>
-                    <tbody class="list">
-                        @foreach (User user in Model.Users) {
-                            <tr>
-                                <td class="sort-name">
-                                    <h4>@user.Name</h4>
-                                </td>
-                                <td>
-                                    @Html.Partial("_DeleteUser", user);
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                Navn / Beskrivelse
             </div>
+            <div class="col-sm-3">
+                Lokation
+            </div>
+            <div class="sort noselect col-sm-2 text-uppercase text-center" data-sort="sort-amount">
+                Mængde
+                <br>
+                <span class="label label-default">Klik for at sortere</span>
+                <span class="label label-primary asc">Sorteret stigende</span>
+                <span class="label label-primary desc">Sorteret faldende</span>
+                <br>
+            </div>
+            <div class="sort noselect col-sm-2 text-uppercase text-center" data-sort="sort-expdate">
+                Udløbsdato
+                <br>
+                <span class="label label-default">Klik for at sortere</span>
+                <span class="label label-primary asc">Sorteret stigende</span>
+                <span class="label label-primary desc">Sorteret faldende</span>
+                <br>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+    </div>
+    <div class="container list" id="ExpansionPanelsContainer">
+        @foreach (User user in Model.Users) {
+            <div class="expansionpanel row panel">
+                <div class="row">
+                    <div class="col-sm-3 sort-name">
+                        <h4>@user.Name</h4>
+                    </div>
+                    <div class="col-sm-3 sort-location">
+                        <h3>
+                            <strong>@user.UID</strong>
+                        </h3>
+                    </div>
+                    <div class="col-sm-2 sort-amount">
+                        <br>
+                        <strong>@user.PIN</strong>
+                        
+                    </div>
+                    <div class="col-sm-2 sort-expdate">
+
+                        <h4>@user.IsActive.ToString()</h4>
+                    </div>
+                    <div class="expansion-control col-sm-2" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@user.UID">
+                        <div class="btn btn-default pull-right">
+                            <i class="material-icons">expand_more</i>
+                            <i class="material-icons hidden">expand_less</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="row expansion-content" id="ExpansionContentContainer_@user.UID">
+                    <div class="col-sm-2 sort-supplier">
+                        <strong>Leverandør:</strong>
+                        Toms Chokolade A/S
+                    </div>
+                    <div class="col-sm-2">
+                        <strong>Leveret dato:</strong>
+                        14-10-2016
+                    </div>
+                    <div class="col-sm-3">
+                        <strong>Note:</strong>
+                        Kasser af 10 stk denne gang
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="btn-group btn-group-justified btn-group-raised">
+                            <a href="@Url.Action("EditUser", new {id = user.UID})" class="btn btn-primary">Rediger</a>
+                            <a href="@Url.Action("DeleteUser", new { id = user.UID })" class="btn btn-primary">Slet</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
+
+<div class="fixed-button-container">
+    <div class="btn btn-success btn-fab btn-flowout btn-page-flowout-up" data-content-element="#AddInventoryItemFormPanel">
+        <i class="material-icons normal">add circle</i>
+        <i class="material-icons flowing hidden">close</i>
+    </div>
+</div>
+
+<div class="flow-content flowout-close" id="InventoryItemInlineInfoAndFormPanel">
+    <div class="container"></div>
+</div>
+
+<div class="flow-content flowout-close" id="AddInventoryItemFormPanel">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-3"></div>
+
+            <div class="col-md-6">
+                <div class="panel panel-success flowout-noclose">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Opret ny bruger<br></h3>
+                    </div>
+                    <div class="panel-body">
+                        @Html.Partial("_CreateUser")
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-3"></div>
         </div>
     </div>
 </div>
 
-<div class="row">
-    @Html.Partial("_CreateUser")
-</div>
 
-<div class="row">
-    @Html.Partial("_EditUser")
-</div>
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
-<!-- Init the material javascript to create neat effects -->
 <script type="text/javascript">
-        $(document).ready(function() {
-            var options = {
-                valueNames: ['sort-name']
-            };
-            var userList = new List('userSort', options);
+        var GLOBALID = 0;
+        function certainID(elem) {
+            var el = $(elem);
+            if (!el.attr("id")) {
+                el.attr("id", "artificialID_" + GLOBALID);
+                GLOBALID += 1;
+            }
+            return el.attr("id");
+        }
 
+        function getDimensions(elem) {
+            var row = $("#TableRow01");
+            var offset = row.offset();
+            //console.log({"width":row.width(), "height":row.height(), "top": offset.top, "left": offset.left, "position": "absolute"});
+            return {
+                "z-index": 10,
+                "border-radius": "3px",
+                "width": row.width(),
+                "height": row.height() * 2,
+                "top": offset.top,
+                "left": offset.left,
+                "position": "absolute"
+            };
+        }
+        $(document).ready(function () {
+
+            var options = {
+                valueNames: ['sort-name', 'sort-location', 'sort-amount', 'sort-expdate', 'sort-supplier']
+            };
+
+            var userList = new List('inventorySort', options);
+
+            $('body').on('click', '.btn-page-flowout-up', function () {
+                var content_element = "";
+
+                if ($(this).data('content-element')) {
+                    content_element = $($(this).data('content-element'));
+                } else {
+                    console.error("No flowoutcontentelementselector specified. <- Nice long word eh? :)");
+                }
+
+                var options = {
+                    trigger_element: $(this),
+                    content_element: content_element,
+                    direction: 'up'
+                }
+
+                $('#FlowoutBackdrop').trigger('flowout:page:show', options);
+
+            })
+
+            //catch clcik event and modify to prevent closing when using the inner content.
+            $('body').on('click', '.flowout-noclose', function (event) {
+                event['flowout-noclose'] = true;
+                return event;
+            })
+
+            $('body').on('click', '.flowout-close', function (event) {
+                if (!event['flowout-noclose']) {
+                    $('#FlowoutBackdrop').trigger('flowout:page:hide');
+                }
+            })
+
+            $('#FlowoutBackdrop').on('flowout:page:hide', function (event) {
+                var backdrop = $(this);
+                var options = backdrop.data('options');
+                //flow the content down into hiding
+                options.content_element.transition({
+                    'top': backdrop.height() + 50
+                }, 300, function () {
+                    //hide the element
+                    options.content_element.css('display', 'none');
+
+                    //show the trigger button
+                    options.trigger_element.show();
+
+                    //remove the backdrop
+                    backdrop.removeClass('active');
+
+                    //reactivate scrolling
+                    $('body').removeClass('no-scroll');
+
+                });
+
+            })
+
+            $('#FlowoutBackdrop').on('flowout:page:show', function (event, options) {
+                var backdrop = $(this);
+                backdrop.addClass('active');
+
+                //make sure the user can not scroll anymore
+                $('body').addClass('no-scroll');
+
+                //save the options object for later use when closing
+                backdrop.data('options', options);
+
+                //hide the button
+                options.trigger_element.hide();
+
+                //show the content
+                options.content_element.css({
+                    'position': 'fixed',
+                    'top': backdrop.height(),
+                    'display': 'block',
+                    'z-index': backdrop.css('z-index') + 1
+                });
+                options.content_element.transition({
+                    'top': (backdrop.height() - options.content_element.height()) / 2
+                }, 300);
+            })
+
+            $('#ExpansionPanelsContainer').on('click', '.expansion-control', function(event) {
+                var that = $(this);
+                var exp_content = $(that.data("expandtarget"));
+                var expand_height = that.data('expandmaxheight');
+                that.find('i.material-icons').toggleClass('hidden');
+                exp_content.transition({"max-height":expand_height}, 300, function() {
+
+                    if (expand_height === "100px") {
+                        that.data('expandmaxheight', '0px')
+                    } else if (expand_height === '0px') {
+                        that.data('expandmaxheight', '100px');
+                    }
+
+                });
+            })
         });
 </script>

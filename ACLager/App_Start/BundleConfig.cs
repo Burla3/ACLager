@@ -18,7 +18,9 @@ namespace ACLager {
                       "~/Scripts/bootstrap-material-datetimepicker.js",
                       "~/Scripts/list.min.js",
                       "~/Scripts/jquery.validate.js",
-                      "~/Scripts/jquery.validate.unobtrusive.js"
+                      "~/Scripts/jquery.validate.unobtrusive.js",
+                      "~/Scripts/jquery.transit.js",
+                      "~/Scripts/snackbar.min.js"
                       ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

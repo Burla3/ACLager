@@ -24,8 +24,20 @@ namespace ACLager.Controllers
         {
             using (ACLagerDatabase db = new ACLagerDatabase())
             {
-                db.WasteReportSet.Add(wasteReport);
-                db.SaveChanges();
+                var dbWasteReport = (from wastereport in db.WasteReportSet
+                                     where wastereport.Amount == wasteReport.Amount && wastereport.WorkOrderUID == wasteReport.WorkOrderUID
+                                     && wastereport.ItemUID == wasteReport.ItemUID && wastereport.UserUID == wasteReport.UserUID select wastereport);
+
+                if (dbWasteReport.Any())
+                {
+                    //similar wastereport(s) exsist, generate anyways?
+                }
+                else
+                {
+                    db.WasteReportSet.Add(wasteReport);
+                    db.SaveChanges();
+                }
+                
             }
         }
     }

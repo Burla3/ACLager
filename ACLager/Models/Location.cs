@@ -14,9 +14,17 @@ namespace ACLager.Models
     
     public partial class Location
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Location()
+        {
+            this.IsActive = true;
+            this.IsDeleted = false;
+        }
+    
         public long UID { get; private set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }
+        public bool IsDeleted { get; set; }
     
         public virtual Item Item { get; set; }
     }

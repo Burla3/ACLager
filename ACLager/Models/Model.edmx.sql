@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/21/2016 14:47:08
+-- Date Created: 11/24/2016 14:52:20
 -- Generated from EDMX file: C:\Users\Jens\Documents\ACLager\ACLager\Models\Model.edmx
 -- --------------------------------------------------
 
@@ -87,10 +87,11 @@ GO
 -- Creating table 'UserSet'
 CREATE TABLE [dbo].[UserSet] (
     [UID] bigint IDENTITY(1,1) NOT NULL,
-    [IsActive] bit  NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
+    [PIN] smallint  NOT NULL,
     [IsAdmin] bit  NOT NULL,
-    [PIN] smallint  NOT NULL
+    [IsActive] bit  NOT NULL,
+    [IsDeleted] bit  NOT NULL
 );
 GO
 
@@ -98,7 +99,8 @@ GO
 CREATE TABLE [dbo].[LocationSet] (
     [UID] bigint IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
-    [IsActive] bit  NOT NULL
+    [IsActive] bit  NOT NULL,
+    [IsDeleted] bit  NOT NULL
 );
 GO
 
@@ -120,6 +122,7 @@ CREATE TABLE [dbo].[ItemSet] (
     [DeliveryDate] datetime  NOT NULL,
     [Supplier] nvarchar(max)  NOT NULL,
     [Reserved] bigint  NOT NULL,
+    [IsDeleted] nvarchar(max)  NOT NULL,
     [ItemTypeUID] bigint  NOT NULL,
     [Location_UID] bigint  NOT NULL
 );
@@ -128,10 +131,12 @@ GO
 -- Creating table 'ItemTypeSet'
 CREATE TABLE [dbo].[ItemTypeSet] (
     [UID] bigint IDENTITY(1,1) NOT NULL,
-    [IsActive] bit  NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [MinimumAmount] bigint  NOT NULL,
-    [Unit] nvarchar(max)  NOT NULL
+    [Unit] nvarchar(max)  NOT NULL,
+    [IsActive] bit  NOT NULL,
+    [IsDeleted] bit  NOT NULL,
+    [Procedure] nvarchar(max)  NULL
 );
 GO
 
@@ -343,21 +348,6 @@ ON [dbo].[WasteReportSet]
     ([WorkOrderUID]);
 GO
 
--- Creating foreign key on [ItemUID] in table 'WasteReportSet'
-ALTER TABLE [dbo].[WasteReportSet]
-ADD CONSTRAINT [FK_WasteReportItem]
-    FOREIGN KEY ([ItemUID])
-    REFERENCES [dbo].[ItemSet]
-        ([UID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_WasteReportItem'
-CREATE INDEX [IX_FK_WasteReportItem]
-ON [dbo].[WasteReportSet]
-    ([ItemUID]);
-GO
-
 -- Creating foreign key on [UserUID] in table 'WasteReportSet'
 ALTER TABLE [dbo].[WasteReportSet]
 ADD CONSTRAINT [FK_WasteReportUser]
@@ -386,6 +376,21 @@ GO
 CREATE INDEX [IX_FK_IngredientItemType1]
 ON [dbo].[IngredientSet]
     ([TypeUID]);
+GO
+
+-- Creating foreign key on [ItemUID] in table 'WasteReportSet'
+ALTER TABLE [dbo].[WasteReportSet]
+ADD CONSTRAINT [FK_WasteReportItem]
+    FOREIGN KEY ([ItemUID])
+    REFERENCES [dbo].[ItemSet]
+        ([UID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_WasteReportItem'
+CREATE INDEX [IX_FK_WasteReportItem]
+ON [dbo].[WasteReportSet]
+    ([ItemUID]);
 GO
 
 -- --------------------------------------------------

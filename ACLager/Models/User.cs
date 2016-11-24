@@ -7,8 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-
 namespace ACLager.Models
 {
     using System;
@@ -19,16 +17,19 @@ namespace ACLager.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
+            this.IsAdmin = false;
             this.IsActive = true;
+            this.IsDeleted = false;
             this.WorkOrders = new HashSet<WorkOrder>();
             this.WasteReports = new HashSet<WasteReport>();
         }
     
         public long UID { get; set; }
-        public bool IsActive { get; set; }
         public string Name { get; set; }
-        public bool IsAdmin { get; set; }
         public short PIN { get; set; }
+        public bool IsAdmin { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsDeleted { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkOrder> WorkOrders { get; set; }

@@ -36,10 +36,10 @@
     </div>
     <div class="row">
         <div class="col-sm-8">
-            <div class="btn-group btn-group-justified btn-group-raised">
-                <a href="@Url.Action("EditUser", new {id = Model.User.UID})" class="btn btn-primary">Rediger</a>
-                <a href="@Url.Action("DeleteUser", new { id = Model.User.UID })" class="btn btn-primary">Slet</a>
-            </div>
+            
+                <a href="@Url.Action("EditUser", new {id = Model.User.UID})" class="btn btn-raised btn-info">Rediger</a>
+                <a href="@Url.Action("DeleteUser", new { id = Model.User.UID })" class="btn btn-raised btn-danger">Slet</a>
+        
         </div>
         <div class="col-sm-4">
             @if (Model.User.IsActive) {

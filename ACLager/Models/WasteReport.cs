@@ -21,8 +21,8 @@ namespace ACLager.Models
         public long ItemUID { get; set; }
         public long UserUID { get; set; }
     
-        public virtual WorkOrder WorkOrders { get; set; }
-        public virtual Item Item { get; set; }
+        public virtual WorkOrder WorkOrder { get; set; }
         public virtual User User { get; set; }
+        public virtual Item Item { get; set; }
     }
 }

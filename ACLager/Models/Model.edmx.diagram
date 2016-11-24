@@ -21,9 +21,9 @@
         <AssociationConnector Association="Model.WorkOrderItemWorkOrder" />
         <AssociationConnector Association="Model.WorkOrderItemItemType" />
         <AssociationConnector Association="Model.WorkOrderWasteReport" />
-        <AssociationConnector Association="Model.WasteReportItem" />
         <AssociationConnector Association="Model.WasteReportUser" />
         <AssociationConnector Association="Model.IngredientItemType1" />
+        <AssociationConnector Association="Model.WasteReportItem" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

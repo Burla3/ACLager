@@ -17,6 +17,7 @@ namespace ACLager.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public WorkOrder()
         {
+            this.IsComplete = false;
             this.WorkOrderItems = new HashSet<WorkOrderItem>();
             this.WasteReport = new HashSet<WasteReport>();
         }
@@ -28,7 +29,7 @@ namespace ACLager.Models
         public bool IsComplete { get; set; }
         public Nullable<long> UserUID { get; set; }
     
-        public virtual User User { get; set; }
+        public virtual User CompletedBy { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkOrderItem> WorkOrderItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

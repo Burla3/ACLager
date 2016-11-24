@@ -21,7 +21,7 @@ namespace ACLager.Models
             this.IsDeleted = false;
         }
     
-        public long UID { get; private set; }
+        public long UID { get; set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }

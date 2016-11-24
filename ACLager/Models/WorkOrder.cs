@@ -22,7 +22,7 @@ namespace ACLager.Models
             this.WasteReport = new HashSet<WasteReport>();
         }
     
-        public long UID { get; private set; }
+        public long UID { get; set; }
         public string Type { get; set; }
         public long BatchNumber { get; set; }
         public System.DateTime DueDate { get; set; }

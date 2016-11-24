@@ -14,7 +14,7 @@ namespace ACLager.Models
     
     public partial class LogEntry
     {
-        public long UID { get; private set; }
+        public long UID { get; set; }
         public string Type { get; set; }
         public System.DateTime Date { get; set; }
         public string LogBody { get; set; }

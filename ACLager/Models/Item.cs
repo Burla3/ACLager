@@ -21,7 +21,7 @@ namespace ACLager.Models
             this.WasteReports = new HashSet<WasteReport>();
         }
     
-        public long UID { get; private set; }
+        public long UID { get; set; }
         public long Amount { get; set; }
         public Nullable<System.DateTime> ExpirationDate { get; set; }
         public System.DateTime DeliveryDate { get; set; }

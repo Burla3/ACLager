@@ -207,6 +207,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
@@ -215,17 +216,20 @@
     <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\WasteController.cs" />
     <Compile Include="Controllers\WorkOrderController.cs" />
+    <Compile Include="CustomClasses\Attributes\AllowAll.cs" />
     <Compile Include="CustomClasses\ItemGroup.cs" />
     <Compile Include="CustomClasses\ItemGroupExtractor.cs" />
     <Compile Include="CustomClasses\HomeMenuBlock.cs" />
     <Compile Include="CustomClasses\ItemLocationPair.cs" />
     <Compile Include="CustomClasses\LogEntryEventArgs.cs" />
     <Compile Include="CustomClasses\Logger.cs" />
+    <Compile Include="CustomClasses\Attributes\RequireAuthorization.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IExtractor.cs" />
     <Compile Include="Interfaces\ILoggable.cs" />
+    <Compile Include="Models\ClassAdditions\User.cs" />
     <Compile Include="Models\Ingredient.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -273,6 +277,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\InventoryViewModel.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>

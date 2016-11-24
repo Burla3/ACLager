@@ -4,7 +4,6 @@
 
 @using (Html.BeginForm("EditUser", "User")) {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => Model.User.UID)
 
     <div class="form-horizontal">
         <fieldset>
@@ -20,6 +19,7 @@
                 </div>
             </div>
         </fieldset>
+
 
         <input class="btn btn-raised btn-success pull-right" type="submit" value="Rediger">
         <input class="btn btn-default pull-right flowout-close" type="reset" value="Annuller">

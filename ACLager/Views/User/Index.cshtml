@@ -79,14 +79,14 @@
 
                         <h4>@user.IsActive.ToString()</h4>
                     </div>
-                    <div class="expansion-control col-sm-2" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer{@user.UID}">
+                    <div class="expansion-control col-sm-2" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@user.UID">
                         <div class="btn btn-default pull-right">
                             <i class="material-icons">expand_more</i>
                             <i class="material-icons hidden">expand_less</i>
                         </div>
                     </div>
                 </div>
-                <div class="row expansion-content" id="ExpansionContentContainer{@user.UID}">
+                <div class="row expansion-content" id="ExpansionContentContainer_@user.UID">
                     <div class="col-sm-2 sort-supplier">
                         <strong>Leverandør:</strong>
                         Toms Chokolade A/S

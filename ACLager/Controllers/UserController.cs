@@ -78,6 +78,24 @@ namespace ACLager.Controllers
 
             return RedirectToAction("Index");
          }
+
+        private short GenerateUniquePIN()
+        {
+            Random random = new Random();
+            short generatedPin;
+
+            using (ACLagerDatabase db = new ACLagerDatabase())
+            {
+                IEnumerable<User> users = db.UserSet;
+
+                do
+                {
+                    generatedPin = (short)random.Next(1000, 10000);
+                } while (users.Any(user => user.PIN == generatedPin));
+            }
+
+            return generatedPin;
+        }
  
          public event ChangedEventHandler Changed;
     }

@@ -25,13 +25,9 @@ namespace ACLager.Models
         }
     
         public long UID { get; set; }
-        [Required]
         public bool IsActive { get; set; }
-        [Required(ErrorMessage = "Du skal indtaste et navn.")]
         public string Name { get; set; }
-        [Required]
         public bool IsAdmin { get; set; }
-        [Required(ErrorMessage = "Du skal indtaste en kode.")]
         public short PIN { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

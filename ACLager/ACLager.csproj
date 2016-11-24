@@ -372,6 +372,7 @@
     <Content Include="Views\User\EditUser.cshtml" />
     <Content Include="Views\User\DeleteUser.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\Detailed.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -1,0 +1,12 @@
+﻿@model ACLager.ViewModels.UserViewModel
+
+@{
+    ViewBag.Title = "Detailed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detailed</h2>
+
+@Model.User.Name
+@Model.User.UID
+@Model.User.IsActive.ToString()

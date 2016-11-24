@@ -8,52 +8,70 @@ using ACLager.Interfaces;
 using ACLager.Models;
 using ACLager.ViewModels;
 
-namespace ACLager.Controllers
-{
-    public class UserController : Controller, ILoggable
-    {
+namespace ACLager.Controllers {
+    public class UserController : Controller, ILoggable {
         // GET: User
         [HttpGet]
-        public ActionResult Index()
-        {
+        public ActionResult Index() {
             IEnumerable<User> users;
 
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
                 users = db.UserSet.ToList();
             }
 
             return View(new UserViewModel(users, new User()));
         }
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Detailed(string id) {
+            User user;
+
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                user = db.UserSet.Find(Int64.Parse(id));
+            }
+
+            return View("Detailed", new UserViewModel(null, user));
+        }
+
+
+
         /// <summary>
         /// Creates a User.
         /// </summary>
         /// <param name="user"></param>
         /// <returns>Redirects to /User.</returns>
         [HttpPost]
-        public ActionResult CreateUser(User user)
-        {
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
-                if(db.UserSet.Find(user.Name)!=null)
-                {/*/user with same name exsist, confirm creation*/ }
-                else
-                {
-                    db.UserSet.Add(user);
-                    db.SaveChanges();
-                }
-                
+        public ActionResult CreateUser(User user) {
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                user.PIN = GenerateUniquePIN();
+                db.UserSet.Add(user);
+                db.SaveChanges();
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Detailed", new {id = user.UID});
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult EditUser(string id) {
             UserViewModel userViewModel = new UserViewModel();
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                userViewModel.User = db.UserSet.Find(Int64.Parse(id));
+                User dbUser = db.UserSet.Find(Int64.Parse(id));
+
+                if (dbUser == null) {
+                    return RedirectToAction("Index");
+                }
+
+                userViewModel.User = dbUser;
             }
 
             return View(userViewModel);
@@ -67,82 +85,75 @@ namespace ACLager.Controllers
         /// <returns>Redirects to /User.</returns>
         [HttpPost]
         public ActionResult EditUser(User user) {
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {   
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
                 User dbUser = db.UserSet.Find(user.UID);
 
-                if (dbUser!=null)
-                {
-                    //db.Entry(user).State = EntityState.Modified;
+                dbUser.IsActive = user.IsActive;
+                dbUser.IsAdmin = user.IsAdmin;
+                dbUser.Name = user.Name;
 
-                    dbUser.IsActive = user.IsActive;
-                    dbUser.IsAdmin = user.IsAdmin;
-                    dbUser.Name = user.Name;
- 
-                    db.SaveChanges();
-                }
-                else
-                {
-                    //the user specified does not exsist
-                }
-                
+                db.SaveChanges();
             }
 
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult DeleteUser(string id) {
             UserViewModel userViewModel = new UserViewModel();
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                userViewModel.User = db.UserSet.Find(Int64.Parse(id));
+                User dbUser = db.UserSet.Find(Int64.Parse(id));
+
+                if (dbUser == null) {
+                    return RedirectToAction("Index");
+                }
+
+                userViewModel.User = dbUser;
             }
 
-                return View(userViewModel);
+            return View(userViewModel);
         }
 
-         /// <summary>
-         /// Deletes an existing user.
-         /// </summary>
-         /// <param name="uid"></param>
-         /// <returns>Redirects to /User.</returns>
-         [HttpPost]
-         public ActionResult DeleteUser(long id) {
-             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                 User dbUser = db.UserSet.Find(id);
-
-                if (dbUser != null) { 
-                    db.UserSet.Remove(db.UserSet.Find(id));
-                    db.SaveChanges();
-                }
-                else
-                {
-                    //User with given unique ID does not exsist
-                }
+        /// <summary>
+        /// Deletes an existing user.
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns>Redirects to /User.</returns>
+        [HttpPost]
+        public ActionResult DeleteUser(long id) {
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                db.UserSet.Remove(db.UserSet.Find(id));
+                db.SaveChanges();
             }
 
             return RedirectToAction("Index");
-         }
+        }
 
-        private short GenerateUniquePIN()
-        {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private short GenerateUniquePIN() {
             Random random = new Random();
             short generatedPin;
 
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
                 IEnumerable<User> users = db.UserSet;
 
-                do
-                {
+                do {
                     generatedPin = (short)random.Next(1000, 10000);
                 } while (users.Any(user => user.PIN == generatedPin));
             }
 
             return generatedPin;
         }
- 
-         public event ChangedEventHandler Changed;
+
+        public event ChangedEventHandler Changed;
     }
 }

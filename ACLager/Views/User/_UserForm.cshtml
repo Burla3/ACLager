@@ -18,13 +18,12 @@
 *@
 
 <div class="form-group" style="margin-top: 0">
-    <div class="col-md-11 col-md-offset-1">
-        <div class="checkbox">
+    <div class="col-md-5">
+        <div class="checkbox text-right">
             <label>
                 Administrator
                 @Html.CheckBoxFor(model => model.IsAdmin)
-            </label>
-
+            </label><br /><br />
             <label>
                 Aktiv
                 @Html.CheckBoxFor(model => model.IsActive)

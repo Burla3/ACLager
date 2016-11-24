@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -48,6 +49,17 @@ namespace ACLager.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public ActionResult EditUser(string id) {
+            UserViewModel userViewModel = new UserViewModel();
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                userViewModel.User = db.UserSet.Find(Int64.Parse(id));
+            }
+
+            return View(userViewModel);
+        }
+
+
         /// <summary>
         /// Edits a User.
         /// </summary>
@@ -56,16 +68,17 @@ namespace ACLager.Controllers
         [HttpPost]
         public ActionResult EditUser(User user) {
             using (ACLagerDatabase db = new ACLagerDatabase())
-            {
-                
+            {   
                 User dbUser = db.UserSet.Find(user.UID);
 
                 if (dbUser!=null)
                 {
+                    //db.Entry(user).State = EntityState.Modified;
+
                     dbUser.IsActive = user.IsActive;
                     dbUser.IsAdmin = user.IsAdmin;
                     dbUser.Name = user.Name;
-
+ 
                     db.SaveChanges();
                 }
                 else
@@ -77,19 +90,30 @@ namespace ACLager.Controllers
 
             return RedirectToAction("Index");
         }
- 
+
+        [HttpGet]
+        public ActionResult DeleteUser(string id) {
+            UserViewModel userViewModel = new UserViewModel();
+
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                userViewModel.User = db.UserSet.Find(Int64.Parse(id));
+            }
+
+                return View(userViewModel);
+        }
+
          /// <summary>
          /// Deletes an existing user.
          /// </summary>
          /// <param name="uid"></param>
          /// <returns>Redirects to /User.</returns>
          [HttpPost]
-         public ActionResult DeleteUser(long uid) {
-             using (ACLagerDatabase db = new ACLagerDatabase())
-             {
-                if (db.UserSet.Find(uid)!=null)
-                { 
-                    db.UserSet.Remove(db.UserSet.Find(uid));
+         public ActionResult DeleteUser(long id) {
+             using (ACLagerDatabase db = new ACLagerDatabase()) {
+                 User dbUser = db.UserSet.Find(id);
+
+                if (dbUser != null) { 
+                    db.UserSet.Remove(db.UserSet.Find(id));
                     db.SaveChanges();
                 }
                 else

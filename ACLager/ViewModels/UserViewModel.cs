@@ -7,6 +7,7 @@ using ACLager.Models;
 namespace ACLager.ViewModels {
     public class UserViewModel : BaseViewModel {
         public UserViewModel() {
+            base.SectionColor = "amber";
         }
 
         /// <summary>
@@ -14,7 +15,7 @@ namespace ACLager.ViewModels {
         /// </summary>
         /// <param name="users"></param>
         /// <param name="user"></param>
-        public UserViewModel(IEnumerable<User> users, User user) {
+        public UserViewModel(IEnumerable<User> users, User user) : this() {
             Users = users;
             User = user;
         }

@@ -20,7 +20,8 @@ namespace ACLager {
                       "~/Scripts/jquery.validate.js",
                       "~/Scripts/jquery.validate.unobtrusive.js",
                       "~/Scripts/jquery.transit.js",
-                      "~/Scripts/snackbar.min.js"
+                      "~/Scripts/snackbar.min.js",
+                      "~/Scripts/chosen.jquery.js"
                       ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

@@ -3155,28 +3155,28 @@ hr.on-light {
 .sort .label-default {
   display: inline;
 }
-.asc.sort .label-default {
+.asc .sort .label-default {
   display: none;
 }
-.desc.sort .label-default {
+.desc .sort .label-default {
   display: none;
 }
 .sort .label-primary.asc {
   display: none;
 }
-.asc.sort .label-primary.asc {
+.asc .sort .label-primary.asc {
   display: inline;
 }
-.desc.sort .label-primary.asc {
+.desc .sort .label-primary.asc {
   display: none;
 }
 .sort .label-primary.desc {
   display: none;
 }
-.asc.sort .label-primary.desc {
+.asc .sort .label-primary.desc {
   display: none;
 }
-.desc.sort .label-primary.desc {
+.desc .sort .label-primary.desc {
   display: inline;
 }
 .background-override-blue-grey {
@@ -3315,4 +3315,65 @@ table {
 .expansion-content {
   max-height: 0;
   overflow: hidden;
+}
+.chosen-container-active .chosen-results {
+  display: block;
+}
+.chosen-container .chosen-results {
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin: 0 4px 4px 0;
+  padding: 0 0 0 4px;
+  max-height: 240px;
+}
+.chosen-container .chosen-results li.active-result {
+  display: list-item;
+  cursor: pointer;
+}
+.chosen-container .chosen-results li {
+  display: none;
+  margin: 0;
+  padding: 5px 6px;
+  list-style: none;
+  line-height: 15px;
+  word-wrap: break-word;
+  -webkit-touch-callout: none;
+}
+.chosen-container .chosen-results li.highlighted {
+  background-color: #cddc39;
+}
+.chosen-container.chosen-with-drop .chosen-drop {
+  left: 0;
+}
+.chosen-container-single .chosen-drop {
+  margin-top: -1px;
+  border-radius: 0 0 4px 4px;
+  background-clip: padding-box;
+}
+.chosen-container .chosen-drop {
+  position: absolute;
+  top: 100%;
+  left: -9999px;
+  z-index: 1010;
+  width: 100%;
+  /* border: 1px solid #aaa; */
+  border-top: 0;
+  background: #fff;
+  /* box-shadow: 0 4px 5px rgba(0, 0, 0, 0.15); */
+}
+.chosen-container {
+  border: 0;
+  background-image: linear-gradient(#00bcd4, #00bcd4), linear-gradient(#D2D2D2, #D2D2D2);
+  background-size: 0 2px, 100% 1px;
+  background-repeat: no-repeat;
+  background-position: center bottom, center calc(99%);
+  background-color: rgba(0, 0, 0, 0);
+  transition: background 0s ease-out;
+  float: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+.chosen-container-active {
+  background-color: white !important;
 }

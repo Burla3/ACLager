@@ -3283,6 +3283,7 @@ table {
 .flow-content {
   display: none;
   transition: all 0.3s ease-in-out;
+  width: 100%;
 }
 .btn-flowout {
   transition: all 0.3s ease-in-out;
@@ -3301,9 +3302,6 @@ table {
 }
 .hiddentrigger {
   visibility: hidden;
-}
-#AddInventoryItemFormPanel {
-  width: 100%;
 }
 .expansionpanel.row.panel {
   margin-bottom: 5px;

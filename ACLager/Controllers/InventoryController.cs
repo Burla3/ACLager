@@ -14,8 +14,6 @@ namespace ACLager.Controllers
 {
     public class InventoryController : Controller, ILoggable
     {
-        private string _sectionColor = "purple";
-
         public InventoryController()
         {
             new Logger().Subcribe(this);

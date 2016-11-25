@@ -280,6 +280,7 @@
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="ViewModels\WasteViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\ACLagerDatabase.mdf" />

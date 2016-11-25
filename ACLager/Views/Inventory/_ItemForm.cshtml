@@ -1,0 +1,29 @@
+﻿@using ACLager.CustomClasses
+@using ACLager.Models
+@model ACLager.ViewModels.InventoryViewModel
+
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Item.ItemType.UID, "Varetype", new { @class = "control-label" })
+    @Html.DropDownListFor(model => model.Item.ItemType.UID, Model.ItemTypes, new { @class = "form-control chosen-select" })
+</div>
+
+<div class="form-group label-floating">
+    @Html.LabelFor(model => model.Item.Amount, "Mængde", new { @class = "control-label" })
+    @Html.EditorFor(model => model.Item.Amount, new {htmlAttributes = new {@class = "form-control"}})
+    @Html.ValidationMessageFor(model => model.Item.Amount, "", new {@class = "text-danger"})
+</div>
+
+<div class="form-group label-floating">
+    @Html.LabelFor(model => model.Item.Supplier, "Leverandør", new { @class = "control-label" })
+    @Html.EditorFor(model => model.Item.Supplier, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Item.Supplier, "", new { @class = "text-danger" })
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Item.Location.UID, "Lokation", new { @class = "control-label" })
+    @Html.DropDownListFor(model => model.Item.Location.UID, Model.Locations, new {@class = "form-control chosen-select"})
+</div>
+
+
+

@@ -15,45 +15,45 @@
     <EntitySet Name="WorkOrderItemSet" EntityType="Model.Store.WorkOrderItemSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="LogEntrySet" EntityType="Model.Store.LogEntrySet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="WasteReportSet" EntityType="Model.Store.WasteReportSet" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="IngredientItemType" Association="Model.Store.IngredientItemType">
-      <End Role="Ingredient" EntitySet="IngredientSet" />
-      <End Role="ItemType" EntitySet="ItemTypeSet" />
-    </AssociationSet>
-    <AssociationSet Name="ItemItemType" Association="Model.Store.ItemItemType">
-      <End Role="Item" EntitySet="ItemSet" />
-      <End Role="ItemType" EntitySet="ItemTypeSet" />
-    </AssociationSet>
-    <AssociationSet Name="ItemLocation" Association="Model.Store.ItemLocation">
-      <End Role="Item" EntitySet="ItemSet" />
+    <AssociationSet Name="LocationItem" Association="Model.Store.LocationItem">
       <End Role="Location" EntitySet="LocationSet" />
+      <End Role="Item" EntitySet="ItemSet" />
     </AssociationSet>
-    <AssociationSet Name="WorkOrderUser" Association="Model.Store.WorkOrderUser">
-      <End Role="WorkOrder" EntitySet="WorkOrderSet" />
-      <End Role="User" EntitySet="UserSet" />
-    </AssociationSet>
-    <AssociationSet Name="WorkOrderItemWorkOrder" Association="Model.Store.WorkOrderItemWorkOrder">
-      <End Role="WorkOrderItem" EntitySet="WorkOrderItemSet" />
-      <End Role="WorkOrder" EntitySet="WorkOrderSet" />
-    </AssociationSet>
-    <AssociationSet Name="WorkOrderItemItemType" Association="Model.Store.WorkOrderItemItemType">
-      <End Role="WorkOrderItem" EntitySet="WorkOrderItemSet" />
+    <AssociationSet Name="ItemTypeItem" Association="Model.Store.ItemTypeItem">
       <End Role="ItemType" EntitySet="ItemTypeSet" />
-    </AssociationSet>
-    <AssociationSet Name="WorkOrderWasteReport" Association="Model.Store.WorkOrderWasteReport">
-      <End Role="WasteReport" EntitySet="WasteReportSet" />
-      <End Role="WorkOrder" EntitySet="WorkOrderSet" />
+      <End Role="Item" EntitySet="ItemSet" />
     </AssociationSet>
     <AssociationSet Name="WasteReportUser" Association="Model.Store.WasteReportUser">
       <End Role="WasteReport" EntitySet="WasteReportSet" />
       <End Role="User" EntitySet="UserSet" />
     </AssociationSet>
-    <AssociationSet Name="IngredientItemType1" Association="Model.Store.IngredientItemType1">
-      <End Role="Ingredient" EntitySet="IngredientSet" />
-      <End Role="ItemType" EntitySet="ItemTypeSet" />
-    </AssociationSet>
     <AssociationSet Name="WasteReportItem" Association="Model.Store.WasteReportItem">
       <End Role="WasteReport" EntitySet="WasteReportSet" />
       <End Role="Item" EntitySet="ItemSet" />
+    </AssociationSet>
+    <AssociationSet Name="WasteReportWorkOrder" Association="Model.Store.WasteReportWorkOrder">
+      <End Role="WasteReport" EntitySet="WasteReportSet" />
+      <End Role="WorkOrder" EntitySet="WorkOrderSet" />
+    </AssociationSet>
+    <AssociationSet Name="WorkOrderUser" Association="Model.Store.WorkOrderUser">
+      <End Role="WorkOrder" EntitySet="WorkOrderSet" />
+      <End Role="User" EntitySet="UserSet" />
+    </AssociationSet>
+    <AssociationSet Name="ItemTypeIngredient" Association="Model.Store.ItemTypeIngredient">
+      <End Role="ItemType" EntitySet="ItemTypeSet" />
+      <End Role="Ingredient" EntitySet="IngredientSet" />
+    </AssociationSet>
+    <AssociationSet Name="IngredientItemType" Association="Model.Store.IngredientItemType">
+      <End Role="Ingredient" EntitySet="IngredientSet" />
+      <End Role="ItemType" EntitySet="ItemTypeSet" />
+    </AssociationSet>
+    <AssociationSet Name="WorkOrderWorkOrderItem" Association="Model.Store.WorkOrderWorkOrderItem">
+      <End Role="WorkOrder" EntitySet="WorkOrderSet" />
+      <End Role="WorkOrderItem" EntitySet="WorkOrderItemSet" />
+    </AssociationSet>
+    <AssociationSet Name="WorkOrderItemItemType" Association="Model.Store.WorkOrderItemItemType">
+      <End Role="WorkOrderItem" EntitySet="WorkOrderItemSet" />
+      <End Role="ItemType" EntitySet="ItemTypeSet" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="UserSet">
@@ -83,8 +83,8 @@
     <Property Name="UID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Amount" Type="bigint" Nullable="false" />
     <Property Name="Unit" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="IngredientForUID" Type="bigint" Nullable="false" />
-    <Property Name="TypeUID" Type="bigint" Nullable="false" />
+    <Property Name="ForItemType_UID" Type="bigint" Nullable="false" />
+    <Property Name="ItemType_UID" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="ItemSet">
     <Key>
@@ -97,8 +97,8 @@
     <Property Name="Supplier" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Reserved" Type="bigint" Nullable="false" />
     <Property Name="IsDeleted" Type="nvarchar(max)" Nullable="false" DefaultValue="False" />
-    <Property Name="ItemTypeUID" Type="bigint" Nullable="false" />
     <Property Name="Location_UID" Type="bigint" Nullable="false" />
+    <Property Name="ItemType_UID" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="ItemTypeSet">
     <Key>
@@ -111,6 +111,7 @@
     <Property Name="IsActive" Type="bit" Nullable="false" DefaultValue="true" />
     <Property Name="IsDeleted" Type="bit" Nullable="false" DefaultValue="false" />
     <Property Name="Procedure" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Barcode" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="WorkOrderSet">
     <Key>
@@ -121,7 +122,8 @@
     <Property Name="BatchNumber" Type="bigint" Nullable="false" />
     <Property Name="DueDate" Type="datetime" Nullable="false" />
     <Property Name="IsComplete" Type="bit" Nullable="false" DefaultValue="false" />
-    <Property Name="UserUID" Type="bigint" Nullable="true" />
+    <Property Name="ShippingInfo" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="CompletedByUser_UID" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="WorkOrderItemSet">
     <Key>
@@ -130,8 +132,8 @@
     <Property Name="UID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Amount" Type="bigint" Nullable="false" />
     <Property Name="Progress" Type="bigint" Nullable="false" />
-    <Property Name="WorkOrderUID" Type="bigint" Nullable="false" />
-    <Property Name="ItemTypeUID" Type="bigint" Nullable="false" />
+    <Property Name="WorkOrder_UID" Type="bigint" Nullable="false" />
+    <Property Name="ItemType_UID" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="LogEntrySet">
     <Key>
@@ -149,37 +151,13 @@
     <Property Name="UID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="Amount" Type="bigint" Nullable="false" />
-    <Property Name="WorkOrderUID" Type="bigint" Nullable="true" />
-    <Property Name="ItemUID" Type="bigint" Nullable="false" />
-    <Property Name="UserUID" Type="bigint" Nullable="false" />
+    <Property Name="User_UID" Type="bigint" Nullable="false" />
+    <Property Name="Item_UID" Type="bigint" Nullable="false" />
+    <Property Name="WorkOrder_UID" Type="bigint" Nullable="true" />
   </EntityType>
-  <Association Name="IngredientItemType">
-    <End Role="Ingredient" Type="Model.Store.IngredientSet" Multiplicity="*" />
-    <End Role="ItemType" Type="Model.Store.ItemTypeSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="ItemType">
-        <PropertyRef Name="UID" />
-      </Principal>
-      <Dependent Role="Ingredient">
-        <PropertyRef Name="IngredientForUID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ItemItemType">
-    <End Role="Item" Type="Model.Store.ItemSet" Multiplicity="*" />
-    <End Role="ItemType" Type="Model.Store.ItemTypeSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="ItemType">
-        <PropertyRef Name="UID" />
-      </Principal>
-      <Dependent Role="Item">
-        <PropertyRef Name="ItemTypeUID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ItemLocation">
-    <End Role="Item" Type="Model.Store.ItemSet" Multiplicity="*" />
+  <Association Name="LocationItem">
     <End Role="Location" Type="Model.Store.LocationSet" Multiplicity="1" />
+    <End Role="Item" Type="Model.Store.ItemSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Location">
         <PropertyRef Name="UID" />
@@ -189,51 +167,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="WorkOrderUser">
-    <End Role="WorkOrder" Type="Model.Store.WorkOrderSet" Multiplicity="*" />
-    <End Role="User" Type="Model.Store.UserSet" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="User">
-        <PropertyRef Name="UID" />
-      </Principal>
-      <Dependent Role="WorkOrder">
-        <PropertyRef Name="UserUID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="WorkOrderItemWorkOrder">
-    <End Role="WorkOrderItem" Type="Model.Store.WorkOrderItemSet" Multiplicity="*" />
-    <End Role="WorkOrder" Type="Model.Store.WorkOrderSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="WorkOrder">
-        <PropertyRef Name="UID" />
-      </Principal>
-      <Dependent Role="WorkOrderItem">
-        <PropertyRef Name="WorkOrderUID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="WorkOrderItemItemType">
-    <End Role="WorkOrderItem" Type="Model.Store.WorkOrderItemSet" Multiplicity="*" />
+  <Association Name="ItemTypeItem">
     <End Role="ItemType" Type="Model.Store.ItemTypeSet" Multiplicity="1" />
+    <End Role="Item" Type="Model.Store.ItemSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="ItemType">
         <PropertyRef Name="UID" />
       </Principal>
-      <Dependent Role="WorkOrderItem">
-        <PropertyRef Name="ItemTypeUID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="WorkOrderWasteReport">
-    <End Role="WasteReport" Type="Model.Store.WasteReportSet" Multiplicity="*" />
-    <End Role="WorkOrder" Type="Model.Store.WorkOrderSet" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="WorkOrder">
-        <PropertyRef Name="UID" />
-      </Principal>
-      <Dependent Role="WasteReport">
-        <PropertyRef Name="WorkOrderUID" />
+      <Dependent Role="Item">
+        <PropertyRef Name="ItemType_UID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -245,19 +187,7 @@
         <PropertyRef Name="UID" />
       </Principal>
       <Dependent Role="WasteReport">
-        <PropertyRef Name="UserUID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="IngredientItemType1">
-    <End Role="Ingredient" Type="Model.Store.IngredientSet" Multiplicity="*" />
-    <End Role="ItemType" Type="Model.Store.ItemTypeSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="ItemType">
-        <PropertyRef Name="UID" />
-      </Principal>
-      <Dependent Role="Ingredient">
-        <PropertyRef Name="TypeUID" />
+        <PropertyRef Name="User_UID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -269,7 +199,79 @@
         <PropertyRef Name="UID" />
       </Principal>
       <Dependent Role="WasteReport">
-        <PropertyRef Name="ItemUID" />
+        <PropertyRef Name="Item_UID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="WasteReportWorkOrder">
+    <End Role="WasteReport" Type="Model.Store.WasteReportSet" Multiplicity="*" />
+    <End Role="WorkOrder" Type="Model.Store.WorkOrderSet" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="WorkOrder">
+        <PropertyRef Name="UID" />
+      </Principal>
+      <Dependent Role="WasteReport">
+        <PropertyRef Name="WorkOrder_UID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="WorkOrderUser">
+    <End Role="WorkOrder" Type="Model.Store.WorkOrderSet" Multiplicity="*" />
+    <End Role="User" Type="Model.Store.UserSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UID" />
+      </Principal>
+      <Dependent Role="WorkOrder">
+        <PropertyRef Name="CompletedByUser_UID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ItemTypeIngredient">
+    <End Role="ItemType" Type="Model.Store.ItemTypeSet" Multiplicity="1" />
+    <End Role="Ingredient" Type="Model.Store.IngredientSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ItemType">
+        <PropertyRef Name="UID" />
+      </Principal>
+      <Dependent Role="Ingredient">
+        <PropertyRef Name="ForItemType_UID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IngredientItemType">
+    <End Role="Ingredient" Type="Model.Store.IngredientSet" Multiplicity="*" />
+    <End Role="ItemType" Type="Model.Store.ItemTypeSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="ItemType">
+        <PropertyRef Name="UID" />
+      </Principal>
+      <Dependent Role="Ingredient">
+        <PropertyRef Name="ItemType_UID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="WorkOrderWorkOrderItem">
+    <End Role="WorkOrder" Type="Model.Store.WorkOrderSet" Multiplicity="1" />
+    <End Role="WorkOrderItem" Type="Model.Store.WorkOrderItemSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WorkOrder">
+        <PropertyRef Name="UID" />
+      </Principal>
+      <Dependent Role="WorkOrderItem">
+        <PropertyRef Name="WorkOrder_UID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="WorkOrderItemItemType">
+    <End Role="WorkOrderItem" Type="Model.Store.WorkOrderItemSet" Multiplicity="*" />
+    <End Role="ItemType" Type="Model.Store.ItemTypeSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="ItemType">
+        <PropertyRef Name="UID" />
+      </Principal>
+      <Dependent Role="WorkOrderItem">
+        <PropertyRef Name="ItemType_UID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -287,45 +289,45 @@
           <EntitySet Name="WorkOrderItemSet" EntityType="Model.WorkOrderItem" />
           <EntitySet Name="LogEntrySet" EntityType="Model.LogEntry" />
           <EntitySet Name="WasteReportSet" EntityType="Model.WasteReport" />
-          <AssociationSet Name="IngredientItemType" Association="Model.IngredientItemType">
-            <End Role="Ingredient" EntitySet="IngredientSet" />
-            <End Role="ItemType" EntitySet="ItemTypeSet" />
-          </AssociationSet>
-          <AssociationSet Name="ItemItemType" Association="Model.ItemItemType">
-            <End Role="Item" EntitySet="ItemSet" />
-            <End Role="ItemType" EntitySet="ItemTypeSet" />
-          </AssociationSet>
-          <AssociationSet Name="ItemLocation" Association="Model.ItemLocation">
-            <End Role="Item" EntitySet="ItemSet" />
+          <AssociationSet Name="LocationItem" Association="Model.LocationItem">
             <End Role="Location" EntitySet="LocationSet" />
+            <End Role="Item" EntitySet="ItemSet" />
           </AssociationSet>
-          <AssociationSet Name="WorkOrderUser" Association="Model.WorkOrderUser">
-            <End Role="WorkOrder" EntitySet="WorkOrderSet" />
-            <End Role="User" EntitySet="UserSet" />
-          </AssociationSet>
-          <AssociationSet Name="WorkOrderItemWorkOrder" Association="Model.WorkOrderItemWorkOrder">
-            <End Role="WorkOrderItem" EntitySet="WorkOrderItemSet" />
-            <End Role="WorkOrder" EntitySet="WorkOrderSet" />
-          </AssociationSet>
-          <AssociationSet Name="WorkOrderItemItemType" Association="Model.WorkOrderItemItemType">
-            <End Role="WorkOrderItem" EntitySet="WorkOrderItemSet" />
+          <AssociationSet Name="ItemTypeItem" Association="Model.ItemTypeItem">
             <End Role="ItemType" EntitySet="ItemTypeSet" />
-          </AssociationSet>
-          <AssociationSet Name="WorkOrderWasteReport" Association="Model.WorkOrderWasteReport">
-            <End Role="WasteReport" EntitySet="WasteReportSet" />
-            <End Role="WorkOrder" EntitySet="WorkOrderSet" />
+            <End Role="Item" EntitySet="ItemSet" />
           </AssociationSet>
           <AssociationSet Name="WasteReportUser" Association="Model.WasteReportUser">
             <End Role="WasteReport" EntitySet="WasteReportSet" />
             <End Role="User" EntitySet="UserSet" />
           </AssociationSet>
-          <AssociationSet Name="IngredientItemType1" Association="Model.IngredientItemType1">
-            <End Role="Ingredient" EntitySet="IngredientSet" />
-            <End Role="ItemType" EntitySet="ItemTypeSet" />
-          </AssociationSet>
           <AssociationSet Name="WasteReportItem" Association="Model.WasteReportItem">
             <End Role="WasteReport" EntitySet="WasteReportSet" />
             <End Role="Item" EntitySet="ItemSet" />
+          </AssociationSet>
+          <AssociationSet Name="WasteReportWorkOrder" Association="Model.WasteReportWorkOrder">
+            <End Role="WasteReport" EntitySet="WasteReportSet" />
+            <End Role="WorkOrder" EntitySet="WorkOrderSet" />
+          </AssociationSet>
+          <AssociationSet Name="WorkOrderUser" Association="Model.WorkOrderUser">
+            <End Role="WorkOrder" EntitySet="WorkOrderSet" />
+            <End Role="User" EntitySet="UserSet" />
+          </AssociationSet>
+          <AssociationSet Name="ItemTypeIngredient" Association="Model.ItemTypeIngredient">
+            <End Role="ItemType" EntitySet="ItemTypeSet" />
+            <End Role="Ingredient" EntitySet="IngredientSet" />
+          </AssociationSet>
+          <AssociationSet Name="IngredientItemType" Association="Model.IngredientItemType">
+            <End Role="Ingredient" EntitySet="IngredientSet" />
+            <End Role="ItemType" EntitySet="ItemTypeSet" />
+          </AssociationSet>
+          <AssociationSet Name="WorkOrderWorkOrderItem" Association="Model.WorkOrderWorkOrderItem">
+            <End Role="WorkOrder" EntitySet="WorkOrderSet" />
+            <End Role="WorkOrderItem" EntitySet="WorkOrderItemSet" />
+          </AssociationSet>
+          <AssociationSet Name="WorkOrderItemItemType" Association="Model.WorkOrderItemItemType">
+            <End Role="WorkOrderItem" EntitySet="WorkOrderItemSet" />
+            <End Role="ItemType" EntitySet="ItemTypeSet" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="User">
@@ -334,12 +336,12 @@
           </Key>
           <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
           <Property Name="Name" Type="String" Nullable="false" />
-          <NavigationProperty Name="WorkOrders" Relationship="Model.WorkOrderUser" FromRole="User" ToRole="WorkOrder" />
-          <NavigationProperty Name="WasteReports" Relationship="Model.WasteReportUser" FromRole="User" ToRole="WasteReport" />
           <Property Name="PIN" Type="Int16" Nullable="false" />
           <Property Name="IsAdmin" Type="Boolean" Nullable="false" DefaultValue="False" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="True" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="False" />
+          <NavigationProperty Name="WasteReports" Relationship="Model.WasteReportUser" FromRole="User" ToRole="WasteReport" />
+          <NavigationProperty Name="WorkOrders" Relationship="Model.WorkOrderUser" FromRole="User" ToRole="WorkOrder" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -348,8 +350,8 @@
           <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="True" />
-          <NavigationProperty Name="Item" Relationship="Model.ItemLocation" FromRole="Location" ToRole="Item" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="False" />
+          <NavigationProperty Name="Item" Relationship="Model.LocationItem" FromRole="Location" ToRole="Item" />
         </EntityType>
         <EntityType Name="Ingredient">
           <Key>
@@ -358,10 +360,8 @@
           <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
           <Property Name="Amount" Type="Int64" Nullable="false" />
           <Property Name="Unit" Type="String" Nullable="false" />
-          <NavigationProperty Name="IngredientFor" Relationship="Model.IngredientItemType" FromRole="Ingredient" ToRole="ItemType" />
-          <Property Name="IngredientForUID" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="Type" Relationship="Model.IngredientItemType1" FromRole="Ingredient" ToRole="ItemType" />
-          <Property Name="TypeUID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="ForItemType" Relationship="Model.ItemTypeIngredient" FromRole="Ingredient" ToRole="ItemType" />
+          <NavigationProperty Name="ItemType" Relationship="Model.IngredientItemType" FromRole="Ingredient" ToRole="ItemType" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
@@ -373,10 +373,9 @@
           <Property Name="DeliveryDate" Type="DateTime" Nullable="false" />
           <Property Name="Supplier" Type="String" Nullable="false" />
           <Property Name="Reserved" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="ItemType" Relationship="Model.ItemItemType" FromRole="Item" ToRole="ItemType" />
           <Property Name="IsDeleted" Type="String" Nullable="false" DefaultValue="False" />
-          <Property Name="ItemTypeUID" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="Location" Relationship="Model.ItemLocation" FromRole="Item" ToRole="Location" />
+          <NavigationProperty Name="Location" Relationship="Model.LocationItem" FromRole="Item" ToRole="Location" />
+          <NavigationProperty Name="ItemType" Relationship="Model.ItemTypeItem" FromRole="Item" ToRole="ItemType" />
           <NavigationProperty Name="WasteReports" Relationship="Model.WasteReportItem" FromRole="Item" ToRole="WasteReport" />
         </EntityType>
         <EntityType Name="ItemType">
@@ -387,12 +386,14 @@
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="MinimumAmount" Type="Int64" Nullable="false" />
           <Property Name="Unit" Type="String" Nullable="false" />
-          <NavigationProperty Name="Ingredients" Relationship="Model.IngredientItemType" FromRole="ItemType" ToRole="Ingredient" />
-          <NavigationProperty Name="Items" Relationship="Model.ItemItemType" FromRole="ItemType" ToRole="Item" />
-          <NavigationProperty Name="WorkOrderItems" Relationship="Model.WorkOrderItemItemType" FromRole="ItemType" ToRole="WorkOrderItem" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="True" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="False" />
-          <Property Name="Procedure" Type="String" Nullable="true" />
+          <Property Name="Procedure" Type="String" Nullable="true" MaxLength="Max" />
+          <NavigationProperty Name="Items" Relationship="Model.ItemTypeItem" FromRole="ItemType" ToRole="Item" />
+          <NavigationProperty Name="IngredientsForRecipe" Relationship="Model.ItemTypeIngredient" FromRole="ItemType" ToRole="Ingredient" />
+          <NavigationProperty Name="IsIngredientFor" Relationship="Model.IngredientItemType" FromRole="ItemType" ToRole="Ingredient" />
+          <NavigationProperty Name="WorkOrderItem" Relationship="Model.WorkOrderItemItemType" FromRole="ItemType" ToRole="WorkOrderItem" />
+          <Property Name="Barcode" Type="String" Nullable="true" MaxLength="Max" />
         </EntityType>
         <EntityType Name="WorkOrder">
           <Key>
@@ -403,10 +404,10 @@
           <Property Name="BatchNumber" Type="Int64" Nullable="false" />
           <Property Name="DueDate" Type="DateTime" Nullable="false" />
           <Property Name="IsComplete" Type="Boolean" Nullable="false" DefaultValue="False" />
-          <NavigationProperty Name="CompletedBy" Relationship="Model.WorkOrderUser" FromRole="WorkOrder" ToRole="User" />
-          <Property Name="UserUID" Type="Int64" Nullable="true" />
-          <NavigationProperty Name="WorkOrderItems" Relationship="Model.WorkOrderItemWorkOrder" FromRole="WorkOrder" ToRole="WorkOrderItem" />
-          <NavigationProperty Name="WasteReport" Relationship="Model.WorkOrderWasteReport" FromRole="WorkOrder" ToRole="WasteReport" />
+          <NavigationProperty Name="WasteReports" Relationship="Model.WasteReportWorkOrder" FromRole="WorkOrder" ToRole="WasteReport" />
+          <NavigationProperty Name="CompletedByUser" Relationship="Model.WorkOrderUser" FromRole="WorkOrder" ToRole="User" />
+          <NavigationProperty Name="WorkOrderItems" Relationship="Model.WorkOrderWorkOrderItem" FromRole="WorkOrder" ToRole="WorkOrderItem" />
+          <Property Name="ShippingInfo" Type="String" Nullable="true" MaxLength="Max" />
         </EntityType>
         <EntityType Name="WorkOrderItem">
           <Key>
@@ -415,10 +416,8 @@
           <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
           <Property Name="Amount" Type="Int64" Nullable="false" />
           <Property Name="Progress" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="WorkOrder" Relationship="Model.WorkOrderItemWorkOrder" FromRole="WorkOrderItem" ToRole="WorkOrder" />
-          <Property Name="WorkOrderUID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="WorkOrder" Relationship="Model.WorkOrderWorkOrderItem" FromRole="WorkOrderItem" ToRole="WorkOrder" />
           <NavigationProperty Name="ItemType" Relationship="Model.WorkOrderItemItemType" FromRole="WorkOrderItem" ToRole="ItemType" />
-          <Property Name="ItemTypeUID" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityType Name="LogEntry">
           <Key>
@@ -436,124 +435,49 @@
           <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
           <Property Name="Date" Type="DateTime" Nullable="false" />
           <Property Name="Amount" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="WorkOrder" Relationship="Model.WorkOrderWasteReport" FromRole="WasteReport" ToRole="WorkOrder" />
-          <Property Name="WorkOrderUID" Type="Int64" Nullable="true" />
           <NavigationProperty Name="User" Relationship="Model.WasteReportUser" FromRole="WasteReport" ToRole="User" />
-          <Property Name="ItemUID" Type="Int64" Nullable="false" />
-          <Property Name="UserUID" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Item" Relationship="Model.WasteReportItem" FromRole="WasteReport" ToRole="Item" />
+          <NavigationProperty Name="WorkOrder" Relationship="Model.WasteReportWorkOrder" FromRole="WasteReport" ToRole="WorkOrder" />
         </EntityType>
-        <Association Name="IngredientItemType">
-          <End Type="Model.Ingredient" Role="Ingredient" Multiplicity="*" />
-          <End Type="Model.ItemType" Role="ItemType" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="ItemType">
-              <PropertyRef Name="UID" />
-            </Principal>
-            <Dependent Role="Ingredient">
-              <PropertyRef Name="IngredientForUID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="ItemItemType">
-          <End Type="Model.Item" Role="Item" Multiplicity="*" />
-          <End Type="Model.ItemType" Role="ItemType" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="ItemType">
-              <PropertyRef Name="UID" />
-            </Principal>
-            <Dependent Role="Item">
-              <PropertyRef Name="ItemTypeUID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="ItemLocation">
-          <End Type="Model.Item" Role="Item" Multiplicity="0..1" />
+        <Association Name="LocationItem">
           <End Type="Model.Location" Role="Location" Multiplicity="1" />
+          <End Type="Model.Item" Role="Item" Multiplicity="0..1" />
         </Association>
-        <Association Name="WorkOrderUser">
-          <End Type="Model.WorkOrder" Role="WorkOrder" Multiplicity="*" />
-          <End Type="Model.User" Role="User" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UID" />
-            </Principal>
-            <Dependent Role="WorkOrder">
-              <PropertyRef Name="UserUID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="WorkOrderItemWorkOrder">
-          <End Type="Model.WorkOrderItem" Role="WorkOrderItem" Multiplicity="*" />
-          <End Type="Model.WorkOrder" Role="WorkOrder" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="WorkOrder">
-              <PropertyRef Name="UID" />
-            </Principal>
-            <Dependent Role="WorkOrderItem">
-              <PropertyRef Name="WorkOrderUID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="WorkOrderItemItemType">
-          <End Type="Model.WorkOrderItem" Role="WorkOrderItem" Multiplicity="*" />
+        <Association Name="ItemTypeItem">
           <End Type="Model.ItemType" Role="ItemType" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="ItemType">
-              <PropertyRef Name="UID" />
-            </Principal>
-            <Dependent Role="WorkOrderItem">
-              <PropertyRef Name="ItemTypeUID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="WorkOrderWasteReport">
-          <End Type="Model.WasteReport" Role="WasteReport" Multiplicity="*" />
-          <End Type="Model.WorkOrder" Role="WorkOrder" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="WorkOrder">
-              <PropertyRef Name="UID" />
-            </Principal>
-            <Dependent Role="WasteReport">
-              <PropertyRef Name="WorkOrderUID" />
-            </Dependent>
-          </ReferentialConstraint>
+          <End Type="Model.Item" Role="Item" Multiplicity="*" />
         </Association>
         <Association Name="WasteReportUser">
           <End Type="Model.WasteReport" Role="WasteReport" Multiplicity="*" />
           <End Type="Model.User" Role="User" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UID" />
-            </Principal>
-            <Dependent Role="WasteReport">
-              <PropertyRef Name="UserUID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="IngredientItemType1">
-          <End Type="Model.Ingredient" Role="Ingredient" Multiplicity="*" />
-          <End Type="Model.ItemType" Role="ItemType" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="ItemType">
-              <PropertyRef Name="UID" />
-            </Principal>
-            <Dependent Role="Ingredient">
-              <PropertyRef Name="TypeUID" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
         <Association Name="WasteReportItem">
           <End Type="Model.WasteReport" Role="WasteReport" Multiplicity="*" />
           <End Type="Model.Item" Role="Item" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="Item">
-              <PropertyRef Name="UID" />
-            </Principal>
-            <Dependent Role="WasteReport">
-              <PropertyRef Name="ItemUID" />
-            </Dependent>
-          </ReferentialConstraint>
+        </Association>
+        <Association Name="WasteReportWorkOrder">
+          <End Type="Model.WasteReport" Role="WasteReport" Multiplicity="*" />
+          <End Type="Model.WorkOrder" Role="WorkOrder" Multiplicity="0..1" />
+        </Association>
+        <Association Name="WorkOrderUser">
+          <End Type="Model.WorkOrder" Role="WorkOrder" Multiplicity="*" />
+          <End Type="Model.User" Role="User" Multiplicity="1" />
+        </Association>
+        <Association Name="ItemTypeIngredient">
+          <End Type="Model.ItemType" Role="ItemType" Multiplicity="1" />
+          <End Type="Model.Ingredient" Role="Ingredient" Multiplicity="*" />
+        </Association>
+        <Association Name="IngredientItemType">
+          <End Type="Model.Ingredient" Role="Ingredient" Multiplicity="*" />
+          <End Type="Model.ItemType" Role="ItemType" Multiplicity="1" />
+        </Association>
+        <Association Name="WorkOrderWorkOrderItem">
+          <End Type="Model.WorkOrder" Role="WorkOrder" Multiplicity="1" />
+          <End Type="Model.WorkOrderItem" Role="WorkOrderItem" Multiplicity="*" />
+        </Association>
+        <Association Name="WorkOrderItemItemType">
+          <End Type="Model.WorkOrderItem" Role="WorkOrderItem" Multiplicity="*" />
+          <End Type="Model.ItemType" Role="ItemType" Multiplicity="1" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -589,8 +513,6 @@
           <ScalarProperty Name="UID" ColumnName="UID" />
           <ScalarProperty Name="Amount" ColumnName="Amount" />
           <ScalarProperty Name="Unit" ColumnName="Unit" />
-          <ScalarProperty Name="IngredientForUID" ColumnName="IngredientForUID" />
-          <ScalarProperty Name="TypeUID" ColumnName="TypeUID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -604,7 +526,6 @@
           <ScalarProperty Name="Supplier" ColumnName="Supplier" />
           <ScalarProperty Name="Reserved" ColumnName="Reserved" />
           <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-          <ScalarProperty Name="ItemTypeUID" ColumnName="ItemTypeUID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -618,6 +539,7 @@
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
           <ScalarProperty Name="Procedure" ColumnName="Procedure" />
+          <ScalarProperty Name="Barcode" ColumnName="Barcode" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -629,7 +551,7 @@
           <ScalarProperty Name="BatchNumber" ColumnName="BatchNumber" />
           <ScalarProperty Name="DueDate" ColumnName="DueDate" />
           <ScalarProperty Name="IsComplete" ColumnName="IsComplete" />
-          <ScalarProperty Name="UserUID" ColumnName="UserUID" />
+          <ScalarProperty Name="ShippingInfo" ColumnName="ShippingInfo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -639,8 +561,6 @@
           <ScalarProperty Name="UID" ColumnName="UID" />
           <ScalarProperty Name="Amount" ColumnName="Amount" />
           <ScalarProperty Name="Progress" ColumnName="Progress" />
-          <ScalarProperty Name="WorkOrderUID" ColumnName="WorkOrderUID" />
-          <ScalarProperty Name="ItemTypeUID" ColumnName="ItemTypeUID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -660,17 +580,87 @@
           <ScalarProperty Name="UID" ColumnName="UID" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="Amount" ColumnName="Amount" />
-          <ScalarProperty Name="WorkOrderUID" ColumnName="WorkOrderUID" />
-          <ScalarProperty Name="ItemUID" ColumnName="ItemUID" />
-          <ScalarProperty Name="UserUID" ColumnName="UserUID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="ItemLocation" TypeName="Model.ItemLocation" StoreEntitySet="ItemSet">
+    <AssociationSetMapping Name="LocationItem" TypeName="Model.LocationItem" StoreEntitySet="ItemSet">
       <EndProperty Name="Location">
         <ScalarProperty Name="UID" ColumnName="Location_UID" />
       </EndProperty>
       <EndProperty Name="Item">
+        <ScalarProperty Name="UID" ColumnName="UID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ItemTypeItem" TypeName="Model.ItemTypeItem" StoreEntitySet="ItemSet">
+      <EndProperty Name="ItemType">
+        <ScalarProperty Name="UID" ColumnName="ItemType_UID" />
+      </EndProperty>
+      <EndProperty Name="Item">
+        <ScalarProperty Name="UID" ColumnName="UID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="WasteReportUser" TypeName="Model.WasteReportUser" StoreEntitySet="WasteReportSet">
+      <EndProperty Name="User">
+        <ScalarProperty Name="UID" ColumnName="User_UID" />
+      </EndProperty>
+      <EndProperty Name="WasteReport">
+        <ScalarProperty Name="UID" ColumnName="UID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="WasteReportItem" TypeName="Model.WasteReportItem" StoreEntitySet="WasteReportSet">
+      <EndProperty Name="Item">
+        <ScalarProperty Name="UID" ColumnName="Item_UID" />
+      </EndProperty>
+      <EndProperty Name="WasteReport">
+        <ScalarProperty Name="UID" ColumnName="UID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="WasteReportWorkOrder" TypeName="Model.WasteReportWorkOrder" StoreEntitySet="WasteReportSet">
+      <EndProperty Name="WorkOrder">
+        <ScalarProperty Name="UID" ColumnName="WorkOrder_UID" />
+      </EndProperty>
+      <EndProperty Name="WasteReport">
+        <ScalarProperty Name="UID" ColumnName="UID" />
+      </EndProperty>
+      <Condition ColumnName="WorkOrder_UID" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="WorkOrderUser" TypeName="Model.WorkOrderUser" StoreEntitySet="WorkOrderSet">
+      <EndProperty Name="User">
+        <ScalarProperty Name="UID" ColumnName="CompletedByUser_UID" />
+      </EndProperty>
+      <EndProperty Name="WorkOrder">
+        <ScalarProperty Name="UID" ColumnName="UID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ItemTypeIngredient" TypeName="Model.ItemTypeIngredient" StoreEntitySet="IngredientSet">
+      <EndProperty Name="ItemType">
+        <ScalarProperty Name="UID" ColumnName="ForItemType_UID" />
+      </EndProperty>
+      <EndProperty Name="Ingredient">
+        <ScalarProperty Name="UID" ColumnName="UID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="IngredientItemType" TypeName="Model.IngredientItemType" StoreEntitySet="IngredientSet">
+      <EndProperty Name="ItemType">
+        <ScalarProperty Name="UID" ColumnName="ItemType_UID" />
+      </EndProperty>
+      <EndProperty Name="Ingredient">
+        <ScalarProperty Name="UID" ColumnName="UID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="WorkOrderWorkOrderItem" TypeName="Model.WorkOrderWorkOrderItem" StoreEntitySet="WorkOrderItemSet">
+      <EndProperty Name="WorkOrder">
+        <ScalarProperty Name="UID" ColumnName="WorkOrder_UID" />
+      </EndProperty>
+      <EndProperty Name="WorkOrderItem">
+        <ScalarProperty Name="UID" ColumnName="UID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="WorkOrderItemItemType" TypeName="Model.WorkOrderItemItemType" StoreEntitySet="WorkOrderItemSet">
+      <EndProperty Name="ItemType">
+        <ScalarProperty Name="UID" ColumnName="ItemType_UID" />
+      </EndProperty>
+      <EndProperty Name="WorkOrderItem">
         <ScalarProperty Name="UID" ColumnName="UID" />
       </EndProperty>
     </AssociationSetMapping>

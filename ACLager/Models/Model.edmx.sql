@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/24/2016 15:10:36
--- Generated from EDMX file: C:\Users\Jens\Documents\ACLager\ACLager\Models\Model.edmx
+-- Date Created: 11/25/2016 11:50:36
+-- Generated from EDMX file: C:\Users\Mikke\Documents\GitHub\ACLager\ACLager\Models\Model.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -19,12 +19,6 @@ GO
 
 IF OBJECT_ID(N'[dbo].[FK_IngredientItemType]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[IngredientSet] DROP CONSTRAINT [FK_IngredientItemType];
-GO
-IF OBJECT_ID(N'[dbo].[FK_ItemItemType]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ItemSet] DROP CONSTRAINT [FK_ItemItemType];
-GO
-IF OBJECT_ID(N'[dbo].[FK_ItemLocation]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ItemSet] DROP CONSTRAINT [FK_ItemLocation];
 GO
 IF OBJECT_ID(N'[dbo].[FK_WorkOrderUser]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[WorkOrderSet] DROP CONSTRAINT [FK_WorkOrderUser];
@@ -46,6 +40,12 @@ IF OBJECT_ID(N'[dbo].[FK_IngredientItemType1]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_WasteReportItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[WasteReportSet] DROP CONSTRAINT [FK_WasteReportItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_LocationItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ItemSet] DROP CONSTRAINT [FK_LocationItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ItemTypeItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ItemSet] DROP CONSTRAINT [FK_ItemTypeItem];
 GO
 
 -- --------------------------------------------------
@@ -109,8 +109,8 @@ CREATE TABLE [dbo].[IngredientSet] (
     [UID] bigint IDENTITY(1,1) NOT NULL,
     [Amount] bigint  NOT NULL,
     [Unit] nvarchar(max)  NOT NULL,
-    [IngredientForUID] bigint  NOT NULL,
-    [TypeUID] bigint  NOT NULL
+    [ForItemType_UID] bigint  NOT NULL,
+    [ItemType_UID] bigint  NOT NULL
 );
 GO
 
@@ -123,8 +123,8 @@ CREATE TABLE [dbo].[ItemSet] (
     [Supplier] nvarchar(max)  NOT NULL,
     [Reserved] bigint  NOT NULL,
     [IsDeleted] nvarchar(max)  NOT NULL,
-    [ItemTypeUID] bigint  NOT NULL,
-    [Location_UID] bigint  NOT NULL
+    [Location_UID] bigint  NOT NULL,
+    [ItemType_UID] bigint  NOT NULL
 );
 GO
 
@@ -136,7 +136,8 @@ CREATE TABLE [dbo].[ItemTypeSet] (
     [Unit] nvarchar(max)  NOT NULL,
     [IsActive] bit  NOT NULL,
     [IsDeleted] bit  NOT NULL,
-    [Procedure] nvarchar(max)  NULL
+    [Procedure] nvarchar(max)  NULL,
+    [Barcode] nvarchar(max)  NULL
 );
 GO
 
@@ -147,7 +148,8 @@ CREATE TABLE [dbo].[WorkOrderSet] (
     [BatchNumber] bigint  NOT NULL,
     [DueDate] datetime  NOT NULL,
     [IsComplete] bit  NOT NULL,
-    [UserUID] bigint  NULL
+    [ShippingInfo] nvarchar(max)  NULL,
+    [CompletedByUser_UID] bigint  NOT NULL
 );
 GO
 
@@ -156,8 +158,8 @@ CREATE TABLE [dbo].[WorkOrderItemSet] (
     [UID] bigint IDENTITY(1,1) NOT NULL,
     [Amount] bigint  NOT NULL,
     [Progress] bigint  NOT NULL,
-    [WorkOrderUID] bigint  NOT NULL,
-    [ItemTypeUID] bigint  NOT NULL
+    [WorkOrder_UID] bigint  NOT NULL,
+    [ItemType_UID] bigint  NOT NULL
 );
 GO
 
@@ -175,9 +177,9 @@ CREATE TABLE [dbo].[WasteReportSet] (
     [UID] bigint IDENTITY(1,1) NOT NULL,
     [Date] datetime  NOT NULL,
     [Amount] bigint  NOT NULL,
-    [WorkOrderUID] bigint  NULL,
-    [ItemUID] bigint  NOT NULL,
-    [UserUID] bigint  NOT NULL
+    [User_UID] bigint  NOT NULL,
+    [Item_UID] bigint  NOT NULL,
+    [WorkOrder_UID] bigint  NULL
 );
 GO
 
@@ -243,115 +245,40 @@ GO
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
 
--- Creating foreign key on [IngredientForUID] in table 'IngredientSet'
-ALTER TABLE [dbo].[IngredientSet]
-ADD CONSTRAINT [FK_IngredientItemType]
-    FOREIGN KEY ([IngredientForUID])
-    REFERENCES [dbo].[ItemTypeSet]
-        ([UID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_IngredientItemType'
-CREATE INDEX [IX_FK_IngredientItemType]
-ON [dbo].[IngredientSet]
-    ([IngredientForUID]);
-GO
-
--- Creating foreign key on [ItemTypeUID] in table 'ItemSet'
-ALTER TABLE [dbo].[ItemSet]
-ADD CONSTRAINT [FK_ItemItemType]
-    FOREIGN KEY ([ItemTypeUID])
-    REFERENCES [dbo].[ItemTypeSet]
-        ([UID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ItemItemType'
-CREATE INDEX [IX_FK_ItemItemType]
-ON [dbo].[ItemSet]
-    ([ItemTypeUID]);
-GO
-
 -- Creating foreign key on [Location_UID] in table 'ItemSet'
 ALTER TABLE [dbo].[ItemSet]
-ADD CONSTRAINT [FK_ItemLocation]
+ADD CONSTRAINT [FK_LocationItem]
     FOREIGN KEY ([Location_UID])
     REFERENCES [dbo].[LocationSet]
         ([UID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_ItemLocation'
-CREATE INDEX [IX_FK_ItemLocation]
+-- Creating non-clustered index for FOREIGN KEY 'FK_LocationItem'
+CREATE INDEX [IX_FK_LocationItem]
 ON [dbo].[ItemSet]
     ([Location_UID]);
 GO
 
--- Creating foreign key on [UserUID] in table 'WorkOrderSet'
-ALTER TABLE [dbo].[WorkOrderSet]
-ADD CONSTRAINT [FK_WorkOrderUser]
-    FOREIGN KEY ([UserUID])
-    REFERENCES [dbo].[UserSet]
-        ([UID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_WorkOrderUser'
-CREATE INDEX [IX_FK_WorkOrderUser]
-ON [dbo].[WorkOrderSet]
-    ([UserUID]);
-GO
-
--- Creating foreign key on [WorkOrderUID] in table 'WorkOrderItemSet'
-ALTER TABLE [dbo].[WorkOrderItemSet]
-ADD CONSTRAINT [FK_WorkOrderItemWorkOrder]
-    FOREIGN KEY ([WorkOrderUID])
-    REFERENCES [dbo].[WorkOrderSet]
-        ([UID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_WorkOrderItemWorkOrder'
-CREATE INDEX [IX_FK_WorkOrderItemWorkOrder]
-ON [dbo].[WorkOrderItemSet]
-    ([WorkOrderUID]);
-GO
-
--- Creating foreign key on [ItemTypeUID] in table 'WorkOrderItemSet'
-ALTER TABLE [dbo].[WorkOrderItemSet]
-ADD CONSTRAINT [FK_WorkOrderItemItemType]
-    FOREIGN KEY ([ItemTypeUID])
+-- Creating foreign key on [ItemType_UID] in table 'ItemSet'
+ALTER TABLE [dbo].[ItemSet]
+ADD CONSTRAINT [FK_ItemTypeItem]
+    FOREIGN KEY ([ItemType_UID])
     REFERENCES [dbo].[ItemTypeSet]
         ([UID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_WorkOrderItemItemType'
-CREATE INDEX [IX_FK_WorkOrderItemItemType]
-ON [dbo].[WorkOrderItemSet]
-    ([ItemTypeUID]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_ItemTypeItem'
+CREATE INDEX [IX_FK_ItemTypeItem]
+ON [dbo].[ItemSet]
+    ([ItemType_UID]);
 GO
 
--- Creating foreign key on [WorkOrderUID] in table 'WasteReportSet'
-ALTER TABLE [dbo].[WasteReportSet]
-ADD CONSTRAINT [FK_WorkOrderWasteReport]
-    FOREIGN KEY ([WorkOrderUID])
-    REFERENCES [dbo].[WorkOrderSet]
-        ([UID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_WorkOrderWasteReport'
-CREATE INDEX [IX_FK_WorkOrderWasteReport]
-ON [dbo].[WasteReportSet]
-    ([WorkOrderUID]);
-GO
-
--- Creating foreign key on [UserUID] in table 'WasteReportSet'
+-- Creating foreign key on [User_UID] in table 'WasteReportSet'
 ALTER TABLE [dbo].[WasteReportSet]
 ADD CONSTRAINT [FK_WasteReportUser]
-    FOREIGN KEY ([UserUID])
+    FOREIGN KEY ([User_UID])
     REFERENCES [dbo].[UserSet]
         ([UID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -360,28 +287,13 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_WasteReportUser'
 CREATE INDEX [IX_FK_WasteReportUser]
 ON [dbo].[WasteReportSet]
-    ([UserUID]);
+    ([User_UID]);
 GO
 
--- Creating foreign key on [TypeUID] in table 'IngredientSet'
-ALTER TABLE [dbo].[IngredientSet]
-ADD CONSTRAINT [FK_IngredientItemType1]
-    FOREIGN KEY ([TypeUID])
-    REFERENCES [dbo].[ItemTypeSet]
-        ([UID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_IngredientItemType1'
-CREATE INDEX [IX_FK_IngredientItemType1]
-ON [dbo].[IngredientSet]
-    ([TypeUID]);
-GO
-
--- Creating foreign key on [ItemUID] in table 'WasteReportSet'
+-- Creating foreign key on [Item_UID] in table 'WasteReportSet'
 ALTER TABLE [dbo].[WasteReportSet]
 ADD CONSTRAINT [FK_WasteReportItem]
-    FOREIGN KEY ([ItemUID])
+    FOREIGN KEY ([Item_UID])
     REFERENCES [dbo].[ItemSet]
         ([UID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -390,7 +302,97 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_WasteReportItem'
 CREATE INDEX [IX_FK_WasteReportItem]
 ON [dbo].[WasteReportSet]
-    ([ItemUID]);
+    ([Item_UID]);
+GO
+
+-- Creating foreign key on [WorkOrder_UID] in table 'WasteReportSet'
+ALTER TABLE [dbo].[WasteReportSet]
+ADD CONSTRAINT [FK_WasteReportWorkOrder]
+    FOREIGN KEY ([WorkOrder_UID])
+    REFERENCES [dbo].[WorkOrderSet]
+        ([UID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_WasteReportWorkOrder'
+CREATE INDEX [IX_FK_WasteReportWorkOrder]
+ON [dbo].[WasteReportSet]
+    ([WorkOrder_UID]);
+GO
+
+-- Creating foreign key on [CompletedByUser_UID] in table 'WorkOrderSet'
+ALTER TABLE [dbo].[WorkOrderSet]
+ADD CONSTRAINT [FK_WorkOrderUser]
+    FOREIGN KEY ([CompletedByUser_UID])
+    REFERENCES [dbo].[UserSet]
+        ([UID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_WorkOrderUser'
+CREATE INDEX [IX_FK_WorkOrderUser]
+ON [dbo].[WorkOrderSet]
+    ([CompletedByUser_UID]);
+GO
+
+-- Creating foreign key on [ForItemType_UID] in table 'IngredientSet'
+ALTER TABLE [dbo].[IngredientSet]
+ADD CONSTRAINT [FK_ItemTypeIngredient]
+    FOREIGN KEY ([ForItemType_UID])
+    REFERENCES [dbo].[ItemTypeSet]
+        ([UID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ItemTypeIngredient'
+CREATE INDEX [IX_FK_ItemTypeIngredient]
+ON [dbo].[IngredientSet]
+    ([ForItemType_UID]);
+GO
+
+-- Creating foreign key on [ItemType_UID] in table 'IngredientSet'
+ALTER TABLE [dbo].[IngredientSet]
+ADD CONSTRAINT [FK_IngredientItemType]
+    FOREIGN KEY ([ItemType_UID])
+    REFERENCES [dbo].[ItemTypeSet]
+        ([UID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_IngredientItemType'
+CREATE INDEX [IX_FK_IngredientItemType]
+ON [dbo].[IngredientSet]
+    ([ItemType_UID]);
+GO
+
+-- Creating foreign key on [WorkOrder_UID] in table 'WorkOrderItemSet'
+ALTER TABLE [dbo].[WorkOrderItemSet]
+ADD CONSTRAINT [FK_WorkOrderWorkOrderItem]
+    FOREIGN KEY ([WorkOrder_UID])
+    REFERENCES [dbo].[WorkOrderSet]
+        ([UID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_WorkOrderWorkOrderItem'
+CREATE INDEX [IX_FK_WorkOrderWorkOrderItem]
+ON [dbo].[WorkOrderItemSet]
+    ([WorkOrder_UID]);
+GO
+
+-- Creating foreign key on [ItemType_UID] in table 'WorkOrderItemSet'
+ALTER TABLE [dbo].[WorkOrderItemSet]
+ADD CONSTRAINT [FK_WorkOrderItemItemType]
+    FOREIGN KEY ([ItemType_UID])
+    REFERENCES [dbo].[ItemTypeSet]
+        ([UID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_WorkOrderItemItemType'
+CREATE INDEX [IX_FK_WorkOrderItemItemType]
+ON [dbo].[WorkOrderItemSet]
+    ([ItemType_UID]);
 GO
 
 -- --------------------------------------------------

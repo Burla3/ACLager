@@ -11,7 +11,7 @@
         <div class="col-md-3"></div>
         <div class="col-md-6 panel">
             <form class="bs-component">
-                <div class="form-group form-group-lg label-floating is-empty">
+                <div class="form-group form-group-lg label-floating">
 
                     <div class="input-group">
                         <label class="control-label" for="MainFilterAndSearchField">Skriv for at søge i tabellen nedenfor</label>
@@ -150,30 +150,7 @@
 
 
 <script type="text/javascript">
-        var GLOBALID = 0;
-        function certainID(elem) {
-            var el = $(elem);
-            if (!el.attr("id")) {
-                el.attr("id", "artificialID_" + GLOBALID);
-                GLOBALID += 1;
-            }
-            return el.attr("id");
-        }
 
-        function getDimensions(elem) {
-            var row = $("#TableRow01");
-            var offset = row.offset();
-            //console.log({"width":row.width(), "height":row.height(), "top": offset.top, "left": offset.left, "position": "absolute"});
-            return {
-                "z-index": 10,
-                "border-radius": "3px",
-                "width": row.width(),
-                "height": row.height() * 2,
-                "top": offset.top,
-                "left": offset.left,
-                "position": "absolute"
-            };
-        }
         $(document).ready(function () {
 
             var options = {
@@ -182,99 +159,6 @@
 
             var userList = new List('userSort', options);
 
-            $('body').on('click', '.btn-page-flowout-up', function () {
-                var content_element = "";
-
-                if ($(this).data('content-element')) {
-                    content_element = $($(this).data('content-element'));
-                } else {
-                    console.error("No flowoutcontentelementselector specified. <- Nice long word eh? :)");
-                }
-
-                var options = {
-                    trigger_element: $(this),
-                    content_element: content_element,
-                    direction: 'up'
-                }
-
-                $('#FlowoutBackdrop').trigger('flowout:page:show', options);
-
-            })
-
-            //catch clcik event and modify to prevent closing when using the inner content.
-            $('body').on('click', '.flowout-noclose', function (event) {
-                event['flowout-noclose'] = true;
-                return event;
-            })
-
-            $('body').on('click', '.flowout-close', function (event) {
-                if (!event['flowout-noclose']) {
-                    $('#FlowoutBackdrop').trigger('flowout:page:hide');
-                }
-            })
-
-            $('#FlowoutBackdrop').on('flowout:page:hide', function (event) {
-                var backdrop = $(this);
-                var options = backdrop.data('options');
-                //flow the content down into hiding
-                options.content_element.transition({
-                    'top': backdrop.height() + 50
-                }, 300, function () {
-                    //hide the element
-                    options.content_element.css('display', 'none');
-
-                    //show the trigger button
-                    options.trigger_element.show();
-
-                    //remove the backdrop
-                    backdrop.removeClass('active');
-
-                    //reactivate scrolling
-                    $('body').removeClass('no-scroll');
-
-                });
-
-            })
-
-            $('#FlowoutBackdrop').on('flowout:page:show', function (event, options) {
-                var backdrop = $(this);
-                backdrop.addClass('active');
-
-                //make sure the user can not scroll anymore
-                $('body').addClass('no-scroll');
-
-                //save the options object for later use when closing
-                backdrop.data('options', options);
-
-                //hide the button
-                options.trigger_element.hide();
-
-                //show the content
-                options.content_element.css({
-                    'position': 'fixed',
-                    'top': backdrop.height(),
-                    'display': 'block',
-                    'z-index': backdrop.css('z-index') + 1
-                });
-                options.content_element.transition({
-                    'top': (backdrop.height() - options.content_element.height()) / 2
-                }, 300);
-            })
-
-            $('#ExpansionPanelsContainer').on('click', '.expansion-control', function(event) {
-                var that = $(this);
-                var exp_content = $(that.data("expandtarget"));
-                var expand_height = that.data('expandmaxheight');
-                that.find('i.material-icons').toggleClass('hidden');
-                exp_content.transition({"max-height":expand_height}, 300, function() {
-
-                    if (expand_height === "100px") {
-                        that.data('expandmaxheight', '0px')
-                    } else if (expand_height === '0px') {
-                        that.data('expandmaxheight', '100px');
-                    }
-
-                });
-            })
+            
         });
 </script>

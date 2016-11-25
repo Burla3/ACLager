@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Common.CommandTrees;
 using System.Linq;
@@ -14,8 +15,6 @@ namespace ACLager.Controllers
 {
     public class InventoryController : Controller, ILoggable
     {
-        private string _sectionColor = "purple";
-
         public InventoryController()
         {
             new Logger().Subcribe(this);
@@ -27,6 +26,8 @@ namespace ACLager.Controllers
             IEnumerable<ItemType> itemTypes;
             IEnumerable<Item> items;
             IEnumerable<Location> locations;
+            List<SelectListItem> locationSelectListItems = new List<SelectListItem>();
+            List<SelectListItem> itemTypeSelectListItems = new List<SelectListItem>();
 
             List<ItemGroup> itemGroups = new List<ItemGroup>();
 
@@ -45,11 +46,35 @@ namespace ACLager.Controllers
 
                     itemGroups.Add(new ItemGroup(itemType, itemLocationPairs));
                 }
+
+                foreach (Location location in locations.Where(l => l.Item == null)) {
+                    locationSelectListItems.Add(new SelectListItem { Text = location.Name, Value = location.UID.ToString()});
+                }
+
+                foreach (ItemType itemType in itemTypes) {
+                    itemTypeSelectListItems.Add(new SelectListItem { Text = itemType.Name, Value = itemType.UID.ToString() });
+                }
             }
 
             
 
-            return View(new InventoryViewModel(itemGroups));
+            return View(new InventoryViewModel(itemGroups, new Item(), locationSelectListItems, itemTypeSelectListItems));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Detailed(string id) {
+            Item item;
+
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                item = db.ItemSet.Find(Int64.Parse(id));
+            }
+
+            return View("Detailed", new InventoryViewModel(null, item, null, null));
         }
 
         /// <summary>
@@ -57,37 +82,55 @@ namespace ACLager.Controllers
         /// </summary>
         /// <param name="item">The item to add to the database.</param>
         /// <returns>true if successful</returns>
-        public bool AddItem(Item item)
-        {
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
+        [HttpPost]
+        public ActionResult AddItem(Item item) {
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                item.ItemType = db.ItemTypeSet.Find(item.ItemType.UID);
+                item.Location = db.LocationSet.Find(item.Location.UID);
+                item.DeliveryDate = DateTime.Now;
+                item.ExpirationDate = DateTime.Now;
+
                 db.ItemSet.Add(item);
                 db.SaveChanges();
             }
 
-            return true;
+            return RedirectToAction("Detailed", new {id = item.UID});
         }
 
-        /// <summary>
-        /// Removes the item with specified <paramref name="uid"/> by the <paramref name="amount"/>
-        /// </summary>
-        /// <param name="uid">The item unique id</param>
-        /// <param name="amount">The amount to pick</param>
-        /// <returns>true if successful</returns>
-        public bool PickItem(long UID, long amount)
-        {
-            Item item;
+        [HttpGet]
+        public ActionResult PickItem(string id) {
 
+            if (id == null) {
+                return RedirectToAction("Index");
+            }
+
+            InventoryViewModel inventoryViewModel = new InventoryViewModel();
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                Item dbItem = db.ItemSet.Find(Int64.Parse(id));
+
+                if (dbItem == null) {
+                    return RedirectToAction("Index");
+                }
+
+                inventoryViewModel.Item = dbItem;
+            }
+
+            return View(inventoryViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult PickItem(Item item)
+        {
             using (ACLagerDatabase db = new ACLagerDatabase())
             {
-                item = db.ItemSet.Find(UID);
+                Item dbItem = db.ItemSet.Find(item.UID);
 
-                item.Amount -= amount;
+                dbItem.Amount -= item.Amount;
 
                 db.SaveChanges();
             }
 
-            return true;
+            return RedirectToAction("Index");
         }
 
         public bool MoveItem()

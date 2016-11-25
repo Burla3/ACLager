@@ -28,19 +28,14 @@ namespace ACLager.Controllers
         /// </summary>
         /// <param name="wasteReport"></param>
 
-        //[HttpPost]
-        //public ActionResult CreateWasteReport(WasteReport wasteReport)
-        //{
-        //    using (ACLagerDatabase db = new ACLagerDatabase())
-        //    {
-        //        if (db.WasteReportSet.Find(wasteReport.WorkOrderUID) != null)
-        //        
-        //            db.WasteReportSet.Add(wasteReport);
-        //            db.SaveChanges();
-        //        }
-        //    }
-        //
-        //    return RedirectToAction("Index");
-        //}
+        [HttpPost]
+        public void CreateWasteReport(WasteReport wasteReport)
+        {
+            using (ACLagerDatabase db = new ACLagerDatabase())
+            {
+                db.WasteReportSet.Add(wasteReport);
+                db.SaveChanges();
+            }
+        }
     }
 }

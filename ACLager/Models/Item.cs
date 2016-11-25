@@ -28,10 +28,9 @@ namespace ACLager.Models
         public string Supplier { get; set; }
         public long Reserved { get; set; }
         public string IsDeleted { get; set; }
-        public long ItemTypeUID { get; set; }
     
-        public virtual ItemType ItemType { get; set; }
         public virtual Location Location { get; set; }
+        public virtual ItemType ItemType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WasteReport> WasteReports { get; set; }
     }

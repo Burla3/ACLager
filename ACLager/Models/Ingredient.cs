@@ -17,10 +17,8 @@ namespace ACLager.Models
         public long UID { get; set; }
         public long Amount { get; set; }
         public string Unit { get; set; }
-        public long IngredientForUID { get; set; }
-        public long TypeUID { get; set; }
     
-        public virtual ItemType IngredientFor { get; set; }
-        public virtual ItemType Type { get; set; }
+        public virtual ItemType ForItemType { get; set; }
+        public virtual ItemType ItemType { get; set; }
     }
 }

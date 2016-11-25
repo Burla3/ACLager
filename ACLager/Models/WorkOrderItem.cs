@@ -17,8 +17,6 @@ namespace ACLager.Models
         public long UID { get; set; }
         public long Amount { get; set; }
         public long Progress { get; set; }
-        public long WorkOrderUID { get; set; }
-        public long ItemTypeUID { get; set; }
     
         public virtual WorkOrder WorkOrder { get; set; }
         public virtual ItemType ItemType { get; set; }

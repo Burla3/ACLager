@@ -19,9 +19,10 @@ namespace ACLager.Models
         {
             this.IsActive = true;
             this.IsDeleted = false;
-            this.Ingredients = new HashSet<Ingredient>();
             this.Items = new HashSet<Item>();
-            this.WorkOrderItems = new HashSet<WorkOrderItem>();
+            this.IngredientsForRecipe = new HashSet<Ingredient>();
+            this.IsIngredientFor = new HashSet<Ingredient>();
+            this.WorkOrderItem = new HashSet<WorkOrderItem>();
         }
     
         public long UID { get; set; }
@@ -31,12 +32,15 @@ namespace ACLager.Models
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
         public string Procedure { get; set; }
+        public string Barcode { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Ingredient> Ingredients { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Item> Items { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WorkOrderItem> WorkOrderItems { get; set; }
+        public virtual ICollection<Ingredient> IngredientsForRecipe { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Ingredient> IsIngredientFor { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WorkOrderItem> WorkOrderItem { get; set; }
     }
 }

@@ -20,8 +20,8 @@ namespace ACLager.Models
             this.IsAdmin = false;
             this.IsActive = true;
             this.IsDeleted = false;
-            this.WorkOrders = new HashSet<WorkOrder>();
             this.WasteReports = new HashSet<WasteReport>();
+            this.WorkOrders = new HashSet<WorkOrder>();
         }
     
         public long UID { get; set; }
@@ -32,8 +32,8 @@ namespace ACLager.Models
         public bool IsDeleted { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WorkOrder> WorkOrders { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WasteReport> WasteReports { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WorkOrder> WorkOrders { get; set; }
     }
 }

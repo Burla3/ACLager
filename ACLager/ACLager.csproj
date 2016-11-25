@@ -229,6 +229,7 @@
     </Compile>
     <Compile Include="Interfaces\IExtractor.cs" />
     <Compile Include="Interfaces\ILoggable.cs" />
+    <Compile Include="Models\ClassAdditions\Item.cs" />
     <Compile Include="Models\ClassAdditions\User.cs" />
     <Compile Include="Models\Ingredient.cs">
       <DependentUpon>Model.tt</DependentUpon>

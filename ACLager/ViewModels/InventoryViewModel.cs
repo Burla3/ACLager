@@ -7,9 +7,11 @@ using ACLager.Models;
 
 namespace ACLager.ViewModels {
     public class InventoryViewModel : BaseViewModel {
-        public InventoryViewModel(IEnumerable<ItemGroup> itemGroups) {
+        public InventoryViewModel() {
+            base.SelectColor("Inventory");
+        }
+        public InventoryViewModel(IEnumerable<ItemGroup> itemGroups) : this() {
             ItemGroups = itemGroups;
-            base.SectionColor = "purple";
         }
 
         public IEnumerable<ItemGroup> ItemGroups { get; set; }

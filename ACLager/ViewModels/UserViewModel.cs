@@ -7,9 +7,8 @@ using ACLager.Models;
 namespace ACLager.ViewModels {
     public class UserViewModel : BaseViewModel {
         public UserViewModel() {
-            base.SectionColor = "amber";
+            base.SelectColor("User");
         }
-
         /// <summary>
         /// 
         /// </summary>

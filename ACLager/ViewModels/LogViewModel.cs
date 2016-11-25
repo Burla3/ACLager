@@ -9,9 +9,11 @@ namespace ACLager.ViewModels
     public class LogViewModel : BaseViewModel
     {
         public IEnumerable<LogEntry> LogEntries { get; set; }
+        public LogViewModel() {
+            base.SelectColor("Log");
+        }
 
-        public LogViewModel(IEnumerable<LogEntry> logEntries)
-        {
+        public LogViewModel(IEnumerable<LogEntry> logEntries) : this() {
             LogEntries = logEntries;
         }
     }

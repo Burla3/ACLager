@@ -8,9 +8,7 @@ using ACLager.ViewModels;
 
 namespace ACLager.Controllers {
     public class HomeController : Controller {
-        public ActionResult Index() {
-
-            List<HomeMenuBlock> homeMenuBlocks = new List<HomeMenuBlock> {
+        public List<HomeMenuBlock> homeMenuBlocks = new List<HomeMenuBlock> {
                 new HomeMenuBlock("purple", "Lagerstyring", "Noget om at man kan plukke, søge, indsætte og hvad man nu ellers kan.", "Inventory", "Index"),
                 new HomeMenuBlock("brown", "Produktion", "Ordrer til produktionsafdelingen.", "WorkOrder", "Production"),
                 new HomeMenuBlock("orange", "Pakkeri", "Ordrer til pakkeriet.", "WorkOrder", "Packaging"),
@@ -21,6 +19,7 @@ namespace ACLager.Controllers {
                 new HomeMenuBlock("green", "Oversigt over spild", "Se spildrapporter", "Waste", "OverView"),
                 new HomeMenuBlock("indigo", "Artikel typer", "Håndtere artikel typer.", "ItemType", "Index")
             };
+        public ActionResult Index() {
 
             HomeViewModel viewModel = new HomeViewModel {HomeMenuBlocks = homeMenuBlocks};
             

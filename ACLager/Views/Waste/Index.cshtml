@@ -40,11 +40,11 @@
         </div>
 
         <div class="col-sm-3">
-            Navn
+            Produkt spildt
         </div>
 
         <div class="col-sm-3">
-            Produkt
+            Spildrapport ID
         </div>
 
         <div class="col-sm-3"></div>
@@ -63,21 +63,39 @@
                 </div>
 
                 <div class="col-sm-3">
-                    <h5>@wasteReport.UserUID</h5>
+                    <h5>@wasteReport.Item.ItemType.Name</h5>
                 </div>
 
                 <div class="col-sm-3">
                     <h5>
-                        <strong>@wasteReport.ItemUID</strong>
+                        <strong>@wasteReport.UID</strong>
                     </h5>
                 </div>
                 <div class="col-sm-3">
-
-                    <h4></h4>
                 </div>
+
             </div>
         </div>
-    }
+
+        <div class="expansion-control col-sm-2" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@wasteReport.UID">
+            <div class="btn btn-default pull-right">
+                <i class="material-icons">expand_more</i>
+                <i class="material-icons hidden">expand_less</i>
+            </div>
+        </div>
+
+        <div class="row expansion-content" id="ExpansionContentContainer_@wasteReport.UID">
+            <div class="col-sm-3">
+                <h5>Mængde mistet: @wasteReport.Amount</h5>
+            </div>
+            <div class="col-sm-3">
+                <h5>Oprettet af: @wasteReport.User.Name</h5> 
+            </div>
+            <div class="col-sm-6">
+            </div>
+
+        </div>
+     }
 </div>
 
 

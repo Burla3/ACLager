@@ -1,0 +1,19 @@
+﻿@using ACLager.Models
+@model ACLager.ViewModels.InventoryViewModel
+
+
+@using (Html.BeginForm("AddItem", "Inventory")) {
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <fieldset>
+            <Legend>Opret bruger</Legend>
+            <div class="col-md-12">
+                @Html.Partial("_ItemForm")
+            </div>
+        </fieldset>
+
+        <input class="btn btn-raised btn-success pull-right" type="submit" value="Opret">
+        <input class="btn btn-default pull-right flowout-close" type="reset" value="Annuller">
+    </div>
+}

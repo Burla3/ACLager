@@ -133,8 +133,29 @@ namespace ACLager.Controllers
             return RedirectToAction("Index");
         }
 
-        public bool MoveItem()
-        {
+        [HttpGet]
+        public ActionResult MoveItem(string id) {
+
+            if (id == null) {
+                return RedirectToAction("Index");
+            }
+
+            InventoryViewModel inventoryViewModel = new InventoryViewModel();
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                Item dbItem = db.ItemSet.Find(Int64.Parse(id));
+
+                if (dbItem == null) {
+                    return RedirectToAction("Index");
+                }
+
+                inventoryViewModel.Item = dbItem;
+            }
+
+            return View(inventoryViewModel);
+        }
+
+        [HttpPost]
+        public bool MoveItem(Item item) {
             throw new NotImplementedException();
         }
 

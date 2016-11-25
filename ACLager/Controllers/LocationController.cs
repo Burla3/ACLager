@@ -4,69 +4,111 @@ using System.Data.Entity.Core;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ACLager.CustomClasses;
 using ACLager.Models;
+using ACLager.ViewModels;
 
-namespace ACLager.Controllers
-{
-    public class LocationController : Controller
-    {
-        private readonly ACLagerDatabase db = new ACLagerDatabase();
+namespace ACLager.Controllers {
+    public class LocationController : Controller {
         // GET: Location
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// Creates a new location 
-        /// </summary>
-        /// <param name="location">Location to be created</param>
-        /// <returns>Whether or not the creation was successful</returns>
-        public bool CreateLocation(Location location)
-        {
-            using (db)
-            {
-                if (db.LocationSet.All(l => l.Name != location.Name)) {
-                    db.LocationSet.Add(location);
-                    db.SaveChanges();
-
-                    return true;
-                } else {
-                    return false;
+        public ActionResult Index() {
+            List<ItemLocationPair> itemLocationPairs = new List<ItemLocationPair>();
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                foreach (Location location in db.LocationSet) {
+                    itemLocationPairs.Add(new ItemLocationPair(location.Item, location));
                 }
             }
 
-        }
-        /// <summary>
-        /// Deletes an existing location
-        /// </summary>
-        /// <param name="UID">UID of the to be deleted location</param>
-        /// <returns>Whether or not the deletion was successful</returns>
-        public bool DeleteLocation(long UID)
-        {
-            using (db)
-            {
-                if (db.LocationSet.Any(l => l.UID == UID))
-                {
-                    Location location = db.LocationSet.Single(l => l.UID == UID);
-                    db.LocationSet.Remove(location);
-                    db.SaveChanges();
-
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
+            return View(new LocationViewModel(itemLocationPairs, new ItemLocationPair(new Item(), new Location())));
         }
 
-        public IEnumerable<Location> GetLocations()
-        {
-            using (db)
-            {
-                return db.LocationSet;
+        [HttpGet]
+        public ActionResult Detailed(string id) {
+            ItemLocationPair itemLocationPair = new ItemLocationPair();
+
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                itemLocationPair.Location = db.LocationSet.Find(Int64.Parse(id));
             }
+
+            return View(new LocationViewModel(null, itemLocationPair));
+        }
+
+        [HttpPost]
+        public ActionResult CreateLocation(Location location) {
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                db.LocationSet.Add(location);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Detailed", new { id = location.UID});
+        }
+
+        [HttpGet]
+        public ActionResult EditLocation(string id) {
+            if (id == null) {
+                return RedirectToAction("Index");
+            }
+
+            LocationViewModel locationViewModel = new LocationViewModel();
+            locationViewModel.ItemLocationPair = new ItemLocationPair();
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                Location dbLocation = db.LocationSet.Find(Int64.Parse(id));
+
+                if (dbLocation == null) {
+                    return RedirectToAction("Index");
+                }
+
+                locationViewModel.ItemLocationPair.Location = dbLocation;
+            }
+
+            return View(locationViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult EditLocation(Location location) {
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                Location dbLocation = db.LocationSet.Find(location.UID);
+
+                dbLocation.IsActive = location.IsActive;
+                dbLocation.Name = location.Name;
+
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
+        [HttpGet]
+        public ActionResult DeleteLocation(string id) {
+            if (id == null) {
+                return RedirectToAction("Index");
+            }
+
+            LocationViewModel locationViewModel = new LocationViewModel();
+            locationViewModel.ItemLocationPair = new ItemLocationPair();
+
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                Location dbLocation = db.LocationSet.Find(Int64.Parse(id));
+
+                if (dbLocation == null) {
+                    return RedirectToAction("Index");
+                }
+
+                locationViewModel.ItemLocationPair = new ItemLocationPair(dbLocation.Item, dbLocation);
+            }
+
+            return View(locationViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteLocation(long id) {
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                db.LocationSet.Remove(db.LocationSet.Find(id));
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -1,0 +1,20 @@
+﻿@using ACLager.Models
+@model ACLager.ViewModels.LocationViewModel
+
+
+@using (Html.BeginForm("CreateLocation", "Location")) {
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <fieldset>
+            <Legend>Opret lokation</Legend>
+            <div class="col-md-12">
+                @Html.Partial("_LocationForm", Model.ItemLocationPair.Location)
+            </div>
+        </fieldset>
+
+        <input class="btn btn-raised btn-success pull-right" type="submit" value="Opret">
+        <input class="btn btn-default pull-right flowout-close" type="reset" value="Annuller">
+    </div>
+}
+

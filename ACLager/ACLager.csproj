@@ -229,6 +229,7 @@
     </Compile>
     <Compile Include="Interfaces\IExtractor.cs" />
     <Compile Include="Interfaces\ILoggable.cs" />
+    <Compile Include="Models\ClassAdditions\Item.cs" />
     <Compile Include="Models\ClassAdditions\User.cs" />
     <Compile Include="Models\Ingredient.cs">
       <DependentUpon>Model.tt</DependentUpon>
@@ -379,6 +380,7 @@
     <Content Include="Views\Inventory\PickItem.cshtml" />
     <Content Include="Views\Waste\_CreateWasteReport.cshtml" />
     <Content Include="Views\Waste\_WasteReportForm.cshtml" />
+    <Content Include="Views\Inventory\MoveItem.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

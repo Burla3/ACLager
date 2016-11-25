@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ACLager.Models;
+using ACLager.ViewModels;
 
 namespace ACLager.Controllers
 {
@@ -12,33 +13,34 @@ namespace ACLager.Controllers
         // GET: Waste
         public ActionResult Index()
         {
-            return View();
+            IEnumerable<WasteReport> wasteReport;
+
+            using (ACLagerDatabase db = new ACLagerDatabase())
+            {
+                wasteReport = db.WasteReportSet.ToList();
+            }
+
+            return View(new WasteViewModel(wasteReport));
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="wasteReport"></param>
-        [HttpPost]
-        public void CreateWasteReport(WasteReport wasteReport)
-        {
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
-                var dbWasteReport = (from wastereport in db.WasteReportSet
-                                     where wastereport.Amount == wasteReport.Amount && wastereport.WorkOrderUID == wasteReport.WorkOrderUID
-                                     && wastereport.ItemUID == wasteReport.ItemUID && wastereport.UserUID == wasteReport.UserUID select wastereport);
 
-                if (dbWasteReport.Any())
-                {
-                    //similar wastereport(s) exsist, generate anyways?
-                }
-                else
-                {
-                    db.WasteReportSet.Add(wasteReport);
-                    db.SaveChanges();
-                }
-                
-            }
-        }
+        //[HttpPost]
+        //public ActionResult CreateWasteReport(WasteReport wasteReport)
+        //{
+        //    using (ACLagerDatabase db = new ACLagerDatabase())
+        //    {
+        //        if (db.WasteReportSet.Find(wasteReport.WorkOrderUID) != null)
+        //        
+        //            db.WasteReportSet.Add(wasteReport);
+        //            db.SaveChanges();
+        //        }
+        //    }
+        //
+        //    return RedirectToAction("Index");
+        //}
     }
 }

@@ -10,7 +10,6 @@ using ACLager.ViewModels;
 
 namespace ACLager.Controllers {
     public class UserController : Controller, ILoggable {
-        private string _sectionColor = "yellow";
         // GET: User
         [HttpGet]
         public ActionResult Index() {

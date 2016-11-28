@@ -4,51 +4,49 @@
     ViewBag.Title = "Login";
 }
 
-<div class="row">
-    <h1><center>AC-Lager</center></h1>
-</div>
-<div class="row">
-    <div class="col-md-3">
-        &nbsp;
+<div class="container">
+    <div class="row">
+        <h1><center>ACLager</center></h1>
     </div>
-    <div class="col-md-6">
-        <div class="panel panel-primary link">
-            <div class="panel-heading">
-                <h2 class="panel-title-freesize">Log ind</h2>
-            </div>
-            <div class="panel-body">
-                @if (Model.RenderUserNotFoundWarning) {
-                    <div class="alert alert-dismissible alert-danger">
-                        <button type="button" class="close" data-dismiss="alert">×</button>
-                        <strong>Hovsa!</strong>
-                        Det var ikke den rigtige kode. Prøv igen.
-                    </div>
-                }
+    <div class="row">
+        <div class="col-md-3">
+            &nbsp;
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-primary link">
+                <div class="panel-heading">
+                    <h2 class="panel-title-freesize">Log ind</h2>
+                </div>
+                <div class="panel-body">
+                    @if (Model.RenderUserNotFoundWarning) {
+                        <div class="alert alert-dismissible alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <strong>Hovsa!</strong>
+                            Det var ikke den rigtige kode. Prøv igen.
+                        </div>
+                    }
 
-                @using (@Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
+                    @using (@Html.BeginForm()) {
+                        @Html.AntiForgeryToken()
 
-                    <div class="form-group form-group-lg label-floating is-empty">
-                        <div class="input-group">
+                        <div class="form-group form-group-lg label-floating is-empty">
                             @Html.LabelFor(model => Model.User.PIN, new {@class = "control-label"})
                             @Html.PasswordFor(model => Model.User.PIN, new {@class = "form-control", data_val_number = "Din medarbejder-PIN består kun af tal"})
                             @Html.ValidationMessageFor(model => Model.User.PIN, "", new {@class = "text-danger"})
-                            <span class="input-group-btn">
-                                <button class="btn btn-primary" type="button">indscan</button>
-                            </span>
-                        </div>
 
-                        <button type="submit" class="btn btn-lg btn-primary">
-                            Log ind
-                            <div class="ripple-container"></div>
-                        </button>
-                    </div>
-                }
+                            <br/>
+
+                            <button type="submit" class="btn btn-lg btn-primary">
+                                Log ind
+                                <div class="ripple-container"></div>
+                            </button>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-3">
-        &nbsp;
+        <div class="col-md-3">
+            &nbsp;
+        </div>
     </div>
 </div>

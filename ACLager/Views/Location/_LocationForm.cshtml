@@ -1,12 +1,12 @@
-﻿@model ACLager.Models.User
+﻿@model ACLager.Models.Location
 
 @Html.HiddenFor(model => Model.UID)
 
 
 <div class="form-group label-floating">
     <label class="control-label" for="name">Navn</label>
-    @Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control"}})
-    @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
+    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
 </div>
 
 
@@ -14,13 +14,10 @@
     <div class="col-md-5">
         <div class="checkbox text-right">
             <label>
-                Administrator
-                @Html.CheckBoxFor(model => model.IsAdmin)
-            </label><br /><br />
-            <label>
                 Aktiv
                 @Html.CheckBoxFor(model => model.IsActive)
             </label>
         </div>
     </div>
 </div>
+

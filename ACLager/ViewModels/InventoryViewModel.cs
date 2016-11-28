@@ -9,7 +9,11 @@ using ACLager.Models;
 namespace ACLager.ViewModels {
     public class InventoryViewModel : BaseViewModel {
         public InventoryViewModel() {
-            base.SectionColor = "purple";
+            base.SelectColor("Inventory");
+        }
+        public InventoryViewModel(IEnumerable<ItemGroup> itemGroups) : this() {
+            ItemGroups = itemGroups;
+
         }
         public InventoryViewModel(IEnumerable<ItemGroup> itemGroups, Item item, IEnumerable<SelectListItem> locations, IEnumerable<SelectListItem> itemTypes) : this() {
             ItemGroups = itemGroups;

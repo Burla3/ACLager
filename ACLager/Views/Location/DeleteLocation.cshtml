@@ -1,0 +1,64 @@
+﻿@using ACLager.Models
+@model ACLager.ViewModels.LocationViewModel
+
+
+@using (Html.BeginForm("DeleteLocation", "Location")) {
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => Model.ItemLocationPair.Location.UID)
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+
+            <div class="col-md-6">
+                <div class="panel panel-danger flowout-noclose">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <br>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <fieldset>
+                                <div class="col-md-12">
+                                    <Legend>Slet bruger</Legend>
+                                    Er du sikker på du vil slette denne bruger <strong>permanent</strong> fra systemet?
+                                    <hr />
+                                    <dl class="dl-horizontal">
+                                        <dt>Brugernummer:</dt>
+                                        <dd>@Model.ItemLocationPair.Location.UID</dd>
+                                        <dt>Navn:</dt>
+                                        <dd>@Model.ItemLocationPair.Location.Name</dd>
+                                        <dt>Status:</dt>
+                                        <dd>
+                                            @if (Model.ItemLocationPair.Location.IsActive) {
+                                                <span class="label label-success">Aktiv</span>
+                                            } else {
+                                                <span class="label label-default">Inaktiv</span>
+                                            }
+                                        </dd>
+                                        <dt>Optaget/Ledig:</dt>
+                                        <dd>
+                                            @if (@Model.ItemLocationPair.Item == null) {
+                                                <span class="label label-success">Ledig</span>
+                                            } else {
+                                                <span class="label label-default">Optaget</span>
+                                            }
+                                        </dd>
+                                </dl>
+                                <hr />
+                            </div>
+                        </fieldset>
+
+                        <input class="btn btn-raised btn-danger pull-right" type="submit" value="Slet">
+                        <a href="@Url.Action("Index")" class="btn btn-default pull-right flowout-close">Behold</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</div>
+}
+

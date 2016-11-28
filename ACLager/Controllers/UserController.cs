@@ -35,7 +35,7 @@ namespace ACLager.Controllers {
                 user = db.UserSet.Find(Int64.Parse(id));
             }
 
-            return View("Detailed", new UserViewModel(null, user));
+            return View(new UserViewModel(null, user));
         }
 
 

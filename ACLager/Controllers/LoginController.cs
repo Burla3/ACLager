@@ -11,16 +11,14 @@ using ACLager.ViewModels;
 
 namespace ACLager.Controllers {
     public class LoginController : Controller {
-        [OverrideActionFilters]
-        [AllowAll]
+        [RequireAuthorization(IsDisabled = true)]
         [HttpGet]
         public ActionResult Index()
         {
             return View(new LoginViewModel { RenderNavBar = false});
         }
 
-        [OverrideActionFilters]
-        [AllowAll]
+        [RequireAuthorization(IsDisabled = true)]
         [HttpPost]
         public ActionResult Index(User user)
         {
@@ -52,6 +50,7 @@ namespace ACLager.Controllers {
                 }
             }
         }
+
 
         public ActionResult Logout() {
             Response.Cookies["UserInfo"].Value = "LoggedOut";

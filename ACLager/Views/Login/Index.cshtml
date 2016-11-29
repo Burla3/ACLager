@@ -31,7 +31,7 @@
 
                         <div class="form-group form-group-lg label-floating is-empty">
                             @Html.LabelFor(model => Model.User.PIN, new {@class = "control-label"})
-                            @Html.PasswordFor(model => Model.User.PIN, new {@class = "form-control", data_val_number = "Din medarbejder-PIN består kun af tal"})
+                            @Html.PasswordFor(model => Model.User.PIN, new {autofocus = true, pattern = "[0-9]*", @class = "form-control", data_val_number = "Din medarbejder-PIN består kun af tal"})
                             @Html.ValidationMessageFor(model => Model.User.PIN, "", new {@class = "text-danger"})
 
                             <br/>

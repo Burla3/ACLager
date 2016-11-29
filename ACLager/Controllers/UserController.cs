@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ACLager.CustomClasses.Attributes;
 using ACLager.Interfaces;
 using ACLager.Models;
 using ACLager.ViewModels;
 
 namespace ACLager.Controllers {
+    [AdminOnly]
     public class UserController : Controller, ILoggable {
         // GET: User
         [HttpGet]

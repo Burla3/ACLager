@@ -5,11 +5,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ACLager.CustomClasses.Attributes;
 using ACLager.Models;
 using ACLager.ViewModels;
 
 namespace ACLager.Controllers
 {
+    [AdminOnly]
     public class ItemTypeController : Controller
     {
         // GET: ItemType

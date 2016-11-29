@@ -394,6 +394,8 @@
           <NavigationProperty Name="IsIngredientFor" Relationship="Model.IngredientItemType" FromRole="ItemType" ToRole="Ingredient" />
           <NavigationProperty Name="WorkOrderItem" Relationship="Model.WorkOrderItemItemType" FromRole="ItemType" ToRole="WorkOrderItem" />
           <Property Name="Barcode" Type="String" Nullable="true" MaxLength="Max" />
+          <Property Name="BatchSize" Type="Int64" Nullable="true" />
+          <Property Name="Department" Type="String" Nullable="false" MaxLength="Max" />
         </EntityType>
         <EntityType Name="WorkOrder">
           <Key>
@@ -438,6 +440,7 @@
           <NavigationProperty Name="User" Relationship="Model.WasteReportUser" FromRole="WasteReport" ToRole="User" />
           <NavigationProperty Name="Item" Relationship="Model.WasteReportItem" FromRole="WasteReport" ToRole="Item" />
           <NavigationProperty Name="WorkOrder" Relationship="Model.WasteReportWorkOrder" FromRole="WasteReport" ToRole="WorkOrder" />
+          <Property Name="Description" Type="String" Nullable="true" MaxLength="Max" />
         </EntityType>
         <Association Name="LocationItem">
           <End Type="Model.Location" Role="Location" Multiplicity="1" />
@@ -461,7 +464,7 @@
         </Association>
         <Association Name="WorkOrderUser">
           <End Type="Model.WorkOrder" Role="WorkOrder" Multiplicity="*" />
-          <End Type="Model.User" Role="User" Multiplicity="1" />
+          <End Type="Model.User" Role="User" Multiplicity="0..1" />
         </Association>
         <Association Name="ItemTypeIngredient">
           <End Type="Model.ItemType" Role="ItemType" Multiplicity="1" />
@@ -631,6 +634,7 @@
       <EndProperty Name="WorkOrder">
         <ScalarProperty Name="UID" ColumnName="UID" />
       </EndProperty>
+            <Condition ColumnName="CompletedByUser_UID" IsNull="false" />
     </AssociationSetMapping>
     <AssociationSetMapping Name="ItemTypeIngredient" TypeName="Model.ItemTypeIngredient" StoreEntitySet="IngredientSet">
       <EndProperty Name="ItemType">

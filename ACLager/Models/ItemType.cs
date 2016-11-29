@@ -33,6 +33,8 @@ namespace ACLager.Models
         public bool IsDeleted { get; set; }
         public string Procedure { get; set; }
         public string Barcode { get; set; }
+        public Nullable<long> BatchSize { get; set; }
+        public string Department { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Item> Items { get; set; }

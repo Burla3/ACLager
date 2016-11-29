@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/25/2016 11:50:36
+-- Date Created: 11/29/2016 10:34:57
 -- Generated from EDMX file: C:\Users\Mikke\Documents\GitHub\ACLager\ACLager\Models\Model.edmx
 -- --------------------------------------------------
 
@@ -17,35 +17,35 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_IngredientItemType]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[IngredientSet] DROP CONSTRAINT [FK_IngredientItemType];
-GO
-IF OBJECT_ID(N'[dbo].[FK_WorkOrderUser]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[WorkOrderSet] DROP CONSTRAINT [FK_WorkOrderUser];
-GO
-IF OBJECT_ID(N'[dbo].[FK_WorkOrderItemWorkOrder]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[WorkOrderItemSet] DROP CONSTRAINT [FK_WorkOrderItemWorkOrder];
-GO
-IF OBJECT_ID(N'[dbo].[FK_WorkOrderItemItemType]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[WorkOrderItemSet] DROP CONSTRAINT [FK_WorkOrderItemItemType];
-GO
-IF OBJECT_ID(N'[dbo].[FK_WorkOrderWasteReport]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[WasteReportSet] DROP CONSTRAINT [FK_WorkOrderWasteReport];
-GO
-IF OBJECT_ID(N'[dbo].[FK_WasteReportUser]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[WasteReportSet] DROP CONSTRAINT [FK_WasteReportUser];
-GO
-IF OBJECT_ID(N'[dbo].[FK_IngredientItemType1]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[IngredientSet] DROP CONSTRAINT [FK_IngredientItemType1];
-GO
-IF OBJECT_ID(N'[dbo].[FK_WasteReportItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[WasteReportSet] DROP CONSTRAINT [FK_WasteReportItem];
-GO
 IF OBJECT_ID(N'[dbo].[FK_LocationItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ItemSet] DROP CONSTRAINT [FK_LocationItem];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ItemTypeItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ItemSet] DROP CONSTRAINT [FK_ItemTypeItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_WasteReportUser]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[WasteReportSet] DROP CONSTRAINT [FK_WasteReportUser];
+GO
+IF OBJECT_ID(N'[dbo].[FK_WasteReportItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[WasteReportSet] DROP CONSTRAINT [FK_WasteReportItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_WasteReportWorkOrder]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[WasteReportSet] DROP CONSTRAINT [FK_WasteReportWorkOrder];
+GO
+IF OBJECT_ID(N'[dbo].[FK_WorkOrderUser]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[WorkOrderSet] DROP CONSTRAINT [FK_WorkOrderUser];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ItemTypeIngredient]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[IngredientSet] DROP CONSTRAINT [FK_ItemTypeIngredient];
+GO
+IF OBJECT_ID(N'[dbo].[FK_IngredientItemType]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[IngredientSet] DROP CONSTRAINT [FK_IngredientItemType];
+GO
+IF OBJECT_ID(N'[dbo].[FK_WorkOrderWorkOrderItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[WorkOrderItemSet] DROP CONSTRAINT [FK_WorkOrderWorkOrderItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_WorkOrderItemItemType]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[WorkOrderItemSet] DROP CONSTRAINT [FK_WorkOrderItemItemType];
 GO
 
 -- --------------------------------------------------
@@ -137,7 +137,9 @@ CREATE TABLE [dbo].[ItemTypeSet] (
     [IsActive] bit  NOT NULL,
     [IsDeleted] bit  NOT NULL,
     [Procedure] nvarchar(max)  NULL,
-    [Barcode] nvarchar(max)  NULL
+    [Barcode] nvarchar(max)  NULL,
+    [BatchSize] bigint  NULL,
+    [Department] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -149,7 +151,7 @@ CREATE TABLE [dbo].[WorkOrderSet] (
     [DueDate] datetime  NOT NULL,
     [IsComplete] bit  NOT NULL,
     [ShippingInfo] nvarchar(max)  NULL,
-    [CompletedByUser_UID] bigint  NOT NULL
+    [CompletedByUser_UID] bigint  NULL
 );
 GO
 
@@ -177,6 +179,7 @@ CREATE TABLE [dbo].[WasteReportSet] (
     [UID] bigint IDENTITY(1,1) NOT NULL,
     [Date] datetime  NOT NULL,
     [Amount] bigint  NOT NULL,
+    [Description] nvarchar(max)  NULL,
     [User_UID] bigint  NOT NULL,
     [Item_UID] bigint  NOT NULL,
     [WorkOrder_UID] bigint  NULL

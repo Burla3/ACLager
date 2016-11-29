@@ -112,6 +112,8 @@
     <Property Name="IsDeleted" Type="bit" Nullable="false" DefaultValue="false" />
     <Property Name="Procedure" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Barcode" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="BatchSize" Type="bigint" Nullable="true" />
+    <Property Name="Department" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="WorkOrderSet">
     <Key>
@@ -123,7 +125,7 @@
     <Property Name="DueDate" Type="datetime" Nullable="false" />
     <Property Name="IsComplete" Type="bit" Nullable="false" DefaultValue="false" />
     <Property Name="ShippingInfo" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="CompletedByUser_UID" Type="bigint" Nullable="false" />
+    <Property Name="CompletedByUser_UID" Type="bigint" Nullable="true" />
   </EntityType>
   <EntityType Name="WorkOrderItemSet">
     <Key>
@@ -151,6 +153,7 @@
     <Property Name="UID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="Amount" Type="bigint" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
     <Property Name="User_UID" Type="bigint" Nullable="false" />
     <Property Name="Item_UID" Type="bigint" Nullable="false" />
     <Property Name="WorkOrder_UID" Type="bigint" Nullable="true" />
@@ -217,7 +220,7 @@
   </Association>
   <Association Name="WorkOrderUser">
     <End Role="WorkOrder" Type="Model.Store.WorkOrderSet" Multiplicity="*" />
-    <End Role="User" Type="Model.Store.UserSet" Multiplicity="1" />
+    <End Role="User" Type="Model.Store.UserSet" Multiplicity="0..1" />
     <ReferentialConstraint>
       <Principal Role="User">
         <PropertyRef Name="UID" />
@@ -543,6 +546,8 @@
           <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
           <ScalarProperty Name="Procedure" ColumnName="Procedure" />
           <ScalarProperty Name="Barcode" ColumnName="Barcode" />
+          <ScalarProperty Name="BatchSize" ColumnName="BatchSize" />
+          <ScalarProperty Name="Department" ColumnName="Department" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -583,6 +588,7 @@
           <ScalarProperty Name="UID" ColumnName="UID" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -634,7 +640,7 @@
       <EndProperty Name="WorkOrder">
         <ScalarProperty Name="UID" ColumnName="UID" />
       </EndProperty>
-            <Condition ColumnName="CompletedByUser_UID" IsNull="false" />
+      <Condition ColumnName="CompletedByUser_UID" IsNull="false" />
     </AssociationSetMapping>
     <AssociationSetMapping Name="ItemTypeIngredient" TypeName="Model.ItemTypeIngredient" StoreEntitySet="IngredientSet">
       <EndProperty Name="ItemType">

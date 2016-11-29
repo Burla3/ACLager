@@ -229,6 +229,7 @@
     <Compile Include="Interfaces\ILoggable.cs" />
     <Compile Include="Models\ClassAdditions\Item.cs" />
     <Compile Include="Models\ClassAdditions\User.cs" />
+    <Compile Include="Models\ClassAdditions\WasteReport.cs" />
     <Compile Include="Models\Ingredient.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -379,7 +380,6 @@
     <Content Include="Views\Inventory\_ItemForm.cshtml" />
     <Content Include="Views\Inventory\Detailed.cshtml" />
     <Content Include="Views\Inventory\PickItem.cshtml" />
-    <Content Include="Views\Waste\_CreateWasteReport.cshtml" />
     <Content Include="Views\Waste\_WasteReportForm.cshtml" />
     <Content Include="Views\Inventory\MoveItem.cshtml" />
     <Content Include="Views\Location\DeleteLocation.cshtml" />
@@ -388,6 +388,7 @@
     <Content Include="Views\Location\_LocationForm.cshtml" />
     <Content Include="Views\Location\_CreateLocation.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Views\Waste\AdminWasteReport.cshtml" />
     <Content Include="Views\Login\NoPermission.cshtml" />
     <Content Include="Views\ItemType\_CreateItemType.cshtml" />
     <Content Include="Views\ItemType\_ItemTypeTopForm.cshtml" />

@@ -35,13 +35,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-8">
-            
-                <a href="@Url.Action("EditUser", new {id = Model.User.UID})" class="btn btn-raised btn-info">Rediger</a>
-                <a href="@Url.Action("DeleteUser", new { id = Model.User.UID })" class="btn btn-raised btn-danger">Slet</a>
-        
-        </div>
-        <div class="col-sm-4">
+        <div class="col-sm-9">
             @if (Model.User.IsActive) {
                 <h4><span class="label label-success">Bruger er aktiv</span></h4>
             } else {
@@ -53,6 +47,13 @@
             } else {
                 <h4><span class="label label-default">Bruger er ikke administrator</span></h4>
             }
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-12">
+            <a href="@Url.Action("DeleteUser", new {id = Model.User.UID})" class="btn btn-raised btn-danger pull-right">Slet</a>
+            <a href="@Url.Action("EditUser", new {id = Model.User.UID})" class="btn btn-raised btn-info pull-right">Rediger</a>
         </div>
     </div>
 </div>

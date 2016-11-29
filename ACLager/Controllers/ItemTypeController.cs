@@ -130,7 +130,18 @@ namespace ACLager.Controllers
         /// <returns></returns>
         [HttpGet]
         public ActionResult Detailed(string id) {
-            throw new NotImplementedException();
+            if (id == null) {
+                return RedirectToAction("Index");
+            }
+
+            ItemTypeViewModel itemTypeViewModel = new ItemTypeViewModel();
+
+            using (ACLagerDatabase db = new ACLagerDatabase())
+            {
+                itemTypeViewModel.ItemType = db.ItemTypeSet.Find(long.Parse(id));
+            }
+
+            return View(itemTypeViewModel);
         }
     }
 }

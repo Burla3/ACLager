@@ -1,8 +1,72 @@
-﻿
+﻿@model ACLager.ViewModels.ItemTypeViewModel
+
 @{
     ViewBag.Title = "Detailed";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Detailed</h2>
+<div class="container panel">
+    <div class="row">
+        <div class="col-sm-4">
+            <a href="@Url.Action("Index")" class="btn btn-default pull-left"><i class="material-icons">arrow_back</i>Tilbage til "Varetyper"</a>
+        </div>
+        <div class="col-sm-4">
+            <h3 class="text-center">Detaljer om varetype</h3>
+        </div>
+        <div class="col-sm-4">
 
+        </div>
+    </div>
+
+
+    <div class="clearfix"></div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-6">
+            <strong>Varetypens navn:</strong>
+            <h1>@Model.ItemType.Name</h1>
+        </div>
+        <div class="col-sm-6">
+            <div class="col-sm-5">
+                <strong>Minimum mængde før besked:</strong> <h3>@Model.ItemType.MinimumAmount</h3>
+            </div>
+            <div class="col-sm-3">
+                <strong>Enhed:</strong> <h3>@Model.ItemType.Unit</h3>
+            </div>
+            @if (Model.ItemType.BatchSize != null) {
+                <div class="col-sm-4">
+                    <strong>Batch størrelse:</strong> <h3>@Model.ItemType.BatchSize</h3>
+                </div>
+            }   
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            @if (Model.ItemType.IsActive) {
+                <h4><span class="label label-success">Varetype er aktiv</span></h4>
+            } else {
+                <h4><span class="label label-default">Varetype er ikke aktiv</span></h4>
+            }
+        </div>
+        <div class="col-sm-6">
+            <div class="col-sm-5">
+                <strong>Barcode:</strong> <h3>@Model.ItemType.Barcode</h3>
+            </div>
+            <div class="col-sm-7">
+                <strong>Afdeling:</strong> <h3>@Model.ItemType.Department</h3>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <strong>Fremgangsmåde:</strong> <h4>@Model.ItemType.Procedure</h4>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-12">
+            <a href="@Url.Action("DeleteItemType", new {id = Model.ItemType.UID})" class="btn btn-raised btn-danger pull-right">Slet</a>
+            <a href="@Url.Action("EditItemType", new {id = Model.ItemType.UID})" class="btn btn-raised btn-info pull-right">Rediger</a>
+        </div>
+    </div>
+</div>

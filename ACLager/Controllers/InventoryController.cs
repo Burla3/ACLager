@@ -87,8 +87,7 @@ namespace ACLager.Controllers
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 item.ItemType = db.ItemTypeSet.Find(item.ItemType.UID);
                 item.Location = db.LocationSet.Find(item.Location.UID);
-                item.DeliveryDate = DateTime.Now;
-                item.ExpirationDate = DateTime.Now;
+   
 
                 db.ItemSet.Add(item);
                 db.SaveChanges();

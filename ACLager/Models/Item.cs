@@ -20,6 +20,8 @@ namespace ACLager.Models
         public Item()
         {
             this.IsDeleted = "False";
+            this.DeliveryDate = DateTime.Now;
+            this.ExpirationDate = DateTime.Now;
             this.WasteReports = new HashSet<WasteReport>();
         }
     

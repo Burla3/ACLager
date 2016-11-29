@@ -96,7 +96,7 @@
     <Property Name="DeliveryDate" Type="datetime" Nullable="false" />
     <Property Name="Supplier" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Reserved" Type="bigint" Nullable="false" DefaultValue="0" />
-    <Property Name="IsDeleted" Type="nvarchar(max)" Nullable="false" DefaultValue="False" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" DefaultValue="false" />
     <Property Name="Location_UID" Type="bigint" Nullable="false" />
     <Property Name="ItemType_UID" Type="bigint" Nullable="false" />
   </EntityType>
@@ -378,7 +378,7 @@
           <Property Name="DeliveryDate" Type="DateTime" Nullable="false" />
           <Property Name="Supplier" Type="String" Nullable="false" />
           <Property Name="Reserved" Type="Int64" Nullable="false" DefaultValue="0" />
-          <Property Name="IsDeleted" Type="String" Nullable="false" DefaultValue="False" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="False" />
           <NavigationProperty Name="Location" Relationship="Model.LocationItem" FromRole="Item" ToRole="Location" />
           <NavigationProperty Name="ItemType" Relationship="Model.ItemTypeItem" FromRole="Item" ToRole="ItemType" />
           <NavigationProperty Name="WasteReports" Relationship="Model.WasteReportItem" FromRole="Item" ToRole="WasteReport" />

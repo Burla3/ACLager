@@ -277,6 +277,7 @@
     <Compile Include="ViewModels\InventoryViewModel.cs" />
     <Compile Include="ViewModels\LocationViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\ItemTypeViewModel.cs" />
     <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\WasteViewModel.cs" />
@@ -384,6 +385,10 @@
     <Content Include="Views\Location\EditLocation.cshtml" />
     <Content Include="Views\Location\_LocationForm.cshtml" />
     <Content Include="Views\Location\_CreateLocation.cshtml" />
+    <Content Include="Views\ItemType\_CreateItemType.cshtml" />
+    <Content Include="Views\ItemType\_ItemTypeTopForm.cshtml" />
+    <Content Include="Views\ItemType\EditItemType.cshtml" />
+    <Content Include="Views\ItemType\Detailed.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

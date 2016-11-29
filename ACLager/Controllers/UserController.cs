@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using ACLager.CustomClasses;
 using ACLager.CustomClasses.Attributes;
 using ACLager.Interfaces;
 using ACLager.Models;
@@ -13,6 +15,10 @@ using ACLager.ViewModels;
 namespace ACLager.Controllers {
     [AdminOnly]
     public class UserController : Controller, ILoggable {
+        public UserController() {
+            new Logger().Subcribe(this);
+        }
+
         // GET: User
         [HttpGet]
         public ActionResult Index() {
@@ -56,6 +62,12 @@ namespace ACLager.Controllers {
                 db.SaveChanges();
             }
 
+            string objectData = System.Web.Helpers.Json.Encode(user);
+            string objectType = user.GetType().FullName;
+
+
+            Changed?.Invoke(this, new LogEntryEventArgs("CreateUser", "Brugeren med følgende oplysninger blev oprettet.", objectData, objectType));
+
             return RedirectToAction("Detailed", new {id = user.UID});
         }
 
@@ -92,8 +104,12 @@ namespace ACLager.Controllers {
         /// <returns>Redirects to /User.</returns>
         [HttpPost]
         public ActionResult EditUser(User user) {
+            object data;
+
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 User dbUser = db.UserSet.Find(user.UID);
+
+                data = new {oldUser = dbUser, newUser = user};
 
                 dbUser.IsActive = user.IsActive;
                 dbUser.IsAdmin = user.IsAdmin;
@@ -101,6 +117,14 @@ namespace ACLager.Controllers {
 
                 db.SaveChanges();
             }
+
+            string objectData = System.Web.Helpers.Json.Encode(data);
+            string objectType = user.GetType().FullName;
+
+
+            Changed?.Invoke(this, new LogEntryEventArgs("EditUser", "Brugeren med følgende oplysninger blev Ændret.", objectData, objectType));
+
+
 
             return RedirectToAction("Index");
         }
@@ -134,14 +158,25 @@ namespace ACLager.Controllers {
         /// <summary>
         /// Deletes an existing user.
         /// </summary>
-        /// <param name="uid"></param>
+        /// <param name="id"></param>
         /// <returns>Redirects to /User.</returns>
         [HttpPost]
         public ActionResult DeleteUser(long id) {
+
+            User user;
+
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                db.UserSet.Remove(db.UserSet.Find(id));
+                user = db.UserSet.Find(id);
+                user.IsDeleted = true;
                 db.SaveChanges();
             }
+
+            string objectData = System.Web.Helpers.Json.Encode(user);
+            string objectType = user.GetType().FullName;
+
+
+            Changed?.Invoke(this, new LogEntryEventArgs("EditUser", "Brugeren med følgende oplysninger blev slettet.", objectData, objectType));
+
 
             return RedirectToAction("Index");
         }

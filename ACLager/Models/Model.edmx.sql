@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/29/2016 11:02:36
+-- Date Created: 11/29/2016 15:14:53
 -- Generated from EDMX file: C:\Users\Mikke\Documents\GitHub\ACLager\ACLager\Models\Model.edmx
 -- --------------------------------------------------
 
@@ -122,7 +122,7 @@ CREATE TABLE [dbo].[ItemSet] (
     [DeliveryDate] datetime  NOT NULL,
     [Supplier] nvarchar(max)  NOT NULL,
     [Reserved] bigint  NOT NULL,
-    [IsDeleted] nvarchar(max)  NOT NULL,
+    [IsDeleted] bit  NOT NULL,
     [Location_UID] bigint  NOT NULL,
     [ItemType_UID] bigint  NOT NULL
 );
@@ -170,7 +170,9 @@ CREATE TABLE [dbo].[LogEntrySet] (
     [UID] bigint IDENTITY(1,1) NOT NULL,
     [Type] nvarchar(max)  NOT NULL,
     [Date] datetime  NOT NULL,
-    [LogBody] nvarchar(max)  NOT NULL
+    [LogBody] nvarchar(max)  NOT NULL,
+    [ObjectData] nvarchar(max)  NOT NULL,
+    [ObjectType] nvarchar(max)  NOT NULL
 );
 GO
 

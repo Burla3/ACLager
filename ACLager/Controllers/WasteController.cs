@@ -15,12 +15,20 @@ namespace ACLager.Controllers
         {
             IEnumerable<WasteReport> wasteReport;
 
+            IEnumerable<ItemType> theitemtypes;
+            List<SelectListItem> SelectItemtypeUIDList = new List<SelectListItem>();
+
             using (ACLagerDatabase db = new ACLagerDatabase())
             {
                 wasteReport = db.WasteReportSet.ToList();
+                theitemtypes = db.ItemTypeSet.Where(it => it.IsActive);
+
+                foreach(ItemType item in theitemtypes){
+                    SelectItemtypeUIDList.Add(new SelectListItem { Text = item.Name, Value = item.UID.ToString() });
+                }
             }
 
-            return View(new WasteViewModel(wasteReport));
+            return View(new WasteViewModel(wasteReport, new WasteReport(), SelectItemtypeUIDList));
         }
 
         /// <summary>
@@ -29,13 +37,16 @@ namespace ACLager.Controllers
         /// <param name="wasteReport"></param>
 
         [HttpPost]
-        public void CreateWasteReport(WasteReport wasteReport)
+        public ActionResult CreateWasteReport(WasteReport wasteReport)
         {
             using (ACLagerDatabase db = new ACLagerDatabase())
             {
+                wasteReport.Date = DateTime.Now;
                 db.WasteReportSet.Add(wasteReport);
                 db.SaveChanges();
             }
+
+            return RedirectToAction("", new { id = wasteReport.UID });
         }
     }
 }

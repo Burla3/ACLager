@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ACLager.CustomClasses.Attributes;
 using ACLager.Models;
+using ACLager.ViewModels;
 
 namespace ACLager.Controllers
 {
@@ -14,7 +17,27 @@ namespace ACLager.Controllers
         // GET: ItemType
         public ActionResult Index()
         {
-            return View();
+            IEnumerable<ItemType> itemTypes;
+
+            using (ACLagerDatabase db = new ACLagerDatabase())
+            {
+                itemTypes = db.ItemTypeSet.ToList();
+            }
+
+            return View(new ItemTypeViewModel(itemTypes, new ItemType()));
+        }
+
+        [HttpPost]
+        public ActionResult AddSubmitAction(ItemType itemType, string submitAction) {
+            switch (submitAction) {
+                case "AddItemType":
+                    return AddItemType(itemType);
+                case "EditItemType":
+                    AddItemTypeToDb(itemType);
+                    return RedirectToAction("EditItemType", new { id = itemType.UID.ToString() });
+                default:
+                    throw new InvalidOperationException("No valid submit action is specified");
+            }
         }
 
         /// <summary>
@@ -22,30 +45,50 @@ namespace ACLager.Controllers
         /// </summary>
         /// <param name="itemType">The item type to add to the database.</param>
         /// <returns>true if successful</returns>
-        public bool AddItemType(ItemType itemType)
-        {
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
+        [HttpPost]
+        public ActionResult AddItemType(ItemType itemType) {
+            AddItemTypeToDb(itemType);
+
+            return RedirectToAction("Index");
+        }
+
+        private void AddItemTypeToDb(ItemType itemType) {
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
                 if (!db.ItemTypeSet.Any(it => it.Name == itemType.Name && it.Unit == itemType.Unit))
                 {
                     db.ItemTypeSet.Add(itemType);
                     db.SaveChanges();
-
-                    return true;
-                }
-                else
-                {
-                    return false;
                 }
             }
         }
 
-        /// <summary>
-        /// Edit the <paramref name="itemType"/> in the database
-        /// </summary>
-        /// <param name="itemType">The item type to edit in the database.</param>
-        /// <returns>true if successful</returns>
-        public bool EditItemType(ItemType itemType)
+        [HttpGet]
+        public ActionResult EditItemType(string id) {
+
+            Debug.WriteLine("ID: " + id);
+            if (id == null) {
+                return RedirectToAction("Index");
+            }
+
+            long uid = long.Parse(id);
+
+            ItemTypeViewModel itemTypeViewModel = new ItemTypeViewModel();
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                ItemType dbItemType = db.ItemTypeSet.Find(uid);
+
+                if (dbItemType == null) {
+                    return RedirectToAction("Index");
+                }
+
+                itemTypeViewModel.ItemType = dbItemType;
+                itemTypeViewModel.Ingredients = db.IngredientSet.Where(it => it.ForItemType.UID == uid).ToList();
+            }
+
+            return View(itemTypeViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult EditItemType(ItemType itemType)
         {
             using (ACLagerDatabase db = new ACLagerDatabase())
             {
@@ -55,11 +98,13 @@ namespace ACLager.Controllers
                 dbItemType.Name = itemType.Name;
                 dbItemType.Unit = itemType.Unit;
                 dbItemType.MinimumAmount = itemType.MinimumAmount;
+                dbItemType.Barcode = itemType.Barcode;
+                dbItemType.Procedure = itemType.Procedure;
 
                 db.SaveChanges();
             }
 
-            return true;
+            return RedirectToAction("Index");
         }
 
         /// <summary>
@@ -76,6 +121,16 @@ namespace ACLager.Controllers
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Detailed(string id) {
+            throw new NotImplementedException();
         }
     }
 }

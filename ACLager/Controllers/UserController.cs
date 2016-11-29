@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using ACLager.CustomClasses;
 using ACLager.CustomClasses.Attributes;
 using ACLager.Interfaces;
 using ACLager.Models;
@@ -13,6 +15,10 @@ using ACLager.ViewModels;
 namespace ACLager.Controllers {
     [AdminOnly]
     public class UserController : Controller, ILoggable {
+        public UserController() {
+            new Logger().Subcribe(this);
+        }
+
         // GET: User
         [HttpGet]
         public ActionResult Index() {

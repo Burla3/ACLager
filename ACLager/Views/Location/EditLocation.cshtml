@@ -1,6 +1,10 @@
 ﻿@using ACLager.Models
 @model ACLager.ViewModels.LocationViewModel
 
+@{
+    ViewBag.Title = "Rediger lokation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 @using (Html.BeginForm("EditLocation", "Location")) {
     @Html.AntiForgeryToken()

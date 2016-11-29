@@ -11,16 +11,14 @@ using ACLager.ViewModels;
 
 namespace ACLager.Controllers {
     public class LoginController : Controller {
-        [OverrideActionFilters]
-        [AllowAll]
+        [RequireAuthorization(IsDisabled = true)]
         [HttpGet]
         public ActionResult Index()
         {
             return View(new LoginViewModel { RenderNavBar = false});
         }
 
-        [OverrideActionFilters]
-        [AllowAll]
+        [RequireAuthorization(IsDisabled = true)]
         [HttpPost]
         public ActionResult Index(User user)
         {
@@ -30,7 +28,7 @@ namespace ACLager.Controllers {
                 {
                     User dbUser = db.UserSet.First(u => u.PIN == user.PIN);
 
-                    object cookieData = new {dbUser.IsAdmin, dbUser.Name};
+                    object cookieData = new {dbUser.UID, dbUser.Name, dbUser.IsAdmin};
 
                     HttpCookie cookie = new HttpCookie("UserInfo", System.Web.Helpers.Json.Encode(cookieData));
                     Response.Cookies.Add(cookie);
@@ -56,6 +54,12 @@ namespace ACLager.Controllers {
         public ActionResult Logout() {
             Response.Cookies["UserInfo"].Value = "LoggedOut";
             return RedirectToAction("Index");
+        }
+
+        public ActionResult NoPermission()
+        {
+            HttpContext.Response.AppendHeader("Refresh", "5;url=" + Url.Action("Index", "Home"));
+            return View(new BaseViewModel());
         }
     }
 }

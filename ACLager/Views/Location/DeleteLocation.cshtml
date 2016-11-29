@@ -1,6 +1,10 @@
 ﻿@using ACLager.Models
 @model ACLager.ViewModels.LocationViewModel
 
+@{
+    ViewBag.Title = "Fjern lokation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 @using (Html.BeginForm("DeleteLocation", "Location")) {
     @Html.AntiForgeryToken()

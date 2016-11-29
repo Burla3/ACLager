@@ -17,6 +17,7 @@ namespace ACLager.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Item()
         {
+            this.Reserved = 0;
             this.IsDeleted = "False";
             this.WasteReports = new HashSet<WasteReport>();
         }

@@ -18,5 +18,7 @@ namespace ACLager.Models
         public string Type { get; set; }
         public System.DateTime Date { get; set; }
         public string LogBody { get; set; }
+        public string ObjectData { get; set; }
+        public string ObjectType { get; set; }
     }
 }

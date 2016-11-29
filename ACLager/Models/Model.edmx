@@ -95,7 +95,7 @@
     <Property Name="ExpirationDate" Type="datetime" Nullable="true" />
     <Property Name="DeliveryDate" Type="datetime" Nullable="false" />
     <Property Name="Supplier" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Reserved" Type="bigint" Nullable="false" />
+    <Property Name="Reserved" Type="bigint" Nullable="false" DefaultValue="0" />
     <Property Name="IsDeleted" Type="nvarchar(max)" Nullable="false" DefaultValue="False" />
     <Property Name="Location_UID" Type="bigint" Nullable="false" />
     <Property Name="ItemType_UID" Type="bigint" Nullable="false" />
@@ -133,7 +133,7 @@
     </Key>
     <Property Name="UID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Amount" Type="bigint" Nullable="false" />
-    <Property Name="Progress" Type="bigint" Nullable="false" />
+    <Property Name="Progress" Type="bigint" Nullable="false" DefaultValue="0" />
     <Property Name="WorkOrder_UID" Type="bigint" Nullable="false" />
     <Property Name="ItemType_UID" Type="bigint" Nullable="false" />
   </EntityType>
@@ -145,6 +145,8 @@
     <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="LogBody" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ObjectData" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ObjectType" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="WasteReportSet">
     <Key>
@@ -375,7 +377,7 @@
           <Property Name="ExpirationDate" Type="DateTime" Nullable="true" />
           <Property Name="DeliveryDate" Type="DateTime" Nullable="false" />
           <Property Name="Supplier" Type="String" Nullable="false" />
-          <Property Name="Reserved" Type="Int64" Nullable="false" />
+          <Property Name="Reserved" Type="Int64" Nullable="false" DefaultValue="0" />
           <Property Name="IsDeleted" Type="String" Nullable="false" DefaultValue="False" />
           <NavigationProperty Name="Location" Relationship="Model.LocationItem" FromRole="Item" ToRole="Location" />
           <NavigationProperty Name="ItemType" Relationship="Model.ItemTypeItem" FromRole="Item" ToRole="ItemType" />
@@ -420,7 +422,7 @@
           </Key>
           <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
           <Property Name="Amount" Type="Int64" Nullable="false" />
-          <Property Name="Progress" Type="Int64" Nullable="false" />
+          <Property Name="Progress" Type="Int64" Nullable="false" DefaultValue="0" />
           <NavigationProperty Name="WorkOrder" Relationship="Model.WorkOrderWorkOrderItem" FromRole="WorkOrderItem" ToRole="WorkOrder" />
           <NavigationProperty Name="ItemType" Relationship="Model.WorkOrderItemItemType" FromRole="WorkOrderItem" ToRole="ItemType" />
         </EntityType>
@@ -432,6 +434,8 @@
           <Property Name="Type" Type="String" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" />
           <Property Name="LogBody" Type="String" Nullable="false" />
+          <Property Name="ObjectData" Type="String" Nullable="false" MaxLength="Max" />
+          <Property Name="ObjectType" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="WasteReport">
           <Key>
@@ -579,6 +583,8 @@
           <ScalarProperty Name="Type" ColumnName="Type" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="LogBody" ColumnName="LogBody" />
+          <ScalarProperty Name="ObjectData" ColumnName="ObjectData" />
+          <ScalarProperty Name="ObjectType" ColumnName="ObjectType" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

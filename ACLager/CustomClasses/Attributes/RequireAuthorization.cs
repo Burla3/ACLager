@@ -9,24 +9,29 @@ using ACLager.Controllers;
 
 namespace ACLager.CustomClasses.Attributes {
     public class RequireAuthorization : ActionFilterAttribute {
+        public bool IsDisabled { get; set; }
+
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
-            bool redirect = false;
-            bool cookieExists = filterContext.HttpContext.Request.Cookies.AllKeys.Contains("UserInfo");
+            if (!IsDisabled)
+            {
+                bool redirect = false;
+                bool cookieExists = filterContext.HttpContext.Request.Cookies.AllKeys.Contains("UserInfo");
 
-            if (cookieExists) {
-                HttpCookie cookie = filterContext.HttpContext.Request.Cookies["UserInfo"];
+                if (cookieExists) {
+                    HttpCookie cookie = filterContext.HttpContext.Request.Cookies["UserInfo"];
 
-                if (cookie.Value != "LoggedOut" && cookie.Value != String.Empty) {
-                    // Do nothing
+                    if (cookie.Value != "LoggedOut" && cookie.Value != String.Empty) {
+                        // Do nothing
+                    } else {
+                        redirect = true;
+                    }
                 } else {
                     redirect = true;
                 }
-            } else {
-                redirect = true;
-            }
 
-            if (redirect) {
-                filterContext.Result = new RedirectResult("/Login?nextAction=" + HttpUtility.UrlEncode(filterContext.HttpContext.Request.Url.AbsolutePath));
+                if (redirect) {
+                    filterContext.Result = new RedirectResult("/Login?nextAction=" + HttpUtility.UrlEncode(filterContext.HttpContext.Request.Url.AbsolutePath));
+                }
             }
         }
     }

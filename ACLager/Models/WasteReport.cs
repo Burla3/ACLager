@@ -17,6 +17,7 @@ namespace ACLager.Models
         public long UID { get; set; }
         public System.DateTime Date { get; set; }
         public long Amount { get; set; }
+        public string Description { get; set; }
     
         public virtual User User { get; set; }
         public virtual Item Item { get; set; }

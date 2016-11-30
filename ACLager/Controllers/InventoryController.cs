@@ -69,10 +69,16 @@ namespace ACLager.Controllers
         /// <returns></returns>
         [HttpGet]
         public ActionResult Detailed(string id) {
+            if (id == null) {
+                return HttpNotFound("Intet ID. Denne side kan ikke tilgåes uden et ID i adressebaren");
+            }
             Item item;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                item = db.ItemSet.Find(Int64.Parse(id));
+                Item dbitem = db.ItemSet.Find(Int64.Parse(id));
+                item = dbitem;
+                item.ItemType = dbitem.ItemType;
+                item.Location = dbitem.Location;
             }
 
             return View("Detailed", new InventoryViewModel(null, item, null, null));

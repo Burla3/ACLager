@@ -8,47 +8,8 @@
 
     <div class="form-horizontal">
         <fieldset>
-            <Legend>Opret ny artikel type</Legend>
-            <div class="col-sm-6">
-
-                <div class="form-group label-floating">
-                    @Html.LabelFor(model => model.ItemType.Name, htmlAttributes: new {@class = "control-label"}, labelText: "Navn")
-                    @Html.EditorFor(model => model.ItemType.Name, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => model.ItemType.Name, "", new {@class = "text-danger"})
-                </div>
-
-                @*<div class="form-group label-floating">
-                    @Html.LabelFor(model => model.ItemType., htmlAttributes: new { @class = "control-label" }, labelText: "Mængde per produktionsgang")
-                    @Html.EditorFor(model => model.ItemType.Name, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ItemType.Name, "", new { @class = "text-danger" })
-                </div>*@
-
-                <div class="form-group label-floating">
-                    <div class="togglebutton">
-
-                        @*<label>
-                            Produktion &nbsp;
-                            @Html.CheckBoxFor(model => model.ItemType.)
-                            <input type="checkbox" id="inputPackingOrder">Pakkeri
-                            <button type="button" class="btn btn-default noselect" data-container="body" data-toggle="popover" data-placement="top" data-content="Skabes der nye vare af denne type i pakkeriet eller i produktionen?">
-                                <i class="material-icons">help</i>
-                            </button>
-                        </label>*@
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.ItemType.Unit, "Enhed", new {@class = "form-control"})
-                    @Html.DropDownListFor(model => model.ItemType.Unit, Model.SelectListItems, new {@class = "form-control chosen-select"})
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.ItemType.MinimumAmount, "Mindste mængde", new {@class = "control-label"})
-                    @Html.EditorFor(model => model.ItemType.MinimumAmount, new {htmlAttributes = new {@class = "form-control", @placeholder = "Notits sendes ved lagerbeholdning under dette."}})
-                    @Html.ValidationMessageFor(model => model.ItemType.MinimumAmount, "", new {@class = "text-danger"})
-                </div>
-            </div>
+            <Legend>Opret ny varetype</Legend>
+            @Html.Partial("_ItemTypeTopForm")
         </fieldset>
         <button name="submitAction" class="btn btn-raised btn-success pull-right" type="submit" value="AddItemType">Gem type</button>
         <button name="submitAction" class="btn btn-raised btn-success pull-right" type="submit" value="EditItemType">Gem og tilføj ingredienser</button>

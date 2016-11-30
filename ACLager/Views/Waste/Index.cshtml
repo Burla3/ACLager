@@ -6,7 +6,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div class="container" id="wasteSort">
+    @Html.Partial("_SearchPanel")
+</div>
 
+@using (Html.BeginForm("WasteReport")){
+    @Html.AntiForgeryToken()
 
 <div class="panel container">
         @using (Html.BeginForm("CreateWasteReport", "Waste"))

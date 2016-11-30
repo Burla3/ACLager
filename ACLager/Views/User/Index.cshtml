@@ -7,31 +7,12 @@
 }
 
 <div class="container" id="userSort">
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6 panel">
-            <form class="bs-component">
-                <div class="form-group form-group-lg label-floating">
-
-                    <div class="input-group">
-                        <label class="control-label" for="MainFilterAndSearchField">Skriv for at søge i tabellen nedenfor</label>
-                        <input type="text" id="MainFilterAndSearchField" class="form-control search">
-                        <span class="input-group-btn">
-                            <div class="btn btn-primary btn-raised" type="button">
-                                <i class="material-icons">search</i> Scan til søgning
-                            </div>
-                        </span>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="col-md-3"></div>
-    </div>
+    @Html.Partial("_SearchPanel")
 
     <div class="container">
         <div class="row">
             <div class="sort noselect col-sm-3 text-center" data-sort="sort-status"">
-                Status
+                @Html.DisplayNameFor(model => model.User.IsActive)
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>
@@ -39,7 +20,7 @@
                 <br>
             </div>
             <div class="sort noselect col-sm-3 text-center" data-sort="sort-name"">
-                Navn
+                @Html.DisplayNameFor(model => model.User.Name)
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>
@@ -47,7 +28,7 @@
                 <br>
             </div>
             <div class="sort noselect col-sm-2 text-center" data-sort="sort-uid">
-                Brugernummer
+                @Html.DisplayNameFor(model => model.User.UID)
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>
@@ -55,7 +36,7 @@
                 <br>
             </div>
             <div class="sort noselect col-sm-2 text-center" data-sort="sort-role">
-                Role
+                Rolle
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>

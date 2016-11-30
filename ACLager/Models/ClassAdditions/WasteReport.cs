@@ -16,6 +16,7 @@ namespace ACLager.Models
             [Required(ErrorMessage = "Der skal angives en misted mængde")]
             [Range(1, long.MaxValue)]
             public long Amount { get; set; }
+            public long UID { get; set; }
         }
     }
 }

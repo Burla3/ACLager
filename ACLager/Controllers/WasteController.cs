@@ -39,14 +39,24 @@ namespace ACLager.Controllers
         [HttpPost]
         public ActionResult CreateWasteReport(WasteReport wasteReport)
         {
+            HttpCookie cookie = HttpContext.Request.Cookies["UserInfo"];
+            dynamic cookieData = System.Web.Helpers.Json.Decode(cookie.Value);
+            long userID = cookieData["UID"];
+
             using (ACLagerDatabase db = new ACLagerDatabase())
             {
+                wasteReport.WorkOrder = null;
+                User dbUser = db.UserSet.Find(userID);
+                Item dbItem = db.ItemSet.Find(wasteReport.Item.UID);
+
+                wasteReport.User = dbUser;
                 wasteReport.Date = DateTime.Now;
+                wasteReport.Item = dbItem;
                 db.WasteReportSet.Add(wasteReport);
                 db.SaveChanges();
             }
 
-            return RedirectToAction("", new { id = wasteReport.UID });
+            return View("Create", new WasteViewModel());
         }
     }
 }

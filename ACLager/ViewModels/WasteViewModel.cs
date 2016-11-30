@@ -16,11 +16,11 @@ namespace ACLager.ViewModels
         public WasteViewModel(IEnumerable<WasteReport> wasteReports, WasteReport wastereport, IEnumerable<SelectListItem> itemtypename){
             WasteReports = wasteReports;
             WasteReport = wastereport;
-            Itemtypename = itemtypename;
+            Itemname = itemtypename;
         }
 
         public WasteReport WasteReport { get; set; }
         public IEnumerable<WasteReport> WasteReports { get; set; }
-        public IEnumerable<SelectListItem> Itemtypename { get; set; }
+        public IEnumerable<SelectListItem> Itemname { get; set; }
     }
 }

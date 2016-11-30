@@ -22,15 +22,15 @@
     <hr />
     <div class="row">
         <div class="col-sm-8">
-            <small>Brugerens navn:</small>
+            <strong>@Html.DisplayNameFor(model => model.User.Name):</strong>
             <h1>@Model.User.Name</h1>
         </div>
         <div class="col-sm-4">
             <div class="col-sm-6">
-                <small>Brugernummer:</small> <h3>@Model.User.UID</h3>
+                <strong>@Html.DisplayNameFor(model => model.User.UID):</strong> <h3>@Model.User.UID</h3>
             </div>
             <div class="col-sm-6">
-                <small>PIN-kode til login</small> <h3>@Model.User.PIN</h3>
+                <strong>@Html.DisplayNameFor(model => model.User.PIN):</strong> <h3>@Model.User.PIN</h3>
             </div> 
         </div>
     </div>

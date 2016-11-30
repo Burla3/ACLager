@@ -30,15 +30,15 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-3">
-                Navn / Beskrivelse
+                @Html.DisplayNameFor(model => model.ItemType.Name)
             </div>
             <div class="col-sm-3">
-                Minimum mængde før besked
+                @Html.DisplayNameFor(model => model.ItemType.MinimumAmount)
             </div>
             <div class="col-sm-2">
-                Enhed
+                @Html.DisplayNameFor(model => model.ItemType.Unit)
             </div>
-            <div class="sort noselect col-sm-2 text-uppercase text-center" data-sort="sort-is-active">Er aktiv?
+            <div class="sort noselect col-sm-2 text-uppercase text-center" data-sort="sort-is-active">@Html.DisplayNameFor(model => model.ItemType.IsActive)?
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>

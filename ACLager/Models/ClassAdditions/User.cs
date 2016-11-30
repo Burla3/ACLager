@@ -4,6 +4,7 @@ using ACLager.CustomClasses.Attributes;
 
 namespace ACLager.Models {
     [MetadataType(typeof(UserMetadata))]
+    [DisplayName("Bruger")]
     public partial class User {
         private class UserMetadata
         {

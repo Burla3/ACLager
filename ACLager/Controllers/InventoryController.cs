@@ -13,11 +13,12 @@ using Newtonsoft.Json.Linq;
 
 namespace ACLager.Controllers
 {
-    public class InventoryController : Controller, ILoggable
+    public class InventoryController : Controller, ILoggable, INotifier
     {
         public InventoryController()
         {
             new Logger().Subcribe(this);
+            new Notifier().Subscribe(this);
         }
 
         // GET: Inventory
@@ -68,10 +69,16 @@ namespace ACLager.Controllers
         /// <returns></returns>
         [HttpGet]
         public ActionResult Detailed(string id) {
+            if (id == null) {
+                return HttpNotFound("Intet ID. Denne side kan ikke tilgåes uden et ID i adressebaren");
+            }
             Item item;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                item = db.ItemSet.Find(Int64.Parse(id));
+                Item dbitem = db.ItemSet.Find(Int64.Parse(id));
+                item = dbitem;
+                item.ItemType = dbitem.ItemType;
+                item.Location = dbitem.Location;
             }
 
             return View("Detailed", new InventoryViewModel(null, item, null, null));
@@ -127,6 +134,10 @@ namespace ACLager.Controllers
                 dbItem.Amount -= item.Amount;
 
                 db.SaveChanges();
+
+                if (item.ItemType.Items.Sum(i => i.Amount) < item.ItemType.MinimumAmount) {
+                    Notify.Invoke(this, new NotificationEventArgs(item.ItemType));
+                }
             }
 
             return RedirectToAction("Index");
@@ -159,5 +170,6 @@ namespace ACLager.Controllers
         }
 
         public event ChangedEventHandler Changed;
+        public event NotificationEventHandler Notify;
     }
 }

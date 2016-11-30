@@ -14,6 +14,12 @@ namespace ACLager.Models
     
     public partial class WorkOrderItem
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public WorkOrderItem()
+        {
+            this.Progress = 0;
+        }
+    
         public long UID { get; set; }
         public long Amount { get; set; }
         public long Progress { get; set; }

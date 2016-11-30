@@ -6,16 +6,41 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@Html.BeginForm("WasteReport"){
+<div class="container" id="wasteSort">
+    @Html.Partial("_SearchPanel")
+</div>
+
+@using (Html.BeginForm("WasteReport")){
     @Html.AntiForgeryToken()
 
-<div class="panel-body">
+<div class="panel container">
     <div class="form-horizontal">
         <fieldset>
             <Legend>Opret spildrapport</Legend>
-            <div class="col-md-12">
-                @Html.Partial("_WasteReportForm")
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group label-floating">
+                        @Html.LabelFor(model => model.WasteReport.Amount, "Mængde", new { @class = "control-label" })
+                        @Html.EditorFor(model => model.WasteReport.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.WasteReport.Amount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.WasteReport.Item.ItemType.UID, "Varetype", new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.WasteReport.Item.ItemType.UID, Model.Itemtypename, new { @class = "form-control chosen-select" })
+                    </div>
+                </div>
             </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div>
+                        @Html.LabelFor(model => model.WasteReport.Description, "Beskrivelse", new { @class = "control-label" })
+                        @Html.TextAreaFor(model => model.WasteReport.Description, new { @class = "form-control", rows = 6 })
+                    </div>
+                </div>
+            </div>
+
         </fieldset>
         
         <input class="btn btn-raised btn-success pull-right" type="submit" value="Opret">

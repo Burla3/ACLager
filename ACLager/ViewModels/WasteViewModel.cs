@@ -10,17 +10,14 @@ namespace ACLager.ViewModels
     public class WasteViewModel : BaseViewModel
     {
         public WasteViewModel(){
-            base.SelectColor("Waste");
+            base.SectionColor = "green";
         }
 
-        public WasteViewModel(IEnumerable<WasteReport> wasteReports, WasteReport wastereport, IEnumerable<SelectListItem> itemtypename){
+        public WasteViewModel(IEnumerable<WasteReport> wasteReports) : this() {
             WasteReports = wasteReports;
-            WasteReport = wastereport;
-            Itemname = itemtypename;
         }
 
-        public WasteReport WasteReport { get; set; }
+
         public IEnumerable<WasteReport> WasteReports { get; set; }
-        public IEnumerable<SelectListItem> Itemname { get; set; }
     }
 }

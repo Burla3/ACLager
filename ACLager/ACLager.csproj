@@ -282,6 +282,7 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\CreateWasteViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -395,16 +396,16 @@
     <Content Include="Views\Location\_LocationForm.cshtml" />
     <Content Include="Views\Location\_CreateLocation.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
-    <Content Include="Views\Waste\AdminWasteReport.cshtml" />
     <Content Include="Views\Login\NoPermission.cshtml" />
     <Content Include="Views\ItemType\_CreateItemType.cshtml" />
     <Content Include="Views\ItemType\_ItemTypeTopForm.cshtml" />
     <Content Include="Views\ItemType\EditItemType.cshtml" />
     <Content Include="Views\ItemType\Detailed.cshtml" />
-    <Content Include="Views\Waste\Create.cshtml" />
+    <Content Include="Views\Waste\CreateSucces.cshtml" />
     <Content Include="Views\User\_CreateUser.cshtml" />
     <Content Include="Views\Shared\_SearchPanel.cshtml" />
     <Content Include="Views\Log\Detailed.cshtml" />
+    <Content Include="Views\Waste\CreateWasteReport.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

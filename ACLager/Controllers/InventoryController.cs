@@ -70,7 +70,7 @@ namespace ACLager.Controllers
         [HttpGet]
         public ActionResult Detailed(string id) {
             if (id == null) {
-                return HttpNotFound("Intet ID. Denne side kan ikke tilgåes uden et ID i adressebaren");
+                return RedirectToAction("Index");
             }
             Item item;
 

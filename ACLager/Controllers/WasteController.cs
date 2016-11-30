@@ -10,32 +10,42 @@ namespace ACLager.Controllers
 {
     public class WasteController : Controller
     {
-        // GET: Waste
-        public ActionResult Index()
-        {
-            IEnumerable<WasteReport> wasteReport;
 
-            IEnumerable<ItemType> theitemtypes;
-            List<SelectListItem> SelectItemtypeUIDList = new List<SelectListItem>();
+        public ActionResult Index() {
+
+            IEnumerable<WasteReport> wasteReports;
+
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                db.Configuration.LazyLoadingEnabled = true;
+                wasteReports = db.WasteReportSet.ToList();
+            }
+
+            return View(new WasteViewModel(wasteReports));
+        }
+
+        [HttpGet]
+        public ActionResult CreateWasteReport()
+        {
+
+            IEnumerable<Item> items;
+            List<SelectListItem> SelectItemList = new List<SelectListItem>();
 
             using (ACLagerDatabase db = new ACLagerDatabase())
             {
-                wasteReport = db.WasteReportSet.ToList();
-                theitemtypes = db.ItemTypeSet.Where(it => it.IsActive);
+                items = db.ItemSet.ToList();
 
-                foreach(ItemType item in theitemtypes){
-                    SelectItemtypeUIDList.Add(new SelectListItem { Text = item.Name, Value = item.UID.ToString() });
+                foreach(Item item in items){
+                    SelectItemList.Add(new SelectListItem { Text = item.ItemType.Name, Value = item.UID.ToString() });
                 }
             }
 
-            return View(new WasteViewModel(wasteReport, new WasteReport(), SelectItemtypeUIDList));
+            return View(new CreateWasteViewModel(new WasteReport(), SelectItemList));
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="wasteReport"></param>
-
         [HttpPost]
         public ActionResult CreateWasteReport(WasteReport wasteReport)
         {
@@ -56,7 +66,7 @@ namespace ACLager.Controllers
                 db.SaveChanges();
             }
 
-            return View("Create", new WasteViewModel());
+            return View("CreateSucces", new WasteViewModel());
         }
     }
 }

@@ -1,0 +1,70 @@
+﻿@model ACLager.ViewModels.WasteViewModel
+
+@{
+    ViewBag.Title = "Detailed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container panel">
+    <div class="row">
+        <div class="col-sm-4">
+            <a href="@Url.Action("Index")" class="btn btn-default pull-left"><i class="material-icons">arrow_back</i>Tilbage til "Spild rapport"</a>
+        </div>
+        <div class="col-sm-4">
+            <h3 class="text-center">Detaljer om spild rapport</h3>
+        </div>
+        <div class="col-sm-4">
+        </div>
+    </div>
+
+
+    <div class="clearfix"></div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-4">
+            <strong>@Html.DisplayNameFor(model => model.WasteReportGroup.WasteReport.UID):</strong>
+            <h1>@Model.WasteReportGroup.WasteReport.UID</h1>
+        </div>
+        <div class="col-sm-8">
+            @if (Model.WasteReportGroup.WorkOrder != null) {
+                <div class="col-sm-5">
+
+                    <strong>Arbejdsopgave batchnummer:</strong>
+                    <h3>@Model.WasteReportGroup.WorkOrder.BatchNumber</h3>
+
+                </div>
+                    <div class="col-sm-4">
+                        <strong>Type:</strong>
+                        <h3>@Model.WasteReportGroup.WorkOrder.Type</h3>
+                    </div>
+                    <div class="col-sm-3">
+                    </div>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <strong>Brugerens navn:</strong>
+            <h1>@Model.WasteReportGroup.User.Name</h1>
+        </div>
+        <div class="col-sm-8">
+            <div class="col-sm-5">
+                <strong>Varens navn:</strong>
+                @Model.WasteReportGroup.ItemType.Name
+            </div>
+            <div class="col-sm-4">
+                <strong>Mængde:</strong>
+                <h3>@Model.WasteReportGroup.WasteReport.Amount</h3>
+                <h3>@Model.WasteReportGroup.ItemType.Unit</h3>
+            </div>
+            <div class="col-sm-3">
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-12">
+            @* <a href="@Url.Action("EditLocation", new {id = Model.ItemLocationPair.Location.UID})" class="btn btn-raised btn-info pull-right">Rediger</a>*@
+        </div>
+    </div>
+</div>

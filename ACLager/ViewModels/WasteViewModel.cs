@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using ACLager.Models;
 using System.Web.Mvc;
+using ACLager.CustomClasses;
 
 namespace ACLager.ViewModels
 {
@@ -13,11 +14,12 @@ namespace ACLager.ViewModels
             base.SectionColor = "green";
         }
 
-        public WasteViewModel(IEnumerable<WasteReport> wasteReports) : this() {
-            WasteReports = wasteReports;
+        public WasteViewModel(IEnumerable<WasteReportGroup> wasteReportGroups, WasteReportGroup wasteReportGroup) : this() {
+            WasteReportGroups = wasteReportGroups;
+            WasteReportGroup = wasteReportGroup;
         }
 
-
-        public IEnumerable<WasteReport> WasteReports { get; set; }
+        public WasteReportGroup WasteReportGroup { get; set; }
+        public IEnumerable<WasteReportGroup> WasteReportGroups { get; set; }
     }
 }

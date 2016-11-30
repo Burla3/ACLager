@@ -32,7 +32,9 @@
         </div>
         <div class="col-sm-4">
             <small>@Html.DisplayNameFor(model => Model.Item.ExpirationDate )</small>
-            <h3>@Model.Item.ExpirationDate.Value.ToShortDateString() </h3>
+            @if (@Model.Item.ExpirationDate != null) {
+                <h3>@Model.Item.ExpirationDate.Value.ToShortDateString() </h3>
+            }
         </div>
         <div class="col-sm-4">
             <small>@Html.DisplayNameFor(model => Model.Item.DeliveryDate )</small>

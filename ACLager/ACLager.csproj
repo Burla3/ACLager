@@ -404,6 +404,7 @@
     <Content Include="Views\ItemType\Detailed.cshtml" />
     <Content Include="Views\User\_CreateUser.cshtml" />
     <Content Include="Views\Shared\_SearchPanel.cshtml" />
+    <Content Include="Views\Log\Detailed.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

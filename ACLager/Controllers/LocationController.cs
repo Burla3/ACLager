@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -26,10 +27,18 @@ namespace ACLager.Controllers {
 
         [HttpGet]
         public ActionResult Detailed(string id) {
+            if (id == null) {
+                return RedirectToAction("Index");
+            }
+
             ItemLocationPair itemLocationPair = new ItemLocationPair();
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 itemLocationPair.Location = db.LocationSet.Find(Int64.Parse(id));
+                if (itemLocationPair.Location.Item != null) {
+                    itemLocationPair.Item = itemLocationPair.Location.Item;
+                    itemLocationPair.Item.ItemType = itemLocationPair.Location.Item.ItemType;
+                }
             }
 
             return View(new LocationViewModel(null, itemLocationPair));

@@ -1,1 +1,85 @@
-﻿
+﻿@model ACLager.ViewModels.LocationViewModel
+
+@{
+    ViewBag.Title = "Detailed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container panel">
+    <div class="row">
+        <div class="col-sm-4">
+            <a href="@Url.Action("Index")" class="btn btn-default pull-left"><i class="material-icons">arrow_back</i>Tilbage til "Lokationer"</a>
+        </div>
+        <div class="col-sm-4">
+            <h3 class="text-center">Detaljer om lokation</h3>
+        </div>
+        <div class="col-sm-4">
+        </div>
+    </div>
+
+
+    <div class="clearfix"></div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-4">
+            <strong>@Html.DisplayNameFor(model => model.ItemLocationPair.Location.Name):</strong>
+            <h1>@Model.ItemLocationPair.Location.Name</h1>
+        </div>
+        <div class="col-sm-8">
+            @if (Model.ItemLocationPair.Location.Item != null) {
+                <div class="col-sm-5">
+
+                    <strong>Vare på lokationen:</strong>
+                    <h3>@Model.ItemLocationPair.Item.ItemType.Name</h3>
+
+                </div>
+                <div class="col-sm-4">
+                    <strong>Mængde på lokationen:</strong>
+                    <h3>@Model.ItemLocationPair.Item.Amount</h3>
+                </div>
+                <div class="col-sm-3">
+                    <strong>Varens enhed:</strong>
+                    <h3>@Model.ItemLocationPair.Item.ItemType.Unit</h3>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            @if (Model.ItemLocationPair.Location.IsActive) {
+                <h4><span class="label label-success">Lokationen er aktiv</span></h4>
+            } else {
+                <h4><span class="label label-default">Lokationen er ikke aktiv</span></h4>
+            }
+        </div>
+        @if (Model.ItemLocationPair.Location.Item != null) {
+            <div class="col-sm-8">
+                <div class="col-sm-5">
+                    <strong>Varens udløbsdato:</strong>
+
+                    @if (Model.ItemLocationPair.Item.ExpirationDate != null) {
+                        <h3>
+                            @Model.ItemLocationPair.Item.ExpirationDate.Value.ToShortDateString()
+                        </h3>
+                    }
+                </div>
+                <div class="col-sm-4">
+                    <strong>Varens leveringsdato:</strong>
+                    <h3>@Model.ItemLocationPair.Item.DeliveryDate.ToShortDateString()</h3>
+                </div>
+                <div class="col-sm-3">
+                    <strong>Varens leverandør:</strong>
+                    <h3>@Model.ItemLocationPair.Item.Supplier</h3>
+                </div>
+
+            </div>
+        }
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-12">
+            <a href="@Url.Action("DeleteLocation", new {id = Model.ItemLocationPair.Location.UID})" class="btn btn-raised btn-danger pull-right">Slet</a>
+            <a href="@Url.Action("EditLocation", new {id = Model.ItemLocationPair.Location.UID})" class="btn btn-raised btn-info pull-right">Rediger</a>
+        </div>
+    </div>
+</div>

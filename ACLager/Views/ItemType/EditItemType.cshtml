@@ -1,4 +1,5 @@
-﻿@model ACLager.ViewModels.ItemTypeViewModel
+﻿@using ACLager.Models
+@model ACLager.ViewModels.ItemTypeViewModel
 
 @{
     ViewBag.Title = "Rediger varetype";
@@ -7,55 +8,38 @@
 
 <div class="container panel">
     <div class="row">
-        @using (Html.BeginForm("AddSubmitAction", "ItemType"))
-        {
+        @using (Html.BeginForm("EditItemType", "ItemType")) {
             @Html.AntiForgeryToken()
-            <div class="form-horizontal">
+
+            @Html.HiddenFor(model => Model.ItemType.UID)
+
+            <div class="col-sm-12 form-horizontal">
                 <fieldset>
-                    <Legend>Rediger artikel type</Legend>
+                    <Legend>Rediger varetype</Legend>
+                    @Html.Partial("_ItemTypeTopForm")
+
                     <div class="col-sm-6">
-
-                        <div class="form-group label-floating">
-                            @Html.LabelFor(model => model.ItemType.Name, htmlAttributes: new { @class = "control-label" }, labelText: "Navn")
-                            @Html.EditorFor(model => model.ItemType.Name, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.ItemType.Name, "", new { @class = "text-danger" })
-                        </div>
-
-                        @*<div class="form-group label-floating">
-                                @Html.LabelFor(model => model.ItemType., htmlAttributes: new { @class = "control-label" }, labelText: "Mængde per produktionsgang")
-                                @Html.EditorFor(model => model.ItemType.Name, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.ItemType.Name, "", new { @class = "text-danger" })
-                            </div>*@
-
-                        <div class="form-group label-floating">
-                            <div class="togglebutton">
-
-                                @*<label>
-                                        Produktion &nbsp;
-                                        @Html.CheckBoxFor(model => model.ItemType.)
-                                        <input type="checkbox" id="inputPackingOrder">Pakkeri
-                                        <button type="button" class="btn btn-default noselect" data-container="body" data-toggle="popover" data-placement="top" data-content="Skabes der nye vare af denne type i pakkeriet eller i produktionen?">
-                                            <i class="material-icons">help</i>
-                                        </button>
-                                    </label>*@
-
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ItemType.Procedure, "Opskrift", new {@class = "control-label"})
+                                    @Html.TextAreaFor(model => model.ItemType.Procedure, new {@class = "form-control", rows = 6, @placeholder = "Her kan opskriften på varetype skrives"})
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.ItemType.Unit, "Enhed", new { @class = "form-control" })
-                            @Html.DropDownListFor(model => model.ItemType.Unit, Model.SelectListItems, new { @class = "form-control chosen-select" })
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.ItemType.MinimumAmount, "Mindste mængde", new { @class = "control-label" })
-                            @Html.EditorFor(model => model.ItemType.MinimumAmount, new { htmlAttributes = new { @class = "form-control", @placeholder = "Notits sendes ved lagerbeholdning under dette." } })
-                            @Html.ValidationMessageFor(model => model.ItemType.MinimumAmount, "", new { @class = "text-danger" })
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ItemType.IsActive, "Aktiv", new {@class = "control-label"})
+                                    @Html.CheckBoxFor(model => model.ItemType.IsActive)
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </fieldset>
                 <button name="submitAction" class="btn btn-raised btn-success pull-right" type="submit" value="AddItemType">Gem type</button>
-                <button name="submitAction" class="btn btn-raised btn-success pull-right" type="submit" value="EditItemType">Gem og tilføj ingredienser</button>
                 <input class="btn btn-default pull-right flowout-close" type="reset" value="Annuller">
             </div>
         }
@@ -76,59 +60,47 @@
                     </tr>
                 </thead>
                 <tbody>
+                @foreach (Ingredient ingredient in Model.Ingredients) {
                     <tr>
                         <td>
-                            <h4>Marcipan</h4>
+                            <h4>
+                                @ingredient.ItemType.Name
+                            </h4>
                         </td>
                         <td>
-                            <h4>50<small>kg</small></h4>
+                            <h4>
+                                @ingredient.Amount
+                                <small>
+                                    @ingredient.Unit
+                                </small>
+                            </h4>
                         </td>
                         <td>
-                            <button class="btn btn-warning" type="button" name="removeIngredient">fjern ingrediens</button>
+                            <button class="btn btn-warning" type="button" name="removeIngredient">Fjern ingrediens</button>
                         </td>
                     </tr>
-                    <tr>
+                }
+                <tr>
+                    @using (Html.BeginForm("AddIngredient", "ItemType")) {
+                        @Html.AntiForgeryToken()
                         <td>
                             <div class="form-group">
-                                <label for="selectIgredientType" class="control-label">Ingrediens</label>
-                                <select id="selectIgredientType" class="form-control chosen-select" data-placeholder="Vælg en ingrediens fra listen. Skriv for at søge">
-                                    <option disabled selected value> -- Vælg en ingrediens -- </option>
-                                    <option>Chokomus</option>
-                                    <option>Skumbanan</option>
-                                    <option>Hvid kasse</option>
-                                    <option>Marcipanmasse</option>
-                                    <option>Chokomus</option>
-                                    <option>Skumbanan</option>
-                                    <option>Hvid kasse</option>
-                                    <option>Marcipanmasse</option>
-                                    <option>Chokomus</option>
-                                    <option>Skumbanan</option>
-                                    <option>Hvid kasse</option>
-                                    <option>Marcipanmasse</option>
-                                    <option>Chokomus</option>
-                                    <option>Skumbanan</option>
-                                    <option>Hvid kasse</option>
-                                    <option>Marcipanmasse</option>
-                                    <option>Chokomus</option>
-                                    <option>Skumbanan</option>
-                                    <option>Hvid kasse</option>
-                                    <option>Marcipanmasse</option>
-                                </select>
+                                @Html.LabelFor(model => model.Ingredient, "Vælg en ingrediens", new {@class = "form-control"})
+                                @Html.DropDownListFor(model => model.Ingredient, Model.UnitSelectListItems, new {@class = "form-control chosen-select"})
                             </div>
-
                         </td>
                         <td>
                             <div class="form-group">
-                                <label for="inputBatch" class=" control-label">Mængde per batch</label>
-
-                                <input type="number" class="form-control" id="inputBatche" placeholder="Hvor mange enhder bruges der per hele batch">
-
+                                @Html.LabelFor(model => model.Ingredient.Amount, "Mængde per produktionsgang", new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Ingredient.Amount, new { htmlAttributes = new { @class = "form-control", @placeholder = "Hvor mange enheder bruges der per hele batch" } })
+                                @Html.ValidationMessageFor(model => model.Ingredient.Amount, "", new { @class = "text-danger" })
                             </div>
                         </td>
                         <td>
                             <button class="btn btn-success" type="button" name="addIngredientBtn">Tilføj ingrediens</button>
                         </td>
-                    </tr>
+                    }
+                </tr>
                 </tbody>
             </table>
         </div>

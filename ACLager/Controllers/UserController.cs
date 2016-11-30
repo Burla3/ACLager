@@ -105,11 +105,13 @@ namespace ACLager.Controllers {
         [HttpPost]
         public ActionResult EditUser(User user) {
             object data;
+            string objectData;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 User dbUser = db.UserSet.Find(user.UID);
 
                 data = new {oldUser = dbUser, newUser = user};
+                objectData = System.Web.Helpers.Json.Encode(data);
 
                 dbUser.IsActive = user.IsActive;
                 dbUser.IsAdmin = user.IsAdmin;
@@ -117,14 +119,10 @@ namespace ACLager.Controllers {
 
                 db.SaveChanges();
             }
-
-            string objectData = System.Web.Helpers.Json.Encode(data);
+            
             string objectType = user.GetType().FullName;
 
-
             Changed?.Invoke(this, new LogEntryEventArgs("EditUser", "Brugeren med følgende oplysninger blev Ændret.", objectData, objectType));
-
-
 
             return RedirectToAction("Index");
         }

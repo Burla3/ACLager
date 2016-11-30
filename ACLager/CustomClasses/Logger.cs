@@ -21,7 +21,10 @@ namespace ACLager.CustomClasses
             {
                 Date = DateTime.Now,
                 Type = eventArgs.LogType,
-                LogBody = eventArgs.LogBody
+                LogBody = eventArgs.LogBody,
+                ObjectData = eventArgs.ObjectData,
+                ObjectType = eventArgs.ObjectType
+               
             };
 
             using (ACLagerDatabase db = new ACLagerDatabase())

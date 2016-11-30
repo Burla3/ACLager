@@ -10,18 +10,7 @@
 <div class="container"></div>
 
 <div class="container" id="logSort">
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6 panel">
-            <form class="bs-component">
-                <div class="form-group form-group-lg label-floating is-empty">
-                    <label class="control-label" for="MainFilterAndSearchField">Skriv for at søge i tabellen nedenfor</label>
-                    <input type="text" id="MainFilterAndSearchField" class="form-control search">
-                </div>
-            </form>
-        </div>
-        <div class="col-md-3"></div>
-    </div>
+    @Html.Partial("_SearchPanel")
 
     <div class="container">
         <div class="row">

@@ -230,9 +230,15 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\ILoggable.cs" />
+    <Compile Include="Models\ClassAdditions\Ingredient.cs" />
     <Compile Include="Models\ClassAdditions\Item.cs" />
+    <Compile Include="Models\ClassAdditions\ItemType.cs" />
+    <Compile Include="Models\ClassAdditions\Location.cs" />
+    <Compile Include="Models\ClassAdditions\LogEntry.cs" />
     <Compile Include="Models\ClassAdditions\User.cs" />
     <Compile Include="Models\ClassAdditions\WasteReport.cs" />
+    <Compile Include="Models\ClassAdditions\WorkOrder.cs" />
+    <Compile Include="Models\ClassAdditions\WorkOrderItem.cs" />
     <Compile Include="Models\Ingredient.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -397,6 +403,7 @@
     <Content Include="Views\ItemType\EditItemType.cshtml" />
     <Content Include="Views\ItemType\Detailed.cshtml" />
     <Content Include="Views\User\_CreateUser.cshtml" />
+    <Content Include="Views\Shared\_SearchPanel.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

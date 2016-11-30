@@ -38,6 +38,9 @@ namespace ACLager.Controllers {
         /// <returns></returns>
         [HttpGet]
         public ActionResult Detailed(string id) {
+            if (id == null) {
+                return RedirectToAction("Index");
+            }
             User user;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
@@ -66,7 +69,7 @@ namespace ACLager.Controllers {
             string objectType = user.GetType().FullName;
 
 
-            Changed?.Invoke(this, new LogEntryEventArgs("CreateUser", "Brugeren med følgende oplysninger blev oprettet.", objectData, objectType));
+            Changed?.Invoke(this, new LogEntryEventArgs("CreateUser", $"Brugeren {user.Name} blev oprettet.", objectData, objectType));
 
             return RedirectToAction("Detailed", new {id = user.UID});
         }
@@ -122,7 +125,7 @@ namespace ACLager.Controllers {
             
             string objectType = user.GetType().FullName;
 
-            Changed?.Invoke(this, new LogEntryEventArgs("EditUser", "Brugeren med følgende oplysninger blev Ændret.", objectData, objectType));
+            Changed?.Invoke(this, new LogEntryEventArgs("EditUser", $"Brugeren {user.Name} blev ændret.", objectData, objectType));
 
             return RedirectToAction("Index");
         }
@@ -173,7 +176,7 @@ namespace ACLager.Controllers {
             string objectType = user.GetType().FullName;
 
 
-            Changed?.Invoke(this, new LogEntryEventArgs("EditUser", "Brugeren med følgende oplysninger blev slettet.", objectData, objectType));
+            Changed?.Invoke(this, new LogEntryEventArgs("EditUser", $"Brugeren {user.Name} blev slettet.", objectData, objectType));
 
 
             return RedirectToAction("Index");

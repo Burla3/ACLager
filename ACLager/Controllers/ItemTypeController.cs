@@ -64,8 +64,6 @@ namespace ACLager.Controllers
 
         [HttpGet]
         public ActionResult EditItemType(string id) {
-
-            Debug.WriteLine("ID: " + id);
             if (id == null) {
                 return RedirectToAction("Index");
             }
@@ -81,17 +79,26 @@ namespace ACLager.Controllers
                 }
 
                 itemTypeViewModel.ItemType = dbItemType;
+                itemTypeViewModel.ItemTypes = db.ItemTypeSet.Where(it => it.IsActive && it.UID != uid).ToList();
                 itemTypeViewModel.Ingredients = db.IngredientSet.Where(it => it.ForItemType.UID == uid).ToList();
+                itemTypeViewModel.Ingredient = new Ingredient();
+                itemTypeViewModel.UnitSelectListItems = new[] {
+                    new SelectListItem() {Text = "Gram"},
+                    new SelectListItem() {Text = "Stk."},
+                    new SelectListItem() {Text = "Liter"}
+                };
+                itemTypeViewModel.DepartmentSelectListItems = new[] {
+                    new SelectListItem() {Text = "Produktion", Value = "Production"},
+                    new SelectListItem() {Text = "Pakkeri", Value = "Packaging"}
+                };
             }
 
             return View(itemTypeViewModel);
         }
 
         [HttpPost]
-        public ActionResult EditItemType(ItemType itemType)
-        {
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
+        public ActionResult EditItemType(ItemType itemType) {
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
                 ItemType dbItemType = db.ItemTypeSet.Find(itemType.UID);
 
                 dbItemType.IsActive = itemType.IsActive;
@@ -100,11 +107,18 @@ namespace ACLager.Controllers
                 dbItemType.MinimumAmount = itemType.MinimumAmount;
                 dbItemType.Barcode = itemType.Barcode;
                 dbItemType.Procedure = itemType.Procedure;
+                dbItemType.Department = itemType.Department;
+                dbItemType.BatchSize = itemType.BatchSize;
 
                 db.SaveChanges();
             }
 
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult AddIngredient() {
+            throw new NotImplementedException();
         }
 
         /// <summary>

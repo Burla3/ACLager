@@ -35,8 +35,10 @@ namespace ACLager.Controllers {
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 itemLocationPair.Location = db.LocationSet.Find(Int64.Parse(id));
-                itemLocationPair.Item = itemLocationPair.Location.Item;
-                itemLocationPair.Item.ItemType = itemLocationPair.Location.Item.ItemType;
+                if (itemLocationPair.Location.Item != null) {
+                    itemLocationPair.Item = itemLocationPair.Location.Item;
+                    itemLocationPair.Item.ItemType = itemLocationPair.Location.Item.ItemType;
+                }
             }
 
             return View(new LocationViewModel(null, itemLocationPair));

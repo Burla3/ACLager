@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ACLager.CustomClasses;
 using ACLager.Models;
 using ACLager.ViewModels;
 
@@ -13,14 +14,28 @@ namespace ACLager.Controllers
 
         public ActionResult Index() {
 
-            IEnumerable<WasteReport> wasteReports;
+            List<WasteReportGroup> wasteReportGroups = new List<WasteReportGroup>();
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                db.Configuration.LazyLoadingEnabled = true;
-                wasteReports = db.WasteReportSet.ToList();
+                foreach (WasteReport wasteReport in db.WasteReportSet) {
+                    wasteReportGroups.Add(new WasteReportGroup(wasteReport.Item.ItemType, wasteReport.WorkOrder, wasteReport.User, wasteReport, wasteReport.Item));
+                }
             }
 
-            return View(new WasteViewModel(wasteReports));
+            return View(new WasteViewModel(wasteReportGroups, null));
+        }
+
+        [HttpGet]
+        public ActionResult Detailed(string id) {
+            WasteViewModel wasteViewModel = new WasteViewModel();
+
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                WasteReport wasteReport = db.WasteReportSet.Find(Int64.Parse(id));
+
+                wasteViewModel.WasteReportGroup = new WasteReportGroup(wasteReport.Item.ItemType, wasteReport.WorkOrder, wasteReport.User, wasteReport, wasteReport.Item);
+            }
+
+            return View(wasteViewModel);
         }
 
         [HttpGet]

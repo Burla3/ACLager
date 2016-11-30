@@ -219,6 +219,7 @@
     <Compile Include="CustomClasses\Attributes\AdminOnly.cs" />
     <Compile Include="CustomClasses\NotificationEventArgs.cs" />
     <Compile Include="CustomClasses\Notifier.cs" />
+    <Compile Include="CustomClasses\WasteReportGroup.cs" />
     <Compile Include="Interfaces\INotifier.cs" />
     <Compile Include="CustomClasses\ItemGroup.cs" />
     <Compile Include="CustomClasses\HomeMenuBlock.cs" />
@@ -406,6 +407,7 @@
     <Content Include="Views\Shared\_SearchPanel.cshtml" />
     <Content Include="Views\Log\Detailed.cshtml" />
     <Content Include="Views\Waste\CreateWasteReport.cshtml" />
+    <Content Include="Views\Waste\Detailed.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

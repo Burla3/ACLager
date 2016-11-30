@@ -13,11 +13,12 @@ using Newtonsoft.Json.Linq;
 
 namespace ACLager.Controllers
 {
-    public class InventoryController : Controller, ILoggable
+    public class InventoryController : Controller, ILoggable, INotifier
     {
         public InventoryController()
         {
             new Logger().Subcribe(this);
+            new Notifier().Subscribe(this);
         }
 
         // GET: Inventory
@@ -87,8 +88,7 @@ namespace ACLager.Controllers
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 item.ItemType = db.ItemTypeSet.Find(item.ItemType.UID);
                 item.Location = db.LocationSet.Find(item.Location.UID);
-                item.DeliveryDate = DateTime.Now;
-                item.ExpirationDate = DateTime.Now;
+   
 
                 db.ItemSet.Add(item);
                 db.SaveChanges();
@@ -128,6 +128,10 @@ namespace ACLager.Controllers
                 dbItem.Amount -= item.Amount;
 
                 db.SaveChanges();
+
+                if (item.ItemType.Items.Sum(i => i.Amount) < item.ItemType.MinimumAmount) {
+                    Notify.Invoke(this, new NotificationEventArgs(item.ItemType));
+                }
             }
 
             return RedirectToAction("Index");
@@ -160,5 +164,6 @@ namespace ACLager.Controllers
         }
 
         public event ChangedEventHandler Changed;
+        public event NotificationEventHandler Notify;
     }
 }

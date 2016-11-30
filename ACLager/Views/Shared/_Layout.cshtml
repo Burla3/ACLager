@@ -55,7 +55,7 @@
                     window.location.assign(href);
                 }
             });
-
+            $('.dateTimePickerInput.date-only').bootstrapMaterialDatePicker({ format: 'YYYY-MM-DD', lang: 'da', weekStart: 1, cancelText: 'ANNULLER', time: false });
             $('body').on('click', '.btn-page-flowout-up', function () {
                 var content_element = "";
 

@@ -57,9 +57,10 @@ namespace ACLager.Controllers
                 }
             }
 
-            
+            Item sitem = new Item();
+            sitem.DeliveryDate = DateTime.Now;
 
-            return View(new InventoryViewModel(itemGroups, new Item(), locationSelectListItems, itemTypeSelectListItems));
+            return View(new InventoryViewModel(itemGroups, sitem, locationSelectListItems, itemTypeSelectListItems));
         }
 
         /// <summary>

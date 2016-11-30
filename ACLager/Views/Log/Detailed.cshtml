@@ -1,0 +1,52 @@
+﻿@using ACLager.Models
+@model ACLager.ViewModels.LogViewModel
+
+@{
+    ViewBag.Title = "Detailed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container panel">
+    <div class="row">
+        <div class="col-sm-4">
+            <a href="@Url.Action("Index")" class="btn btn-default pull-left"><i class="material-icons">arrow_back</i>Tilbage til "Aktivitets historik"</a>
+        </div>
+        <div class="col-sm-4">
+            <h3 class="text-center">Detaljer om Log</h3>
+        </div>
+        <div class="col-sm-4">
+        </div>
+    </div>
+
+    @{ User user = Json.Decode<User>(Model.LogEntry.ObjectData);}
+
+    <div class="clearfix"></div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-12">
+            <dl class="dl-horizontal">
+                <dt>Brugernummer:</dt>
+                <dd>@user.UID</dd>
+                <dt>Navn:</dt>
+                <dd>@user.Name</dd>
+                <dt>Status:</dt>
+                <dd>
+                    @if (user.IsActive) {
+                        <span class="label label-success">Aktiv</span>
+                    } else {
+                        <span class="label label-default">Inaktiv</span>
+                    }
+                </dd>
+                <dt>Role:</dt>
+                <dd>
+                    @if (user.IsAdmin) {
+                        <span class="label label-success">Administrator</span>
+                    } else {
+                        <span class="label label-default">Almindelig bruger</span>
+                    }
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>

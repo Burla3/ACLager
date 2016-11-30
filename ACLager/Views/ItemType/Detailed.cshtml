@@ -23,19 +23,19 @@
     <hr />
     <div class="row">
         <div class="col-sm-6">
-            <strong>Varetypens navn:</strong>
+            <strong>@Html.DisplayNameFor(model => model.ItemType.Name):</strong>
             <h1>@Model.ItemType.Name</h1>
         </div>
         <div class="col-sm-6">
             <div class="col-sm-5">
-                <strong>Minimum mængde før besked:</strong> <h3>@Model.ItemType.MinimumAmount</h3>
+                <strong>@Html.DisplayNameFor(model => model.ItemType.MinimumAmount):</strong> <h3>@Model.ItemType.MinimumAmount</h3>
             </div>
             <div class="col-sm-3">
-                <strong>Enhed:</strong> <h3>@Model.ItemType.Unit</h3>
+                <strong>@Html.DisplayNameFor(model => model.ItemType.Unit):</strong> <h3>@Model.ItemType.Unit</h3>
             </div>
             @if (Model.ItemType.BatchSize != null) {
                 <div class="col-sm-4">
-                    <strong>Batch størrelse:</strong> <h3>@Model.ItemType.BatchSize</h3>
+                    <strong>@Html.DisplayNameFor(model => model.ItemType.BatchSize):</strong> <h3>@Model.ItemType.BatchSize</h3>
                 </div>
             }   
         </div>
@@ -50,16 +50,16 @@
         </div>
         <div class="col-sm-6">
             <div class="col-sm-5">
-                <strong>Barcode:</strong> <h3>@Model.ItemType.Barcode</h3>
+                <strong>@Html.DisplayNameFor(model => model.ItemType.Barcode):</strong> <h3>@Model.ItemType.Barcode</h3>
             </div>
             <div class="col-sm-7">
-                <strong>Afdeling:</strong> <h3>@Model.ItemType.Department</h3>
+                <strong>@Html.DisplayNameFor(model => model.ItemType.Department):</strong> <h3>@Model.ItemType.Department</h3>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <strong>Fremgangsmåde:</strong> <h4>@Model.ItemType.Procedure</h4>
+            <strong>@Html.DisplayNameFor(model => model.ItemType.Procedure):</strong> <h4>@Model.ItemType.Procedure</h4>
         </div>
     </div>
     <hr />

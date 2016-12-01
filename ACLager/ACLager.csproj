@@ -411,6 +411,7 @@
     <Content Include="Views\Waste\Detailed.cshtml" />
     <Content Include="Views\WorkOrder\Detailed.cshtml" />
     <Content Include="Views\WorkOrder\Production.cshtml" />
+    <Content Include="Views\WorkOrder\EditWorkOrder.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

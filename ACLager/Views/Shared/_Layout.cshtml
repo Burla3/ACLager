@@ -41,10 +41,8 @@
     <script type="text/javascript">
         $(document).ready(function() {
             moment.locale("da");
-            $(".chosen-select").chosen({
-                inherit_select_classes: false,
-                search_contains: true,
-                no_results_text: 'Fandt ingen resultater til søgningen '
+            $('.chosen-select').select2({
+                language: "da"
             });
             $('.btn[data-toggle="popover"]').popover();
             $('.popover-trigger[data-toggle="popover"]').popover();

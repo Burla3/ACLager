@@ -3420,6 +3420,11 @@ hr.on-light {
   left: 50%;
   position: absolute;
 }
+@media (max-width: 767px) {
+  .navbar a.navbar-brand {
+    margin-top: -30px;
+  }
+}
 .fixed-button-container {
   position: fixed;
   bottom: 25px;
@@ -3572,4 +3577,7 @@ fieldset[disabled] .select2.select2-container {
   line-height: 1.42857143;
   color: #BDBDBD;
   font-weight: 400;
+}
+.navbar-filler {
+  height: 50px;
 }

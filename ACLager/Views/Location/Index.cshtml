@@ -12,58 +12,60 @@
 
     <div class="container">
         <div class="row">
-            <div class="sort noselect col-sm-2 text-center" data-sort="sort-status">
-                Status
+            <div class="sort noselect col-xs-2" data-sort="sort-status">
+                <strong>Status</strong>
+                    <br>
+                    <span class="label label-default">Klik for at sortere</span>
+                    <span class="label label-primary asc">Sorteret stigende</span>
+                    <span class="label label-primary desc">Sorteret faldende</span>
+                    <br>
+            </div>
+            <div class="sort noselect col-xs-2" data-sort="sort-name">
+                <strong>Navn</strong>
+                    <br>
+                    <span class="label label-default">Klik for at sortere</span>
+                    <span class="label label-primary asc">Sorteret stigende</span>
+                    <span class="label label-primary desc">Sorteret faldende</span>
+                    <br>
+            </div>
+            <div class="sort noselect col-xs-2" data-sort="sort-empty">
+                <strong>Ledig/Optaget</strong>
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>
                 <span class="label label-primary desc">Sorteret faldende</span>
                 <br>
             </div>
-            <div class="sort noselect col-sm-2 text-center" data-sort="sort-name">
-                Navn
-                <br>
-                <span class="label label-default">Klik for at sortere</span>
-                <span class="label label-primary asc">Sorteret stigende</span>
-                <span class="label label-primary desc">Sorteret faldende</span>
-                <br>
+            <div class="col-sm-4">
             </div>
-            <div class="sort noselect col-sm-2 text-center" data-sort="sort-empty">
-                Ledig/Optaget
-                <br>
-                <span class="label label-default">Klik for at sortere</span>
-                <span class="label label-primary asc">Sorteret stigende</span>
-                <span class="label label-primary desc">Sorteret faldende</span>
-                <br>
-            </div>
-            <div class="col-sm-2">
-            </div>
-            <div class="col-sm-2"></div>
         </div>
-    </div>
     <div class="container list" id="ExpansionPanelsContainer">
             @foreach (ItemLocationPair itemLocationPair in Model.ItemLocationPairs) {
                 <div class="expansionpanel row panel">
                     <div class="row">
-                        <div class="col-sm-3 sort-status">
-                            @if (itemLocationPair.Location.IsActive) {
-                                <span class="label label-success">Aktiv</span>
-                            } else {
-                                <span class="label label-default">Inaktiv</span>
-                            }
+                        <div class="col-xs-3 sort-status">
+                            <h4>
+                                @if (itemLocationPair.Location.IsActive)
+                                {
+                                    <span class="label label-success">Aktiv</span>
+                                }
+                                else
+                                {
+                                    <span class="label label-default">Inaktiv</span>
+                                }
+                            </h4>
                         </div>
-                        <div class="col-sm-3 sort-name">
-                            @itemLocationPair.Location.Name
+                        <div class="col-xs-2 sort-name">
+                            <h4>@itemLocationPair.Location.Name</h4>
                         </div>
-                        <div class="col-sm-2 sort-empty">
-                            @if (itemLocationPair.Item == null) {
-                                <span class="label label-success">Ledig</span>
-                            } else {
-                                <span class="label label-default">Optaget</span>
-                            }
-                        </div>
-                        <div class="col-sm-2">
-                            
+                        <div class="col-xs-2 sort-empty">
+                            <h4>
+                                @if (itemLocationPair.Item == null) {
+                                    <span class="label label-success">Ledig</span>
+                                } else {
+                                    <span class="label label-default">Optaget</span>
+                                }
+                            </h4>
                         </div>
                         <div class="expansion-control col-sm-2" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@itemLocationPair.Location.UID">
                             <div class="btn btn-default pull-right">
@@ -73,20 +75,11 @@
                         </div>
                     </div>
                     <div class="row expansion-content" id="ExpansionContentContainer_@itemLocationPair.Location.UID">
-                        <div class="col-sm-2 sort-supplier">
-                           
-                        </div>
-                        <div class="col-sm-2">
-
-                        </div>
-                        <div class="col-sm-3">
-
-                        </div>
-                        <div class="col-sm-5">
-
-                            <a href="@Url.Action("Detailed", new {id = itemLocationPair.Location.UID})" class="btn btn-raised btn-primary">Mere info</a>
-                            <a href="@Url.Action("EditLocation", new {id = itemLocationPair.Location.UID})" class="btn btn-raised btn-info">Rediger</a>
-                            <a href="@Url.Action("DeleteLocation", new {id = itemLocationPair.Location.UID})" class="btn btn-raised btn-danger">Slet</a>
+                        <div class="col-sm-12">
+                            
+                            <a href="@Url.Action("DeleteLocation", new {id = itemLocationPair.Location.UID})" class="btn btn-raised btn-danger pull-right">Slet</a>
+                            <a href="@Url.Action("EditLocation", new {id = itemLocationPair.Location.UID})" class="btn btn-raised btn-info pull-right">Rediger</a>
+                            <a href="@Url.Action("Detailed", new {id = itemLocationPair.Location.UID})" class="btn btn-raised btn-primary pull-right">Mere info</a>
 
                         </div>
                     </div>
@@ -140,5 +133,5 @@
         var userList = new List('locationSort', options);
 
     });
-</script>
+</script></div>
 

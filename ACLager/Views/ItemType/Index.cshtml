@@ -11,16 +11,16 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-sm-3">
-                @Html.DisplayNameFor(model => model.ItemType.Name)
+            <div class="col-xs-3">
+                <strong>@Html.DisplayNameFor(model => model.ItemType.Name)</strong>
             </div>
-            <div class="col-sm-3">
-                @Html.DisplayNameFor(model => model.ItemType.MinimumAmount)
+            <div class="col-xs-3">
+                <strong>@Html.DisplayNameFor(model => model.ItemType.MinimumAmount)</strong>
             </div>
-            <div class="col-sm-2">
-                @Html.DisplayNameFor(model => model.ItemType.Unit)
+            <div class="col-xs-2">
+                <strong>@Html.DisplayNameFor(model => model.ItemType.Unit)</strong>
             </div>
-            <div class="sort noselect col-sm-2 text-uppercase text-center" data-sort="sort-is-active">@Html.DisplayNameFor(model => model.ItemType.IsActive)?
+            <div class="sort noselect col-sm-2" data-sort="sort-is-active"><strong>@Html.DisplayNameFor(model => model.ItemType.IsActive)</strong>
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>
@@ -34,22 +34,22 @@
         @foreach (ItemType itemType in Model.ItemTypes) {
             <div class="expansionpanel row panel">
                 <div class="row">
-                    <div class="col-sm-3 sort-name">
+                    <div class="col-xs-3 sort-name">
                         <h4>
                             @itemType.Name
                         </h4>
                     </div>
-                    <div class="col-sm-3 sort-minimum-amount">
+                    <div class="col-xs-3 sort-minimum-amount">
                         <h4>
                             @itemType.MinimumAmount
                         </h4>
                     </div>
-                    <div class="col-sm-2 sort-unit">
+                    <div class="col-xs-2 sort-unit">
                         <h4>
                             @itemType.Unit
                         </h4>
                     </div>
-                    <div class="col-sm-2 sort-is-active">
+                    <div class="col-xs-2 sort-is-active">
                         <h4>
                             @if (itemType.IsActive) {
                                 <span class="label label-success">Aktiv</span>

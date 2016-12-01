@@ -12,14 +12,14 @@ namespace ACLager.Models {
             public long UID { get; set; }
             [Required(ErrorMessage = "Brugeren skal have et navn")]
             [StringLength(50, MinimumLength = 2, ErrorMessage = "Brugerens navn skal være mellem 2 og 50 tegn")]
-            [DisplayName("Navn")]
+            [DisplayName("Brugernavn")]
             public string Name { get; set; }
             [Required(ErrorMessage = "Medarbejder-PIN skal indtastes")]
             [DisplayName("Medarbejder-PIN")]
             public short PIN { get; set; }
-            [DisplayName("Administrator")]
+            [DisplayName("Rolle")]
             public bool IsAdmin { get; set; }
-            [DisplayName("Aktiv")]
+            [DisplayName("Status")]
             public bool IsActive { get; set; }
             [DisplayName("Slettet")]
             public bool IsDeleted { get; set; }

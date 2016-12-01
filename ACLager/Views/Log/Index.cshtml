@@ -12,7 +12,7 @@
 <div class="container" id="logSort">
     @Html.Partial("_SearchPanel")
 
-    <div class="container">
+
         <div class="row">
             <div class="sort noselect col-sm-2 text-uppercase text-center" data-sort="sort-date">Dato
                 <br>
@@ -32,8 +32,8 @@
                 Information
             </div>
         </div>
-    </div>
-    <div class="container list" id="ExpansionPanelsContainer">
+
+    <div class="list" id="ExpansionPanelsContainer">
         @foreach (LogEntry entry in Model.LogEntries)
         {
             <div class="expansionpanel row panel">

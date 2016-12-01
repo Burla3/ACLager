@@ -10,7 +10,7 @@
 <div class="container" id="locationSort">
     @Html.Partial("_SearchPanel")
 
-    <div class="container">
+
         <div class="row">
             <div class="sort noselect col-xs-2" data-sort="sort-status">
                 <strong>Status</strong>
@@ -38,8 +38,8 @@
             </div>
             <div class="col-sm-4">
             </div>
-        </div>
-    <div class="container list" id="ExpansionPanelsContainer">
+
+    <div class="list" id="ExpansionPanelsContainer">
             @foreach (ItemLocationPair itemLocationPair in Model.ItemLocationPairs) {
                 <div class="expansionpanel row panel">
                     <div class="row">

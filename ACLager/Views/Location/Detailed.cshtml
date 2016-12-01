@@ -26,8 +26,8 @@
         <div class="col-sm-8">
             @if (Model.ItemLocationPair.Location.Item != null) {
                 <div class="col-sm-5">
-                    <strong>Vare på lokationen:</strong>
-                    <h3>@Model.ItemLocationPair.Item.ItemType.Name</h3>
+                    <strong>Vare på lokationen:</strong><a href="@Url.Action("Detailed", "Inventory", new {id = Model.ItemLocationPair.Item.UID})">
+                    <h3>@Model.ItemLocationPair.Item.ItemType.Name</h3></a>
                 </div>
                 <div class="col-sm-4">
                     <strong>Mængde på lokationen:</strong>

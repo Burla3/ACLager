@@ -1,0 +1,10 @@
+﻿/* @font-face kit by Fonts2u (http://www.fonts2u.com) */
+@font-face {
+    font-family: "Creampuff";
+    src: url("../../fonts/CREAMPUF.eot?") format("eot"),
+         url("../../fonts/CREAMPUF.woff") format("woff"),
+         url("../../fonts/CREAMPUF.ttf") format("truetype"),
+         url("../../fonts/CREAMPUF.svg#Creampuff") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}

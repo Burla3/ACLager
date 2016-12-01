@@ -28,7 +28,8 @@ namespace ACLager {
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/ripples.css",
-                      "~/Content/select2.css"
+                      "~/Content/select2.css",
+                      "~/Content/Creampuff/stylesheet.css"
                       //"~/Content/bootstrap-material-datetimepicker.css"
                       ));
         }

@@ -3334,28 +3334,28 @@ hr.on-light {
 .sort .label-default {
   display: inline;
 }
-.asc .sort .label-default {
+.asc.sort .label-default {
   display: none;
 }
-.desc .sort .label-default {
+.desc.sort .label-default {
   display: none;
 }
 .sort .label-primary.asc {
   display: none;
 }
-.asc .sort .label-primary.asc {
+.asc.sort .label-primary.asc {
   display: inline;
 }
-.desc .sort .label-primary.asc {
+.desc.sort .label-primary.asc {
   display: none;
 }
 .sort .label-primary.desc {
   display: none;
 }
-.asc .sort .label-primary.desc {
+.asc.sort .label-primary.desc {
   display: none;
 }
-.desc .sort .label-primary.desc {
+.desc.sort .label-primary.desc {
   display: inline;
 }
 .background-override-blue-grey {

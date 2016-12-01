@@ -135,7 +135,6 @@ namespace ACLager.Controllers
                 ingredient.ForItemType = dbForItemType;
                 ingredient.Amount = ingredient.Amount;
                 ingredient.ItemType = dbItemType;
-                ingredient.Unit = "REMOVE ME";
 
                 db.IngredientSet.Add(ingredient);
 

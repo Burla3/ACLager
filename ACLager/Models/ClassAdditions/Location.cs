@@ -12,7 +12,7 @@ namespace ACLager.Models {
         private class LocationMetadata {
             [DisplayName("Lokationsnummer")]
             public long UID { get; set; }
-            [DisplayName("Navn")]
+            [DisplayName("Lokationsnavn")]
             public string Name { get; set; }
             [DisplayName("Status")]
             public bool IsActive { get; set; }

@@ -8,47 +8,54 @@
 <div class="container panel">
     <div class="row">
         <div class="col-sm-4">
-            <a href="@Url.Action("Index")" class="btn btn-default pull-left"><i class="material-icons">arrow_back</i>Tilbage til lageroversigten</a>
+            <a href="@Url.Action("Index")" class="btn btn-default pull-left"><i class="material-icons">arrow_back</i>Tilbage til "Lagerstyring"</a>
         </div>
-        <div class="col-sm-4">
-            <h3 class="text-center">Vareinformation</h3>
+        <div class="col-sm-8">
+            <h3 class="text-center">Detaljer om vare</h3>
         </div>
+    </div>
+    <div class="clearfix"></div>
+    <hr />
+    <div class="row">
         <div class="col-sm-4">
-
+            <strong>@Html.DisplayNameFor(model => model.Item.ItemType.Name):</strong><a href="@Url.Action("Detailed", "ItemType", new {id = Model.Item.ItemType.UID})">
+            <h1>@Model.Item.ItemType.Name</h1></a>
+        </div>
+        <div class="col-sm-8">
+            <div class="col-sm-4">
+                <strong>@Html.DisplayNameFor(model => model.Item.Location.Name):</strong><a href="@Url.Action("Detailed", "Location", new {id = Model.Item.Location.UID})">
+                <h3>@Model.Item.Location.Name</h3></a>
+            </div>
+            <div class="col-sm-4">
+                <strong>@Html.DisplayNameFor(model => model.Item.Amount):</strong> <h3>@Model.Item.Amount</h3>
+            </div>
+            <div class="col-sm-4">
+                <strong>@Html.DisplayNameFor(model => model.Item.ItemType.Unit):</strong> <h3>@Model.Item.ItemType.Unit</h3>
+            </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-6">
-            <small>erstat med dynamisk navn</small><a href="@Url.Action("Detailed", "ItemType", new {id = Model.Item.ItemType.UID})"><h3>@Model.Item.ItemType.Name</h3></a>
-        </div>
-        <div class="col-sm-6">
-            <small>erstat med dynamisk navn</small><a href="@Url.Action("Detailed", "Location", new {id = Model.Item.Location.UID})"><h3>@Model.Item.Location.Name</h3></a>
-        </div>
-    </div>
-    <div class="row">
         <div class="col-sm-4">
-            <small>@Html.DisplayNameFor(model => Model.Item.Amount)</small>
-            <h3>@Model.Item.Amount</h3>
         </div>
-        <div class="col-sm-4">
-            <small>@Html.DisplayNameFor(model => Model.Item.ExpirationDate )</small>
-            @if (@Model.Item.ExpirationDate != null) {
-                <h3>@Model.Item.ExpirationDate.Value.ToShortDateString() </h3>
-            }
-        </div>
-        <div class="col-sm-4">
-            <small>@Html.DisplayNameFor(model => Model.Item.DeliveryDate )</small>
-            <h3>@Model.Item.DeliveryDate </h3>
+        <div class="col-sm-8">
+            <div class="col-sm-4">
+                @if (@Model.Item.ExpirationDate != null) {
+                    <strong>@Html.DisplayNameFor(model => model.Item.ExpirationDate):</strong>
+                    <h3>@Model.Item.ExpirationDate</h3>
+                }             
+            </div>
+            <div class="col-sm-4">
+                <strong>@Html.DisplayNameFor(model => model.Item.DeliveryDate):</strong> <h3>@Model.Item.DeliveryDate</h3>
+            </div> 
+            <div class="col-sm-4">
+                <strong>@Html.DisplayNameFor(model => model.Item.Supplier):</strong> <h3>@Model.Item.Supplier</h3>
+            </div>
         </div>
     </div>
     <hr />
     <div class="row">
-        <div class="col-sm-5">
-            <small>@Html.DisplayNameFor(model => Model.Item.Supplier)</small>
-            <h3>@Model.Item.Supplier</h3>
-        </div>
-        <div class="col-sm-7">
-            <a href="@Url.Action("PickItem", new {id = Model.Item.UID})" class="btn btn-raised btn-success pull-right">Pluk</a>
+        <div class="col-sm-12">
+            <a href="@Url.Action("PickItem", new {id = Model.Item.UID})" class="btn btn-raised btn-danger pull-right">Pluk</a>
             <a href="@Url.Action("MoveItem", new {id = Model.Item.UID})" class="btn btn-raised btn-info pull-right">Flyt</a>
         </div>
     </div>

@@ -13,8 +13,8 @@
             <Legend>Opret spildrapport</Legend>
             <div class="col-sm-6">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.WasteReport.Item, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.WasteReport.Item.UID, Model.Items, new { @class = "form-control chosen-select" })
+                    @Html.LabelFor(model => model.Item, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.Item.UID, Model.Items, new { @class = "form-control chosen-select" })
                 </div>
             </div>
             <div class="col-sm-3">
@@ -26,8 +26,8 @@
             </div>
             <div class="col-sm-3">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.WasteReport.WorkOrder, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.WasteReport.WorkOrder.UID, Model.WorkOrder, new { @class = "form-control chosen-select" })
+                    @Html.LabelFor(model => model.WorkOrder, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.WorkOrder.UID, Model.WorkOrders, new { @class = "form-control chosen-select" })
                 </div>
             </div>
             <div class="col-sm-12">

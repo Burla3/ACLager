@@ -18,7 +18,8 @@ namespace ACLager.Controllers
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 foreach (WasteReport wasteReport in db.WasteReportSet) {
-                    wasteReportGroups.Add(new WasteReportGroup(wasteReport.Item.ItemType, wasteReport.WorkOrder, wasteReport.User, wasteReport, wasteReport.Item));
+                    dynamic objectData = System.Web.Helpers.Json.Decode(wasteReport.ObjectData);
+                    wasteReportGroups.Add(new WasteReportGroup(objectData["ItemType"], objectData["WorkOrder"], objectData["User"], wasteReport, objectData["item"]));
                 }
             }
 
@@ -32,7 +33,8 @@ namespace ACLager.Controllers
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 WasteReport wasteReport = db.WasteReportSet.Find(Int64.Parse(id));
 
-                wasteViewModel.WasteReportGroup = new WasteReportGroup(wasteReport.Item.ItemType, wasteReport.WorkOrder, wasteReport.User, wasteReport, wasteReport.Item);
+                dynamic objectData = System.Web.Helpers.Json.Decode(wasteReport.ObjectData);
+                wasteViewModel.WasteReportGroup = new WasteReportGroup(objectData["ItemType"], objectData["WorkOrder"], objectData["UserContextUser"], wasteReport, objectData["item"]);
             }
 
             return View(wasteViewModel);
@@ -71,7 +73,7 @@ namespace ACLager.Controllers
         /// </summary>
         /// <param name="wasteReport"></param>
         [HttpPost]
-        public ActionResult CreateWasteReport(WasteReport wasteReport)
+        public ActionResult CreateWasteReport(CreateWasteViewModel wasteReportViewModel)
         {
             HttpCookie cookie = HttpContext.Request.Cookies["UserInfo"];
             dynamic cookieData = System.Web.Helpers.Json.Decode(cookie.Value);
@@ -79,13 +81,23 @@ namespace ACLager.Controllers
 
             using (ACLagerDatabase db = new ACLagerDatabase())
             {
-                wasteReport.WorkOrder = null;
+                WorkOrder workOrder = db.WorkOrderSet.Find(wasteReportViewModel.WorkOrder.UID);
                 User dbUser = db.UserSet.Find(userID);
-                Item dbItem = db.ItemSet.Find(wasteReport.Item.UID);
+                Item dbItem = db.ItemSet.Find(wasteReportViewModel.Item.UID);
+                ItemType dbItemType = dbItem.ItemType;
 
-                wasteReport.User = dbUser;
+                object objectData = new {
+                    ContextUser = new {Type = dbUser.GetType().ToString(), Data = dbUser },
+                    Item = new {Type = dbItem.GetType().ToString(), Data = dbItem },
+                    WorkOrder = new {Type = workOrder.GetType().ToString(), Data = workOrder },
+                    ItemType = new {Type = dbItemType.GetType().ToString(), Data = dbItemType }
+                };
+
+                WasteReport wasteReport = wasteReportViewModel.WasteReport;
+
                 wasteReport.Date = DateTime.Now;
-                wasteReport.Item = dbItem;
+                wasteReport.ObjectData = System.Web.Helpers.Json.Encode(objectData);
+
                 db.WasteReportSet.Add(wasteReport);
                 db.SaveChanges();
             }

@@ -11,32 +11,32 @@
 
     <div class="container">
         <div class="row">
-            <div class="sort noselect col-sm-3 text-center" data-sort="sort-status">
-                @Html.DisplayNameFor(model => model.User.IsActive)
+            <div class="sort noselect col-xs-3" data-sort="sort-status"">
+                <strong>@Html.DisplayNameFor(model => model.User.IsActive)</strong>
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>
                 <span class="label label-primary desc">Sorteret faldende</span>
                 <br>
             </div>
-            <div class="sort noselect col-sm-3 text-center" data-sort="sort-name">
-                @Html.DisplayNameFor(model => model.User.Name)
+            <div class="sort noselect col-xs-3" data-sort="sort-name"">
+                <strong>@Html.DisplayNameFor(model => model.User.Name)</strong>
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>
                 <span class="label label-primary desc">Sorteret faldende</span>
                 <br>
             </div>
-            <div class="sort noselect col-sm-2 text-center" data-sort="sort-uid">
-                @Html.DisplayNameFor(model => model.User.UID)
+            <div class="sort noselect col-xs-2" data-sort="sort-uid">
+                <strong>@Html.DisplayNameFor(model => model.User.UID)</strong>
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>
                 <span class="label label-primary desc">Sorteret faldende</span>
                 <br>
             </div>
-            <div class="sort noselect col-sm-2 text-center" data-sort="sort-role">
-                Rolle
+            <div class="sort noselect col-xs-2" data-sort="sort-role">
+                <strong>Rolle</strong>
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>
@@ -50,21 +50,23 @@
         @foreach (User user in Model.Users) {
             <div class="expansionpanel row panel">
                 <div class="row">
-                    <div class="col-sm-3 sort-status">
-                        @if (user.IsActive) {
-                            <span class="label label-success">Aktiv</span>
-                        } else {
-                            <span class="label label-default">Inaktiv</span>
-                        }
+                    <div class="col-xs-3 sort-status">
+                        <h4>
+                             @if (user.IsActive) {
+                                <span class="label label-success">Aktiv</span>
+                             } else {
+                                <span class="label label-default">Inaktiv</span>
+                             }
+                        </h4>
                     </div>
-                    <div class="col-sm-3 sort-name">
-                        @user.Name
+                    <div class="col-xs-3 sort-name">
+                        <h4>@user.Name</h4>
                     </div>
-                    <div class="col-sm-2 sort-uid">
-                       @user.UID
-                    </div>
-                    <div class="col-sm-2 sort-role">
-                        @String.Format(user.IsAdmin ? "Administrator" : "Almindelig bruger")
+                    <div class="col-xs-2 sort-uid">
+                        <h4>@user.UID</h4>
+</div>
+                    <div class="col-xs-2 sort-role">
+                    <h4>@String.Format(user.IsAdmin ? "Administrator" : "Almindelig bruger")</h4>
                     </div>
                     <div class="expansion-control col-sm-2" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@user.UID">
                         <div class="btn btn-default pull-right">
@@ -80,16 +82,12 @@
                     </div>
                     <div class="col-sm-3">
                     </div>
-                    <div class="col-sm-5">
-                        
-                            <a href="@Url.Action("Detailed", new {id = user.UID})" class="btn btn-raised btn-primary">Mere info</a>
-                            <a href="@Url.Action("EditUser", new {id = user.UID})" class="btn btn-raised btn-info">Rediger</a>
-                            <a href="@Url.Action("DeleteUser", new {id = user.UID})" class="btn btn-raised btn-danger">Slet</a>
-                        
+                    <div class="col-sm-5">                       
+                        <a href="@Url.Action("Detailed", new {id = user.UID})" class="btn btn-raised btn-primary">Mere info</a>
+                        <a href="@Url.Action("EditUser", new {id = user.UID})" class="btn btn-raised btn-info">Rediger</a>
+                        <a href="@Url.Action("DeleteUser", new {id = user.UID})" class="btn btn-raised btn-danger">Slet</a>                        
                     </div>
-
-                </div>
-
+                </div>                
             </div>
         }
     </div>

@@ -10,10 +10,8 @@
         <div class="col-sm-4">
             <a href="@Url.Action("Index")" class="btn btn-default pull-left"><i class="material-icons">arrow_back</i>Tilbage til "Lokationer"</a>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-8">
             <h3 class="text-center">Detaljer om lokation</h3>
-        </div>
-        <div class="col-sm-4">
         </div>
     </div>
 
@@ -28,10 +26,8 @@
         <div class="col-sm-8">
             @if (Model.ItemLocationPair.Location.Item != null) {
                 <div class="col-sm-5">
-
                     <strong>Vare på lokationen:</strong>
                     <h3>@Model.ItemLocationPair.Item.ItemType.Name</h3>
-
                 </div>
                 <div class="col-sm-4">
                     <strong>Mængde på lokationen:</strong>

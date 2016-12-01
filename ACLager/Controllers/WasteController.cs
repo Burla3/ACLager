@@ -45,16 +45,25 @@ namespace ACLager.Controllers
             IEnumerable<Item> items;
             List<SelectListItem> SelectItemList = new List<SelectListItem>();
 
+            IEnumerable<WorkOrder> workorder;
+            List<SelectListItem> selectWorkorderList = new List<SelectListItem>();
+
             using (ACLagerDatabase db = new ACLagerDatabase())
             {
                 items = db.ItemSet.ToList();
+                workorder = db.WorkOrderSet.ToList();
 
                 foreach(Item item in items){
                     SelectItemList.Add(new SelectListItem { Text = item.ItemType.Name, Value = item.UID.ToString() });
                 }
+
+                foreach (WorkOrder work in workorder){
+                    selectWorkorderList.Add(new SelectListItem { Text = work.UID.ToString(), Value = work.UID.ToString() });
+                }
+
             }
 
-            return View(new CreateWasteViewModel(new WasteReport(), SelectItemList));
+            return View(new CreateWasteViewModel(new WasteReport(), SelectItemList, selectWorkorderList));
         }
 
         /// <summary>

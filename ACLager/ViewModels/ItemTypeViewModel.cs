@@ -13,6 +13,7 @@ namespace ACLager.ViewModels {
         public IEnumerable<Ingredient> Ingredients { get; set; }
         public Ingredient Ingredient { get; set; }
         public IEnumerable<SelectListItem> DepartmentSelectListItems { get; set; }
+        public IEnumerable<SelectListItem> ItemTypeSelectListItems { get; set; }
 
         public ItemTypeViewModel() {
             base.SelectColor("ItemType");
@@ -28,7 +29,8 @@ namespace ACLager.ViewModels {
             };
             DepartmentSelectListItems = new[] {
                 new SelectListItem() {Text = "Produktion", Value = "Production"},
-                new SelectListItem() {Text = "Pakkeri", Value = "Packaging"}
+                new SelectListItem() {Text = "Pakkeri", Value = "Packaging"},
+                new SelectListItem() {Text = "Bestilling", Value = "Order"}
             };
         }
     }

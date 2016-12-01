@@ -8,7 +8,7 @@ using ACLager.Models;
 namespace ACLager.ViewModels{
     public class WorkOrderViewModel : BaseViewModel{
         public WorkOrderViewModel(){
-            base.SelectColor("Blue");
+            base.SelectSectionSpecials("Blue");
         }
         public WorkOrderViewModel(IEnumerable<WorkOrder> workorders, WorkOrder workorder, List<string> workorderitems) : this() {
             Workorders = workorders;

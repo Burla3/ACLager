@@ -16,7 +16,7 @@ namespace ACLager.ViewModels {
         public IEnumerable<SelectListItem> ItemTypeSelectListItems { get; set; }
 
         public ItemTypeViewModel() {
-            base.SelectColor("ItemType");
+            base.SelectSectionSpecials("ItemType");
         }
 
         public ItemTypeViewModel(IEnumerable<ItemType> itemTypes, ItemType itemType) : this() {

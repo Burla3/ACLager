@@ -26,5 +26,6 @@ namespace ACLager.Models
     
         public virtual WorkOrder WorkOrder { get; set; }
         public virtual ItemType ItemType { get; set; }
+        public virtual Item Item { get; set; }
     }
 }

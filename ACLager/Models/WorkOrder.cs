@@ -25,7 +25,7 @@ namespace ACLager.Models
         public long UID { get; set; }
         public string Type { get; set; }
         public long BatchNumber { get; set; }
-        public System.DateTime DueDate { get; set; }
+        public Nullable<System.DateTime> DueDate { get; set; }
         public bool IsComplete { get; set; }
         public string ShippingInfo { get; set; }
     

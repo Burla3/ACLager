@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/29/2016 15:14:53
+-- Date Created: 12/01/2016 10:51:34
 -- Generated from EDMX file: C:\Users\Mikke\Documents\GitHub\ACLager\ACLager\Models\Model.edmx
 -- --------------------------------------------------
 
@@ -108,7 +108,6 @@ GO
 CREATE TABLE [dbo].[IngredientSet] (
     [UID] bigint IDENTITY(1,1) NOT NULL,
     [Amount] bigint  NOT NULL,
-    [Unit] nvarchar(max)  NOT NULL,
     [ForItemType_UID] bigint  NOT NULL,
     [ItemType_UID] bigint  NOT NULL
 );
@@ -148,7 +147,7 @@ CREATE TABLE [dbo].[WorkOrderSet] (
     [UID] bigint IDENTITY(1,1) NOT NULL,
     [Type] nvarchar(max)  NOT NULL,
     [BatchNumber] bigint  NOT NULL,
-    [DueDate] datetime  NOT NULL,
+    [DueDate] datetime  NULL,
     [IsComplete] bit  NOT NULL,
     [ShippingInfo] nvarchar(max)  NULL,
     [CompletedByUser_UID] bigint  NULL
@@ -161,7 +160,8 @@ CREATE TABLE [dbo].[WorkOrderItemSet] (
     [Amount] bigint  NOT NULL,
     [Progress] bigint  NOT NULL,
     [WorkOrder_UID] bigint  NOT NULL,
-    [ItemType_UID] bigint  NOT NULL
+    [ItemType_UID] bigint  NOT NULL,
+    [Item_UID] bigint  NULL
 );
 GO
 
@@ -398,6 +398,21 @@ GO
 CREATE INDEX [IX_FK_WorkOrderItemItemType]
 ON [dbo].[WorkOrderItemSet]
     ([ItemType_UID]);
+GO
+
+-- Creating foreign key on [Item_UID] in table 'WorkOrderItemSet'
+ALTER TABLE [dbo].[WorkOrderItemSet]
+ADD CONSTRAINT [FK_WorkOrderItemItem]
+    FOREIGN KEY ([Item_UID])
+    REFERENCES [dbo].[ItemSet]
+        ([UID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_WorkOrderItemItem'
+CREATE INDEX [IX_FK_WorkOrderItemItem]
+ON [dbo].[WorkOrderItemSet]
+    ([Item_UID]);
 GO
 
 -- --------------------------------------------------

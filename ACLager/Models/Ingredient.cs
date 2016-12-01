@@ -16,7 +16,6 @@ namespace ACLager.Models
     {
         public long UID { get; set; }
         public long Amount { get; set; }
-        public string Unit { get; set; }
     
         public virtual ItemType ForItemType { get; set; }
         public virtual ItemType ItemType { get; set; }

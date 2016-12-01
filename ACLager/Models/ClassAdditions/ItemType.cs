@@ -12,7 +12,7 @@ namespace ACLager.Models {
         private class ItemTypeMetadata {
             [DisplayName("Varetypenummer")]
             public long UID { get; set; }
-            [DisplayName("Navn")]
+            [DisplayName("Varenavn")]
             public string Name { get; set; }
             [DisplayName("Mindste beholdning")]
             public long MinimumAmount { get; set; }

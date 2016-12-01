@@ -1,0 +1,133 @@
+﻿@using ACLager.Models
+@model ACLager.ViewModels.WorkOrderViewModel
+
+
+@{
+    ViewBag.Title = "Production";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Production</h2>
+
+<div class="container" id="workorderSort">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 panel">
+            <form class="bs-component">
+                <div class="form-group form-group-lg label-floating">
+
+                    <div class="input-group">
+                        <label class="control-label" for="MainFilterAndSearchField">Skriv for at søge i tabellen nedenfor</label>
+                        <input type="text" id="MainFilterAndSearchField" class="form-control search">
+                        <span class="input-group-btn">
+                            <div class="btn btn-primary btn-raised" type="button">
+                                <i class="material-icons">search</i> Scan til søgning
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="sort noselect col-sm-1 text-center" data-sort="sort-UID" ">
+                UID
+                <br>
+                <span class="label label-default">Klik for at sortere</span>
+                <span class="label label-primary asc">Sorteret stigende</span>
+                <span class="label label-primary desc">Sorteret faldende</span>
+                <br>
+            </div>
+            <div class="sort noselect col-sm-2 text-center" data-sort="sort-batchnumber" ">
+                BatchNummer
+                <br>
+                <span class="label label-default">Klik for at sortere</span>
+                <span class="label label-primary asc">Sorteret stigende</span>
+                <span class="label label-primary desc">Sorteret faldende</span>
+                <br>
+            </div>
+            <div class="sort noselect col-sm-2 text-center" data-sort="sort-shippinginfo">
+                Shipping Info
+                <br>
+                <span class="label label-default">Klik for at sortere</span>
+                <span class="label label-primary asc">Sorteret stigende</span>
+                <span class="label label-primary desc">Sorteret faldende</span>
+                <br>
+            </div>
+            <div class="sort noselect col-sm-2 text-center" data-sort="sort-duedate">
+                Due Date
+                <br>
+                <span class="label label-default">Klik for at sortere</span>
+                <span class="label label-primary asc">Sorteret stigende</span>
+                <span class="label label-primary desc">Sorteret faldende</span>
+                <br>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+    </div>
+    
+    <div class="container list" id="ExpansionPanelsContainer">
+        @foreach (WorkOrder workorder in Model.Workorders){
+            if (workorder.Type == "Production"){
+                if (!workorder.IsComplete) { 
+                 <div class="expansionpanel row panel">
+                     <div class="row">
+                         <div class="col-sm-2 sort-UID">
+                             @workorder.UID
+                         </div>
+                         <div class="col-sm-2 sort-batchnumber">
+                             @workorder.BatchNumber
+                         </div>
+                         <div class="col-sm-2 sort-shippinginfo">
+                             @workorder.ShippingInfo
+                         </div>
+                         <div class="col-sm-2 sort-duedate">
+                             @workorder.DueDate
+                         </div>
+                         <div class="expansion-control col-sm-2" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@workorder.UID">
+                             <div class="btn btn-default pull-right">
+                                 <i class="material-icons">expand_more</i>
+                                 <i class="material-icons hidden">expand_less</i>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="row expansion-content" id="ExpansionContentContainer_@workorder.UID">
+                         <div class="col-sm-2">
+                         </div>
+                         <div class="col-sm-2">
+                         </div>
+                         <div class="col-sm-3">
+                         </div>
+                         <div class="col-sm-5">
+
+                             <a href="@Url.Action("Detailed", new {id = workorder.UID})" class="btn btn-raised btn-primary">Mere info</a>
+                             <a href="@Url.Action("EditUser", new {id = workorder.UID})" class="btn btn-raised btn-info">Rediger</a>
+                             <a href="@Url.Action("DeleteUser", new {id = workorder.UID})" class="btn btn-raised btn-danger">Slet</a>
+
+                         </div>
+
+                     </div>
+
+                 </div>
+                }
+            }
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var options = {
+                valueNames: ['sort-UID', 'sort-batchnumber', 'sort-shippinginfo', 'sort-duedate']
+            };
+
+            var workorderList = new List('workorderSort', options);
+
+
+        });
+</script>

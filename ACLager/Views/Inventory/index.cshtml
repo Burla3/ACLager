@@ -72,13 +72,10 @@
                             <strong>Leveret dato:</strong>
                             @itemLocationPair.Item.DeliveryDate.ToShortDateString()
                         </div>
-                        <div class="col-xs-3">
-                            
-                        </div>
-                        <div class="col-xs-5">
-                                <a href="@Url.Action("Detailed", new {id = itemLocationPair.Item.UID})" class="btn btn-raised btn-primary">Mere info</a>
-                                <a href="@Url.Action("MoveItem", new {id = itemLocationPair.Item.UID})" class="btn btn-raised btn-info">Flyt</a>
-                                <a href="@Url.Action("PickItem", new {id = itemLocationPair.Item.UID})" class="btn btn-raised btn-success">Pluk</a>
+                        <div class="col-xs-8">
+                            <a href="@Url.Action("PickItem", new {id = itemLocationPair.Item.UID})" class="btn btn-raised btn-success pull-right">Pluk</a>
+                            <a href="@Url.Action("MoveItem", new {id = itemLocationPair.Item.UID})" class="btn btn-raised btn-info pull-right">Flyt</a>
+                            <a href="@Url.Action("Detailed", new {id = itemLocationPair.Item.UID})" class="btn btn-raised btn-primary pull-right">Mere info</a>
                         </div>
                     </div>
                 </div>

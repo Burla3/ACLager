@@ -79,8 +79,11 @@ namespace ACLager.Controllers
                 }
 
                 itemTypeViewModel.ItemType = dbItemType;
-                itemTypeViewModel.ItemTypes = db.ItemTypeSet.Where(it => it.IsActive && it.UID != uid).ToList();
                 itemTypeViewModel.Ingredients = db.IngredientSet.Where(it => it.ForItemType.UID == uid).ToList();
+                foreach (Ingredient ingredient in itemTypeViewModel.Ingredients)
+                {
+                    ingredient.ItemType = db.ItemTypeSet.SingleOrDefault(it => it.UID == ingredient.UID);
+                }
                 itemTypeViewModel.Ingredient = new Ingredient();
                 itemTypeViewModel.UnitSelectListItems = new[] {
                     new SelectListItem() {Text = "Gram"},
@@ -89,8 +92,11 @@ namespace ACLager.Controllers
                 };
                 itemTypeViewModel.DepartmentSelectListItems = new[] {
                     new SelectListItem() {Text = "Produktion", Value = "Production"},
-                    new SelectListItem() {Text = "Pakkeri", Value = "Packaging"}
+                    new SelectListItem() {Text = "Pakkeri", Value = "Packaging"},
+                    new SelectListItem() {Text = "Bestilling", Value = "Order"}
                 };
+                itemTypeViewModel.ItemTypeSelectListItems = db.ItemTypeSet.Where(it => it.IsActive && it.UID != uid && !it.IsDeleted).ToList()
+                    .Select(itemType => new SelectListItem {Text = itemType.Name, Value = itemType.UID.ToString()}).ToList();
             }
 
             return View(itemTypeViewModel);
@@ -117,8 +123,47 @@ namespace ACLager.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddIngredient() {
-            throw new NotImplementedException();
+        public ActionResult AddIngredient(Ingredient ingredient, string id) {
+            if (id == null || ingredient == null) {
+                return RedirectToAction("Index");
+            }
+
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                ItemType dbForItemType = db.ItemTypeSet.Find(long.Parse(id));
+                ItemType dbItemType = db.ItemTypeSet.Find(ingredient.ItemType.UID);
+
+                ingredient.ForItemType = dbForItemType;
+                ingredient.Amount = ingredient.Amount;
+                ingredient.ItemType = dbItemType;
+
+                db.IngredientSet.Add(ingredient);
+
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("EditItemType", new { id = id });
+        }
+
+        [HttpPost]
+        public ActionResult RemoveIngredient(string itemTypeId, string ingredientId) {
+            if (itemTypeId == null || ingredientId == null) {
+                return RedirectToAction("Index");
+            }
+
+            using (ACLagerDatabase db = new ACLagerDatabase())
+            {
+                Ingredient dbIngredient = db.IngredientSet.Find(long.Parse(ingredientId));
+
+                if (dbIngredient == null) {
+                    return RedirectToAction("Index");
+                }
+
+                db.IngredientSet.Remove(dbIngredient);
+
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("EditItemType", new { id = itemTypeId });
         }
 
         /// <summary>

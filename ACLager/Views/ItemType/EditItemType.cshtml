@@ -20,17 +20,22 @@
 
                     <div class="col-sm-6">
                         <div class="row">
+
                             <div class="col-xs-11">
+
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.ItemType.Procedure, "Opskrift", new {@class = "control-label"})
                                     @Html.TextAreaFor(model => model.ItemType.Procedure, new {@class = "form-control", rows = 6, @placeholder = "Her kan opskriften på varetype skrives"})
                                 </div>
                             </div>
+
                             <div class="col-xs-1"></div>
+
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="row">
+
                             <div class="col-xs-11">
                                 <div class="form-group label-floating">
                                     <div class="checkbox">
@@ -44,6 +49,7 @@
                             <div class="col-xs-1">
 
                             </div>
+
                         </div>
                     </div>
                 </fieldset>
@@ -79,22 +85,30 @@
                             <h4>
                                 @ingredient.Amount
                                 <small>
-                                    @ingredient.Unit
+                                    @ingredient.ItemType.Unit
                                 </small>
                             </h4>
                         </td>
                         <td>
-                            <button class="btn btn-warning" type="button" name="removeIngredient">Fjern ingrediens</button>
+                            @using (Html.BeginForm("RemoveIngredient", "ItemType", new { itemTypeId = Model.ItemType.UID, ingredientId = ingredient.UID })) {
+                                @Html.AntiForgeryToken()
+
+                                <button class="btn btn-warning" type="submit" name="removeIngredient">Fjern ingrediens</button>
+                            }
+
                         </td>
                     </tr>
                 }
                 <tr>
-                    @using (Html.BeginForm("AddIngredient", "ItemType")) {
+                    @using (Html.BeginForm("AddIngredient", "ItemType", new { id = Model.ItemType.UID })) {
                         @Html.AntiForgeryToken()
-                        <td>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Ingredient, "Vælg en ingrediens", new {@class = "form-control"})
-                                @Html.DropDownListFor(model => model.Ingredient, Model.UnitSelectListItems, new {@class = "form-control chosen-select"})
+
+                        @Html.HiddenFor(model => Model.Ingredient.UID)
+
+                            <td>
+                                <div class="form-group">
+                                @Html.LabelFor(model => model.Ingredient.ItemType.UID, "Vælg en ingrediens", new { @class = "form-control" })
+                                @Html.DropDownListFor(model => model.Ingredient.ItemType.UID, Model.ItemTypeSelectListItems, new { @class = "form-control chosen-select" })
                             </div>
                         </td>
                         <td>
@@ -105,7 +119,7 @@
                             </div>
                         </td>
                         <td>
-                            <button class="btn btn-success" type="button" name="addIngredientBtn">Tilføj ingrediens</button>
+                            <button class="btn btn-success" type="submit" name="addIngredientBtn">Tilføj ingrediens</button>
                         </td>
                     }
                 </tr>

@@ -66,12 +66,11 @@
                     </div>
                 </div>
                 <div class="row expansion-content" id="ExpansionContentContainer_@itemType.UID">
-                    <div class="col-sm-7"></div>
-                    <div class="col-sm-5">
-
-                        <a href="@Url.Action("Detailed", new {id = itemType.UID})" class="btn btn-raised btn-primary">Mere info</a>
-                        <a href="@Url.Action("EditItemType", new {id = itemType.UID})" class="btn btn-raised btn-info">Rediger</a>
-                        <a href="@Url.Action("DeleteItemType", new {id = itemType.UID})" class="btn btn-raised btn-danger">Slet</a>
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-8">
+                        <a href="@Url.Action("DeleteItemType", new {id = itemType.UID})" class="btn btn-raised btn-danger pull-right">Slet</a>
+                        <a href="@Url.Action("EditItemType", new {id = itemType.UID})" class="btn btn-raised btn-info pull-right">Rediger</a>
+                        <a href="@Url.Action("Detailed", new {id = itemType.UID})" class="btn btn-raised btn-primary pull-right">Mere info</a>
                     </div>
                 </div>
             </div>

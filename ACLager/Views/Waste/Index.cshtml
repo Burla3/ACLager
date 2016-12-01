@@ -14,7 +14,7 @@
     <div class="container">
         <div class="row">
 
-            <div class="sort noselect col-sm-3 text-center" data-sort="sort-date">
+            <div class="sort noselect col-sm-2 text-center" data-sort="sort-date">
                 Dato
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
@@ -41,7 +41,14 @@
                 <br>
             </div>
 
-            <div class="col-sm-3"></div>
+            <div class="sort noselect col-sm-4" data-sort="sort-ID">
+                Spildrapport ID
+                <br>
+                <span class="label label-default">Klik for at sortere</span>
+                <span class="label label-primary asc">Sorteret stigende</span>
+                <span class="label label-primary desc">Sorteret faldende</span>
+                <br>
+            </div>
         </div>
     </div>
 
@@ -49,7 +56,7 @@
         @foreach (WasteReportGroup wasteReportGroup in Model.WasteReportGroups) {
             <div class="expansionpanel row panel">
                 <div class="row">
-                    <div class="col-sm-3 sort-date">
+                    <div class="col-sm-2 sort-date">
                         <h5>
                             <strong>@wasteReportGroup.WasteReport.Date.ToString("yyyy-MM-dd HH:mm")</strong>
                         </h5>
@@ -57,8 +64,8 @@
                     <div class="col-sm-3 sort-user">
                         <strong>@wasteReportGroup.User.Name</strong>
                     </div>
-                    <div class="col-sm-2 sort-item">
-                        @wasteReportGroup.ItemType.Name
+                    <div class="col-sm-3 sort-item">
+                        @wasteReportGroup.Item.ItemType.Name
                     </div>
                     <div class="col-sm-2">
                         @wasteReportGroup.WasteReport.UID
@@ -72,7 +79,7 @@
                 </div>
                 <div class="row expansion-content" id="ExpansionContentContainer_@wasteReportGroup.WasteReport.UID">
                     <div class="col-sm-2">
-                        <h5>Mængde mistet: @wasteReportGroup.WasteReport.Amount</h5>
+                        Mængde miste: @wasteReportGroup.WasteReport.Amount
                     </div>
                     <div class="col-sm-2">
                     </div>

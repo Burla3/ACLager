@@ -18,13 +18,11 @@ namespace ACLager.Models
         public Location()
         {
             this.IsActive = true;
-            this.IsDeleted = false;
         }
     
         public long UID { get; set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }
-        public bool IsDeleted { get; set; }
     
         public virtual Item Item { get; set; }
     }

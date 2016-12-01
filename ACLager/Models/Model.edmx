@@ -23,18 +23,6 @@
       <End Role="ItemType" EntitySet="ItemTypeSet" />
       <End Role="Item" EntitySet="ItemSet" />
     </AssociationSet>
-    <AssociationSet Name="WasteReportUser" Association="Model.Store.WasteReportUser">
-      <End Role="WasteReport" EntitySet="WasteReportSet" />
-      <End Role="User" EntitySet="UserSet" />
-    </AssociationSet>
-    <AssociationSet Name="WasteReportItem" Association="Model.Store.WasteReportItem">
-      <End Role="WasteReport" EntitySet="WasteReportSet" />
-      <End Role="Item" EntitySet="ItemSet" />
-    </AssociationSet>
-    <AssociationSet Name="WasteReportWorkOrder" Association="Model.Store.WasteReportWorkOrder">
-      <End Role="WasteReport" EntitySet="WasteReportSet" />
-      <End Role="WorkOrder" EntitySet="WorkOrderSet" />
-    </AssociationSet>
     <AssociationSet Name="WorkOrderUser" Association="Model.Store.WorkOrderUser">
       <End Role="WorkOrder" EntitySet="WorkOrderSet" />
       <End Role="User" EntitySet="UserSet" />
@@ -69,7 +57,6 @@
     <Property Name="PIN" Type="smallint" Nullable="false" />
     <Property Name="IsAdmin" Type="bit" Nullable="false" DefaultValue="false" />
     <Property Name="IsActive" Type="bit" Nullable="false" DefaultValue="true" />
-    <Property Name="IsDeleted" Type="bit" Nullable="false" DefaultValue="false" />
   </EntityType>
   <EntityType Name="LocationSet">
     <Key>
@@ -78,7 +65,6 @@
     <Property Name="UID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="IsActive" Type="bit" Nullable="false" DefaultValue="true" />
-    <Property Name="IsDeleted" Type="bit" Nullable="false" DefaultValue="false" />
   </EntityType>
   <EntityType Name="IngredientSet">
     <Key>
@@ -99,7 +85,6 @@
     <Property Name="DeliveryDate" Type="datetime" Nullable="false" />
     <Property Name="Supplier" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Reserved" Type="bigint" Nullable="false" DefaultValue="0" />
-    <Property Name="IsDeleted" Type="bit" Nullable="false" DefaultValue="false" />
     <Property Name="Location_UID" Type="bigint" Nullable="false" />
     <Property Name="ItemType_UID" Type="bigint" Nullable="false" />
   </EntityType>
@@ -112,7 +97,6 @@
     <Property Name="MinimumAmount" Type="bigint" Nullable="false" />
     <Property Name="Unit" Type="nvarchar(max)" Nullable="false" />
     <Property Name="IsActive" Type="bit" Nullable="false" DefaultValue="true" />
-    <Property Name="IsDeleted" Type="bit" Nullable="false" DefaultValue="false" />
     <Property Name="Procedure" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Barcode" Type="nvarchar(max)" Nullable="true" />
     <Property Name="BatchSize" Type="bigint" Nullable="true" />
@@ -150,7 +134,6 @@
     <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="LogBody" Type="nvarchar(max)" Nullable="false" />
     <Property Name="ObjectData" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="ObjectType" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="WasteReportSet">
     <Key>
@@ -160,9 +143,7 @@
     <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="Amount" Type="bigint" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="User_UID" Type="bigint" Nullable="false" />
-    <Property Name="Item_UID" Type="bigint" Nullable="false" />
-    <Property Name="WorkOrder_UID" Type="bigint" Nullable="true" />
+    <Property Name="ObjectData" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="LocationItem">
     <End Role="Location" Type="Model.Store.LocationSet" Multiplicity="1" />
@@ -185,42 +166,6 @@
       </Principal>
       <Dependent Role="Item">
         <PropertyRef Name="ItemType_UID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="WasteReportUser">
-    <End Role="WasteReport" Type="Model.Store.WasteReportSet" Multiplicity="*" />
-    <End Role="User" Type="Model.Store.UserSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="User">
-        <PropertyRef Name="UID" />
-      </Principal>
-      <Dependent Role="WasteReport">
-        <PropertyRef Name="User_UID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="WasteReportItem">
-    <End Role="WasteReport" Type="Model.Store.WasteReportSet" Multiplicity="*" />
-    <End Role="Item" Type="Model.Store.ItemSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Item">
-        <PropertyRef Name="UID" />
-      </Principal>
-      <Dependent Role="WasteReport">
-        <PropertyRef Name="Item_UID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="WasteReportWorkOrder">
-    <End Role="WasteReport" Type="Model.Store.WasteReportSet" Multiplicity="*" />
-    <End Role="WorkOrder" Type="Model.Store.WorkOrderSet" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="WorkOrder">
-        <PropertyRef Name="UID" />
-      </Principal>
-      <Dependent Role="WasteReport">
-        <PropertyRef Name="WorkOrder_UID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -318,18 +263,6 @@
             <End Role="ItemType" EntitySet="ItemTypeSet" />
             <End Role="Item" EntitySet="ItemSet" />
           </AssociationSet>
-          <AssociationSet Name="WasteReportUser" Association="Model.WasteReportUser">
-            <End Role="WasteReport" EntitySet="WasteReportSet" />
-            <End Role="User" EntitySet="UserSet" />
-          </AssociationSet>
-          <AssociationSet Name="WasteReportItem" Association="Model.WasteReportItem">
-            <End Role="WasteReport" EntitySet="WasteReportSet" />
-            <End Role="Item" EntitySet="ItemSet" />
-          </AssociationSet>
-          <AssociationSet Name="WasteReportWorkOrder" Association="Model.WasteReportWorkOrder">
-            <End Role="WasteReport" EntitySet="WasteReportSet" />
-            <End Role="WorkOrder" EntitySet="WorkOrderSet" />
-          </AssociationSet>
           <AssociationSet Name="WorkOrderUser" Association="Model.WorkOrderUser">
             <End Role="WorkOrder" EntitySet="WorkOrderSet" />
             <End Role="User" EntitySet="UserSet" />
@@ -364,8 +297,6 @@
           <Property Name="PIN" Type="Int16" Nullable="false" />
           <Property Name="IsAdmin" Type="Boolean" Nullable="false" DefaultValue="False" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="True" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="False" />
-          <NavigationProperty Name="WasteReports" Relationship="Model.WasteReportUser" FromRole="User" ToRole="WasteReport" />
           <NavigationProperty Name="WorkOrders" Relationship="Model.WorkOrderUser" FromRole="User" ToRole="WorkOrder" />
         </EntityType>
         <EntityType Name="Location">
@@ -375,7 +306,6 @@
           <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="True" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="False" />
           <NavigationProperty Name="Item" Relationship="Model.LocationItem" FromRole="Location" ToRole="Item" />
         </EntityType>
         <EntityType Name="Ingredient">
@@ -397,10 +327,8 @@
           <Property Name="DeliveryDate" Type="DateTime" Nullable="false" />
           <Property Name="Supplier" Type="String" Nullable="false" />
           <Property Name="Reserved" Type="Int64" Nullable="false" DefaultValue="0" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="False" />
           <NavigationProperty Name="Location" Relationship="Model.LocationItem" FromRole="Item" ToRole="Location" />
           <NavigationProperty Name="ItemType" Relationship="Model.ItemTypeItem" FromRole="Item" ToRole="ItemType" />
-          <NavigationProperty Name="WasteReports" Relationship="Model.WasteReportItem" FromRole="Item" ToRole="WasteReport" />
           <NavigationProperty Name="WorkOrderItem" Relationship="Model.WorkOrderItemItem" FromRole="Item" ToRole="WorkOrderItem" />
         </EntityType>
         <EntityType Name="ItemType">
@@ -412,7 +340,6 @@
           <Property Name="MinimumAmount" Type="Int64" Nullable="false" />
           <Property Name="Unit" Type="String" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="True" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="False" />
           <Property Name="Procedure" Type="String" Nullable="true" MaxLength="Max" />
           <NavigationProperty Name="Items" Relationship="Model.ItemTypeItem" FromRole="ItemType" ToRole="Item" />
           <NavigationProperty Name="IngredientsForRecipe" Relationship="Model.ItemTypeIngredient" FromRole="ItemType" ToRole="Ingredient" />
@@ -431,7 +358,6 @@
           <Property Name="BatchNumber" Type="Int64" Nullable="false" />
           <Property Name="DueDate" Type="DateTime" Nullable="true" />
           <Property Name="IsComplete" Type="Boolean" Nullable="false" DefaultValue="False" />
-          <NavigationProperty Name="WasteReports" Relationship="Model.WasteReportWorkOrder" FromRole="WorkOrder" ToRole="WasteReport" />
           <NavigationProperty Name="CompletedByUser" Relationship="Model.WorkOrderUser" FromRole="WorkOrder" ToRole="User" />
           <NavigationProperty Name="WorkOrderItems" Relationship="Model.WorkOrderWorkOrderItem" FromRole="WorkOrder" ToRole="WorkOrderItem" />
           <Property Name="ShippingInfo" Type="String" Nullable="true" MaxLength="Max" />
@@ -456,7 +382,6 @@
           <Property Name="Date" Type="DateTime" Nullable="false" />
           <Property Name="LogBody" Type="String" Nullable="false" />
           <Property Name="ObjectData" Type="String" Nullable="false" MaxLength="Max" />
-          <Property Name="ObjectType" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="WasteReport">
           <Key>
@@ -465,10 +390,8 @@
           <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
           <Property Name="Date" Type="DateTime" Nullable="false" />
           <Property Name="Amount" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="Model.WasteReportUser" FromRole="WasteReport" ToRole="User" />
-          <NavigationProperty Name="Item" Relationship="Model.WasteReportItem" FromRole="WasteReport" ToRole="Item" />
-          <NavigationProperty Name="WorkOrder" Relationship="Model.WasteReportWorkOrder" FromRole="WasteReport" ToRole="WorkOrder" />
           <Property Name="Description" Type="String" Nullable="true" MaxLength="Max" />
+          <Property Name="ObjectData" Type="String" Nullable="false" />
         </EntityType>
         <Association Name="LocationItem">
           <End Type="Model.Location" Role="Location" Multiplicity="1" />
@@ -477,18 +400,6 @@
         <Association Name="ItemTypeItem">
           <End Type="Model.ItemType" Role="ItemType" Multiplicity="1" />
           <End Type="Model.Item" Role="Item" Multiplicity="*" />
-        </Association>
-        <Association Name="WasteReportUser">
-          <End Type="Model.WasteReport" Role="WasteReport" Multiplicity="*" />
-          <End Type="Model.User" Role="User" Multiplicity="1" />
-        </Association>
-        <Association Name="WasteReportItem">
-          <End Type="Model.WasteReport" Role="WasteReport" Multiplicity="*" />
-          <End Type="Model.Item" Role="Item" Multiplicity="1" />
-        </Association>
-        <Association Name="WasteReportWorkOrder">
-          <End Type="Model.WasteReport" Role="WasteReport" Multiplicity="*" />
-          <End Type="Model.WorkOrder" Role="WorkOrder" Multiplicity="0..1" />
         </Association>
         <Association Name="WorkOrderUser">
           <End Type="Model.WorkOrder" Role="WorkOrder" Multiplicity="*" />
@@ -528,7 +439,6 @@
           <ScalarProperty Name="PIN" ColumnName="PIN" />
           <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -538,7 +448,6 @@
           <ScalarProperty Name="UID" ColumnName="UID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -559,7 +468,6 @@
           <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
           <ScalarProperty Name="Supplier" ColumnName="Supplier" />
           <ScalarProperty Name="Reserved" ColumnName="Reserved" />
-          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -571,7 +479,6 @@
           <ScalarProperty Name="MinimumAmount" ColumnName="MinimumAmount" />
           <ScalarProperty Name="Unit" ColumnName="Unit" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
           <ScalarProperty Name="Procedure" ColumnName="Procedure" />
           <ScalarProperty Name="Barcode" ColumnName="Barcode" />
           <ScalarProperty Name="BatchSize" ColumnName="BatchSize" />
@@ -608,7 +515,6 @@
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="LogBody" ColumnName="LogBody" />
           <ScalarProperty Name="ObjectData" ColumnName="ObjectData" />
-          <ScalarProperty Name="ObjectType" ColumnName="ObjectType" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -619,6 +525,7 @@
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="Amount" ColumnName="Amount" />
           <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ObjectData" ColumnName="ObjectData" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -637,31 +544,6 @@
       <EndProperty Name="Item">
         <ScalarProperty Name="UID" ColumnName="UID" />
       </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="WasteReportUser" TypeName="Model.WasteReportUser" StoreEntitySet="WasteReportSet">
-      <EndProperty Name="User">
-        <ScalarProperty Name="UID" ColumnName="User_UID" />
-      </EndProperty>
-      <EndProperty Name="WasteReport">
-        <ScalarProperty Name="UID" ColumnName="UID" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="WasteReportItem" TypeName="Model.WasteReportItem" StoreEntitySet="WasteReportSet">
-      <EndProperty Name="Item">
-        <ScalarProperty Name="UID" ColumnName="Item_UID" />
-      </EndProperty>
-      <EndProperty Name="WasteReport">
-        <ScalarProperty Name="UID" ColumnName="UID" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="WasteReportWorkOrder" TypeName="Model.WasteReportWorkOrder" StoreEntitySet="WasteReportSet">
-      <EndProperty Name="WorkOrder">
-        <ScalarProperty Name="UID" ColumnName="WorkOrder_UID" />
-      </EndProperty>
-      <EndProperty Name="WasteReport">
-        <ScalarProperty Name="UID" ColumnName="UID" />
-      </EndProperty>
-      <Condition ColumnName="WorkOrder_UID" IsNull="false" />
     </AssociationSetMapping>
     <AssociationSetMapping Name="WorkOrderUser" TypeName="Model.WorkOrderUser" StoreEntitySet="WorkOrderSet">
       <EndProperty Name="User">

@@ -18,7 +18,6 @@ namespace ACLager.Models
         public ItemType()
         {
             this.IsActive = true;
-            this.IsDeleted = false;
             this.Items = new HashSet<Item>();
             this.IngredientsForRecipe = new HashSet<Ingredient>();
             this.IsIngredientFor = new HashSet<Ingredient>();
@@ -30,7 +29,6 @@ namespace ACLager.Models
         public long MinimumAmount { get; set; }
         public string Unit { get; set; }
         public bool IsActive { get; set; }
-        public bool IsDeleted { get; set; }
         public string Procedure { get; set; }
         public string Barcode { get; set; }
         public Nullable<long> BatchSize { get; set; }

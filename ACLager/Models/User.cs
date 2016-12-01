@@ -19,8 +19,6 @@ namespace ACLager.Models
         {
             this.IsAdmin = false;
             this.IsActive = true;
-            this.IsDeleted = false;
-            this.WasteReports = new HashSet<WasteReport>();
             this.WorkOrders = new HashSet<WorkOrder>();
         }
     
@@ -29,10 +27,7 @@ namespace ACLager.Models
         public short PIN { get; set; }
         public bool IsAdmin { get; set; }
         public bool IsActive { get; set; }
-        public bool IsDeleted { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WasteReport> WasteReports { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkOrder> WorkOrders { get; set; }
     }

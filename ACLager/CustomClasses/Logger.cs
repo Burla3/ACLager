@@ -23,7 +23,6 @@ namespace ACLager.CustomClasses
                 Type = eventArgs.LogType,
                 LogBody = eventArgs.LogBody,
                 ObjectData = eventArgs.ObjectData,
-                ObjectType = eventArgs.ObjectType
                
             };
 

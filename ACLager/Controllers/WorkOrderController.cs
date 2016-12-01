@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ACLager.Models;
 using ACLager.Interfaces;
+using ACLager.ViewModels;
 
 namespace ACLager.Controllers
 {
@@ -13,9 +15,20 @@ namespace ACLager.Controllers
         // GET: WorkOrder
         public ActionResult Index()
         {
-            return View();
+            return View(new BaseViewModel() );
         }
-        
+
+        public ActionResult Production()
+        {
+            IEnumerable<WorkOrder> workorders;
+
+            using (ACLagerDatabase db = new ACLagerDatabase())
+            {
+                workorders = db.WorkOrderSet.ToList();
+
+            }
+            return View(new WorkOrderViewModel(workorders, new WorkOrder(), null));
+        }
         /// <summary>
         /// Cancels a workorder and its items.
         /// </summary>
@@ -174,6 +187,29 @@ namespace ACLager.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Detailed(string id)
+        {
+            WorkOrder workorder;
+            List<string> workorderitems = new List<string>();
+//            List<string> itemnames= new List<string>();
+
+            using (ACLagerDatabase db = new ACLagerDatabase())
+            {
+                workorder = db.WorkOrderSet.Find(Int64.Parse(id));
+                foreach (WorkOrderItem workorderitem in db.WorkOrderItemSet.ToList())
+                {
+                    if (workorderitem.WorkOrder.UID == workorder.UID)
+                    {
+                        workorderitems.Add(workorderitem.ItemType.Name);
+                    }
+                }
+            
+            }
+
+            return View(new WorkOrderViewModel(null, workorder, workorderitems));
         }
 
         /*

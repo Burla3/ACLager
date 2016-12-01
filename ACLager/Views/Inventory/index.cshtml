@@ -13,21 +13,21 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-3">
-                Navn / Beskrivelse
+                <strong>Varenavn / beskrivelse</strong>
             </div>
             <div class="col-xs-3">
-                Lokation
+                <strong>Lokation</strong>
             </div>
-            <div class="sort noselect col-xs-2 text-center" data-sort="sort-amount">
-                Mængde
+            <div class="sort noselect col-xs-2" data-sort="sort-amount">
+                <strong>@Html.DisplayNameFor(model => model.Item.Amount)</strong>
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>
                 <span class="label label-primary desc">Sorteret faldende</span>
                 <br>
             </div>
-            <div class="sort noselect col-xs-2 text-center" data-sort="sort-expdate">
-                Udløbsdato
+            <div class="sort noselect col-xs-2" data-sort="sort-expdate">
+                <strong>@Html.DisplayNameFor(model => model.Item.ExpirationDate)</strong>
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>
@@ -43,17 +43,17 @@
                 <div class="expansionpanel row panel">
                     <div class="row">
                         <div class="col-xs-3 sort-name">
-                            @itemGroup.ItemType.Name
+                            <h4>@itemGroup.ItemType.Name</h4>
                         </div>
                         <div class="col-xs-3 sort-location">
-                            @itemLocationPair.Location.Name
+                            <h4>@itemLocationPair.Location.Name</h4>
                         </div>
                         <div class="col-xs-2 sort-amount">
-                            @itemLocationPair.Item.Amount @itemGroup.ItemType.Unit
+                            <h4>@itemLocationPair.Item.Amount @itemGroup.ItemType.Unit</h4>
                         </div>
                         <div class="col-xs-2 sort-expdate">
                             @if (itemLocationPair.Item.ExpirationDate != null) {
-                                @itemLocationPair.Item.ExpirationDate.Value.ToShortDateString()
+                                <h4>@itemLocationPair.Item.ExpirationDate.Value.ToShortDateString()</h4>
                             }
                         </div>
                         <div class="expansion-control col-xs-2" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@itemLocationPair.Item.UID">
@@ -72,13 +72,10 @@
                             <strong>Leveret dato:</strong>
                             @itemLocationPair.Item.DeliveryDate.ToShortDateString()
                         </div>
-                        <div class="col-xs-3">
-                            
-                        </div>
-                        <div class="col-xs-5">
-                                <a href="@Url.Action("Detailed", new {id = itemLocationPair.Item.UID})" class="btn btn-raised btn-primary">Mere info</a>
-                                <a href="@Url.Action("MoveItem", new {id = itemLocationPair.Item.UID})" class="btn btn-raised btn-info">Flyt</a>
-                                <a href="@Url.Action("PickItem", new {id = itemLocationPair.Item.UID})" class="btn btn-raised btn-success">Pluk</a>
+                        <div class="col-xs-8">
+                            <a href="@Url.Action("PickItem", new {id = itemLocationPair.Item.UID})" class="btn btn-raised btn-success pull-right">Pluk</a>
+                            <a href="@Url.Action("MoveItem", new {id = itemLocationPair.Item.UID})" class="btn btn-raised btn-info pull-right">Flyt</a>
+                            <a href="@Url.Action("Detailed", new {id = itemLocationPair.Item.UID})" class="btn btn-raised btn-primary pull-right">Mere info</a>
                         </div>
                     </div>
                 </div>

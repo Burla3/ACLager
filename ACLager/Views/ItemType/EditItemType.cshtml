@@ -107,7 +107,7 @@
 
                             <td>
                                 <div class="form-group">
-                                @Html.LabelFor(model => model.Ingredient.ItemType.UID, "Vælg en ingrediens", new { @class = "form-control" })
+                                @Html.LabelFor(model => model.Ingredient.ItemType.UID, "Vælg en ingrediens", new { @class = "control-label" })
                                 @Html.DropDownListFor(model => model.Ingredient.ItemType.UID, Model.ItemTypeSelectListItems, new { @class = "form-control chosen-select" })
                             </div>
                         </td>

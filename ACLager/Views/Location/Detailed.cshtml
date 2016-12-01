@@ -14,62 +14,98 @@
             <h3 class="text-center">Detaljer om lokation</h3>
         </div>
     </div>
-
-
     <div class="clearfix"></div>
     <hr />
-    <div class="row">
-        <div class="col-sm-4">
+    <div class="col-sm-4">
+        <div class="row">
             <strong>@Html.DisplayNameFor(model => model.ItemLocationPair.Location.Name):</strong>
+        </div>        
+        <div class="row">
             <h1>@Model.ItemLocationPair.Location.Name</h1>
-        </div>
-        <div class="col-sm-8">
-            @if (Model.ItemLocationPair.Location.Item != null) {
-                <div class="col-sm-5">
-                    <strong>Vare på lokationen:</strong><a href="@Url.Action("Detailed", "Inventory", new {id = Model.ItemLocationPair.Item.UID})">
-                    <h3>@Model.ItemLocationPair.Item.ItemType.Name</h3></a>
-                </div>
-                <div class="col-sm-4">
-                    <strong>Mængde på lokationen:</strong>
-                    <h3>@Model.ItemLocationPair.Item.Amount</h3>
-                </div>
-                <div class="col-sm-3">
-                    <strong>Varens enhed:</strong>
-                    <h3>@Model.ItemLocationPair.Item.ItemType.Unit</h3>
-                </div>
-            }
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4">
+        </div>        
+        <div class="row">
             @if (Model.ItemLocationPair.Location.IsActive) {
                 <h4><span class="label label-success">Lokationen er aktiv</span></h4>
             } else {
                 <h4><span class="label label-default">Lokationen er ikke aktiv</span></h4>
             }
         </div>
-        @if (Model.ItemLocationPair.Location.Item != null) {
-            <div class="col-sm-8">
-                <div class="col-sm-5">
-                    <strong>Varens udløbsdato:</strong>
-
+        <div class="row">
+            @if (Model.ItemLocationPair.Item == null) {
+                <h4><span class="label label-success">Ledig</span></h4>
+            } else {
+                <h4><span class="label label-default">Optaget</span></h4>
+            }
+        </div>
+    </div>    
+    <div class="col-sm-8">
+        <div class="row">
+            @if (Model.ItemLocationPair.Location.Item != null) {
+                <div class="col-xs-5">
+                    <strong>Vare på lokationen:</strong>            
+                </div>                
+                <div class="col-xs-4">
+                    <strong>Mængde på lokationen:</strong>           
+                </div>                
+                <div class="col-xs-3">
+                    <strong>Varens enhed:</strong>              
+                </div>
+            }
+        </div>
+        <div class="row">
+            @if (Model.ItemLocationPair.Location.Item != null) {
+                <div class="col-xs-5">
+                    <a href="@Url.Action("Detailed", "Inventory", new {id = Model.ItemLocationPair.Item.UID})">
+                        <h3>@Model.ItemLocationPair.Item.ItemType.Name</h3>
+                    </a>
+                </div>
+                <div class="col-xs-4">
+                    <h3>@Model.ItemLocationPair.Item.Amount</h3>
+                </div>
+                <div class="col-xs-3">
+                    <h3>@Model.ItemLocationPair.Item.ItemType.Unit</h3>
+                </div>
+            }
+            </div>   
+            <div class="row">
+                <div class="col-xs-12">
+                    &nbsp;
+                </div>
+            </div>     
+            <div class="row">
+            @if (Model.ItemLocationPair.Location.Item != null) {
+                <div class="col-xs-5">
+                    <strong>Varens leverandør:</strong>
+                </div>
+                <div class="col-xs-4">
+                    <strong>Varens leveringsdato:</strong>
+                </div>
+                <div class="col-xs-3">
+                @if (Model.ItemLocationPair.Item.ExpirationDate != null) {
+                        <strong>Varens udløbsdato:</strong>
+                }
+                </div>
+            }
+        </div>        
+        <div class="row">
+            @if (Model.ItemLocationPair.Location.Item != null) {
+                <div class="col-xs-5">
+                    <h3>@Model.ItemLocationPair.Item.Supplier</h3>
+                </div>
+                <div class="col-xs-4">
+                    <h3>@Model.ItemLocationPair.Item.DeliveryDate.ToString("dd-MM-yyyy")</h3>
+                </div>
+                <div class="col-xs-3">
                     @if (Model.ItemLocationPair.Item.ExpirationDate != null) {
                         <h3>
-                            @Model.ItemLocationPair.Item.ExpirationDate.Value.ToShortDateString()
+                            @Model.ItemLocationPair.Item.ExpirationDate.Value.ToString("dd-MM-yyyy")
                         </h3>
                     }
                 </div>
-                <div class="col-sm-4">
-                    <strong>Varens leveringsdato:</strong>
-                    <h3>@Model.ItemLocationPair.Item.DeliveryDate.ToShortDateString()</h3>
-                </div>
-                <div class="col-sm-3">
-                    <strong>Varens leverandør:</strong>
-                    <h3>@Model.ItemLocationPair.Item.Supplier</h3>
-                </div>
-
-            </div>
-        }
+            }
+        </div>   
+    </div>
+    <div class="row">
     </div>
     <hr />
     <div class="row">

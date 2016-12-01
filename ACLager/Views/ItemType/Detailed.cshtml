@@ -33,27 +33,27 @@
     </div>   
     <div class="col-sm-6">
         <div class="row">
-            <div class="col-sm-5">
+            <div class="col-xs-5">
                 <strong>@Html.DisplayNameFor(model => model.ItemType.MinimumAmount):</strong>
             </div>
-            <div class="col-sm-3">
+            <div class="col-xs-3">
                 <strong>@Html.DisplayNameFor(model => model.ItemType.Unit):</strong>
             </div>
             @if (Model.ItemType.BatchSize != null) {
-                <div class="col-sm-4">
+                <div class="col-xs-4">
                     <strong>@Html.DisplayNameFor(model => model.ItemType.BatchSize):</strong>
                 </div>
             }  
         </div>
         <div class="row">
-            <div class="col-sm-5">
+            <div class="col-xs-5">
                 <h3>@Model.ItemType.MinimumAmount</h3>
             </div>
-            <div class="col-sm-3">
+            <div class="col-xs-3">
                 <h3>@Model.ItemType.Unit</h3>
             </div>
             @if (Model.ItemType.BatchSize != null) {
-                <div class="col-sm-4">
+                <div class="col-xs-4">
                     <h3>@Model.ItemType.BatchSize</h3>
                 </div>
             }
@@ -63,31 +63,31 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-5">
+            <div class="col-xs-5">
                 <strong>@Html.DisplayNameFor(model => model.ItemType.Barcode):</strong>
             </div>
-            <div class="col-sm-7">
+            <div class="col-xs-7">
                 <strong>@Html.DisplayNameFor(model => model.ItemType.Department):</strong>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-5">
+            <div class="col-xs-5">
                 <h3>@Model.ItemType.Barcode</h3>
             </div>
-            <div class="col-sm-7">
+            <div class="col-xs-7">
                 <h3>@Model.ItemType.Department</h3>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-xs-12">
             <strong>@Html.DisplayNameFor(model => model.ItemType.Procedure):</strong> 
             <h4>@Model.ItemType.Procedure</h4>
         </div>
     </div>
     <hr />
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-xs-12">
             <a href="@Url.Action("DeleteItemType", new {id = Model.ItemType.UID})" class="btn btn-raised btn-danger pull-right">Slet</a>
             <a href="@Url.Action("EditItemType", new {id = Model.ItemType.UID})" class="btn btn-raised btn-info pull-right">Rediger</a>
         </div>

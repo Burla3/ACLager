@@ -28,26 +28,26 @@
         </div>
     <div class="col-sm-6">
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-xs-4">
                 <strong>@Html.DisplayNameFor(model => model.Item.Location.Name):</strong>
             </div>
-            <div class="col-sm-4">
+            <div class="col-xs-4">
                 <strong>@Html.DisplayNameFor(model => model.Item.Amount):</strong>
             </div>
-            <div class="col-sm-4">
+            <div class="col-xs-4">
                 <strong>@Html.DisplayNameFor(model => model.Item.ItemType.Unit):</strong>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-xs-4">
                 <a href="@Url.Action("Detailed", "Location", new {id = Model.Item.Location.UID})">
                     <h3>@Model.Item.Location.Name</h3>
                 </a>
             </div>
-            <div class="col-sm-4">
+            <div class="col-xs-4">
                 <h3>@Model.Item.Amount</h3>
             </div>
-            <div class="col-sm-4">
+            <div class="col-xs-4">
                 <h3>@Model.Item.ItemType.Unit</h3>
             </div>
         </div>
@@ -57,26 +57,26 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-xs-4">
                 <strong>@Html.DisplayNameFor(model => model.Item.Supplier):</strong>
             </div>
-            <div class="col-sm-4">
+            <div class="col-xs-4">
                 <strong>@Html.DisplayNameFor(model => model.Item.DeliveryDate):</strong>
             </div>
-            <div class="col-sm-4">
+            <div class="col-xs-4">
                 @if (@Model.Item.ExpirationDate != null) {
                     <strong>@Html.DisplayNameFor(model => model.Item.ExpirationDate):</strong>
                 }            
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-xs-4">
                 <h3>@Model.Item.Supplier</h3>
             </div>
-            <div class="col-sm-4">
+            <div class="col-xs-4">
                 <h3>@Model.Item.DeliveryDate.ToString("dd-MM-yyyy")</h3>
             </div>
-            <div class="col-sm-4">
+            <div class="col-xs-4">
                 @if (@Model.Item.ExpirationDate != null) {
                     <h3>@Model.Item.ExpirationDate.Value.ToString("dd-MM-yyyy")</h3>
                 }

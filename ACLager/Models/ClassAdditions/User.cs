@@ -1,11 +1,12 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using ACLager.CustomClasses.Attributes;
 
 namespace ACLager.Models {
     [MetadataType(typeof(UserMetadata))]
     [DisplayName("Bruger")]
-    public partial class User {
+    public partial class User : ICloneable {
         private class UserMetadata
         {
             [DisplayName("Brugernummer")]
@@ -21,8 +22,16 @@ namespace ACLager.Models {
             public bool IsAdmin { get; set; }
             [DisplayName("Status")]
             public bool IsActive { get; set; }
-            [DisplayName("Slettet")]
-            public bool IsDeleted { get; set; }
+        }
+
+        public object Clone() {
+            return new User {
+                UID = this.UID,
+                IsActive = this.IsActive,
+                IsAdmin = this.IsAdmin,
+                Name = this.Name,
+                PIN = this.PIN
+            };
         }
     }
 }

@@ -25,7 +25,6 @@ namespace ACLager.Models {
             public string Supplier { get; set; }
             [DisplayName("Reserveret")]
             public long Reserved { get; set; }
-            public string IsDeleted { get; set; }
         }
     }
 }

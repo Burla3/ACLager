@@ -3207,13 +3207,13 @@ hr.on-light {
   padding: 1em;
   text-align: center;
 }
-.dtp div.dtp-picker-month,
-.dtp div.dtp-actual-time {
+.dtp div.dtp-actual-time,
+.dtp div.dtp-picker-month {
   font-weight: 500;
   text-align: center;
 }
 .dtp div.dtp-picker-month {
-  padding-bottom: 20px!important;
+  padding-bottom: 20px !important;
   text-transform: uppercase!important;
 }
 .dtp .dtp-close {
@@ -3246,8 +3246,8 @@ hr.on-light {
   color: #BDBDBD!important;
   padding: 0.4em 0.5em 0.5em 0.6em;
 }
-.dtp table.dtp-picker-days tr > td > a,
-.dtp .dtp-picker-time > a {
+.dtp .dtp-picker-time > a,
+.dtp table.dtp-picker-days tr > td > a {
   color: #212121;
   text-decoration: none;
   padding: 0.4em 0.5em 0.5em 0.6em;
@@ -3264,7 +3264,7 @@ hr.on-light {
   padding: 0.4em 0.3em;
 }
 .dtp .p10 > a {
-  color: #ff9800;
+  color: #DCEDC8;
   text-decoration: none;
 }
 .dtp .p10 {
@@ -3306,11 +3306,11 @@ hr.on-light {
   cursor: pointer;
 }
 .dtp .dtp-buttons {
-  padding: 0 1em 1em 1em;
+  padding: 0 1em 1em;
   text-align: right;
 }
-.dtp.hidden,
-.dtp .hidden {
+.dtp .hidden,
+.dtp.hidden {
   display: none;
 }
 .dtp .invisible {
@@ -3556,4 +3556,7 @@ table {
 }
 .panel-heading {
   border-top-radius: 2px;
+}
+a {
+  text-decoration: underline;
 }

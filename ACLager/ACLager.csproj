@@ -294,6 +294,7 @@
     <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\WasteViewModel.cs" />
+    <Compile Include="ViewModels\WorkOrderViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\ACLagerDatabase.mdf" />
@@ -408,6 +409,8 @@
     <Content Include="Views\Log\Detailed.cshtml" />
     <Content Include="Views\Waste\CreateWasteReport.cshtml" />
     <Content Include="Views\Waste\Detailed.cshtml" />
+    <Content Include="Views\WorkOrder\Detailed.cshtml" />
+    <Content Include="Views\WorkOrder\Production.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

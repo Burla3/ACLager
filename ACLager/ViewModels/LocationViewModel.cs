@@ -8,7 +8,7 @@ using ACLager.Models;
 namespace ACLager.ViewModels {
     public class LocationViewModel : BaseViewModel {
         public LocationViewModel() {
-            base.SectionColor = "blue";
+            base.SelectSectionSpecials("Location");
         }
 
         public LocationViewModel(IEnumerable<ItemLocationPair> itemLocationPairs, ItemLocationPair itemLocationPair) : this() {

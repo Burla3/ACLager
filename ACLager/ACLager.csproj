@@ -294,7 +294,9 @@
     <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\WasteViewModel.cs" />
-    <Compile Include="ViewModels\WorkOrderViewModel.cs" />
+    <Compile Include="ViewModels\WorkOrderBaseViewModel.cs" />
+    <Compile Include="ViewModels\WorkOrderPackagingViewModel.cs" />
+    <Compile Include="ViewModels\WorkOrderProductionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\ACLagerDatabase.mdf" />

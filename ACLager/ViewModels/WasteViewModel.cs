@@ -11,7 +11,7 @@ namespace ACLager.ViewModels
     public class WasteViewModel : BaseViewModel
     {
         public WasteViewModel(){
-            base.SectionColor = "green";
+            base.SelectSectionSpecials("Waste-Index");
         }
 
         public WasteViewModel(IEnumerable<WasteReportGroup> wasteReportGroups, WasteReportGroup wasteReportGroup) : this() {

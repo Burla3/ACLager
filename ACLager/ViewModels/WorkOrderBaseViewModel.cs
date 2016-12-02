@@ -6,11 +6,13 @@ using System.Web.Mvc;
 using ACLager.Models;
 
 namespace ACLager.ViewModels{
-    public class WorkOrderViewModel : BaseViewModel{
-        public WorkOrderViewModel(){
-            base.SelectSectionSpecials("Blue");
+    public class WorkOrderBaseViewModel : BaseViewModel{
+
+        public WorkOrderBaseViewModel() : base() {
+
         }
-        public WorkOrderViewModel(IEnumerable<WorkOrder> workorders, WorkOrder workorder, List<string> workorderitems) : this() {
+
+        public WorkOrderBaseViewModel(IEnumerable<WorkOrder> workorders, WorkOrder workorder, List<string> workorderitems) : this() {
             Workorders = workorders;
             Workorder = workorder;
             Workorderitems = workorderitems;

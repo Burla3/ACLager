@@ -4,5 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>PickItem</h2>
+<div class="container panel">
+    @using(Html.BeginForm("PickItem", "Inventory")){
+        @Html.AntiForgeryToken()
+        <fieldset>
+
+        </fieldset>
+    }
+</div>
 

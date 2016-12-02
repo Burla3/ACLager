@@ -12,11 +12,12 @@ namespace ACLager.CustomClasses {
         private void Notify(object sender, NotificationEventArgs eventArgs) {
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 if (eventArgs.ItemType.IngredientsForRecipe != null) {
-                    WorkOrder workOrder = new WorkOrder();
-                    workOrder.BatchNumber = 11;
-                    workOrder.DueDate = DateTime.Now;
-                    workOrder.ShippingInfo = "AC";
-                    workOrder.Type = "Production";
+                    WorkOrder workOrder = new WorkOrder {
+                        BatchNumber = 11,
+                        DueDate = DateTime.Now,
+                        ShippingInfo = "AC",
+                        Type = eventArgs.ItemType.Department
+                    };
                     db.WorkOrderSet.Add(workOrder);
 
                     foreach (Ingredient ingredient in eventArgs.ItemType.IngredientsForRecipe) {
@@ -25,8 +26,10 @@ namespace ACLager.CustomClasses {
                         workOrderItem.ItemType = eventArgs.ItemType;
                         workOrderItem.Progress = 0;
                         db.WorkOrderItemSet.Add(workOrderItem);
-                    }   
+                    }
+                    db.SaveChanges();
                 } else {
+                    //AUU smpt server "smtp.aau.dk", 587
                     SmtpClient smtpClient = new SmtpClient("smtp.aau.dk", 587);
 
                     smtpClient.Credentials = new System.Net.NetworkCredential("id", "pw");

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using Microsoft.Owin.Security.Provider;
 
 namespace ACLager.Models {
     [MetadataType(typeof(ItemTypeMetadata))]
@@ -28,6 +29,23 @@ namespace ACLager.Models {
             public Nullable<long> BatchSize { get; set; }
             [DisplayName("Afdeling")]
             public string Department { get; set; }
+        }
+
+        public ItemType Clone() {
+            return new ItemType {
+                UID = this.UID,
+                IsActive = this.IsActive,
+                Name = this.Name,
+                Barcode = this.Barcode,
+                BatchSize = this.BatchSize,
+                Department = this.Department,
+                IngredientsForRecipe = null,
+                IsIngredientFor = null,
+                Items = null,
+                MinimumAmount = MinimumAmount,
+                Unit = this.Unit,
+                Procedure = this.Procedure
+            };
         }
     }
 }

@@ -12,32 +12,32 @@
 
 
         <div class="row">
-            <div class="sort noselect col-sm-1 text-center" data-sort="sort-uid">
-                @Html.DisplayFor(model => model.Workorder.UID)
+            <div class="sort noselect col-sm-2" data-sort="sort-uid">
+                <strong>@Html.DisplayNameFor(model => model.Workorder.UID)</strong>
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>
                 <span class="label label-primary desc">Sorteret faldende</span>
                 <br>
             </div>
-            <div class="sort noselect col-sm-2 text-center" data-sort="sort-batchnumber">
-                @Html.DisplayFor(model => model.Workorder.BatchNumber)
+            <div class="sort noselect col-sm-2" data-sort="sort-batchnumber">
+                <strong>@Html.DisplayNameFor(model => model.Workorder.BatchNumber)</strong>
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>
                 <span class="label label-primary desc">Sorteret faldende</span>
                 <br>
             </div>
-            <div class="sort noselect col-sm-2 text-center" data-sort="sort-shippinginfo">
-                @Html.DisplayFor(model => model.Workorder.ShippingInfo)
+            <div class="sort noselect col-sm-2" data-sort="sort-shippinginfo">
+                <strong>@Html.DisplayNameFor(model => model.Workorder.ShippingInfo)</strong>
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>
                 <span class="label label-primary desc">Sorteret faldende</span>
                 <br>
             </div>
-            <div class="sort noselect col-sm-2 text-center" data-sort="sort-duedate">
-                @Html.DisplayFor(model => model.Workorder.DueDate)
+            <div class="sort noselect col-sm-2" data-sort="sort-duedate">
+                <strong>@Html.DisplayNameFor(model => model.Workorder.DueDate)</strong>
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>
@@ -53,18 +53,18 @@
             <div class="expansionpanel row panel">
                 <div class="row">
                     <div class="col-sm-2 sort-UID">
-                        @workorder.UID
+                        <h4>@workorder.UID</h4>
                     </div>
                     <div class="col-sm-2 sort-batchnumber">
-                        @workorder.BatchNumber
+                        <h4>@workorder.BatchNumber</h4>
                     </div>
                     <div class="col-sm-2 sort-shippinginfo">
-                        @workorder.ShippingInfo
+                        <h4>@workorder.ShippingInfo</h4>
                     </div>
                     <div class="col-sm-2 sort-duedate">
-                        @workorder.DueDate
+                        <h4>@workorder.DueDate.Value.ToString("dd-MM-yyyy")</h4>
                     </div>
-                    <div class="expansion-control col-sm-2" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@workorder.UID">
+                    <div class="expansion-control col-sm-4" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@workorder.UID">
                         <div class="btn btn-default pull-right">
                             <i class="material-icons">expand_more</i>
                             <i class="material-icons hidden">expand_less</i>

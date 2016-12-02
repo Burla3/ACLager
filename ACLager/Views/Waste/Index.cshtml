@@ -14,8 +14,8 @@
  
         <div class="row">
 
-            <div class="sort noselect col-sm-2 text-center" data-sort="sort-date">
-                Dato
+            <div class="sort noselect col-sm-2" data-sort="sort-date">
+                <strong>@Html.DisplayNameFor(model => model.WasteReportGroup.WasteReport.Date)</strong>
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>
@@ -23,8 +23,8 @@
                 <br>
             </div>
 
-            <div class="sort noselect col-sm-3 text-center" data-sort="sort-user">
-                Brugerens navn
+            <div class="sort noselect col-sm-3" data-sort="sort-user">
+                <strong>@Html.DisplayNameFor(model => model.WasteReportGroup.User.Name)</strong>
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>
@@ -32,8 +32,8 @@
                 <br>
             </div>
 
-            <div class="sort noselect col-sm-3 text-center" data-sort="sort-item">
-                Vare
+            <div class="sort noselect col-sm-3" data-sort="sort-item">
+                <strong>@Html.DisplayNameFor(model => model.WasteReportGroup.Item.ItemType.Name)</strong>
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>
@@ -41,8 +41,8 @@
                 <br>
             </div>
 
-            <div class="sort noselect col-sm-4" data-sort="sort-ID">
-                Spildrapport ID
+            <div class="sort noselect col-sm-2" data-sort="sort-ID">
+                <strong>@Html.DisplayNameFor(model => model.WasteReportGroup.WasteReport.UID)</strong>
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>
@@ -62,10 +62,10 @@
                         </h5>
                     </div>
                     <div class="col-sm-3 sort-user">
-                        <strong>@wasteReportGroup.User.Name</strong>
+                        <strong>@wasteReportGroup.ObjectData["ContextUser"]["Name"]</strong>
                     </div>
                     <div class="col-sm-3 sort-item">
-                        @wasteReportGroup.Item.ItemType.Name
+                        @wasteReportGroup.ObjectData["ItemType"]["Name"]
                     </div>
                     <div class="col-sm-2">
                         @wasteReportGroup.WasteReport.UID
@@ -102,7 +102,7 @@
     $(document).ready(function () {
 
         var options = {
-            valueNames: ['sort-date', 'sort-user', 'sort-item']
+            valueNames: ['sort-date', 'sort-user', 'sort-item', 'sort-ID']
         };
         var userList = new List('wasteSort', options);
     });

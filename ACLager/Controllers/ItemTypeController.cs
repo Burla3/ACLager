@@ -166,20 +166,61 @@ namespace ACLager.Controllers
             return RedirectToAction("EditItemType", new { id = itemTypeId });
         }
 
-        /// <summary>
-        /// Delete the item type with specified <paramref name="uid"/> from the database
-        /// </summary>
-        /// <param name="uid">The item type with specified <paramref name="uid"/> to delete from the database.</param>
-        /// <returns>true if successful</returns>
-        public bool DeleteItemType(long UID)
-        {
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
-                db.ItemTypeSet.Remove(db.ItemTypeSet.Find(UID));
+        [HttpGet]
+        public ActionResult DeleteItemType(string id) {
+            if (id == null) {
+                return RedirectToAction("Index");
+            }
+
+            ItemTypeViewModel viewModel = new ItemTypeViewModel();
+
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                ItemType dbItemType = db.ItemTypeSet.Find(long.Parse(id));
+
+                if (dbItemType == null) {
+                    return RedirectToAction("Index");
+                }
+
+                viewModel.ItemType = dbItemType;
+                viewModel.ItemType.Items = dbItemType.Items.ToList();
+                
+                foreach (Item item in viewModel.ItemType.Items) {
+                    item.Location = db.LocationSet.SingleOrDefault(l => l.UID == item.Location.UID);
+                }
+                
+                viewModel.ItemType.WorkOrderItem = dbItemType.WorkOrderItem.ToList();
+                foreach (WorkOrderItem workOrderItem in viewModel.ItemType.WorkOrderItem) {
+                    workOrderItem.WorkOrder = db.WorkOrderSet.SingleOrDefault(wo => wo.UID == workOrderItem.WorkOrder.UID);
+                }
+
+                viewModel.ItemType.IsIngredientFor = dbItemType.IsIngredientFor;
+                foreach (Ingredient ingredient in viewModel.ItemType.IsIngredientFor) {
+                    ingredient.ForItemType = db.ItemTypeSet.SingleOrDefault(it => it.UID == ingredient.ForItemType.UID);
+                }
+            }
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteItemType(long id) {
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                ItemType dbItemType = db.ItemTypeSet.Find(id);
+
+                if (dbItemType == null) {
+                    return RedirectToAction("Index");
+                }
+                
+                db.ItemSet.RemoveRange(dbItemType.Items);
+                db.WorkOrderItemSet.RemoveRange(dbItemType.WorkOrderItem);
+                db.IngredientSet.RemoveRange(dbItemType.IsIngredientFor);
+                db.IngredientSet.RemoveRange(dbItemType.IngredientsForRecipe);
+                db.ItemTypeSet.Remove(dbItemType);
+
                 db.SaveChanges();
             }
 
-            return true;
+            return RedirectToAction("Index");
         }
 
         /// <summary>

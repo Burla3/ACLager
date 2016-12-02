@@ -118,8 +118,9 @@ namespace ACLager.Controllers
                 if (dbItem == null) {
                     return RedirectToAction("Index");
                 }
-
                 inventoryViewModel.Item = dbItem;
+                inventoryViewModel.Item.ItemType = dbItem.ItemType;
+                inventoryViewModel.Item.Location = dbItem.Location;
             }
 
             return View(inventoryViewModel);
@@ -132,12 +133,13 @@ namespace ACLager.Controllers
             {
                 Item dbItem = db.ItemSet.Find(item.UID);
 
+
                 dbItem.Amount -= item.Amount;
 
                 db.SaveChanges();
 
-                if (item.ItemType.Items.Sum(i => i.Amount) < item.ItemType.MinimumAmount) {
-                    Notify.Invoke(this, new NotificationEventArgs(item.ItemType));
+                if (dbItem.ItemType.Items.Sum(i => i.Amount) < dbItem.ItemType.MinimumAmount) {
+                    Notify.Invoke(this, new NotificationEventArgs(dbItem.ItemType));
                 }
             }
 

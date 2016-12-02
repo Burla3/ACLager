@@ -6,7 +6,7 @@ using ACLager.CustomClasses.Attributes;
 namespace ACLager.Models {
     [MetadataType(typeof(UserMetadata))]
     [DisplayName("Bruger")]
-    public partial class User : ICloneable {
+    public partial class User {
         private class UserMetadata
         {
             [DisplayName("Brugernummer")]
@@ -24,7 +24,7 @@ namespace ACLager.Models {
             public bool IsActive { get; set; }
         }
 
-        public object Clone() {
+        public User Clone() {
             return new User {
                 UID = this.UID,
                 IsActive = this.IsActive,

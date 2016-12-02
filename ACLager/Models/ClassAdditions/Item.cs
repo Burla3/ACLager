@@ -26,5 +26,19 @@ namespace ACLager.Models {
             [DisplayName("Reserveret")]
             public long Reserved { get; set; }
         }
+
+        public Item Clone() {
+            return new Item {
+                Amount = this.Amount,
+                DeliveryDate = this.DeliveryDate,
+                ExpirationDate = this.ExpirationDate,
+                ItemType = null,
+                Location = null,
+                Reserved = this.Reserved,
+                Supplier = this.Supplier,
+                UID = this.UID,
+                WorkOrderItem = null
+            };
+        }
     }
 }

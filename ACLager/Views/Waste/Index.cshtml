@@ -62,10 +62,10 @@
                         </h5>
                     </div>
                     <div class="col-sm-3 sort-user">
-                        <strong>@wasteReportGroup.User.Name</strong>
+                        <strong>@wasteReportGroup.ObjectData["ContextUser"]["Name"]</strong>
                     </div>
                     <div class="col-sm-3 sort-item">
-                        @wasteReportGroup.Item.ItemType.Name
+                        @wasteReportGroup.ObjectData["ItemType"]["Name"]
                     </div>
                     <div class="col-sm-2">
                         @wasteReportGroup.WasteReport.UID

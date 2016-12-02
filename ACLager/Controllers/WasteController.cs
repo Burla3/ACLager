@@ -19,7 +19,7 @@ namespace ACLager.Controllers
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 foreach (WasteReport wasteReport in db.WasteReportSet) {
                     dynamic objectData = System.Web.Helpers.Json.Decode(wasteReport.ObjectData);
-                    wasteReportGroups.Add(new WasteReportGroup(objectData["ItemType"], objectData["WorkOrder"], objectData["User"], wasteReport, objectData["item"]));
+                    wasteReportGroups.Add(new WasteReportGroup(wasteReport, objectData));
                 }
             }
 
@@ -34,7 +34,7 @@ namespace ACLager.Controllers
                 WasteReport wasteReport = db.WasteReportSet.Find(Int64.Parse(id));
 
                 dynamic objectData = System.Web.Helpers.Json.Decode(wasteReport.ObjectData);
-                wasteViewModel.WasteReportGroup = new WasteReportGroup(objectData["ItemType"], objectData["WorkOrder"], objectData["UserContextUser"], wasteReport, objectData["item"]);
+                wasteViewModel.WasteReportGroup = new WasteReportGroup(wasteReport, objectData);
             }
 
             return View(wasteViewModel);
@@ -71,7 +71,7 @@ namespace ACLager.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="wasteReport"></param>
+        /// <param name="wasteReportViewModel"></param>
         [HttpPost]
         public ActionResult CreateWasteReport(CreateWasteViewModel wasteReportViewModel)
         {
@@ -79,25 +79,34 @@ namespace ACLager.Controllers
             dynamic cookieData = System.Web.Helpers.Json.Decode(cookie.Value);
             long userID = cookieData["UID"];
 
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
-                WorkOrder workOrder = db.WorkOrderSet.Find(wasteReportViewModel.WorkOrder.UID);
-                User dbUser = db.UserSet.Find(userID);
-                Item dbItem = db.ItemSet.Find(wasteReportViewModel.Item.UID);
-                ItemType dbItemType = dbItem.ItemType;
+            WorkOrder dbWorkOrder;
+            User dbUser;
+            Item dbItem;
+            ItemType dbItemType;
 
-                object objectData = new {
-                    ContextUser = new {Type = dbUser.GetType().ToString(), Data = dbUser },
-                    Item = new {Type = dbItem.GetType().ToString(), Data = dbItem },
-                    WorkOrder = new {Type = workOrder.GetType().ToString(), Data = workOrder },
-                    ItemType = new {Type = dbItemType.GetType().ToString(), Data = dbItemType }
+            WasteReport wasteReport = wasteReportViewModel.WasteReport;
+            wasteReport.Date = DateTime.Now;
+
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                dbWorkOrder = db.WorkOrderSet.Find(wasteReportViewModel.WorkOrderUID);
+                dbUser = db.UserSet.Find(userID);
+                dbItem = db.ItemSet.Find(wasteReportViewModel.Item.UID);
+                dbItemType = dbItem.ItemType;
+            }
+            dbUser = dbUser.Clone();
+            dbItem = dbItem.Clone();
+            dbItemType = dbItemType.Clone();
+
+            object objectData = new {
+                    ContextUser = dbUser,
+                    Item = dbItem,
+                    WorkOrder = dbWorkOrder,
+                    ItemType = dbItemType
                 };
 
-                WasteReport wasteReport = wasteReportViewModel.WasteReport;
+            wasteReport.ObjectData = System.Web.Helpers.Json.Encode(objectData);
 
-                wasteReport.Date = DateTime.Now;
-                wasteReport.ObjectData = System.Web.Helpers.Json.Encode(objectData);
-
+            using (ACLagerDatabase db = new ACLagerDatabase()) { 
                 db.WasteReportSet.Add(wasteReport);
                 db.SaveChanges();
             }

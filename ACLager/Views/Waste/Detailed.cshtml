@@ -25,17 +25,17 @@
                 <h4>@Model.WasteReportGroup.WasteReport.UID</h4>
             </div>
             <div class="col-sm-8">
-                @if (Model.WasteReportGroup.WorkOrder != null)
+                @if (Model.WasteReportGroup.ObjectData["WorkOrder"] != null)
             {
                     <div class="col-sm-5">
 
                         <strong>Arbejdsopgave batchnummer:</strong>
-                        <h4>@Model.WasteReportGroup.WorkOrder.BatchNumber</h4>
+                        <h4>@Model.WasteReportGroup.ObjectData["WorkOrder"]["BatchNumber"]</h4>
 
                     </div>
                     <div class="col-sm-4">
                         <strong>Type:</strong>
-                        <h4>@Model.WasteReportGroup.WorkOrder.Type</h4>
+                        <h4>@Model.WasteReportGroup.ObjectData["WorkOrder"]["Type"]</h4>
                     </div>
                     <div class="col-sm-3">
                     </div>
@@ -45,15 +45,15 @@
         <div class="row">
             <div class="col-sm-4">
                 <strong>Brugerens navn:</strong>
-                <h4>@Model.WasteReportGroup.User.Name</h4>
+                <h4>@Model.WasteReportGroup.ObjectData["ContextUser"]["Name"]</h4>
             </div>
             <div class="col-sm-5">
                 <strong>Varens navn:</strong>
-                <h4>@Model.WasteReportGroup.ItemType.Name</h4>
+                <h4>@Model.WasteReportGroup.ObjectData["ItemType"]["Name"]</h4>
             </div>
             <div class="col-sm-3">
                 <strong>Mængde:</strong>
-                <h4>@Model.WasteReportGroup.WasteReport.Amount @Model.WasteReportGroup.ItemType.Unit</h4>
+                <h4>@Model.WasteReportGroup.WasteReport.Amount @Model.WasteReportGroup.ObjectData["ItemType"]["Name"]</h4>
             </div>
         </div>
         <hr />

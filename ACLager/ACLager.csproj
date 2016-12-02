@@ -305,7 +305,6 @@
     <Content Include="Content\bootstrap-material-design.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\Creampuff\stylesheet.css" />
     <Content Include="Content\primary-amber.css" />
     <Content Include="Content\primary-blue-grey.css" />
     <Content Include="Content\primary-blue.css" />
@@ -328,7 +327,6 @@
     <Content Include="Content\ripples.css" />
     <Content Include="Content\select2.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\CREAMPUF.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
@@ -346,9 +344,6 @@
     <Content Include="Models\Model.edmx.diagram">
       <DependentUpon>Model.edmx</DependentUpon>
     </Content>
-    <Content Include="fonts\CREAMPUF.eot" />
-    <Content Include="fonts\CREAMPUF.ttf" />
-    <Content Include="fonts\CREAMPUF.woff" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Models\Model.edmx.sql" />
     <Content Include="Models\Model.tt">

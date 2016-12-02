@@ -95,7 +95,7 @@ namespace ACLager.Controllers
                     new SelectListItem() {Text = "Pakkeri", Value = "Packaging"},
                     new SelectListItem() {Text = "Bestilling", Value = "Order"}
                 };
-                itemTypeViewModel.ItemTypeSelectListItems = db.ItemTypeSet.Where(it => it.IsActive && it.UID != uid && !it.IsDeleted).ToList()
+                itemTypeViewModel.ItemTypeSelectListItems = db.ItemTypeSet.Where(it => it.IsActive && it.UID != uid).ToList()
                     .Select(itemType => new SelectListItem {Text = itemType.Name, Value = itemType.UID.ToString()}).ToList();
             }
 

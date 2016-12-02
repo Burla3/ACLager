@@ -10,7 +10,7 @@
 <div class="container" id="locationSort">
     @Html.Partial("_SearchPanel")
 
-    <div class="container">
+    
         <div class="row">
             <div class="sort noselect col-xs-2" data-sort="sort-status">
                 <strong>Status</strong>
@@ -39,11 +39,11 @@
             <div class="col-sm-4">
             </div>
         </div>
-    <div class="container list" id="ExpansionPanelsContainer">
+    <div class="list" id="ExpansionPanelsContainer">
             @foreach (ItemLocationPair itemLocationPair in Model.ItemLocationPairs) {
                 <div class="expansionpanel row panel">
                     <div class="row">
-                        <div class="col-xs-3 sort-status">
+                        <div class="col-xs-2 sort-status">
                             <h4>
                                 @if (itemLocationPair.Location.IsActive)
                                 {
@@ -67,7 +67,7 @@
                                 }
                             </h4>
                         </div>
-                        <div class="expansion-control col-sm-5" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@itemLocationPair.Location.UID">
+                        <div class="expansion-control col-sm-6" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@itemLocationPair.Location.UID">
                             <div class="btn btn-default pull-right">
                                 <i class="material-icons">expand_more</i>
                                 <i class="material-icons hidden">expand_less</i>

@@ -12,7 +12,7 @@ namespace ACLager.ViewModels
         public LogEntry LogEntry { get; set; }
 
         public LogViewModel() {
-            base.SelectColor("Log");
+            base.SelectSectionSpecials("Log");
         }
 
         public LogViewModel(IEnumerable<LogEntry> logEntries, LogEntry logEntry) : this() {

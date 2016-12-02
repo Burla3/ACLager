@@ -18,9 +18,6 @@ namespace ACLager.Models
         public System.DateTime Date { get; set; }
         public long Amount { get; set; }
         public string Description { get; set; }
-    
-        public virtual User User { get; set; }
-        public virtual Item Item { get; set; }
-        public virtual WorkOrder WorkOrder { get; set; }
+        public string ObjectData { get; set; }
     }
 }

@@ -10,7 +10,6 @@
 <div class="container" id="inventorySort">
     @Html.Partial("_SearchPanel")
 
-    <div class="container">
         <div class="row">
             <div class="col-xs-3">
                 <strong>Varenavn / beskrivelse</strong>
@@ -36,8 +35,8 @@
             </div>
             <div class="col-xs-2"></div>
         </div>
-    </div>
-    <div class="container list" id="ExpansionPanelsContainer">
+
+    <div class="list" id="ExpansionPanelsContainer">
         @foreach (ItemGroup itemGroup in Model.ItemGroups) {
             foreach (ItemLocationPair itemLocationPair in itemGroup.ItemLocationPairs) {
                 <div class="expansionpanel row panel">
@@ -48,8 +47,9 @@
                         <div class="col-xs-3 sort-location">
                             <h4>@itemLocationPair.Location.Name</h4>
                         </div>
-                        <div class="col-xs-2 sort-amount">
-                            <h4>@itemLocationPair.Item.Amount @itemGroup.ItemType.Unit</h4>
+                        <div class="col-xs-2">
+                            <h4 class="sort-amount">@(itemLocationPair.Item.Amount - itemLocationPair.Item.Reserved) @itemGroup.ItemType.Unit</h4>
+                            <small>@itemLocationPair.Item.Reserved / @itemLocationPair.Item.Amount</small>
                         </div>
                         <div class="col-xs-2 sort-expdate">
                             @if (itemLocationPair.Item.ExpirationDate != null) {

@@ -20,7 +20,6 @@ namespace ACLager.Models {
             public string Unit { get; set; }
             [DisplayName("Status")]
             public bool IsActive { get; set; }
-            public bool IsDeleted { get; set; }
             [DisplayName("Fremgangsmåde")]
             public string Procedure { get; set; }
             [DisplayName("Stregkode")]

@@ -11,31 +11,33 @@
         @Html.AntiForgeryToken()
         <fieldset>
             <Legend>Opret spildrapport</Legend>
-            <div class="col-sm-6">
+            <div class="col-sm-12">
                 <div class="form-group">
                     @Html.LabelFor(model => model.Item, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.Item.UID, Model.Items, new { @class = "form-control chosen-select" })
+                    @Html.DropDownListFor(model => model.Item.ItemType.Name, Model.Items, new { @class = "form-control chosen-select" })
                 </div>
             </div>
-            <div class="col-sm-3">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.WasteReport.Amount, new { @class = "control-label" })
-                    @Html.EditorFor(model => model.WasteReport.Amount, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.WasteReport.Amount, "", new { @class = "text-danger" })
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.WasteReport.Amount, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.WasteReport.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.WasteReport.Amount, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.WorkOrder, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.WorkOrder.UID, Model.WorkOrders, new { @class = "form-control chosen-select" })
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.WorkOrder, new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.WorkOrder.UID, Model.WorkOrders, new { @class = "form-control chosen-select" })
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-12">
-                <div>
-                    @Html.LabelFor(model => model.WasteReport.Description, new { @class = "control-label" })
-                    @Html.TextAreaFor(model => model.WasteReport.Description, new { @class = "form-control", rows = 6, placeholder = "Beskriv hvordan spildet skete" })
+            <div class="col-sm-6"></div>
+            
+                <div class="col-sm-12">
+                    <div>
+                        @Html.LabelFor(model => model.WasteReport.Description, new { @class = "control-label" })
+                        @Html.TextAreaFor(model => model.WasteReport.Description, new { @class = "form-control", rows = 6, placeholder = "Beskriv hvordan spildet skete" })
+                    </div>
                 </div>
-            </div>
         </fieldset>
 
 

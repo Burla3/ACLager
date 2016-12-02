@@ -15,7 +15,7 @@ namespace ACLager.CustomClasses {
         }
 
         public ItemType ItemType { get; set; }
-        public WorkOrder WorkOrder { get; set; }
+        public WorkOrder WorkOrder { get; set; } 
         public User User { get; set; }
         public WasteReport WasteReport { get; set; }
         public Item Item { get; set; }

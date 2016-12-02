@@ -24,11 +24,11 @@
     <div class="row">
         <div class="col-sm-12">
             <dl class="dl-horizontal">
-                <dt>Brugernummer:</dt>
+                <dt>@Html.DisplayNameFor(model => user.UID):</dt>
                 <dd>@user.UID</dd>
-                <dt>Navn:</dt>
+                <dt>@Html.DisplayNameFor(model => user.Name):</dt>
                 <dd>@user.Name</dd>
-                <dt>Status:</dt>
+                <dt>@Html.DisplayNameFor(model => user.IsActive):</dt>
                 <dd>
                     @if (user.IsActive) {
                         <span class="label label-success">Aktiv</span>
@@ -36,7 +36,7 @@
                         <span class="label label-default">Inaktiv</span>
                     }
                 </dd>
-                <dt>Role:</dt>
+                <dt>@Html.DisplayNameFor(model => user.IsAdmin):</dt>
                 <dd>
                     @if (user.IsAdmin) {
                         <span class="label label-success">Administrator</span>

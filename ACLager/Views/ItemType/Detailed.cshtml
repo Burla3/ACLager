@@ -1,4 +1,6 @@
-﻿@model ACLager.ViewModels.ItemTypeViewModel
+﻿@using System.Data.Entity.Core.Common.CommandTrees
+@using ACLager.Models
+@model ACLager.ViewModels.ItemTypeViewModel
 
 @{
     ViewBag.Title = "Detailed";
@@ -59,7 +61,8 @@
             }
         </div>
         <div class="row">
-            <div class="col-xs-12">&nbsp; 
+            <div class="col-xs-12">
+                <br/>
             </div>
         </div>
         <div class="row">
@@ -79,12 +82,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <strong>@Html.DisplayNameFor(model => model.ItemType.Procedure):</strong> 
-            <h4>@Model.ItemType.Procedure</h4>
-        </div>
-    </div>
+    <div class="row"></div>    
     <hr />
     <div class="row">
         <div class="col-xs-12">
@@ -92,4 +90,81 @@
             <a href="@Url.Action("EditItemType", new {id = Model.ItemType.UID})" class="btn btn-raised btn-info pull-right">Rediger</a>
         </div>
     </div>
+    <hr />
+
+<!--START PÅ TAB 1-->
+    <div class="row">
+        @if (Model.ItemType.Items.Any()) {
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3 class="text-center">@Model.ItemType.Name på lager</h3>
+                    <br />
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            <strong>Lokation</strong>
+                        </th>
+                        <th>
+                            <strong>Mængde / Reserveret</strong>
+                        </th>
+                        <th>
+                            <strong>Udløbsdato</strong>
+                        </th>
+                        <th>                               
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Item item in Model.ItemType.Items) {
+                            <tr>
+                                <td>
+                                    <h4>@item.Location.Name</h4>
+                                </td>
+                                <td>
+                                    <h4 class="sort-amount">@(item.Amount - item.Reserved) @Model.ItemType.Unit</h4>
+                                    <small>@item.Reserved / @item.Amount</small>
+                                </td>
+                                <td>
+                                    @if (item.ExpirationDate != null) {
+                                        <h4>@item.ExpirationDate.Value.ToString("dd-MM-yyyy")</h4>
+                                    }
+                                    else
+                                    {
+                                        <h4>Varen har ingen udløbsdato</h4>
+                                    }
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Detailed", "Inventory", new {id = item.UID})" class="btn btn-raised btn-primary pull-right">Gå til vare</a>
+                                </td>
+                            </tr>                            
+                        }
+                    </tbody>
+                </table>
+            </div>
+        } else {
+            <div class="col-xs-12">
+                <h3 class="text-center">Der er ingen @Model.ItemType.Name på lager</h3>
+            </div>
+        }      
+    </div>
+<!--SLUT PÅ TAB 1-->
+
+<!--START PÅ TAB 2-->  
+    <div class="row">
+        @if (!String.IsNullOrEmpty(Model.ItemType.Procedure)) {
+            <div class="col-xs-12">
+                <strong>@Html.DisplayNameFor(model => model.ItemType.Procedure):</strong>
+                <h4>@Model.ItemType.Procedure</h4>
+            </div>
+        }
+    </div>
+<!--SLUT PÅ TAB 2-->
+
+    <div class="row">
+            <br />
+    </div> 
 </div>

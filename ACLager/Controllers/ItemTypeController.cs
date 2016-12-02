@@ -238,7 +238,15 @@ namespace ACLager.Controllers
 
             using (ACLagerDatabase db = new ACLagerDatabase())
             {
-                itemTypeViewModel.ItemType = db.ItemTypeSet.Find(long.Parse(id));
+                ItemType itemType = db.ItemTypeSet.Find(long.Parse(id));
+
+                itemTypeViewModel.ItemType = itemType;
+                itemTypeViewModel.ItemType.Items = itemType.Items;
+
+                foreach (Item item in itemTypeViewModel.ItemType.Items)
+                {
+                    item.Location = db.LocationSet.Single(l => l.UID == item.Location.UID);
+                }
             }
 
             return View(itemTypeViewModel);

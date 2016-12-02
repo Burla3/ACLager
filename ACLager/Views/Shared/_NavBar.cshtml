@@ -8,9 +8,9 @@
             <li class="visible-xs-inline-block pull-right"><a href="@Url.Action("Logout", "Login")"><h5 class="text-uppercase"><strong>Log ud<i class="material-icons va-tb">exit_to_app</i></strong></h5></a></li>
         </ul>
         <div class="navbar-filler visible-xs-inline-block"></div>
-        <a href="/" class="navbar-brand simple-text-shadow"><h2 class="font-creampuff"><strong>ACLager @if (!string.IsNullOrEmpty(Model.SectionName)) {
+        <a href="/" class="navbar-brand"><h3><strong>ACLager @if (!string.IsNullOrEmpty(Model.SectionName)) {
             @:- @Model.SectionName
-        }</strong></h2></a>
+        }</strong></h3></a>
         <ul class="nav navbar-nav navbar-right hidden-xs">
             <li><a href="@Url.Action("Logout", "Login")"><h5 class="text-uppercase"><strong>Log ud<i class="material-icons va-tb">exit_to_app</i></strong></h5></a></li>
         </ul>

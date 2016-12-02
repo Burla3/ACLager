@@ -2,22 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.UI.WebControls;
 using ACLager.Models;
 
 namespace ACLager.CustomClasses {
     public class WasteReportGroup {
-        public WasteReportGroup(ItemType itemType, WorkOrder workOrder, User user, WasteReport wasteReport, Item item) {
-            ItemType = itemType;
-            WorkOrder = workOrder;
-            User = user;
+        public WasteReportGroup(WasteReport wasteReport, dynamic objectData) {
             WasteReport = wasteReport;
-            Item = item;
+            ObjectData = objectData;
         }
 
-        public ItemType ItemType { get; set; }
-        public WorkOrder WorkOrder { get; set; } 
-        public User User { get; set; }
         public WasteReport WasteReport { get; set; }
-        public Item Item { get; set; }
+        public dynamic ObjectData { get; set; }
     }
 }

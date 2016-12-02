@@ -16,8 +16,9 @@ namespace ACLager.ViewModels {
             WasteReport = wasteReport;
             Items = items;
             WorkOrders = workorders;
-            Locations = locations;
         }
+
+        public long? WorkOrderUID { get; set; }
         public Item Item { get; set; }
         public WorkOrder WorkOrder { get; set; }
         public WasteReport WasteReport { get; set; }

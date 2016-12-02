@@ -1,0 +1,100 @@
+﻿@using ACLager.Models
+@model ACLager.ViewModels.ItemTypeViewModel
+
+@{
+    ViewBag.Title = "Slet varetype";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("DeleteItemType", "ItemType")) {
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => Model.ItemType.UID)
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="panel panel-danger flowout-noclose">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <br>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <fieldset>
+                                <div class="col-md-12">
+                                    <Legend>Slet varetype</Legend>
+                                    Er du sikker på du vil slette denne varetype <strong>permanent</strong> fra systemet?
+                                    <hr />
+                                    <dl class="dl-horizontal">
+                                        <dt>@Html.DisplayNameFor(model => model.ItemType.UID):</dt>
+                                        <dd>@Model.ItemType.UID</dd>
+                                        <dt>@Html.DisplayNameFor(model => model.ItemType.Name):</dt>
+                                        <dd>@Model.ItemType.Name</dd>
+                                        <dt>@Html.DisplayNameFor(model => model.ItemType.MinimumAmount):</dt>
+                                        <dd>@Model.ItemType.MinimumAmount</dd>
+                                        <dt>@Html.DisplayNameFor(model => model.ItemType.Unit):</dt>
+                                        <dd>@Model.ItemType.Unit</dd>
+                                        <dt>@Html.DisplayNameFor(model => model.ItemType.IsActive):</dt>
+                                        <dd>
+                                            @if (Model.ItemType.IsActive) {
+                                                <span class="label label-success">Aktiv</span>
+                                            } else {
+                                                <span class="label label-default">Inaktiv</span>
+                                            }
+                                        </dd>
+                                        <dd>@Model.ItemType.Procedure</dd>
+                                        <dt>@Html.DisplayNameFor(model => model.ItemType.Procedure):</dt>
+                                        <dd>@Model.ItemType.Barcode</dd>
+                                        <dt>@Html.DisplayNameFor(model => model.ItemType.Barcode):</dt>
+                                        <dd>@Model.ItemType.BatchSize</dd>
+                                        <dt>@Html.DisplayNameFor(model => model.ItemType.BatchSize):</dt>
+                                        <dd>@Model.ItemType.Department</dd>
+                                        <dt>@Html.DisplayNameFor(model => model.ItemType.Department):</dt>
+                                    </dl>
+                                    @if (Model.ItemType.WorkOrderItem.Count > 0) {
+                                        <hr />
+                                        <span>Nederstående ordre indeholder denne varetype. Disse vil også blive <strong>slettet</strong> fra systemet.</span><br />
+                                        foreach (WorkOrderItem workOrderItem in Model.ItemType.WorkOrderItem) {
+                                            <a href="@Url.Action("Detailed", "WorkOrder", new {id = workOrderItem.WorkOrder.UID})">
+                                                @Html.DisplayNameFor(model => model.ItemType.WorkOrderItem.First().WorkOrder.BatchNumber): @workOrderItem.WorkOrder.BatchNumber
+                                            </a>
+                                            <br />
+                                        }
+                                    }
+                                    @if (Model.ItemType.Items.Count > 0) {
+                                        <hr />
+                                        <span>Nederstående lokationer indeholder varer af denne varetype. Disse vil også blive <strong>slettet</strong> fra systemet.</span><br/>
+                                        foreach (Item item in Model.ItemType.Items)
+                                        {
+                                            <a href="@Url.Action("Detailed", "Location", new {id = item.Location.UID})">
+                                                @Html.DisplayNameFor(model => model.ItemType.Items.First().Location.Name): @item.Location.Name
+                                            </a>
+                                            <br/>
+                                        }
+                                    }
+                                    @if (Model.ItemType.IsIngredientFor.Count > 0) {
+                                        <hr />
+                                        <span>Nederstående varetyper indeholder denne varetype som ingrediens. Disse ingredienser vil også blive <strong>slettet</strong> fra systemet.</span><br />
+                                        foreach (Ingredient ingredient in Model.ItemType.IsIngredientFor){
+                                            <a href="@Url.Action("Detailed", "ItemType", new {id = ingredient.ForItemType.UID})">
+                                                @Html.DisplayNameFor(model => model.ItemType.IsIngredientFor.First().ForItemType.Name): @ingredient.ForItemType.Name
+                                            </a>
+                                            <br />
+                                        }
+                                    }
+                                </div>
+                            </fieldset>
+                            <input class="btn btn-raised btn-danger pull-right" type="submit" value="Slet">
+                            <a href="@Url.Action("Index")" class="btn btn-default pull-right flowout-close">Behold</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+    </div>
+}
+

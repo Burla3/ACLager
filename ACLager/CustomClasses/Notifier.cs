@@ -19,9 +19,11 @@ namespace ACLager.CustomClasses {
                         Type = eventArgs.ItemType.Department
                     };
                     db.WorkOrderSet.Add(workOrder);
+                    db.SaveChanges();
 
                     foreach (Ingredient ingredient in eventArgs.ItemType.IngredientsForRecipe) {
                         WorkOrderItem workOrderItem = new WorkOrderItem();
+                        workOrderItem.WorkOrder = workOrder;
                         workOrderItem.Amount = ingredient.Amount;
                         workOrderItem.ItemType = eventArgs.ItemType;
                         workOrderItem.Progress = 0;

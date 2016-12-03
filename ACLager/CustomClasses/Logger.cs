@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using ACLager.Controllers;
 using ACLager.Interfaces;
 using ACLager.Models;
@@ -15,14 +16,15 @@ namespace ACLager.CustomClasses
         /// </summary>
         /// <param name="sender">The controller which sends the request to log.</param>
         /// <param name="eventArgs">The information to log.</param>
-        protected void CreateLogEntry(object sender, LogEntryEventArgs eventArgs)
-        {
+        protected void CreateLogEntry(object sender, LogEntryEventArgs eventArgs) {
+            string objectData = Json.Encode(eventArgs.ObjectData);
+
             LogEntry logEntry = new LogEntry
             {
                 Date = DateTime.Now,
                 Type = eventArgs.LogType,
                 LogBody = eventArgs.LogBody,
-                ObjectData = eventArgs.ObjectData,
+                ObjectData = objectData
                
             };
 

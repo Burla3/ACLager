@@ -113,28 +113,30 @@ namespace ACLager.Controllers {
         [HttpPost]
         public ActionResult EditUser(User user) {
             User oldUser;
+            User newUser;
             User contextUser = GetContextUser();
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 User dbUser = db.UserSet.Find(user.UID);
-                oldUser = dbUser;
+                oldUser = dbUser.Clone();
 
                 dbUser.IsActive = user.IsActive;
                 dbUser.IsAdmin = user.IsAdmin;
                 dbUser.Name = user.Name;
 
+                newUser = dbUser.Clone();
+
                 db.SaveChanges();
             }
 
-            object objects = new {
-                ContextUser = new { Type = contextUser.GetType().ToString(), Data = contextUser },
-                OldUser = new { Type = user.GetType().ToString(), Data = user },
-                NewUser = new { Type = oldUser.GetType().ToString(), Data = oldUser}
-            };
-
-            string objectData = System.Web.Helpers.Json.Encode(objects);
-
-            Changed?.Invoke(this, new LogEntryEventArgs("EditUser", $"Brugeren {user.Name} blev ændret.", objectData));
+            Changed?.Invoke(
+                this,
+                new LogEntryEventArgs(
+                    "EditUser",
+                    $"Brugeren {oldUser.Name} blev ændret.",
+                    new {ContextUser = contextUser , OldUser = oldUser, NewUser = newUser}
+                )
+            );
 
             return RedirectToAction("Index");
         }

@@ -242,10 +242,15 @@ namespace ACLager.Controllers
 
                 itemTypeViewModel.ItemType = itemType;
                 itemTypeViewModel.ItemType.Items = itemType.Items;
+                itemTypeViewModel.Ingredients = itemType.IngredientsForRecipe;
 
                 foreach (Item item in itemTypeViewModel.ItemType.Items)
                 {
                     item.Location = db.LocationSet.Single(l => l.UID == item.Location.UID);
+                }
+                foreach (Ingredient ingredient in itemTypeViewModel.Ingredients)
+                {
+                    ingredient.ItemType = db.ItemTypeSet.Single(i => i.UID == ingredient.ItemType.UID);
                 }
             }
 

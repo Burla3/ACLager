@@ -155,14 +155,67 @@
 
 <!--START PÅ TAB 2-->  
     <div class="row">
-        @if (!String.IsNullOrEmpty(Model.ItemType.Procedure)) {
-            <div class="col-xs-12">
-                <strong>@Html.DisplayNameFor(model => model.ItemType.Procedure):</strong>
-                <h4>@Model.ItemType.Procedure</h4>
+        @if (Model.Ingredients.Any()) {
+            <div class="col-sm-6">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            <strong>Ingrediens</strong>
+                        </th>
+                        <th>
+                            <strong>Mængde</strong>
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (Ingredient ingredient in Model.Ingredients) {
+                        <tr>
+                            <td>
+                                <h4>@ingredient.ItemType.Name</h4>
+                            </td>
+                            <td>
+                                <h4 class="sort-amount">@ingredient.Amount @ingredient.ItemType.Unit</h4>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Detailed", "ItemType", new {id = ingredient.ItemType.UID})" class="btn btn-raised btn-primary pull-right">Gå til vare</a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        } else {
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3 class="text-center">@Model.ItemType.Name har ingen ingredienser</h3>
+                    <br />
+                </div>
             </div>
         }
+        @if (!string.IsNullOrEmpty(Model.ItemType.Procedure)) {
+
+<!-- Besked til Mathias - Den nedenstående if/else skal fylde procedure tekst til col-12 i stedet for col-6, såfremt der ikke er nogle ingredienser.
+Ellers fylder procedure tekstfeltet kun halvdelen af skærmen, selvom den anden halvdel ikke består at en liste med ingredienser alligevel (fucking grimt).
+Hvis der er en smartere måde at gøre dette på, så bare gør det :) 
+-->
+
+            if (Model.Ingredients.Any()) {
+                <div class="col-xs-6">
+                    <strong>@Html.DisplayNameFor(model => model.ItemType.Procedure):</strong>
+                    <h4>@Model.ItemType.Procedure</h4>
+                </div>
+            } else {
+                <div class="col-xs-12">
+                    <strong>@Html.DisplayNameFor(model => model.ItemType.Procedure):</strong>
+                    <h4>@Model.ItemType.Procedure</h4>
+                </div>
+            }
+        }
     </div>
-<!--SLUT PÅ TAB 2-->
+    <!--SLUT PÅ TAB 2-->
 
     <div class="row">
             <br />

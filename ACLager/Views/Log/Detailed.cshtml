@@ -1,4 +1,5 @@
-﻿@using ACLager.Models
+﻿@using System.Collections
+@using ACLager.Models
 @model ACLager.ViewModels.LogViewModel
 
 @{
@@ -17,34 +18,26 @@
         </div>
     </div>
 
-    @{ User user = Json.Decode<User>(Model.LogEntry.ObjectData);}
+    @{ dynamic objectData = Json.Decode(Model.LogEntry.ObjectData);}
 
     <div class="clearfix"></div>
     <hr />
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-4"> </div>
+        <div class="col-sm-4">
             <dl class="dl-horizontal">
-                <dt>@Html.DisplayNameFor(model => user.UID):</dt>
-                <dd>@user.UID</dd>
-                <dt>@Html.DisplayNameFor(model => user.Name):</dt>
-                <dd>@user.Name</dd>
-                <dt>@Html.DisplayNameFor(model => user.IsActive):</dt>
-                <dd>
-                    @if (user.IsActive) {
-                        <span class="label label-success">Aktiv</span>
-                    } else {
-                        <span class="label label-default">Inaktiv</span>
+                @foreach (KeyValuePair<string, object> ob in objectData) {
+                    <h3>@ob.Key</h3>
+                    foreach (KeyValuePair<string, object> v in (dynamic) ob.Value) {
+                        if (v.Value != null) {
+                            <dt>@v.Key:</dt>
+                            <dd>@v.Value.ToString()</dd>
+                        }
                     }
-                </dd>
-                <dt>@Html.DisplayNameFor(model => user.IsAdmin):</dt>
-                <dd>
-                    @if (user.IsAdmin) {
-                        <span class="label label-success">Administrator</span>
-                    } else {
-                        <span class="label label-default">Almindelig bruger</span>
-                    }
-                </dd>
+                    <br/>
+                }
             </dl>
         </div>
+        <div class="col-sm-4"> </div>
     </div>
 </div>

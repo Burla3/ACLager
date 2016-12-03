@@ -21,9 +21,13 @@
                 <strong>@Html.DisplayNameFor(model => model.Item.ItemType.Name):</strong>
             </div>
             <div class="row">
-                <a href="@Url.Action("Detailed", "ItemType", new {id = Model.Item.ItemType.UID})">
+                @if (Model.UserIsAdmin) {
+                    <a href="@Url.Action("Detailed", "ItemType", new {id = Model.Item.ItemType.UID})">
+                        <h1>@Model.Item.ItemType.Name</h1>
+                    </a>
+                } else {
                     <h1>@Model.Item.ItemType.Name</h1>
-                </a>
+                }
             </div>
             <div class="row">
                 &nbsp;
@@ -78,9 +82,13 @@
         </div>
         <div class="row">
             <div class="col-xs-4">
-                <a href="@Url.Action("Detailed", "Location", new {id = Model.Item.Location.UID})">
+                @if (Model.UserIsAdmin) {
+                    <a href="@Url.Action("Detailed", "Location", new {id = Model.Item.Location.UID})">
+                        <h3>@Model.Item.Location.Name</h3>
+                    </a>
+                } else {
                     <h3>@Model.Item.Location.Name</h3>
-                </a>
+                }
             </div>
             <div class="col-xs-4">
                 <h3>@Model.Item.DeliveryDate.ToString("dd-MM-yyyy")</h3>

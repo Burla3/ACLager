@@ -60,23 +60,22 @@ namespace ACLager.Controllers {
         /// <returns>Redirects to /User.</returns>
         [HttpPost]
         public ActionResult CreateUser(User user) {
-            User contextUser = GetContextUser();
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 user.PIN = GenerateUniquePIN();
                 db.UserSet.Add(user);
                 db.SaveChanges();
             }
 
-            object objects = new {
-                ContextUser = new {Type = contextUser.GetType().ToString(), contextUser},
-                CreatedUser = new {Type = user.GetType().ToString(), user}
-            };
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "EditUser",
+                        $"Brugeren {user.Name} blev oprettet.",
+                        new { KontekstBruger = GetContextUser().ToLoggable(), OprettetBruger = user.ToLoggable() }
+                     )
+            );
 
-            string objectData = System.Web.Helpers.Json.Encode(objects);
 
-            Changed?.Invoke(this, new LogEntryEventArgs("CreateUser", $"Brugeren {user.Name} blev oprettet.", objectData));
-
-            return RedirectToAction("Detailed", new {id = user.UID});
+            return RedirectToAction("Detailed", new { id = user.UID });
         }
 
         /// <summary>
@@ -114,28 +113,26 @@ namespace ACLager.Controllers {
         public ActionResult EditUser(User user) {
             User oldUser;
             User newUser;
-            User contextUser = GetContextUser();
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 User dbUser = db.UserSet.Find(user.UID);
-                oldUser = dbUser.Clone();
+                oldUser = dbUser.ToLoggable();
 
                 dbUser.IsActive = user.IsActive;
                 dbUser.IsAdmin = user.IsAdmin;
                 dbUser.Name = user.Name;
 
-                newUser = dbUser.Clone();
+                newUser = dbUser.ToLoggable();
 
                 db.SaveChanges();
             }
 
-            Changed?.Invoke(
-                this,
-                new LogEntryEventArgs(
-                    "EditUser",
-                    $"Brugeren {oldUser.Name} blev ændret.",
-                    new {ContextUser = contextUser , OldUser = oldUser, NewUser = newUser}
-                )
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "EditUser",
+                        $"Brugeren {oldUser.Name} blev ændret.",
+                        new { KontekstBruger = GetContextUser().ToLoggable(), Før = oldUser, Efter = newUser}
+                    )
             );
 
             return RedirectToAction("Index");
@@ -175,7 +172,6 @@ namespace ACLager.Controllers {
         [HttpPost]
         public ActionResult DeleteUser(long id) {
             User user;
-            User contextUser = GetContextUser();
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 user = db.UserSet.Find(id);
@@ -183,15 +179,13 @@ namespace ACLager.Controllers {
                 db.SaveChanges();
             }
 
-            object objects = new {
-                ContextUser = new { Type = contextUser.GetType().ToString(), Data = contextUser },
-                DeletedUser = new { Type = user.GetType().ToString(), Data = user }
-            };
-
-            string objectData = System.Web.Helpers.Json.Encode(objects);
-
-
-            Changed?.Invoke(this, new LogEntryEventArgs("EditUser", $"Brugeren {user.Name} blev slettet.", objectData));
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "EditUser",
+                        $"Brugeren {user.Name} blev slettet.",
+                        new { KontekstBruger = GetContextUser().ToLoggable(), Slettet = user.ToLoggable() }
+                    )
+            );
 
 
             return RedirectToAction("Index");
@@ -216,15 +210,15 @@ namespace ACLager.Controllers {
             return generatedPin;
         }
 
-        private User GetContextUser() {
-            HttpCookie cookie = HttpContext.Request.Cookies["UserInfo"];
+        public static User GetContextUser() {
+            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies["UserInfo"];
             long userID = System.Web.Helpers.Json.Decode(cookie?.Value)["UID"];
 
             User contextUser;
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 contextUser = db.UserSet.Find(userID);
             }
-            return (User)contextUser.Clone();
+            return contextUser;
         }
 
         public event ChangedEventHandler Changed;

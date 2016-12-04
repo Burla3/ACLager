@@ -4,13 +4,17 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ACLager.CustomClasses;
+using ACLager.Interfaces;
 using ACLager.Models;
 using ACLager.ViewModels;
 
 namespace ACLager.Controllers
 {
-    public class WasteController : Controller
+    public class WasteController : Controller, ILoggable
     {
+        public WasteController() {
+            new Logger().Subcribe(this);
+        }
 
         public ActionResult Index() {
 
@@ -75,12 +79,7 @@ namespace ACLager.Controllers
         [HttpPost]
         public ActionResult CreateWasteReport(CreateWasteViewModel wasteReportViewModel)
         {
-            HttpCookie cookie = HttpContext.Request.Cookies["UserInfo"];
-            dynamic cookieData = System.Web.Helpers.Json.Decode(cookie.Value);
-            long userID = cookieData["UID"];
-
             WorkOrder dbWorkOrder;
-            User dbUser;
             Item dbItem;
             ItemType dbItemType;
 
@@ -89,19 +88,15 @@ namespace ACLager.Controllers
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 dbWorkOrder = db.WorkOrderSet.Find(wasteReportViewModel.WorkOrderUID);
-                dbUser = db.UserSet.Find(userID);
                 dbItem = db.ItemSet.Find(wasteReportViewModel.Item.UID);
                 dbItemType = dbItem.ItemType;
             }
-            dbUser = dbUser.Clone();
-            dbItem = dbItem.Clone();
-            dbItemType = dbItemType.Clone();
 
             object objectData = new {
-                    ContextUser = dbUser,
-                    Item = dbItem,
-                    WorkOrder = dbWorkOrder,
-                    ItemType = dbItemType
+                    ContextUser = UserController.GetContextUser().ToLoggable(),
+                    Item = dbItem.ToLoggable(),
+                    WorkOrder = dbWorkOrder?.ToLoggable(),
+                    ItemType = dbItemType.ToLoggable()
                 };
 
             wasteReport.ObjectData = System.Web.Helpers.Json.Encode(objectData);
@@ -111,7 +106,22 @@ namespace ACLager.Controllers
                 db.SaveChanges();
             }
 
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "CreateWasteReport",
+                        $"Spild rapport med ID: {wasteReport.UID} oprettet",
+                        new {
+                            KontekstBruger = UserController.GetContextUser().ToLoggable(),
+                            SpildRapport = wasteReport.ToLoggable(),
+                            Varetype = dbItemType.ToLoggable(),
+                            Vare = dbItem.ToLoggable(),
+                            ArbejdsOpgave = dbWorkOrder?.ToLoggable()
+                        }
+                    )
+            );
+
             return View("CreateSucces", new WasteViewModel());
         }
-    }
+        public event ChangedEventHandler Changed;
+    }   
 }

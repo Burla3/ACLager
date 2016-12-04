@@ -130,7 +130,7 @@ namespace ACLager.Controllers {
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
                         "EditUser",
-                        $"Brugeren {oldUser.Name} blev ændret.",
+                        $"Brugeren {newUser.Name} blev ændret.",
                         new { KontekstBruger = GetContextUser().ToLoggable(), Før = oldUser, Efter = newUser}
                     )
             );

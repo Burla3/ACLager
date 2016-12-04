@@ -5,15 +5,21 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ACLager.CustomClasses;
 using ACLager.CustomClasses.Attributes;
+using ACLager.Interfaces;
 using ACLager.Models;
 using ACLager.ViewModels;
 
 namespace ACLager.Controllers
 {
     [AdminOnly]
-    public class ItemTypeController : Controller
+    public class ItemTypeController : Controller, ILoggable
     {
+        public ItemTypeController() {
+            new Logger().Subcribe(this);
+        }
+
         // GET: ItemType
         public ActionResult Index()
         {
@@ -60,6 +66,17 @@ namespace ACLager.Controllers
                     db.SaveChanges();
                 }
             }
+
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "AddItemType",
+                        $"Varetypen {itemType.Name} er blevet tilføjet",
+                        new {
+                            KontekstBruger = UserController.GetContextUser().ToLoggable(),
+                            Varetype = itemType.ToLoggable()
+                        }
+                    )
+            );
         }
 
         [HttpGet]
@@ -104,8 +121,13 @@ namespace ACLager.Controllers
 
         [HttpPost]
         public ActionResult EditItemType(ItemType itemType) {
+            ItemType oldItemType;
+            ItemType newItemType;
+
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 ItemType dbItemType = db.ItemTypeSet.Find(itemType.UID);
+
+                oldItemType = dbItemType.ToLoggable();
 
                 dbItemType.IsActive = itemType.IsActive;
                 dbItemType.Name = itemType.Name;
@@ -116,8 +138,22 @@ namespace ACLager.Controllers
                 dbItemType.Department = itemType.Department;
                 dbItemType.BatchSize = itemType.BatchSize;
 
+                newItemType = dbItemType.ToLoggable();
+
                 db.SaveChanges();
             }
+
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "EditItemType",
+                        $"Varetypen {itemType.Name} er blevet ændret",
+                        new {
+                            KontekstBruger = UserController.GetContextUser().ToLoggable(),
+                            Før = oldItemType,
+                            Efter = newItemType
+                        }
+                    )
+            );
 
             return RedirectToAction("Index");
         }
@@ -128,9 +164,12 @@ namespace ACLager.Controllers
                 return RedirectToAction("Index");
             }
 
+            ItemType dbForItemType;
+            ItemType dbItemType;
+
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                ItemType dbForItemType = db.ItemTypeSet.Find(long.Parse(id));
-                ItemType dbItemType = db.ItemTypeSet.Find(ingredient.ItemType.UID);
+                dbForItemType = db.ItemTypeSet.Find(long.Parse(id));
+                dbItemType = db.ItemTypeSet.Find(ingredient.ItemType.UID);
 
                 ingredient.ForItemType = dbForItemType;
                 ingredient.Amount = ingredient.Amount;
@@ -141,6 +180,19 @@ namespace ACLager.Controllers
                 db.SaveChanges();
             }
 
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "AddIngredient",
+                        $"Ingrediens tilføjet til varetypen {dbForItemType.Name}.",
+                        new {
+                            KontekstBruger = UserController.GetContextUser().ToLoggable(),
+                            Varetype = dbForItemType.ToLoggable(),
+                            Ingrediens = ingredient.ToLoggable(),
+                            IngrediensVaretype = dbItemType.ToLoggable()
+                        }
+                    )
+            );
+
             return RedirectToAction("EditItemType", new { id = id });
         }
 
@@ -150,18 +202,38 @@ namespace ACLager.Controllers
                 return RedirectToAction("Index");
             }
 
+            Ingredient dbIngredient;
+            ItemType dbForItemType;
+            ItemType dbItemType;
+
             using (ACLagerDatabase db = new ACLagerDatabase())
             {
-                Ingredient dbIngredient = db.IngredientSet.Find(long.Parse(ingredientId));
+                dbIngredient = db.IngredientSet.Find(long.Parse(ingredientId));
 
                 if (dbIngredient == null) {
                     return RedirectToAction("Index");
                 }
 
+                dbForItemType = dbIngredient.ForItemType.ToLoggable();
+                dbItemType = dbIngredient.ItemType.ToLoggable();
+
                 db.IngredientSet.Remove(dbIngredient);
 
                 db.SaveChanges();
             }
+
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "RemoveIngredient",
+                        $"Ingrediens fjernet fra varetypen {dbForItemType.Name}.",
+                        new {
+                            KontekstBruger = UserController.GetContextUser().ToLoggable(),
+                            Varetype = dbForItemType,
+                            Ingrediens = dbIngredient.ToLoggable(),
+                            IngrediensVaretype = dbItemType
+                        }
+                    )
+            );
 
             return RedirectToAction("EditItemType", new { id = itemTypeId });
         }
@@ -204,8 +276,9 @@ namespace ACLager.Controllers
 
         [HttpPost]
         public ActionResult DeleteItemType(long id) {
+            ItemType dbItemType;
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                ItemType dbItemType = db.ItemTypeSet.Find(id);
+                dbItemType = db.ItemTypeSet.Find(id);
 
                 if (dbItemType == null) {
                     return RedirectToAction("Index");
@@ -219,6 +292,17 @@ namespace ACLager.Controllers
 
                 db.SaveChanges();
             }
+
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "DeleteItemType",
+                        $"Varetypen {dbItemType.Name} blev fjernet.",
+                        new {
+                            KontekstBruger = UserController.GetContextUser().ToLoggable(),
+                            Varetype = dbItemType.ToLoggable()
+                        }
+                    )
+            );
 
             return RedirectToAction("Index");
         }
@@ -256,5 +340,7 @@ namespace ACLager.Controllers
 
             return View(itemTypeViewModel);
         }
+
+        public event ChangedEventHandler Changed;
     }
 }

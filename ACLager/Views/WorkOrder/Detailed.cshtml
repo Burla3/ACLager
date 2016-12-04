@@ -24,12 +24,16 @@
             <h1>@Model.Workorder.ShippingInfo</h1>
         </div>
         <div class="col-sm-4">
-            <div class="col-sm-6">
-                <small>Workorder ID</small> <h3>@Model.Workorder.UID</h3>
-            </div>
-            <div class="col-sm-6">
+            @if (Model.Workorder.Type == "Produktion")
+            {
                 <small>Batchnummer:</small> <h3>@Model.Workorder.BatchNumber</h3>
-            </div>
+            }
+            else if (Model.Workorder.Type == "Pakkeri")
+            {
+                <small>Batchnummer:</small> <h3>@Model.Workorder.BatchNumber</h3>
+            }
+
+
         </div>
     </div>
     <div class="container list" id="ExpansionPanelsContainer">

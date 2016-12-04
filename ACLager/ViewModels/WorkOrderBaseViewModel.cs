@@ -12,14 +12,14 @@ namespace ACLager.ViewModels{
 
         }
 
-        public WorkOrderBaseViewModel(IEnumerable<WorkOrder> workorders, WorkOrder workorder, List<string> workorderitems) : this() {
+        public WorkOrderBaseViewModel(IEnumerable<WorkOrder> workorders, WorkOrder workorder, IEnumerable<WorkOrderItem> workorderitems) : this() {
             Workorders = workorders;
             Workorder = workorder;
             Workorderitems = workorderitems;
         }
 
        
-        public List<string> Workorderitems { get; set; }
+        public IEnumerable<WorkOrderItem> Workorderitems { get; set; }
         public WorkOrder Workorder { get; set; }
         public IEnumerable<WorkOrder> Workorders { get; set; }
 

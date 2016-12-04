@@ -2,7 +2,7 @@
 @model ACLager.ViewModels.InventoryViewModel
 
 
-@using (Html.BeginForm("AddItem", "Inventory")) {
+@using (Html.BeginForm("Add", "Inventory")) {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">

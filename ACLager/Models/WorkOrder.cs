@@ -27,9 +27,11 @@ namespace ACLager.Models
         public Nullable<System.DateTime> DueDate { get; set; }
         public bool IsComplete { get; set; }
         public string ShippingInfo { get; set; }
+        public long OrderNumber { get; set; }
     
         public virtual User CompletedByUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkOrderItem> WorkOrderItems { get; set; }
+        public virtual ItemType ItemType { get; set; }
     }
 }

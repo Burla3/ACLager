@@ -1,0 +1,85 @@
+﻿@model ACLager.ViewModels.InventoryViewModel
+
+@{
+    ViewBag.Title = "Flyt vare";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="panel panel-primary flowout-noclose">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <br>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <fieldset>
+                            <div class="col-md-12">
+                                <Legend>Flyt vare</Legend>
+                                Vælg en mængde og en ny lokation nedenfor for at flytte en mængde af denne vare.
+                                <hr />
+                                <dl class="dl-horizontal">
+                                    <dt>@Html.DisplayNameFor(model => model.Item.UID):</dt>
+                                    <dd>@Model.Item.UID</dd>
+                                    <dt>@Html.DisplayNameFor(model => model.Item.ItemType.Name):</dt>
+                                    <dd>@Model.Item.ItemType.Name</dd>
+                                    <dt>@Html.DisplayNameFor(model => model.Item.Amount):</dt>
+                                    <dd>@Model.Item.Amount @Model.Item.ItemType.Unit</dd>
+                                    <dt>@Html.DisplayNameFor(model => model.Item.Location):</dt>
+                                    <dd>@Model.Item.Location.Name</dd>
+                                    <dt>@Html.DisplayNameFor(model => model.Item.ExpirationDate):</dt>
+                                    <dd>@Model.Item.ExpirationDate</dd>
+                                    <dt>@Html.DisplayNameFor(model => model.Item.DeliveryDate):</dt>
+                                    <dd>@Model.Item.DeliveryDate</dd>
+                                    <dt>@Html.DisplayNameFor(model => model.Item.Supplier):</dt>
+                                    <dd>@Model.Item.Supplier</dd>
+                                    <dt>@Html.DisplayNameFor(model => model.Item.Reserved):</dt>
+                                    <dd>@Model.Item.Reserved @Model.Item.ItemType.Unit</dd>
+                                </dl>
+                                <hr />
+                                
+                                @using (@Html.BeginForm("Move", "Inventory"))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    @Html.HiddenFor(model => model.Item.UID)
+
+                                    <div class="form-group">
+                                        @{
+                                            long availableAmount = Model.Item.Amount - Model.Item.Reserved;
+                                        }
+
+                                        @Html.LabelFor(model => model.Item.Amount, new {@class = "control-label"})
+                                        @Html.EditorFor(model => model.Item.Amount, new
+                                        {
+                                            htmlAttributes = new
+                                            {
+                                                @class = "form-control",
+                                                data_val_range = "Skal være mellem 1 og " + availableAmount,
+                                                data_val_range_max = availableAmount
+                                            }
+                                        })
+                                        @Html.ValidationMessageFor(model => model.Item.Amount, "", new {@class = "text-danger"})
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Item.Location.UID, "Ny lokation", new { @class = "control-label" })
+                                        @Html.DropDownListFor(model => model.Item.Location.UID, Model.Locations, new { @class = "form-control chosen-select" })
+                                    </div>
+
+                                    <input class="btn btn-raised btn-primary pull-right" type="submit" value="Flyt vare">
+                                    <a href="@Url.Action("Index")" class="btn btn-default pull-right flowout-close">Annuller</a>
+                                }
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</div>

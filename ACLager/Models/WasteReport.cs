@@ -16,7 +16,7 @@ namespace ACLager.Models
     {
         public long UID { get; set; }
         public System.DateTime Date { get; set; }
-        public long Amount { get; set; }
+        public decimal Amount { get; set; }
         public string Description { get; set; }
         public string ObjectData { get; set; }
     }

@@ -14,7 +14,7 @@ namespace ACLager.Models {
             [DisplayName("Ordrelinjenummer")]
             public long UID { get; set; }
             [DisplayName("Mængde")]
-            public long Amount { get; set; }
+            public decimal Amount { get; set; }
             [DisplayName("Færdiggjort")]
             public long Progress { get; set; }
         }

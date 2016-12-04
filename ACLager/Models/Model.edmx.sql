@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/01/2016 11:33:04
--- Generated from EDMX file: C:\Users\Mikke\Documents\GitHub\ACLager\ACLager\Models\Model.edmx
+-- Date Created: 12/04/2016 22:43:37
+-- Generated from EDMX file: C:\Users\Nyggi\Documents\GitHub\ACLager\ACLager\Models\Model.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -23,15 +23,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_ItemTypeItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ItemSet] DROP CONSTRAINT [FK_ItemTypeItem];
 GO
-IF OBJECT_ID(N'[dbo].[FK_WasteReportUser]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[WasteReportSet] DROP CONSTRAINT [FK_WasteReportUser];
-GO
-IF OBJECT_ID(N'[dbo].[FK_WasteReportItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[WasteReportSet] DROP CONSTRAINT [FK_WasteReportItem];
-GO
-IF OBJECT_ID(N'[dbo].[FK_WasteReportWorkOrder]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[WasteReportSet] DROP CONSTRAINT [FK_WasteReportWorkOrder];
-GO
 IF OBJECT_ID(N'[dbo].[FK_WorkOrderUser]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[WorkOrderSet] DROP CONSTRAINT [FK_WorkOrderUser];
 GO
@@ -49,6 +40,9 @@ IF OBJECT_ID(N'[dbo].[FK_WorkOrderItemItemType]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_WorkOrderItemItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[WorkOrderItemSet] DROP CONSTRAINT [FK_WorkOrderItemItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_WorkOrderItemType]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[WorkOrderSet] DROP CONSTRAINT [FK_WorkOrderItemType];
 GO
 
 -- --------------------------------------------------
@@ -108,7 +102,7 @@ GO
 -- Creating table 'IngredientSet'
 CREATE TABLE [dbo].[IngredientSet] (
     [UID] bigint IDENTITY(1,1) NOT NULL,
-    [Amount] bigint  NOT NULL,
+    [Amount] decimal(18,0)  NOT NULL,
     [ForItemType_UID] bigint  NOT NULL,
     [ItemType_UID] bigint  NOT NULL
 );
@@ -117,7 +111,7 @@ GO
 -- Creating table 'ItemSet'
 CREATE TABLE [dbo].[ItemSet] (
     [UID] bigint IDENTITY(1,1) NOT NULL,
-    [Amount] bigint  NOT NULL,
+    [Amount] decimal(18,0)  NOT NULL,
     [ExpirationDate] datetime  NULL,
     [DeliveryDate] datetime  NOT NULL,
     [Supplier] nvarchar(max)  NOT NULL,
@@ -131,12 +125,12 @@ GO
 CREATE TABLE [dbo].[ItemTypeSet] (
     [UID] bigint IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
-    [MinimumAmount] bigint  NOT NULL,
+    [MinimumAmount] decimal(18,0)  NOT NULL,
     [Unit] nvarchar(max)  NOT NULL,
     [IsActive] bit  NOT NULL,
     [Procedure] nvarchar(max)  NULL,
     [Barcode] nvarchar(max)  NULL,
-    [BatchSize] bigint  NULL,
+    [BatchSize] decimal(18,0)  NULL,
     [Department] nvarchar(max)  NOT NULL
 );
 GO
@@ -149,14 +143,16 @@ CREATE TABLE [dbo].[WorkOrderSet] (
     [DueDate] datetime  NULL,
     [IsComplete] bit  NOT NULL,
     [ShippingInfo] nvarchar(max)  NULL,
-    [CompletedByUser_UID] bigint  NULL
+    [OrderNumber] bigint  NOT NULL,
+    [CompletedByUser_UID] bigint  NULL,
+    [ItemType_UID] bigint  NULL
 );
 GO
 
 -- Creating table 'WorkOrderItemSet'
 CREATE TABLE [dbo].[WorkOrderItemSet] (
     [UID] bigint IDENTITY(1,1) NOT NULL,
-    [Amount] bigint  NOT NULL,
+    [Amount] decimal(18,0)  NOT NULL,
     [Progress] bigint  NOT NULL,
     [WorkOrder_UID] bigint  NOT NULL,
     [ItemType_UID] bigint  NOT NULL,
@@ -178,7 +174,7 @@ GO
 CREATE TABLE [dbo].[WasteReportSet] (
     [UID] bigint IDENTITY(1,1) NOT NULL,
     [Date] datetime  NOT NULL,
-    [Amount] bigint  NOT NULL,
+    [Amount] decimal(18,0)  NOT NULL,
     [Description] nvarchar(max)  NULL,
     [ObjectData] nvarchar(max)  NOT NULL
 );
@@ -364,6 +360,21 @@ GO
 CREATE INDEX [IX_FK_WorkOrderItemItem]
 ON [dbo].[WorkOrderItemSet]
     ([Item_UID]);
+GO
+
+-- Creating foreign key on [ItemType_UID] in table 'WorkOrderSet'
+ALTER TABLE [dbo].[WorkOrderSet]
+ADD CONSTRAINT [FK_WorkOrderItemType]
+    FOREIGN KEY ([ItemType_UID])
+    REFERENCES [dbo].[ItemTypeSet]
+        ([UID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_WorkOrderItemType'
+CREATE INDEX [IX_FK_WorkOrderItemType]
+ON [dbo].[WorkOrderSet]
+    ([ItemType_UID]);
 GO
 
 -- --------------------------------------------------

@@ -15,7 +15,7 @@ namespace ACLager.Models
     public partial class Ingredient
     {
         public long UID { get; set; }
-        public long Amount { get; set; }
+        public decimal Amount { get; set; }
     
         public virtual ItemType ForItemType { get; set; }
         public virtual ItemType ItemType { get; set; }

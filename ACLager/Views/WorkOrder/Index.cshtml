@@ -62,7 +62,9 @@
                         <h4>@workorder.ShippingInfo</h4>
                     </div>
                     <div class="col-sm-2 sort-duedate">
-                        <h4>@workorder.DueDate.Value.ToString("dd-MM-yyyy")</h4>
+                        @if (workorder.DueDate.HasValue) {
+                              <h4>@workorder.DueDate.Value.ToString("dd-MM-yyyy")</h4>
+                        }
                     </div>
                     <div class="expansion-control col-sm-4" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@workorder.UID">
                         <div class="btn btn-default pull-right">

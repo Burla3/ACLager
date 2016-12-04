@@ -101,6 +101,19 @@ namespace ACLager.Controllers
                 db.SaveChanges();
             }
 
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "AddItem",
+                        $"{item.Amount} {item.ItemType.Unit} {item.ItemType.Name} tilføjet",
+                        new {
+                            KontekstBruger = UserController.GetContextUser().ToLoggable(),
+                            Vare = item.ToLoggable(),
+                            Varetype = item.ItemType.ToLoggable(),
+                            Lokation = item.Location.ToLoggable()
+                        }
+                    )
+            );
+
             return RedirectToAction("Detailed", new {id = item.UID});
         }
 
@@ -127,21 +140,39 @@ namespace ACLager.Controllers
         }
 
         [HttpPost]
-        public ActionResult PickItem(Item item)
-        {
+        public ActionResult PickItem(Item item) {
+            ItemType itemType;
+            Location location;
+            Item dbItem;
+
             using (ACLagerDatabase db = new ACLagerDatabase())
             {
-                Item dbItem = db.ItemSet.Find(item.UID);
+                dbItem = db.ItemSet.Find(item.UID);
 
+                itemType = dbItem.ItemType.ToLoggable();
+                location = dbItem.Location.ToLoggable();
 
                 dbItem.Amount -= item.Amount;
 
                 db.SaveChanges();
 
                 if (dbItem.ItemType.Items.Sum(i => i.Amount) < dbItem.ItemType.MinimumAmount) {
-                    Notify.Invoke(this, new NotificationEventArgs(dbItem.ItemType));
+                    Notify?.Invoke(this, new NotificationEventArgs(dbItem.ItemType));
                 }
             }
+
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "AddItem",
+                        $"{dbItem.Amount} {itemType.Unit} {itemType.Name} tilføjet",
+                        new {
+                            KontekstBruger = UserController.GetContextUser().ToLoggable(),
+                            Vare = dbItem.ToLoggable(),
+                            Varetype = itemType,
+                            Lokation = location
+                        }
+                    )
+            );
 
             return RedirectToAction("Index");
         }

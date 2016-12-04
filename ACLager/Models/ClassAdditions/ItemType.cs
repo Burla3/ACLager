@@ -13,8 +13,11 @@ namespace ACLager.Models {
         private class ItemTypeMetadata {
             [DisplayName("Varetypenummer")]
             public long UID { get; set; }
-            [DisplayName("Varenavn")]
+            [Required(ErrorMessage = "Varetypen skal have et navn")]
+            [StringLength(127, MinimumLength = 1, ErrorMessage = "Varetypens navn skal være mellem 1 og 127 tegn")]
+            [DisplayName("Varetypenavn")]
             public string Name { get; set; }
+            [Range(0, long.MaxValue, ErrorMessage = "Mindste mængde skal være positiv")]
             [DisplayName("Mindste beholdning")]
             public long MinimumAmount { get; set; }
             [DisplayName("Måleenhed")]
@@ -25,6 +28,7 @@ namespace ACLager.Models {
             public string Procedure { get; set; }
             [DisplayName("Stregkode")]
             public string Barcode { get; set; }
+            [Range(1, long.MaxValue, ErrorMessage = "Batch størrelsen skal være højere end 0")]
             [DisplayName("Batch størrelse")]
             public Nullable<long> BatchSize { get; set; }
             [DisplayName("Afdeling")]

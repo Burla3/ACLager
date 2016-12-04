@@ -415,7 +415,6 @@
     <Content Include="Views\Waste\CreateWasteReport.cshtml" />
     <Content Include="Views\Waste\Detailed.cshtml" />
     <Content Include="Views\WorkOrder\Detailed.cshtml" />
-    <Content Include="Views\WorkOrder\EditWorkOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\i18n\" />

@@ -57,18 +57,16 @@
             <div class="expansionpanel row panel">
                 <div class="row">
                     <div class="col-sm-2 sort-date">
-                        <h5>
-                            <strong>@wasteReportGroup.WasteReport.Date.ToString("yyyy-MM-dd HH:mm")</strong>
-                        </h5>
+                        <h4>@wasteReportGroup.WasteReport.Date.ToString("yyyy-MM-dd HH:mm")</h4>
                     </div>
                     <div class="col-sm-3 sort-user">
-                        <strong>@wasteReportGroup.ObjectData["ContextUser"]["Name"]</strong>
+                        <h4>@wasteReportGroup.ObjectData["ContextUser"]["Name"]</h4>
                     </div>
                     <div class="col-sm-3 sort-item">
-                        @wasteReportGroup.ObjectData["ItemType"]["Name"]
+                        <h4>@wasteReportGroup.ObjectData["ItemType"]["Name"]</h4>
                     </div>
                     <div class="col-sm-2">
-                        @wasteReportGroup.WasteReport.UID
+                        <h4>@wasteReportGroup.WasteReport.UID</h4>
                     </div>
                     <div class="expansion-control col-sm-2" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@wasteReportGroup.WasteReport.UID">
                         <div class="btn btn-default pull-right">
@@ -79,15 +77,13 @@
                 </div>
                 <div class="row expansion-content" id="ExpansionContentContainer_@wasteReportGroup.WasteReport.UID">
                     <div class="col-sm-2">
-                        Mængde miste: @wasteReportGroup.WasteReport.Amount
+                        <h5><strong>Mængde spildt:</strong> @wasteReportGroup.WasteReport.Amount</h5>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-7">
                     </div>
                     <div class="col-sm-3">
-                    </div>
-                    <div class="col-sm-5">
 
-                        <a href="@Url.Action("Detailed", new {id = wasteReportGroup.WasteReport.UID})" class="btn btn-raised btn-primary">Mere info</a>
+                        <a href="@Url.Action("Detailed", new {id = wasteReportGroup.WasteReport.UID})" class="btn btn-raised btn-primary pull-right">Mere info</a>
                         @*
                             <a href="@Url.Action("EditUser", new {id = wasteReport.UID})" class="btn btn-raised btn-info">Rediger</a>
                         *@

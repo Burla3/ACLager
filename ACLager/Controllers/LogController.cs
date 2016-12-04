@@ -45,7 +45,7 @@ namespace ACLager.Controllers
             {
                 db.UserSet.Add(new User() { Name = "Admin", IsActive = true, IsAdmin = true, PIN = 1234 });
 
-                for (int i = 1; i < 10000; i++)
+                for (int i = 1; i < 10; i++)
                 {
                     Location location = new Location() {IsActive = true, Name = "B" + i};
                     Location location2 = new Location() { IsActive = true, Name = "C" + i };
@@ -58,7 +58,7 @@ namespace ACLager.Controllers
                         Department = "DEPARTMENT",
                         IsActive = true,
                         MinimumAmount = 1234,
-                        Name = "ItemType" + i,
+                        Name = i * 43 % 100 + "% Chokolade",
                         Unit = "Gram",
                         Procedure = "Some procedure",
                         BatchSize = 765
@@ -69,7 +69,7 @@ namespace ACLager.Controllers
                         Department = "DEPARTMENT",
                         IsActive = true,
                         MinimumAmount = 1234,
-                        Name = "Item2Type" + i,
+                        Name = i * 33 % 100 + "% Hvid Chokolade",
                         Unit = "Gram",
                         Procedure = "Some procedure",
                         BatchSize = 765
@@ -103,7 +103,16 @@ namespace ACLager.Controllers
                     Ingredient ingredient = new Ingredient() {ItemType = itemType, Amount = i*4, ForItemType = itemType2};
                     db.IngredientSet.Add(ingredient);
 
-                    WorkOrder workOrder = new WorkOrder() {BatchNumber = i*12, IsComplete = false, Type = "Production"};
+                    Random rn = new Random();
+
+                    WorkOrder workOrder = new WorkOrder() {
+                        BatchNumber = i*12,
+                        IsComplete = false,
+                        Type = rn.Next(Int32.MinValue, Int32.MaxValue) % 2 == 0 ? "Produktion" : "Pakkeri",
+                        DueDate = DateTime.Now.AddMonths(i*3),
+                        OrderNumber = i*3,
+                        ShippingInfo = "Send til MATHIAS MED DET SAMME! UDEN KAGE!"
+                    };
                     db.WorkOrderSet.Add(workOrder);
 
                     WorkOrderItem workOrderItem = new WorkOrderItem() {Amount = i*56, Progress = 0, WorkOrder = workOrder, ItemType = itemType};

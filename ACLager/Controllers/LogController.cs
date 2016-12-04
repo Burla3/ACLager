@@ -45,7 +45,7 @@ namespace ACLager.Controllers
             {
                 db.UserSet.Add(new User() { Name = "Admin", IsActive = true, IsAdmin = true, PIN = 1234 });
 
-                for (int i = 1; i < 5; i++)
+                for (int i = 1; i < 10000; i++)
                 {
                     Location location = new Location() {IsActive = true, Name = "B" + i};
                     Location location2 = new Location() { IsActive = true, Name = "C" + i };

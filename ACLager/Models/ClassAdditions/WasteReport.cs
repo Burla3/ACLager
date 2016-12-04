@@ -16,7 +16,7 @@ namespace ACLager.Models {
             public System.DateTime Date { get; set; }
             [DisplayName("Mængde")]
             [Required(ErrorMessage = "Der skal angives en spildt mængde")]
-            [Range(1, long.MaxValue)]
+            [Range(1, long.MaxValue, ErrorMessage = "Feltet Mængde skal være højere end 0")]
             public long Amount { get; set; }
             [DisplayName("Beskrivelse")]
             public string Description { get; set; }

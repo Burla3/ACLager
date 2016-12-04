@@ -3415,6 +3415,9 @@ hr.on-light {
 .background-override-red {
   background-color: #f44336 !important;
 }
+.navbar a.navbar-brand {
+  text-decoration: none !important;
+}
 @media (max-width: 767px) {
   .navbar a.navbar-brand {
     margin-top: -30px;
@@ -3428,6 +3431,15 @@ hr.on-light {
     left: 50%;
     position: absolute;
   }
+}
+.font-creampuff {
+  font-family: "Creampuff" !important;
+  color: #fff;
+  -webkit-text-stroke: 1px #000000;
+  -webkit-text-fill-color: #FFFFFF;
+}
+.simple-text-shadow {
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 .fixed-button-container {
   position: fixed;
@@ -3584,4 +3596,20 @@ fieldset[disabled] .select2.select2-container {
 }
 .navbar-filler {
   height: 50px;
+}
+.nav-tabs {
+  background-color: transparent;
+}
+.nav-tabs > li {
+  border-bottom: 2px solid #ff5722;
+}
+.nav-tabs > li > a {
+  color: #ff5722 !important;
+}
+.nav-tabs > li.active {
+  background-color: #ff5722;
+}
+.nav-tabs > li.active > a {
+  color: white !important;
+  text-decoration: none;
 }

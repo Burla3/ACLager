@@ -31,20 +31,21 @@ namespace ACLager.Models {
             public string Department { get; set; }
         }
 
-        public ItemType Clone() {
+        public ItemType ToLoggable() {
             return new ItemType {
                 UID = this.UID,
-                IsActive = this.IsActive,
                 Name = this.Name,
+                MinimumAmount = this.MinimumAmount,
+                Unit = this.Unit,
+                IsActive = this.IsActive,
+                Procedure = this.Procedure,
                 Barcode = this.Barcode,
                 BatchSize = this.BatchSize,
                 Department = this.Department,
+                Items = null,
                 IngredientsForRecipe = null,
                 IsIngredientFor = null,
-                Items = null,
-                MinimumAmount = MinimumAmount,
-                Unit = this.Unit,
-                Procedure = this.Procedure
+                WorkOrderItem = null               
             };
         }
     }

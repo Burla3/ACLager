@@ -27,16 +27,16 @@ namespace ACLager.Models {
             public long Reserved { get; set; }
         }
 
-        public Item Clone() {
+        public Item ToLoggable() {
             return new Item {
-                Amount = this.Amount,
-                DeliveryDate = this.DeliveryDate,
+                UID = this.UID,
+                Amount = this.UID,
                 ExpirationDate = this.ExpirationDate,
+                DeliveryDate = this.DeliveryDate,
+                Supplier = this.Supplier,
+                Reserved = this.Reserved,
                 ItemType = null,
                 Location = null,
-                Reserved = this.Reserved,
-                Supplier = this.Supplier,
-                UID = this.UID,
                 WorkOrderItem = null
             };
         }

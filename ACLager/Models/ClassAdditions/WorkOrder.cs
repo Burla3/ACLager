@@ -21,7 +21,20 @@ namespace ACLager.Models {
             [DisplayName("Status")]
             public bool IsComplete { get; set; }
             [DisplayName("Leveringsoplysninger")]
-            public string ShippingInfo { get; set; }
+            public string ShippingInfo { get; set; }        
+        }
+
+        public WorkOrder ToLoggable() {
+            return new WorkOrder {
+                UID = this.UID,
+                Type = this.Type,
+                BatchNumber = this.BatchNumber,
+                DueDate = this.DueDate,
+                IsComplete = this.IsComplete,
+                ShippingInfo = this.ShippingInfo,
+                CompletedByUser = null,
+                WorkOrderItems = null
+            };
         }
     }
 }

@@ -15,5 +15,14 @@ namespace ACLager.Models {
             [DisplayName("Mængde")]
             public long Amount { get; set; }
         }
+
+        public Ingredient ToLoggable() {
+            return new Ingredient {
+                UID = this.UID,
+                Amount = this.Amount,
+                ItemType = null,
+                ForItemType = null
+            };
+        }
     }
 }

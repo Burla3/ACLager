@@ -21,5 +21,15 @@ namespace ACLager.Models {
             [DisplayName("Beskrivelse")]
             public string Description { get; set; }
         }
+
+        public WasteReport ToLoggable() {
+            return new WasteReport {
+                UID = this.UID,
+                Date = this.Date,
+                Amount = this.Amount,
+                Description = this.Description,
+                ObjectData = null
+            };
+        }
     }
 }

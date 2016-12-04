@@ -17,5 +17,14 @@ namespace ACLager.Models {
             [DisplayName("Status")]
             public bool IsActive { get; set; }
         }
+
+        public Location ToLoggable() {
+            return new Location {
+                UID = this.UID,
+                Name = this.Name,
+                IsActive = this.IsActive,
+                Item = null
+            };
+        }
     }
 }

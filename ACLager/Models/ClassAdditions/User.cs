@@ -25,14 +25,14 @@ namespace ACLager.Models {
             public bool IsActive { get; set; }
         }
 
-        public User Clone() {
+        public User ToLoggable() {
             return new User {
                 UID = this.UID,
-                IsActive = this.IsActive,
-                IsAdmin = this.IsAdmin,
                 Name = this.Name,
                 PIN = this.PIN,
-                WorkOrders = null              
+                IsAdmin = this.IsAdmin,
+                IsActive = this.IsActive,
+                WorkOrders = null
             };
         }
     }

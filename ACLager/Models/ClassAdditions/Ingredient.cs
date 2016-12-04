@@ -13,7 +13,7 @@ namespace ACLager.Models {
             [DisplayName("Ingrediensnummer")]
             public long UID { get; set; }
             [DisplayName("Mængde")]
-            public long Amount { get; set; }
+            public double Amount { get; set; }
         }
 
         public Ingredient ToLoggable() {

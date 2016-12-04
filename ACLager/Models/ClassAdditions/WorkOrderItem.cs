@@ -14,9 +14,9 @@ namespace ACLager.Models {
             [DisplayName("Ordrelinjenummer")]
             public long UID { get; set; }
             [DisplayName("Mængde")]
-            public decimal Amount { get; set; }
+            public double Amount { get; set; }
             [DisplayName("Færdiggjort")]
-            public long Progress { get; set; }
+            public double Progress { get; set; }
         }
 
         public WorkOrderItem ToLoggable() {

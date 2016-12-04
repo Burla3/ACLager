@@ -17,16 +17,15 @@ namespace ACLager.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Item()
         {
-            this.Reserved = 0;
             this.WorkOrderItem = new HashSet<WorkOrderItem>();
         }
     
         public long UID { get; set; }
-        public decimal Amount { get; set; }
+        public double Amount { get; set; }
         public Nullable<System.DateTime> ExpirationDate { get; set; }
         public System.DateTime DeliveryDate { get; set; }
         public string Supplier { get; set; }
-        public long Reserved { get; set; }
+        public double Reserved { get; set; }
     
         public virtual Location Location { get; set; }
         public virtual ItemType ItemType { get; set; }

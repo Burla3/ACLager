@@ -27,12 +27,12 @@ namespace ACLager.Models
     
         public long UID { get; set; }
         public string Name { get; set; }
-        public decimal MinimumAmount { get; set; }
+        public double MinimumAmount { get; set; }
         public string Unit { get; set; }
         public bool IsActive { get; set; }
         public string Procedure { get; set; }
         public string Barcode { get; set; }
-        public Nullable<decimal> BatchSize { get; set; }
+        public Nullable<double> BatchSize { get; set; }
         public string Department { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

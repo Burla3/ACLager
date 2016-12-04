@@ -21,18 +21,8 @@
         <AssociationConnector Association="Model.IngredientItemType" />
         <AssociationConnector Association="Model.WorkOrderWorkOrderItem" />
         <AssociationConnector Association="Model.WorkOrderItemItemType" />
-        <AssociationConnector Association="Model.WorkOrderItemItem" ManuallyRouted="true" >
-          <ConnectorPoint PointX="10.25" PointY="5.8850701599687412" />
-          <ConnectorPoint PointX="11" PointY="5.8850701599687412" />
-          <ConnectorPoint PointX="11" PointY="4.125" />
-          <ConnectorPoint PointX="12.041666666666666" PointY="4.1249999999999991" />
-          <ConnectorPoint PointX="12.208333333333334" PointY="4.125" />
-          <ConnectorPoint PointX="12.479166666666666" PointY="4.1249999999999991" />
-          <ConnectorPoint PointX="12.645833333333334" PointY="4.125" />
-          <ConnectorPoint PointX="14.218748" PointY="4.125" />
-          <ConnectorPoint PointX="14.218748" PointY="4.375" />
-        </AssociationConnector>
         <AssociationConnector Association="Model.WorkOrderItemType" />
+        <AssociationConnector Association="Model.WorkOrderItemItem" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

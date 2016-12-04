@@ -30,22 +30,46 @@
             }
             else if (Model.Workorder.Type == "Pakkeri")
             {
-                <small>Batchnummer:</small> <h3>@Model.Workorder.BatchNumber</h3>
+                <small>Ordrenummer:</small> <h3>@Model.Workorder.OrderNumber</h3>
             }
 
 
         </div>
     </div>
-    <div class="container list" id="ExpansionPanelsContainer">
-        @foreach (WorkOrderItem workorderitem in Model.Workorderitems){
-            if(workorderitem.WorkOrder == Model.Workorder){ 
-                
-                <div class="expansionpanel row panel">
-                    <div class="col-sm-8">
-                        <h3>@workorderitem.ItemType.Name</h3>
-                    </div>
-                </div>
-            }
-        }
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th><small>Beskrivelse</small></th>
+                    <th><small>Plukke lokation</small></th>
+                    <th><small>Plukkemængde / Tilgængelig mængde</small></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+@foreach (WorkOrderItem workorderitem in Model.Workorderitems)
+{
+    if (workorderitem.WorkOrder == Model.Workorder)
+    {
+
+                <tr>
+                    <td>
+                        @workorderitem.ItemType.Name
+                    </td>
+                    <td>
+                        <h3><strong>@workorderitem.Item.Location.Name</strong></h3>
+                    </td>
+                    <td>
+                        <h3><strong>@workorderitem.Amount<small>/@workorderitem.Item.Amount</small></strong></h3>
+                    </td>
+                    <td>
+                        <button class="btn btn-raised btn-info pull-right">Pluk</button>
+                    </td>
+                </tr>
+    }
+}         
+
+            </tbody>
+        </table>
     </div>
 </div>

@@ -40,6 +40,21 @@ namespace ACLager.Controllers {
             return View("Index", new WorkOrderPackagingViewModel(workorders, new WorkOrder(), null));
         }
 
+        [HttpGet]
+        public ActionResult Detailed(string id) {
+            WorkOrder workorder;
+            List<WorkOrderItem> workorderitems = new List<WorkOrderItem>();
+
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                workorder = db.WorkOrderSet.Find(Int64.Parse(id));
+                foreach (WorkOrderItem workorderitem in workorder.WorkOrderItems) {
+                        workorderitems.Add(workorderitem);
+                }
+            }
+
+            return View(new WorkOrderBaseViewModel(null, workorder, workorderitems));
+        }
+
         /// <summary>
         /// Cancels a workorder and its items.
         /// </summary>
@@ -173,55 +188,6 @@ namespace ACLager.Controllers {
 
             return RedirectToAction("Index");
         }
-
-        [HttpGet]
-        public ActionResult Detailed(string id) {
-            WorkOrder workorder;
-            List<string> workorderitems = new List<string>();
-            //            List<string> itemnames= new List<string>();
-
-            using (ACLagerDatabase db = new ACLagerDatabase()) {
-                workorder = db.WorkOrderSet.Find(Int64.Parse(id));
-                foreach (WorkOrderItem workorderitem in db.WorkOrderItemSet.ToList()) {
-                    if (workorderitem.WorkOrder.UID == workorder.UID) {
-                        workorderitems.Add(workorderitem.ItemType.Name);
-                    }
-                }
-
-            }
-
-            return View(new WorkOrderBaseViewModel(null, workorder, workorderitems));
-        }
-
-        /*
-        /// <summary>
-        /// Creates a new work order item, and sets its work_order, item_type and amount properties.
-        /// </summary>
-        /// <param name="workOrder"> The workorder which the to be created workorderitem is associated to </param>
-        /// <param name="itemType"> the itemtype of the workorderitem </param>
-        /// <param name="amount"> The amount of the given item </param>
-        /// <returns>Returns true if successful.</returns>
-        public bool CreateWorkOrderItem(WorkOrder workOrder, ItemType itemType, long amount)
-        {
-            //checking the database for a dublicate workorder
-            var exsistingWorkOrderItem =
-            (from workorderitems in _db.WorkOrderItems
-                where workorderitems.work_order == workOrder.uid && workorderitems.item_type == itemType.uid && workorderitems.amount == amount
-                select workorderitems);
-
-            if (exsistingWorkOrderItem.Any())
-            {
-                //this itemtype and amount is already associated with the given workorder, generate anyways?
-                return false;
-            }
-            else
-            {
-                _db.WorkOrderItems.Add( (new WorkOrderItem() {amount = amount, work_order = workOrder.uid, item_type = itemType.uid}));
-                _db.SaveChanges();
-                return true;
-            }
-        }
-        */
 
         public event ChangedEventHandler Changed;
     }

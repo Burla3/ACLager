@@ -60,7 +60,7 @@ namespace ACLager.Controllers
                 workorder = db.WorkOrderSet.ToList();
 
                 foreach(Item item in items){
-                    SelectItemList.Add(new SelectListItem { Text = $"ID: {item.UID} Lokation: {item.Location.Name} Enhed: {item.ItemType.Unit} Navn: {item.ItemType.Name}", Value = item.UID.ToString() });
+                    SelectItemList.Add(new SelectListItem { Text = $"Lokation: {item.Location.Name} || Enhed: {item.ItemType.Unit} || Navn: {item.ItemType.Name}", Value = item.UID.ToString() });
                 }
 
                 foreach (WorkOrder work in workorder){

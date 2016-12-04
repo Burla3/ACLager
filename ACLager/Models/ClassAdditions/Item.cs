@@ -14,8 +14,8 @@ namespace ACLager.Models {
             public long UID { get; set; }
             [DisplayName("Mængde")]
             [Required(ErrorMessage = "Varen skal have en mængde.")]
-            [Range(0, Int32.MaxValue)]
-            public decimal Amount { get; set; }
+            [Range(0, Double.MaxValue)]
+            public double Amount { get; set; }
             [DisplayName("Udløbsdato")]
             public Nullable<System.DateTime> ExpirationDate { get; set; }
             [DisplayName("Leveringsdato")]
@@ -24,7 +24,7 @@ namespace ACLager.Models {
             [Required(ErrorMessage = "Varen skal have en leverandør.")]
             public string Supplier { get; set; }
             [DisplayName("Reserveret")]
-            public decimal Reserved { get; set; }
+            public double Reserved { get; set; }
         }
 
         public Item ToLoggable() {

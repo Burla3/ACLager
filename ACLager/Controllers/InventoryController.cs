@@ -234,7 +234,7 @@ namespace ACLager.Controllers
         [HttpPost]
         public ActionResult Move(Item item)
         {
-            decimal moveAmount = item.Amount;
+            double moveAmount = item.Amount;
 
             using (ACLagerDatabase db = new ACLagerDatabase())
             {

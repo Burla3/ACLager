@@ -9,44 +9,55 @@
         <div class="col-sm-4">
             <a href="@Url.Action("Index")" class="btn btn-default pull-left"><i class="material-icons">arrow_back</i>Tilbage til "Brugere"</a>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-8">
             <h3 class="text-center">Brugerdetaljer</h3>
         </div>
-        <div class="col-sm-4">
-
-        </div>
-    </div>
-    
-    
+    </div> 
     <div class="clearfix"></div>
     <hr />
-    <div class="row">
-        <div class="col-sm-8">
-            <small>Brugerens navn:</small>
+    <div class="col-sm-8">
+        <div class="row">
+            <strong>@Html.DisplayNameFor(model => model.User.Name):</strong>
+        </div>        
+        <div class="row">
             <h1>@Model.User.Name</h1>
-        </div>
-        <div class="col-sm-4">
-            <div class="col-sm-6">
-                <small>Brugernummer:</small> <h3>@Model.User.UID</h3>
-            </div>
-            <div class="col-sm-6">
-                <small>PIN-kode til login</small> <h3>@Model.User.PIN</h3>
-            </div> 
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-9">
+        </div>        
+        <div class="row">
             @if (Model.User.IsActive) {
                 <h4><span class="label label-success">Bruger er aktiv</span></h4>
             } else {
                 <h4><span class="label label-default">Bruger er ikke aktiv</span></h4>
             }
-
+        </div>        
+        <div class="row">
             @if (Model.User.IsAdmin) {
                 <h4><span class="label label-success">Bruger er administrator</span></h4>
             } else {
                 <h4><span class="label label-default">Bruger er ikke administrator</span></h4>
             }
+        </div>
+    </div>    
+    <div class="col-sm-4">
+        <div class="row">
+            <div class="col-xs-6">
+                <strong>@Html.DisplayNameFor(model => model.User.UID):</strong>
+            </div>            
+            <div class="col-xs-6">
+                <strong>@Html.DisplayNameFor(model => model.User.PIN):</strong>
+            </div>
+        </div>        
+        <div class="row">
+            <div class="col-xs-6">
+                <h3>@Model.User.UID</h3>
+            </div>            
+            <div class="col-xs-6">
+                <h3>@Model.User.PIN</h3>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            &nbsp;
         </div>
     </div>
     <hr />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
@@ -38,6 +39,9 @@ namespace ACLager.Controllers {
         /// <returns></returns>
         [HttpGet]
         public ActionResult Detailed(string id) {
+            if (id == null) {
+                return RedirectToAction("Index");
+            }
             User user;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
@@ -62,13 +66,18 @@ namespace ACLager.Controllers {
                 db.SaveChanges();
             }
 
-            string objectData = System.Web.Helpers.Json.Encode(user);
-            string objectType = user.GetType().FullName;
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "Bruger oprettet",
+                        $"Brugeren {user.Name} blev oprettet.",
+                        new {
+                            KontekstBruger = GetContextUser().ToLoggable(),
+                            OprettetBruger = user.ToLoggable()
+                        }
+                     )
+            );
 
-
-            Changed?.Invoke(this, new LogEntryEventArgs("CreateUser", "Brugeren med følgende oplysninger blev oprettet.", objectData, objectType));
-
-            return RedirectToAction("Detailed", new {id = user.UID});
+            return RedirectToAction("Detailed", new { id = user.UID });
         }
 
         /// <summary>
@@ -104,27 +113,33 @@ namespace ACLager.Controllers {
         /// <returns>Redirects to /User.</returns>
         [HttpPost]
         public ActionResult EditUser(User user) {
-            object data;
+            User oldUser;
+            User newUser;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 User dbUser = db.UserSet.Find(user.UID);
-
-                data = new {oldUser = dbUser, newUser = user};
+                oldUser = dbUser.ToLoggable();
 
                 dbUser.IsActive = user.IsActive;
                 dbUser.IsAdmin = user.IsAdmin;
                 dbUser.Name = user.Name;
 
+                newUser = dbUser.ToLoggable();
+
                 db.SaveChanges();
             }
 
-            string objectData = System.Web.Helpers.Json.Encode(data);
-            string objectType = user.GetType().FullName;
-
-
-            Changed?.Invoke(this, new LogEntryEventArgs("EditUser", "Brugeren med følgende oplysninger blev Ændret.", objectData, objectType));
-
-
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "Bruger ændret",
+                        $"Brugeren {newUser.Name} blev ændret.",
+                        new {
+                            KontekstBruger = GetContextUser().ToLoggable(),
+                            Før = oldUser,
+                            Efter = newUser
+                        }
+                    )
+            );
 
             return RedirectToAction("Index");
         }
@@ -162,21 +177,24 @@ namespace ACLager.Controllers {
         /// <returns>Redirects to /User.</returns>
         [HttpPost]
         public ActionResult DeleteUser(long id) {
-
             User user;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 user = db.UserSet.Find(id);
-                user.IsDeleted = true;
+                db.UserSet.Remove(user);
                 db.SaveChanges();
             }
 
-            string objectData = System.Web.Helpers.Json.Encode(user);
-            string objectType = user.GetType().FullName;
-
-
-            Changed?.Invoke(this, new LogEntryEventArgs("EditUser", "Brugeren med følgende oplysninger blev slettet.", objectData, objectType));
-
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "Bruger slettet",
+                        $"Brugeren {user.Name} blev slettet.",
+                        new {
+                            KontekstBruger = GetContextUser().ToLoggable(),
+                            Slettet = user.ToLoggable()
+                        }
+                    )
+            );
 
             return RedirectToAction("Index");
         }
@@ -198,6 +216,17 @@ namespace ACLager.Controllers {
             }
 
             return generatedPin;
+        }
+
+        public static User GetContextUser() {
+            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies["UserInfo"];
+            long userID = System.Web.Helpers.Json.Decode(cookie?.Value)["UID"];
+
+            User contextUser;
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                contextUser = db.UserSet.Find(userID);
+            }
+            return contextUser;
         }
 
         public event ChangedEventHandler Changed;

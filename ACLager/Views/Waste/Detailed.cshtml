@@ -1,0 +1,99 @@
+﻿@model ACLager.ViewModels.WasteViewModel
+
+@{
+    ViewBag.Title = "Detailed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container panel">
+    <div class="row col-sm-12">
+        <div class="row">
+            <div class="col-sm-4">
+                <a href="@Url.Action("Index")" class="btn btn-default pull-left"><i class="material-icons">arrow_back</i>Tilbage til "Spild rapport"</a>
+            </div>
+            <div class="col-sm-8">
+                <h3 class="text-center">Detaljer om spild rapport</h3>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <strong>@Html.DisplayNameFor(model => model.WasteReportGroup.WasteReport.UID):</strong>  
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h1>@Model.WasteReportGroup.WasteReport.UID</h1> 
+                    </div>
+                </div>
+                <div class="row">
+                    <br />
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <strong>Brugerens navn:</strong>
+                    </div>
+                </div>               
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h4>@Model.WasteReportGroup.ObjectData["ContextUser"]["Name"]</h4>
+                    </div>
+                </div>
+            </div>            
+            <div class="col-sm-8">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <strong>Type:</strong>
+                    </div>
+                    <div class="col-xs-6">
+                        <strong>Arbejdsopgave batchnummer:</strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h4>@Model.WasteReportGroup.ObjectData["WorkOrder"]["Type"]</h4>
+                    </div>
+                    <div class="col-xs-6">
+                        <h4>@Model.WasteReportGroup.ObjectData["WorkOrder"]["BatchNumber"]</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <br />
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <strong>Varens navn:</strong>
+                    </div>
+                    <div class="col-xs-6">
+                        <strong>Mængde:</strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h4>@Model.WasteReportGroup.ObjectData["ItemType"]["Name"]</h4>
+                    </div>
+                    <div class="col-xs-6">
+                        <h4>@Model.WasteReportGroup.WasteReport.Amount @Model.WasteReportGroup.ObjectData["ItemType"]["Unit"]</h4>
+                    </div>
+                </div> 
+            </div>                      
+        </div>
+        <hr />        
+        <div class="row">
+            <div class="col-xs-12">
+                <strong>Beskrivelse:</strong>
+            </div>            
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                @Model.WasteReportGroup.WasteReport.Description
+            </div>
+        </div>
+        <div class="row">
+            <br />
+        </div>
+    </div>
+</div>

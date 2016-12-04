@@ -60,9 +60,10 @@ namespace ACLager.Controllers
                 }
             }
 
-            
+            Item sitem = new Item();
+            sitem.DeliveryDate = DateTime.Now;
 
-            return View(new InventoryViewModel(itemGroups, new Item(), locationSelectListItems, itemTypeSelectListItems));
+            return View(new InventoryViewModel(itemGroups, sitem, locationSelectListItems, itemTypeSelectListItems));
         }
 
         /// <summary>
@@ -72,10 +73,16 @@ namespace ACLager.Controllers
         /// <returns></returns>
         [HttpGet]
         public ActionResult Detailed(string id) {
+            if (id == null) {
+                return RedirectToAction("Index");
+            }
             Item item;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                item = db.ItemSet.Find(Int64.Parse(id));
+                Item dbitem = db.ItemSet.Find(Int64.Parse(id));
+                item = dbitem;
+                item.ItemType = dbitem.ItemType;
+                item.Location = dbitem.Location;
             }
 
             return View("Detailed", new InventoryViewModel(null, item, null, null));
@@ -97,6 +104,19 @@ namespace ACLager.Controllers
                 db.SaveChanges();
             }
 
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "Vare Tilføjet",
+                        $"{item.Amount} {item.ItemType.Unit} {item.ItemType.Name} tilføjet.",
+                        new {
+                            KontekstBruger = UserController.GetContextUser().ToLoggable(),
+                            Vare = item.ToLoggable(),
+                            Varetype = item.ItemType.ToLoggable(),
+                            Lokation = item.Location.ToLoggable()
+                        }
+                    )
+            );
+
             return RedirectToAction("Detailed", new {id = item.UID});
         }
 
@@ -114,28 +134,47 @@ namespace ACLager.Controllers
                 if (dbItem == null) {
                     return RedirectToAction("Index");
                 }
-
                 inventoryViewModel.Item = dbItem;
+                inventoryViewModel.Item.ItemType = dbItem.ItemType;
+                inventoryViewModel.Item.Location = dbItem.Location;
             }
 
             return View(inventoryViewModel);
         }
 
         [HttpPost]
-        public ActionResult Pick(Item item)
-        {
+        public ActionResult Pick(Item item) {
+            ItemType itemType;
+            Location location;
+            Item dbItem;
             using (ACLagerDatabase db = new ACLagerDatabase())
             {
-                Item dbItem = db.ItemSet.Find(item.UID);
+                dbItem = db.ItemSet.Find(item.UID);
+
+                itemType = dbItem.ItemType.ToLoggable();
+                location = dbItem.Location.ToLoggable();
 
                 dbItem.Amount -= item.Amount;
 
                 db.SaveChanges();
 
-                if (item.ItemType.Items.Sum(i => i.Amount) < item.ItemType.MinimumAmount) {
-                    Notify.Invoke(this, new NotificationEventArgs(item.ItemType));
+                if (dbItem.ItemType.Items.Sum(i => i.Amount) < dbItem.ItemType.MinimumAmount) {
+                    Notify?.Invoke(this, new NotificationEventArgs(dbItem.ItemType));
                 }
             }
+
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "Vare plukket",
+                        $"{dbItem.Amount} {itemType.Unit} {itemType.Name} plukket fra {location.Name}.",
+                        new {
+                            KontekstBruger = UserController.GetContextUser().ToLoggable(),
+                            Vare = dbItem.ToLoggable(),
+                            Varetype = itemType,
+                            Lokation = location
+                        }
+                    )
+            );
 
             return RedirectToAction("Index");
         }

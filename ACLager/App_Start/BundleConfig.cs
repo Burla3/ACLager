@@ -21,13 +21,14 @@ namespace ACLager {
                       "~/Scripts/jquery.validate.unobtrusive.js",
                       "~/Scripts/jquery.transit.js",
                       "~/Scripts/snackbar.min.js",
-                      "~/Scripts/chosen.jquery.js"
+                      "~/Scripts/select2.full.js",
+                      "~/Scripts/i18n/da.js"
                       ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/primary-teal.css",
-                      "~/Content/ripples.css"
+                      "~/Content/ripples.css",
+                      "~/Content/select2.css"
                       //"~/Content/bootstrap-material-datetimepicker.css"
                       ));
         }

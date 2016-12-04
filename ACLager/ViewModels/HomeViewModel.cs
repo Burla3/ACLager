@@ -4,5 +4,8 @@ using ACLager.CustomClasses;
 namespace ACLager.ViewModels {
     public class HomeViewModel : BaseViewModel {
         public List<HomeMenuBlock> HomeMenuBlocks { get; set; }
+        public HomeViewModel() :base() {
+
+        }
     }
 }

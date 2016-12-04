@@ -219,6 +219,7 @@
     <Compile Include="CustomClasses\Attributes\AdminOnly.cs" />
     <Compile Include="CustomClasses\NotificationEventArgs.cs" />
     <Compile Include="CustomClasses\Notifier.cs" />
+    <Compile Include="CustomClasses\WasteReportGroup.cs" />
     <Compile Include="Interfaces\INotifier.cs" />
     <Compile Include="CustomClasses\ItemGroup.cs" />
     <Compile Include="CustomClasses\HomeMenuBlock.cs" />
@@ -282,6 +283,7 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\CreateWasteViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -292,6 +294,9 @@
     <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\WasteViewModel.cs" />
+    <Compile Include="ViewModels\WorkOrderBaseViewModel.cs" />
+    <Compile Include="ViewModels\WorkOrderPackagingViewModel.cs" />
+    <Compile Include="ViewModels\WorkOrderProductionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\ACLagerDatabase.mdf" />
@@ -322,6 +327,7 @@
     <Content Include="Content\primary-teal.css" />
     <Content Include="Content\primary-yellow.css" />
     <Content Include="Content\ripples.css" />
+    <Content Include="Content\select2.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -358,6 +364,7 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\ripples.js" />
+    <Content Include="Scripts\select2.full.js" />
     <Content Include="Scripts\snackbar.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -379,7 +386,6 @@
     <Content Include="Views\WorkOrder\Index.cshtml" />
     <Content Include="Views\Location\Index.cshtml" />
     <Content Include="Views\ItemType\Index.cshtml" />
-    <Content Include="Views\User\_CreateUser.cshtml" />
     <Content Include="Views\User\_UserForm.cshtml" />
     <Content Include="Views\User\EditUser.cshtml" />
     <Content Include="Views\User\DeleteUser.cshtml" />
@@ -397,15 +403,23 @@
     <Content Include="Views\Location\_LocationForm.cshtml" />
     <Content Include="Views\Location\_CreateLocation.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
-    <Content Include="Views\Waste\AdminWasteReport.cshtml" />
     <Content Include="Views\Login\NoPermission.cshtml" />
     <Content Include="Views\ItemType\_CreateItemType.cshtml" />
     <Content Include="Views\ItemType\_ItemTypeTopForm.cshtml" />
     <Content Include="Views\ItemType\EditItemType.cshtml" />
     <Content Include="Views\ItemType\Detailed.cshtml" />
+    <Content Include="Views\ItemType\DeleteItemType.cshtml" />
+    <Content Include="Views\Waste\CreateSucces.cshtml" />
+    <Content Include="Views\User\_CreateUser.cshtml" />
     <Content Include="Views\Shared\_SearchPanel.cshtml" />
+    <Content Include="Views\Log\Detailed.cshtml" />
+    <Content Include="Views\Waste\CreateWasteReport.cshtml" />
+    <Content Include="Views\Waste\Detailed.cshtml" />
+    <Content Include="Views\WorkOrder\Detailed.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Scripts\i18n\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

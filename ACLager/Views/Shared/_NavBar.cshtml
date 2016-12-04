@@ -1,10 +1,17 @@
-﻿<div class="navbar navbar-default">
+﻿@model ACLager.ViewModels.BaseViewModel
+
+<div class="navbar navbar-default">
     <div class="container-fluid">
         <ul class="nav navbar-nav navbar-left">
-            <li><a href="/"><h5 class="text-uppercase"><strong><i class="material-icons va-tb">home</i> Forside</strong></h5></a></li>
+            <li class="hidden-xs"><a href="/"><h5 class="text-uppercase"><strong><i class="material-icons va-tb">home</i> Forside</strong></h5></a></li>
+            <li class="visible-xs-inline-block pull-left"><a href="/"><h5 class="text-uppercase"><strong><i class="material-icons va-tb">home</i> Forside</strong></h5></a></li>
+            <li class="visible-xs-inline-block pull-right"><a href="@Url.Action("Logout", "Login")"><h5 class="text-uppercase"><strong>Log ud<i class="material-icons va-tb">exit_to_app</i></strong></h5></a></li>
         </ul>
-        <a href="/" class="navbar-brand"><h3><strong>ACLager</strong></h3></a>
-        <ul class="nav navbar-nav navbar-right">
+        <div class="navbar-filler visible-xs-inline-block"></div>
+        <a href="/" class="navbar-brand"><h3><strong>ACLager @if (!string.IsNullOrEmpty(Model.SectionName)) {
+            @:- @Model.SectionName
+        }</strong></h3></a>
+        <ul class="nav navbar-nav navbar-right hidden-xs">
             <li><a href="@Url.Action("Logout", "Login")"><h5 class="text-uppercase"><strong>Log ud<i class="material-icons va-tb">exit_to_app</i></strong></h5></a></li>
         </ul>
     </div>

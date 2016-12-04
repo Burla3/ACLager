@@ -35,12 +35,23 @@
                                         <dt>Navn:</dt>
                                         <dd>@Model.User.Name</dd>
                                         <dt>Status:</dt>
-                                        <dd>@if (Model.User.IsActive) {
+                                        <dd>
+                                            @if (Model.User.IsActive) {
                                             <span class="label label-success">Aktiv</span>
                                         } else {
                                             <span class="label label-default">Inaktiv</span>
-                                        }</dd>
-                                    </dl>
+                                        }
+                                    </dd>
+                                    <dt>Role:</dt>
+                                    <dd>
+                                        @if (Model.User.IsAdmin) {
+                                            <span class="label label-success">Administrator</span>
+                                        } else {
+                                            <span class="label label-default">Almindelig bruger</span>
+                                        }
+                                    </dd>
+                                </dl>
+
                                     <hr/>
                                 </div>
                             </fieldset>

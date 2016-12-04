@@ -25,7 +25,20 @@ namespace ACLager.Models {
             public string Supplier { get; set; }
             [DisplayName("Reserveret")]
             public long Reserved { get; set; }
-            public string IsDeleted { get; set; }
+        }
+
+        public Item ToLoggable() {
+            return new Item {
+                UID = this.UID,
+                Amount = this.UID,
+                ExpirationDate = this.ExpirationDate,
+                DeliveryDate = this.DeliveryDate,
+                Supplier = this.Supplier,
+                Reserved = this.Reserved,
+                ItemType = null,
+                Location = null,
+                WorkOrderItem = null
+            };
         }
     }
 }

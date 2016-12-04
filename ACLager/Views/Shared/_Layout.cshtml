@@ -41,12 +41,11 @@
     <script type="text/javascript">
         $(document).ready(function() {
             moment.locale("da");
-            $(".chosen-select").chosen({
-                inherit_select_classes: false,
-                search_contains: true,
-                no_results_text: 'Fandt ingen resultater til søgningen '
+            $('.chosen-select').select2({
+                language: "da"
             });
             $('.btn[data-toggle="popover"]').popover();
+            $('.popover-trigger[data-toggle="popover"]').popover();
             $.material.init();
             $(".clickable").click(function(event) {
                 var href = $(this).data("href");
@@ -55,7 +54,18 @@
                     window.location.assign(href);
                 }
             });
-            $('.dateTimePickerInput.date-only').bootstrapMaterialDatePicker({ format: 'YYYY-MM-DD', lang: 'da', weekStart: 1, cancelText: 'ANNULLER', time: false });
+            $('.dateTimePickerInput.date-only').bootstrapMaterialDatePicker({
+                format: 'YYYY-MM-DD',
+                lang: 'da',
+                weekStart: 1,
+                cancelText: 'ANNULLER',
+                time: false,
+                //currentDate: new moment(),
+                clearButton: true,
+                nowButton: true,
+                nowText: "Idag",
+                clearText: "Ryd dato"
+            });
             $('body').on('click', '.btn-page-flowout-up', function () {
                 var content_element = "";
 
@@ -158,6 +168,7 @@
     <div id="FlowoutBackdrop" class="flowout-close">
 
     </div>
+    
     @if (Model.RenderNavBar) {
         @Html.Partial("_NavBar");
     }

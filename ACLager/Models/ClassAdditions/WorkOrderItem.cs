@@ -18,5 +18,16 @@ namespace ACLager.Models {
             [DisplayName("Færdiggjort")]
             public long Progress { get; set; }
         }
+
+        public WorkOrderItem ToLoggable() {
+            return new WorkOrderItem {
+                UID = this.UID,
+                Amount = this.Amount,
+                Progress = this.Progress,
+                WorkOrder = null,
+                ItemType = null,
+                Item = null
+            };
+        }
     }
 }

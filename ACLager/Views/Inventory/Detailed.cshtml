@@ -7,7 +7,107 @@
 
 <div class="container panel">
     <div class="row">
-
+        <div class="col-sm-4">
+            <a href="@Url.Action("Index")" class="btn btn-default pull-left"><i class="material-icons">arrow_back</i>Tilbage til "Lagerstyring"</a>
+        </div>
+        <div class="col-sm-8">
+            <h3 class="text-center">Detaljer om vare</h3>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <hr />
+        <div class="col-sm-6">
+            <div class="row">
+                <strong>@Html.DisplayNameFor(model => model.Item.ItemType.Name):</strong>
+            </div>
+            <div class="row">
+                @if (Model.UserIsAdmin) {
+                    <a href="@Url.Action("Detailed", "ItemType", new {id = Model.Item.ItemType.UID})">
+                        <h1>@Model.Item.ItemType.Name</h1>
+                    </a>
+                } else {
+                    <h1>@Model.Item.ItemType.Name</h1>
+                }
+            </div>
+            <div class="row">
+                &nbsp;
+            </div>
+            <div class="row">
+                <strong>@Html.DisplayNameFor(model => model.Item.Supplier):</strong>
+            </div>
+            <div class="row">
+                <h3>@Model.Item.Supplier</h3>
+            </div>
+        </div>
+    <div class="col-sm-6">
+        <div class="row">
+            <div class="col-xs-4">
+                <strong>@Html.DisplayNameFor(model => model.Item.Amount) / @Html.DisplayNameFor(model => model.Item.Reserved):</strong>
+            </div>
+            <div class="col-xs-4">
+                <strong>Tilgængelig:</strong>
+            </div>
+            <div class="col-xs-4">
+                <strong>@Html.DisplayNameFor(model => model.Item.ItemType.Unit):</strong>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+                <h3>@Model.Item.Amount / @Model.Item.Reserved</h3>
+            </div>
+            <div class="col-xs-4">
+                <h3>@(Model.Item.Amount - Model.Item.Reserved)</h3>
+            </div>
+            <div class="col-xs-4">
+                <h3>@Model.Item.ItemType.Unit</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                &nbsp;
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+                <strong>@Html.DisplayNameFor(model => model.Item.Location.Name):</strong>
+            </div>
+            <div class="col-xs-4">
+                <strong>@Html.DisplayNameFor(model => model.Item.DeliveryDate):</strong>
+            </div>
+            <div class="col-xs-4">
+                @if (@Model.Item.ExpirationDate != null) {
+                    <strong>@Html.DisplayNameFor(model => model.Item.ExpirationDate):</strong>
+                }            
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+                @if (Model.UserIsAdmin) {
+                    <a href="@Url.Action("Detailed", "Location", new {id = Model.Item.Location.UID})">
+                        <h3>@Model.Item.Location.Name</h3>
+                    </a>
+                } else {
+                    <h3>@Model.Item.Location.Name</h3>
+                }
+            </div>
+            <div class="col-xs-4">
+                <h3>@Model.Item.DeliveryDate.ToString("dd-MM-yyyy")</h3>
+            </div>
+            <div class="col-xs-4">
+                @if (@Model.Item.ExpirationDate != null) {
+                    <h3>@Model.Item.ExpirationDate.Value.ToString("dd-MM-yyyy")</h3>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="row">     
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-12">
+            <a href="@Url.Action("PickItem", new {id = Model.Item.UID})" class="btn btn-raised btn-danger pull-right">Pluk</a>
+            <a href="@Url.Action("MoveItem", new {id = Model.Item.UID})" class="btn btn-raised btn-info pull-right">Flyt</a>
+        </div>
     </div>
 </div>
 

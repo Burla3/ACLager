@@ -4,23 +4,22 @@ using System.Linq;
 using System.Web;
 using ACLager.Models;
 using System.Web.Mvc;
+using ACLager.CustomClasses;
 
 namespace ACLager.ViewModels
 {
     public class WasteViewModel : BaseViewModel
     {
         public WasteViewModel(){
-            base.SelectColor("Waste");
+            base.SelectSectionSpecials("Waste-Index");
         }
 
-        public WasteViewModel(IEnumerable<WasteReport> wasteReports, WasteReport wastereport, IEnumerable<SelectListItem> itemtypename){
-            WasteReports = wasteReports;
-            WasteReport = wastereport;
-            Itemtypename = itemtypename;
+        public WasteViewModel(IEnumerable<WasteReportGroup> wasteReportGroups, WasteReportGroup wasteReportGroup) : this() {
+            WasteReportGroups = wasteReportGroups;
+            WasteReportGroup = wasteReportGroup;
         }
 
-        public WasteReport WasteReport { get; set; }
-        public IEnumerable<WasteReport> WasteReports { get; set; }
-        public IEnumerable<SelectListItem> Itemtypename { get; set; }
+        public WasteReportGroup WasteReportGroup { get; set; }
+        public IEnumerable<WasteReportGroup> WasteReportGroups { get; set; }
     }
 }

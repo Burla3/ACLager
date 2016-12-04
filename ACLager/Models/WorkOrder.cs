@@ -18,19 +18,16 @@ namespace ACLager.Models
         public WorkOrder()
         {
             this.IsComplete = false;
-            this.WasteReports = new HashSet<WasteReport>();
             this.WorkOrderItems = new HashSet<WorkOrderItem>();
         }
     
         public long UID { get; set; }
         public string Type { get; set; }
         public long BatchNumber { get; set; }
-        public System.DateTime DueDate { get; set; }
+        public Nullable<System.DateTime> DueDate { get; set; }
         public bool IsComplete { get; set; }
         public string ShippingInfo { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WasteReport> WasteReports { get; set; }
         public virtual User CompletedByUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkOrderItem> WorkOrderItems { get; set; }

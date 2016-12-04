@@ -8,54 +8,52 @@
 
 <div class="container" id="itemTypeSort">
     @Html.Partial("_SearchPanel")
-
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3">
-                Navn / Beskrivelse
-            </div>
-            <div class="col-sm-3">
-                Minimum mængde før besked
-            </div>
-            <div class="col-sm-2">
-                Enhed
-            </div>
-            <div class="sort noselect col-sm-2 text-uppercase text-center" data-sort="sort-is-active">Er aktiv?
-                <br>
-                <span class="label label-default">Klik for at sortere</span>
-                <span class="label label-primary asc">Sorteret stigende</span>
-                <span class="label label-primary desc">Sorteret faldende</span>
-                <br>
-            </div>
-            <div class="col-sm-2"></div>
+    <div class="row">
+        <div class="sort noselect col-sm-2" data-sort="sort-is-active">
+            <strong>@Html.DisplayNameFor(model => model.ItemType.IsActive)</strong>
+            <br>
+            <span class="label label-default">Klik for at sortere</span>
+            <span class="label label-primary asc">Sorteret stigende</span>
+            <span class="label label-primary desc">Sorteret faldende</span>
+            <br>
         </div>
+        <div class="col-xs-3">
+            <strong>@Html.DisplayNameFor(model => model.ItemType.Name)</strong>
+        </div>
+        <div class="col-xs-3">
+            <strong>@Html.DisplayNameFor(model => model.ItemType.MinimumAmount)</strong>
+        </div>
+        <div class="col-xs-2">
+            <strong>@Html.DisplayNameFor(model => model.ItemType.Unit)</strong>
+        </div>
+        <div class="col-sm-2"></div>
     </div>
-    <div class="container list" id="ExpansionPanelsContainer">
+    <div class="list" id="ExpansionPanelsContainer">
         @foreach (ItemType itemType in Model.ItemTypes) {
             <div class="expansionpanel row panel">
                 <div class="row">
-                    <div class="col-sm-3 sort-name">
-                        <h4>
-                            @itemType.Name
-                        </h4>
-                    </div>
-                    <div class="col-sm-3 sort-minimum-amount">
-                        <h4>
-                            @itemType.MinimumAmount
-                        </h4>
-                    </div>
-                    <div class="col-sm-2 sort-unit">
-                        <h4>
-                            @itemType.Unit
-                        </h4>
-                    </div>
-                    <div class="col-sm-2 sort-is-active">
+                    <div class="col-xs-2 sort-is-active">
                         <h4>
                             @if (itemType.IsActive) {
                                 <span class="label label-success">Aktiv</span>
                             } else {
                                 <span class="label label-default">Inaktiv</span>
                             }
+                        </h4>
+                    </div>
+                    <div class="col-xs-3 sort-name">
+                        <h4>
+                            @itemType.Name
+                        </h4>
+                    </div>
+                    <div class="col-xs-3 sort-minimum-amount">
+                        <h4>
+                            @itemType.MinimumAmount
+                        </h4>
+                    </div>
+                    <div class="col-xs-2 sort-unit">
+                        <h4>
+                            @itemType.Unit
                         </h4>
                     </div>
                     <div class="expansion-control col-sm-2" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@itemType.UID">
@@ -66,13 +64,10 @@
                     </div>
                 </div>
                 <div class="row expansion-content" id="ExpansionContentContainer_@itemType.UID">
-                    <div class="col-sm-7"></div>
-                    <div class="col-sm-5">
-                        <div class="btn-group btn-group-justified btn-group-raised">
-                            <a href="@Url.Action("Detailed", new {id = itemType.UID})" class="btn btn-primary">Se yderligere</a>
-                            <a href="@Url.Action("DeleteItemType", new {id = itemType.UID})" class="btn btn-primary">Slet</a>
-                            <a href="@Url.Action("EditItemType", new {id = itemType.UID})" class="btn btn-primary">Rediger</a>
-                        </div>
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-8">
+                        <a href="@Url.Action("EditItemType", new {id = itemType.UID})" class="btn btn-raised btn-info pull-right">Rediger</a>
+                        <a href="@Url.Action("Detailed", new {id = itemType.UID})" class="btn btn-raised btn-primary pull-right">Mere info</a>
                     </div>
                 </div>
             </div>
@@ -94,8 +89,8 @@
 <div class="flow-content flowout-close" id="AddItemTypeFormPanel">
     <div class="container">
         <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
                 <div class="panel panel-success flowout-noclose">
                     <div class="panel-heading">
                         <h3 class="panel-title">Opret ny artikel type<br></h3>
@@ -105,7 +100,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3"></div>
+            <div class="col-md-2"></div>
         </div>
     </div>
 </div>

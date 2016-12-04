@@ -18,8 +18,7 @@ namespace ACLager.Models
         public Item()
         {
             this.Reserved = 0;
-            this.IsDeleted = false;
-            this.WasteReports = new HashSet<WasteReport>();
+            this.WorkOrderItem = new HashSet<WorkOrderItem>();
         }
     
         public long UID { get; set; }
@@ -28,11 +27,10 @@ namespace ACLager.Models
         public System.DateTime DeliveryDate { get; set; }
         public string Supplier { get; set; }
         public long Reserved { get; set; }
-        public bool IsDeleted { get; set; }
     
         public virtual Location Location { get; set; }
         public virtual ItemType ItemType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WasteReport> WasteReports { get; set; }
+        public virtual ICollection<WorkOrderItem> WorkOrderItem { get; set; }
     }
 }

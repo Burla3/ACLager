@@ -260,8 +260,8 @@ namespace ACLager.Controllers
                     item.Location = db.LocationSet.SingleOrDefault(l => l.UID == item.Location.UID);
                 }
                 
-                viewModel.ItemType.WorkOrderItem = dbItemType.WorkOrderItem.ToList();
-                foreach (WorkOrderItem workOrderItem in viewModel.ItemType.WorkOrderItem) {
+                viewModel.ItemType.WorkOrderItems = dbItemType.WorkOrderItems.ToList();
+                foreach (WorkOrderItem workOrderItem in viewModel.ItemType.WorkOrderItems) {
                     workOrderItem.WorkOrder = db.WorkOrderSet.SingleOrDefault(wo => wo.UID == workOrderItem.WorkOrder.UID);
                 }
 
@@ -285,7 +285,7 @@ namespace ACLager.Controllers
                 }
                 
                 db.ItemSet.RemoveRange(dbItemType.Items);
-                db.WorkOrderItemSet.RemoveRange(dbItemType.WorkOrderItem);
+                db.WorkOrderItemSet.RemoveRange(dbItemType.WorkOrderItems);
                 db.IngredientSet.RemoveRange(dbItemType.IsIngredientFor);
                 db.IngredientSet.RemoveRange(dbItemType.IngredientsForRecipe);
                 db.ItemTypeSet.Remove(dbItemType);

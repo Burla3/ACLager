@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ACLager.CustomClasses;
 using ACLager.Models;
 using ACLager.Interfaces;
 using ACLager.ViewModels;
@@ -43,82 +44,53 @@ namespace ACLager.Controllers {
         [HttpGet]
         public ActionResult Detailed(string id) {
             WorkOrder workorder;
-            List<WorkOrderItem> workorderitems = new List<WorkOrderItem>();
+            List<WorkOrderItemGroup> workOrderItemGroups = new List<WorkOrderItemGroup>();
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 workorder = db.WorkOrderSet.Find(Int64.Parse(id));
                 foreach (WorkOrderItem workorderitem in workorder.WorkOrderItems) {
-                        workorderitems.Add(workorderitem);
+                    Item item = workorderitem.Item;
+                    WorkOrderItemGroup workOrderItemGroup = new WorkOrderItemGroup(item, item.ItemType, item.Location,
+                        workorderitem);
+                    workOrderItemGroups.Add(workOrderItemGroup);
                 }
             }
 
-            return View(new WorkOrderBaseViewModel(null, workorder, workorderitems));
+            return View(new WorkOrderBaseViewModel(null, workorder, workOrderItemGroups));
         }
 
         /// <summary>
         /// Cancels a workorder and its items.
         /// </summary>
-        /// <param name="UID">UID of the workorder.</param>
+        /// <param name="id">UID of the workorder.</param>
         /// <returns>Redirects to /WorkOrder.</returns>
         [HttpPost]
-        public ActionResult CancelWorkOrder(long UID) {
+        public ActionResult CancelWorkOrder(long id) {
+            WorkOrder dbWorkOrder;
+
             using (ACLagerDatabase db = new ACLagerDatabase()) {
+                dbWorkOrder = db.WorkOrderSet.Find(id);
 
-                WorkOrder workOrder = db.WorkOrderSet.Find(UID);
-                IEnumerable<WorkOrderItem> workOrderItems = workOrder.WorkOrderItems;
-
-                if (workOrder != null) {
-                    foreach (WorkOrderItem workOrderItem in workOrderItems) {
-                        db.WorkOrderItemSet.Remove(workOrderItem);
-                    }
-
-                    db.WorkOrderSet.Remove(workOrder);
-                    db.SaveChanges();
-                } else {
-                    //given uid is not on a known workorder.
+                if (dbWorkOrder == null) {
+                    return RedirectToAction("Index");
                 }
+               
+                db.WorkOrderItemSet.RemoveRange(dbWorkOrder.WorkOrderItems);
 
+                db.WorkOrderSet.Remove(dbWorkOrder);
+                db.SaveChanges();
             }
 
-            return RedirectToAction("Index");
-        }
-
-        /// <summary>
-        /// Cancels a workorder item.
-        /// </summary>
-        /// <param name="UID">UID of the workorder item.</param>
-        /// <returns>Redirects to /WorkOrder</returns>
-        [HttpPost]
-        public ActionResult CancelWorkOrderItem(long UID) {
-            using (ACLagerDatabase db = new ACLagerDatabase()) {
-                if (db.WorkOrderItemSet.Find(UID) != null) {
-                    db.WorkOrderItemSet.Remove(db.WorkOrderItemSet.Find(UID));
-                    db.SaveChanges();
-                } else {
-                    //workorder with given UID not found.
-                }
-            }
-
-            return RedirectToAction("Index");
-        }
-
-        /// <summary>
-        /// Updates a workorder.
-        /// </summary>
-        /// <param name="workOrder">The workorder to be updated.</param>
-        /// <returns>Redirects to /WorkOrder.</returns>
-        [HttpPost]
-        public ActionResult UpdateWorkOrder(WorkOrder workOrder) {
-            using (ACLagerDatabase db = new ACLagerDatabase()) {
-                WorkOrder dbWorkOrder = db.WorkOrderSet.Find(workOrder.UID);
-                if (dbWorkOrder != null) {
-                    dbWorkOrder.DueDate = workOrder.DueDate;
-                    db.SaveChanges();
-                } else {
-                    //Workorder not found. 
-                }
-
-            }
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "Arbejdsopgave annulleret",
+                        $"Arbejdsopgave nr. {dbWorkOrder.OrderNumber} annulleret",
+                        new {
+                            KontekstBruger = UserController.GetContextUser().ToLoggable(),
+                            ArbejdsOpgave = dbWorkOrder.ToLoggable()
+                        }
+                    )
+            );
 
             return RedirectToAction("Index");
         }
@@ -126,65 +98,67 @@ namespace ACLager.Controllers {
         /// <summary>
         /// Updates a workorder item.
         /// </summary>
-        /// <param name="workOrderItem">Workorder item to be updated.</param>
+        /// <param name="progress">Workorder item to be updated.</param>
         /// <returns>Redirects to /WorkOrder.</returns>
         [HttpPost]
-        public ActionResult UpdateWorkOrderItem(WorkOrderItem workOrderItem) {
+        public ActionResult UpdateWorkOrderItem(long id, long progress) {
+            WorkOrderItem dbWorkOrderItem;
+            WorkOrder dbWorkOrder;
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                WorkOrderItem dbWorkOrderItem = db.WorkOrderItemSet.Find(workOrderItem.UID);
+                dbWorkOrderItem = db.WorkOrderItemSet.Find(id);
 
-                if (dbWorkOrderItem != null) {
-                    dbWorkOrderItem.Amount = workOrderItem.Amount;
-                    dbWorkOrderItem.Progress = workOrderItem.Progress;
-                    db.SaveChanges();
-                } else {
-                    //Workorder does not exsist.
+                if (dbWorkOrderItem == null) {
+                    return RedirectToAction("Index");
                 }
+
+                dbWorkOrder = dbWorkOrderItem.WorkOrder.ToLoggable();
+
+                dbWorkOrderItem.Progress = progress;
+                db.SaveChanges();
             }
+
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "Opdateret arbejdsopgave punkt",
+                        $"Opdateret arbejdsopgave punkt på arbejdsopgave nr. {dbWorkOrder.OrderNumber}",
+                        new {
+                            KontekstBruger = UserController.GetContextUser().ToLoggable(),
+                            ArbejdsOpgave = dbWorkOrder.ToLoggable(),
+                            ArbejdsOpgavePunkt = dbWorkOrder.ToLoggable()
+                        }
+                    )
+            );
 
             return RedirectToAction("Index");
         }
 
-        /*
-        public ActionResult CompleteWorkOrder(WorkOrder workOrder, User completedBy)
-        {
-            //Tries to find the workorder in the database
-            var exsistingWorkOrder = _db.WorkOrders.Find(workOrder);
-
-            if (exsistingWorkOrder != null)
-            {
-                exsistingWorkOrder.is_complete = true;
-                exsistingWorkOrder.completed_by = completedBy.uid;
-                _db.SaveChanges();
-                return true;
-            }
-            else
-            {
-                //workorder not found
-                return false;
-            }
-        }
-        */
-
-        /// <summary>
-        /// Creates a workorder.
-        /// </summary>
-        /// <param name="workOrder">Workorder to be created.</param>
-        /// <returns>Redirects to /WorkOrder.</returns>
         [HttpPost]
-        public ActionResult CreateWorkOrder(WorkOrder workOrder) {
-            using (ACLagerDatabase db = new ACLagerDatabase()) {
-                var dbWorkOrder = (db.WorkOrderSet.Where(
-                    workorder => workorder.DueDate == workOrder.DueDate && workorder.Type == workOrder.Type));
+        public ActionResult CompleteWorkOrder(long id) {
+            WorkOrder dbWorkOrder;
 
-                if (dbWorkOrder.Any()) {
-                    //Similar workorder(s) exsist, make another?
-                } else {
-                    db.WorkOrderSet.Add(workOrder);
-                    db.SaveChanges();
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                dbWorkOrder = db.WorkOrderSet.Find(id);
+
+                if (dbWorkOrder == null) {
+                    return RedirectToAction("Index");
                 }
 
+                dbWorkOrder.IsComplete = true;
+                dbWorkOrder.CompletedByUser = UserController.GetContextUser();
+
+                db.SaveChanges();
             }
+
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "Arbejdsopgave færdig",
+                        $"Arbejdsopgave nr. {dbWorkOrder.OrderNumber} er færdig",
+                        new {
+                            KontekstBruger = UserController.GetContextUser().ToLoggable(),
+                            ArbejdsOpgave = dbWorkOrder.ToLoggable()
+                        }
+                    )
+            );
 
             return RedirectToAction("Index");
         }

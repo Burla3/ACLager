@@ -388,9 +388,9 @@
     <Content Include="Views\Inventory\_AddItem.cshtml" />
     <Content Include="Views\Inventory\_ItemForm.cshtml" />
     <Content Include="Views\Inventory\Detailed.cshtml" />
-    <Content Include="Views\Inventory\PickItem.cshtml" />
+    <Content Include="Views\Inventory\Pick.cshtml" />
     <Content Include="Views\Waste\_WasteReportForm.cshtml" />
-    <Content Include="Views\Inventory\MoveItem.cshtml" />
+    <Content Include="Views\Inventory\Move.cshtml" />
     <Content Include="Views\Location\DeleteLocation.cshtml" />
     <Content Include="Views\Location\Detailed.cshtml" />
     <Content Include="Views\Location\EditLocation.cshtml" />

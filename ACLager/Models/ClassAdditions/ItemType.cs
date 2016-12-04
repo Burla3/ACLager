@@ -17,9 +17,9 @@ namespace ACLager.Models {
             [StringLength(127, MinimumLength = 1, ErrorMessage = "Varetypens navn skal være mellem 1 og 127 tegn")]
             [DisplayName("Varetypenavn")]
             public string Name { get; set; }
-            [Range(0, long.MaxValue, ErrorMessage = "Mindste mængde skal være positiv")]
+            [Range(0, int.MaxValue, ErrorMessage = "Mindste mængde skal være positiv")]
             [DisplayName("Mindste beholdning")]
-            public long MinimumAmount { get; set; }
+            public decimal MinimumAmount { get; set; }
             [DisplayName("Måleenhed")]
             public string Unit { get; set; }
             [DisplayName("Status")]
@@ -49,7 +49,8 @@ namespace ACLager.Models {
                 Items = null,
                 IngredientsForRecipe = null,
                 IsIngredientFor = null,
-                WorkOrderItem = null               
+                WorkOrderItems = null,
+                WorkOrders = null
             };
         }
     }

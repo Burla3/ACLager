@@ -22,7 +22,7 @@ namespace ACLager.Models
         }
     
         public long UID { get; set; }
-        public long Amount { get; set; }
+        public decimal Amount { get; set; }
         public Nullable<System.DateTime> ExpirationDate { get; set; }
         public System.DateTime DeliveryDate { get; set; }
         public string Supplier { get; set; }

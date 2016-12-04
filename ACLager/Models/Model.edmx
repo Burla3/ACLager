@@ -47,6 +47,10 @@
       <End Role="WorkOrderItem" EntitySet="WorkOrderItemSet" />
       <End Role="Item" EntitySet="ItemSet" />
     </AssociationSet>
+    <AssociationSet Name="WorkOrderItemType" Association="Model.Store.WorkOrderItemType">
+      <End Role="WorkOrder" EntitySet="WorkOrderSet" />
+      <End Role="ItemType" EntitySet="ItemTypeSet" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="UserSet">
     <Key>
@@ -71,7 +75,7 @@
       <PropertyRef Name="UID" />
     </Key>
     <Property Name="UID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Amount" Type="bigint" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Nullable="false" />
     <Property Name="ForItemType_UID" Type="bigint" Nullable="false" />
     <Property Name="ItemType_UID" Type="bigint" Nullable="false" />
   </EntityType>
@@ -80,7 +84,7 @@
       <PropertyRef Name="UID" />
     </Key>
     <Property Name="UID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Amount" Type="bigint" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Nullable="false" />
     <Property Name="ExpirationDate" Type="datetime" Nullable="true" />
     <Property Name="DeliveryDate" Type="datetime" Nullable="false" />
     <Property Name="Supplier" Type="nvarchar(max)" Nullable="false" />
@@ -94,12 +98,12 @@
     </Key>
     <Property Name="UID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="MinimumAmount" Type="bigint" Nullable="false" />
+    <Property Name="MinimumAmount" Type="decimal" Nullable="false" />
     <Property Name="Unit" Type="nvarchar(max)" Nullable="false" />
     <Property Name="IsActive" Type="bit" Nullable="false" DefaultValue="true" />
     <Property Name="Procedure" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Barcode" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="BatchSize" Type="bigint" Nullable="true" />
+    <Property Name="BatchSize" Type="decimal" Nullable="true" />
     <Property Name="Department" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="WorkOrderSet">
@@ -112,14 +116,16 @@
     <Property Name="DueDate" Type="datetime" Nullable="true" />
     <Property Name="IsComplete" Type="bit" Nullable="false" DefaultValue="false" />
     <Property Name="ShippingInfo" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="OrderNumber" Type="bigint" Nullable="false" />
     <Property Name="CompletedByUser_UID" Type="bigint" Nullable="true" />
+    <Property Name="ItemType_UID" Type="bigint" Nullable="true" />
   </EntityType>
   <EntityType Name="WorkOrderItemSet">
     <Key>
       <PropertyRef Name="UID" />
     </Key>
     <Property Name="UID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Amount" Type="bigint" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Nullable="false" />
     <Property Name="Progress" Type="bigint" Nullable="false" DefaultValue="0" />
     <Property Name="WorkOrder_UID" Type="bigint" Nullable="false" />
     <Property Name="ItemType_UID" Type="bigint" Nullable="false" />
@@ -141,7 +147,7 @@
     </Key>
     <Property Name="UID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Date" Type="datetime" Nullable="false" />
-    <Property Name="Amount" Type="bigint" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
     <Property Name="ObjectData" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
@@ -241,6 +247,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="WorkOrderItemType">
+    <End Role="WorkOrder" Type="Model.Store.WorkOrderSet" Multiplicity="*" />
+    <End Role="ItemType" Type="Model.Store.ItemTypeSet" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="ItemType">
+        <PropertyRef Name="UID" />
+      </Principal>
+      <Dependent Role="WorkOrder">
+        <PropertyRef Name="ItemType_UID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -287,6 +305,10 @@
             <End Role="WorkOrderItem" EntitySet="WorkOrderItemSet" />
             <End Role="Item" EntitySet="ItemSet" />
           </AssociationSet>
+          <AssociationSet Name="WorkOrderItemType" Association="Model.WorkOrderItemType">
+            <End Role="WorkOrder" EntitySet="WorkOrderSet" />
+            <End Role="ItemType" EntitySet="ItemTypeSet" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="User">
           <Key>
@@ -313,7 +335,7 @@
             <PropertyRef Name="UID" />
           </Key>
           <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
-          <Property Name="Amount" Type="Int64" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" />
           <NavigationProperty Name="ForItemType" Relationship="Model.ItemTypeIngredient" FromRole="Ingredient" ToRole="ItemType" />
           <NavigationProperty Name="ItemType" Relationship="Model.IngredientItemType" FromRole="Ingredient" ToRole="ItemType" />
         </EntityType>
@@ -322,7 +344,7 @@
             <PropertyRef Name="UID" />
           </Key>
           <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
-          <Property Name="Amount" Type="Int64" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" />
           <Property Name="ExpirationDate" Type="DateTime" Nullable="true" />
           <Property Name="DeliveryDate" Type="DateTime" Nullable="false" />
           <Property Name="Supplier" Type="String" Nullable="false" />
@@ -337,17 +359,18 @@
           </Key>
           <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
           <Property Name="Name" Type="String" Nullable="false" />
-          <Property Name="MinimumAmount" Type="Int64" Nullable="false" />
+          <Property Name="MinimumAmount" Type="Decimal" Nullable="false" />
           <Property Name="Unit" Type="String" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="True" />
           <Property Name="Procedure" Type="String" Nullable="true" MaxLength="Max" />
           <NavigationProperty Name="Items" Relationship="Model.ItemTypeItem" FromRole="ItemType" ToRole="Item" />
           <NavigationProperty Name="IngredientsForRecipe" Relationship="Model.ItemTypeIngredient" FromRole="ItemType" ToRole="Ingredient" />
           <NavigationProperty Name="IsIngredientFor" Relationship="Model.IngredientItemType" FromRole="ItemType" ToRole="Ingredient" />
-          <NavigationProperty Name="WorkOrderItem" Relationship="Model.WorkOrderItemItemType" FromRole="ItemType" ToRole="WorkOrderItem" />
+          <NavigationProperty Name="WorkOrderItems" Relationship="Model.WorkOrderItemItemType" FromRole="ItemType" ToRole="WorkOrderItem" />
           <Property Name="Barcode" Type="String" Nullable="true" MaxLength="Max" />
-          <Property Name="BatchSize" Type="Int64" Nullable="true" />
+          <Property Name="BatchSize" Type="Decimal" Nullable="true" />
           <Property Name="Department" Type="String" Nullable="false" MaxLength="Max" />
+          <NavigationProperty Name="WorkOrders" Relationship="Model.WorkOrderItemType" FromRole="ItemType" ToRole="WorkOrder" />
         </EntityType>
         <EntityType Name="WorkOrder">
           <Key>
@@ -361,13 +384,15 @@
           <NavigationProperty Name="CompletedByUser" Relationship="Model.WorkOrderUser" FromRole="WorkOrder" ToRole="User" />
           <NavigationProperty Name="WorkOrderItems" Relationship="Model.WorkOrderWorkOrderItem" FromRole="WorkOrder" ToRole="WorkOrderItem" />
           <Property Name="ShippingInfo" Type="String" Nullable="true" MaxLength="Max" />
+          <NavigationProperty Name="ItemType" Relationship="Model.WorkOrderItemType" FromRole="WorkOrder" ToRole="ItemType" />
+          <Property Name="OrderNumber" Type="Int64" Nullable="false" ConcurrencyMode="None" />
         </EntityType>
         <EntityType Name="WorkOrderItem">
           <Key>
             <PropertyRef Name="UID" />
           </Key>
           <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
-          <Property Name="Amount" Type="Int64" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" />
           <Property Name="Progress" Type="Int64" Nullable="false" DefaultValue="0" />
           <NavigationProperty Name="WorkOrder" Relationship="Model.WorkOrderWorkOrderItem" FromRole="WorkOrderItem" ToRole="WorkOrder" />
           <NavigationProperty Name="ItemType" Relationship="Model.WorkOrderItemItemType" FromRole="WorkOrderItem" ToRole="ItemType" />
@@ -389,7 +414,7 @@
           </Key>
           <Property Name="UID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Public" />
           <Property Name="Date" Type="DateTime" Nullable="false" />
-          <Property Name="Amount" Type="Int64" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" />
           <Property Name="Description" Type="String" Nullable="true" MaxLength="Max" />
           <Property Name="ObjectData" Type="String" Nullable="false" />
         </EntityType>
@@ -424,6 +449,10 @@
         <Association Name="WorkOrderItemItem">
           <End Type="Model.WorkOrderItem" Role="WorkOrderItem" Multiplicity="*" />
           <End Type="Model.Item" Role="Item" Multiplicity="0..1" />
+        </Association>
+        <Association Name="WorkOrderItemType">
+          <End Type="Model.WorkOrder" Role="WorkOrder" Multiplicity="*" />
+          <End Type="Model.ItemType" Role="ItemType" Multiplicity="0..1" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -495,6 +524,7 @@
           <ScalarProperty Name="DueDate" ColumnName="DueDate" />
           <ScalarProperty Name="IsComplete" ColumnName="IsComplete" />
           <ScalarProperty Name="ShippingInfo" ColumnName="ShippingInfo" />
+          <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -594,6 +624,15 @@
         <ScalarProperty Name="UID" ColumnName="UID" />
       </EndProperty>
       <Condition ColumnName="Item_UID" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="WorkOrderItemType" TypeName="Model.WorkOrderItemType" StoreEntitySet="WorkOrderSet">
+      <EndProperty Name="ItemType">
+        <ScalarProperty Name="UID" ColumnName="ItemType_UID" />
+      </EndProperty>
+      <EndProperty Name="WorkOrder">
+        <ScalarProperty Name="UID" ColumnName="UID" />
+      </EndProperty>
+      <Condition ColumnName="ItemType_UID" IsNull="false" />
     </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>

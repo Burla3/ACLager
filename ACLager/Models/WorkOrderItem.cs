@@ -21,7 +21,7 @@ namespace ACLager.Models
         }
     
         public long UID { get; set; }
-        public long Amount { get; set; }
+        public decimal Amount { get; set; }
         public long Progress { get; set; }
     
         public virtual WorkOrder WorkOrder { get; set; }

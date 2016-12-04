@@ -32,8 +32,10 @@ namespace ACLager.Models {
                 DueDate = this.DueDate,
                 IsComplete = this.IsComplete,
                 ShippingInfo = this.ShippingInfo,
+                OrderNumber = this.OrderNumber,
                 CompletedByUser = null,
-                WorkOrderItems = null
+                WorkOrderItems = null,
+                ItemType = null
             };
         }
     }

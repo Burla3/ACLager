@@ -21,17 +21,18 @@ namespace ACLager.Models
             this.Items = new HashSet<Item>();
             this.IngredientsForRecipe = new HashSet<Ingredient>();
             this.IsIngredientFor = new HashSet<Ingredient>();
-            this.WorkOrderItem = new HashSet<WorkOrderItem>();
+            this.WorkOrderItems = new HashSet<WorkOrderItem>();
+            this.WorkOrders = new HashSet<WorkOrder>();
         }
     
         public long UID { get; set; }
         public string Name { get; set; }
-        public long MinimumAmount { get; set; }
+        public decimal MinimumAmount { get; set; }
         public string Unit { get; set; }
         public bool IsActive { get; set; }
         public string Procedure { get; set; }
         public string Barcode { get; set; }
-        public Nullable<long> BatchSize { get; set; }
+        public Nullable<decimal> BatchSize { get; set; }
         public string Department { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -41,6 +42,8 @@ namespace ACLager.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ingredient> IsIngredientFor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WorkOrderItem> WorkOrderItem { get; set; }
+        public virtual ICollection<WorkOrderItem> WorkOrderItems { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WorkOrder> WorkOrders { get; set; }
     }
 }

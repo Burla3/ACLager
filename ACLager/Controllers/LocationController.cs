@@ -58,7 +58,7 @@ namespace ACLager.Controllers {
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "CreateLocation",
+                        "Lokation oprettet",
                         $"Lokationen {location.Name} er blevet oprettet.",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),
@@ -111,7 +111,7 @@ namespace ACLager.Controllers {
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "CreateLocation",
+                        "Lokation ændret",
                         $"Lokationen {newLocation.Name} er blevet ændret.",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),
@@ -158,7 +158,7 @@ namespace ACLager.Controllers {
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "DeleteLocation",
+                        "Lokation fjernet",
                         $"Lokationen {location.Name} er blevet slettet.",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),

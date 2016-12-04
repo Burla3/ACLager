@@ -68,12 +68,14 @@ namespace ACLager.Controllers {
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "EditUser",
+                        "Bruger oprettet",
                         $"Brugeren {user.Name} blev oprettet.",
-                        new { KontekstBruger = GetContextUser().ToLoggable(), OprettetBruger = user.ToLoggable() }
+                        new {
+                            KontekstBruger = GetContextUser().ToLoggable(),
+                            OprettetBruger = user.ToLoggable()
+                        }
                      )
             );
-
 
             return RedirectToAction("Detailed", new { id = user.UID });
         }
@@ -129,9 +131,13 @@ namespace ACLager.Controllers {
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "EditUser",
+                        "Bruger ændret",
                         $"Brugeren {newUser.Name} blev ændret.",
-                        new { KontekstBruger = GetContextUser().ToLoggable(), Før = oldUser, Efter = newUser}
+                        new {
+                            KontekstBruger = GetContextUser().ToLoggable(),
+                            Før = oldUser,
+                            Efter = newUser
+                        }
                     )
             );
 
@@ -181,12 +187,14 @@ namespace ACLager.Controllers {
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "EditUser",
+                        "Bruger slettet",
                         $"Brugeren {user.Name} blev slettet.",
-                        new { KontekstBruger = GetContextUser().ToLoggable(), Slettet = user.ToLoggable() }
+                        new {
+                            KontekstBruger = GetContextUser().ToLoggable(),
+                            Slettet = user.ToLoggable()
+                        }
                     )
             );
-
 
             return RedirectToAction("Index");
         }

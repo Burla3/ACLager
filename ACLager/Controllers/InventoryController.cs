@@ -103,8 +103,8 @@ namespace ACLager.Controllers
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "AddItem",
-                        $"{item.Amount} {item.ItemType.Unit} {item.ItemType.Name} tilføjet",
+                        "Vare Tilføjet",
+                        $"{item.Amount} {item.ItemType.Unit} {item.ItemType.Name} tilføjet.",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),
                             Vare = item.ToLoggable(),
@@ -163,8 +163,8 @@ namespace ACLager.Controllers
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "AddItem",
-                        $"{dbItem.Amount} {itemType.Unit} {itemType.Name} tilføjet",
+                        "Vare plukket",
+                        $"{dbItem.Amount} {itemType.Unit} {itemType.Name} plukket fra {location.Name}.",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),
                             Vare = dbItem.ToLoggable(),

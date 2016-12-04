@@ -69,8 +69,8 @@ namespace ACLager.Controllers
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "AddItemType",
-                        $"Varetypen {itemType.Name} er blevet tilføjet",
+                        "Varetype tilføjet",
+                        $"Varetypen {itemType.Name} i {itemType.Unit} er blevet tilføjet.",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),
                             Varetype = itemType.ToLoggable()
@@ -145,8 +145,8 @@ namespace ACLager.Controllers
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "EditItemType",
-                        $"Varetypen {itemType.Name} er blevet ændret",
+                        "Varetype ændret",
+                        $"Varetypen {itemType.Name} er blevet ændret.",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),
                             Før = oldItemType,
@@ -182,7 +182,7 @@ namespace ACLager.Controllers
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "AddIngredient",
+                        "Ingrediens tilføjet",
                         $"Ingrediens tilføjet til varetypen {dbForItemType.Name}.",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),
@@ -224,7 +224,7 @@ namespace ACLager.Controllers
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "RemoveIngredient",
+                        "Ingrediens fjernet",
                         $"Ingrediens fjernet fra varetypen {dbForItemType.Name}.",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),
@@ -295,7 +295,7 @@ namespace ACLager.Controllers
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "DeleteItemType",
+                        "Varetype fjernet",
                         $"Varetypen {dbItemType.Name} blev fjernet.",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),

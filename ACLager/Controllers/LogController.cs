@@ -7,17 +7,13 @@ using ACLager.Models;
 using ACLager.ViewModels;
 using Microsoft.Owin.Security.Provider;
 
-namespace ACLager.Controllers
-{
-    public class LogController : Controller
-    {
+namespace ACLager.Controllers {
+    public class LogController : Controller {
         // GET: Log
-        public ActionResult Index()
-        {
+        public ActionResult Index() {
             IEnumerable<LogEntry> logEntries;
 
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
                 logEntries = db.LogEntrySet.ToList();
             }
 
@@ -39,21 +35,28 @@ namespace ACLager.Controllers
             return View(logViewModel);
         }
 
-        public ActionResult FillDatabase()
-        {
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
-                db.UserSet.Add(new User() { Name = "Admin", IsActive = true, IsAdmin = true, PIN = 1234 });
+        public ActionResult FillDatabase() {
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                db.UserSet.Add(new User {
+                    Name = "Admin",
+                    IsActive = true,
+                    IsAdmin = true,
+                    PIN = 1234
+                });
 
-                for (int i = 1; i < 10; i++)
-                {
-                    Location location = new Location() {IsActive = true, Name = "B" + i};
-                    Location location2 = new Location() { IsActive = true, Name = "C" + i };
+                for (int i = 1; i < 10; i++) {
+                    Location location = new Location {
+                        IsActive = true,
+                        Name = "B" + i
+                    };
+                    Location location2 = new Location {
+                        IsActive = true,
+                        Name = "C" + i
+                    };
                     db.LocationSet.Add(location);
                     db.LocationSet.Add(location2);
 
-                    ItemType itemType = new ItemType()
-                    {
+                    ItemType itemType = new ItemType {
                         Barcode = "BARCODE",
                         Department = "DEPARTMENT",
                         IsActive = true,
@@ -63,8 +66,7 @@ namespace ACLager.Controllers
                         Procedure = "Some procedure",
                         BatchSize = 765
                     };
-                    ItemType itemType2 = new ItemType()
-                    {
+                    ItemType itemType2 = new ItemType {
                         Barcode = "BARCODE",
                         Department = "DEPARTMENT",
                         IsActive = true,
@@ -77,8 +79,7 @@ namespace ACLager.Controllers
                     db.ItemTypeSet.Add(itemType);
                     db.ItemTypeSet.Add(itemType2);
 
-                    Item item = new Item()
-                    {
+                    Item item = new Item {
                         ItemType = itemType,
                         Amount = i*50,
                         DeliveryDate = DateTime.Now,
@@ -87,8 +88,7 @@ namespace ACLager.Controllers
                         Reserved = 0,
                         ExpirationDate = DateTime.MaxValue
                     };
-                    Item item2 = new Item()
-                    {
+                    Item item2 = new Item {
                         ItemType = itemType2,
                         Amount = i * 23,
                         DeliveryDate = DateTime.Now,
@@ -100,12 +100,16 @@ namespace ACLager.Controllers
                     db.ItemSet.Add(item);
                     db.ItemSet.Add(item2);
 
-                    Ingredient ingredient = new Ingredient() {ItemType = itemType, Amount = i*4, ForItemType = itemType2};
+                    Ingredient ingredient = new Ingredient {
+                        ItemType = itemType,
+                        Amount = i*4,
+                        ForItemType = itemType2
+                    };
                     db.IngredientSet.Add(ingredient);
 
                     Random rn = new Random();
 
-                    WorkOrder workOrder = new WorkOrder() {
+                    WorkOrder workOrder = new WorkOrder {
                         BatchNumber = i*12,
                         IsComplete = false,
                         Type = rn.Next(Int32.MinValue, Int32.MaxValue) % 2 == 0 ? "Produktion" : "Pakkeri",
@@ -115,8 +119,18 @@ namespace ACLager.Controllers
                     };
                     db.WorkOrderSet.Add(workOrder);
 
-                    WorkOrderItem workOrderItem = new WorkOrderItem() {Amount = i*56, Progress = 0, WorkOrder = workOrder, ItemType = itemType};
-                    WorkOrderItem workOrderItem2 = new WorkOrderItem() { Amount = i * 31, Progress = 2, WorkOrder = workOrder, ItemType = itemType2 };
+                    WorkOrderItem workOrderItem = new WorkOrderItem {
+                        Amount = i*56,
+                        Progress = 0,
+                        WorkOrder = workOrder,
+                        ItemType = itemType
+                    };
+                    WorkOrderItem workOrderItem2 = new WorkOrderItem {
+                        Amount = i * 31,
+                        Progress = 2,
+                        WorkOrder = workOrder,
+                        ItemType = itemType2
+                    };
                     db.WorkOrderItemSet.Add(workOrderItem);
                     db.WorkOrderItemSet.Add(workOrderItem2);
                     db.SaveChanges();

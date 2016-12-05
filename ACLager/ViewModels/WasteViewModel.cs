@@ -6,10 +6,8 @@ using ACLager.Models;
 using System.Web.Mvc;
 using ACLager.CustomClasses;
 
-namespace ACLager.ViewModels
-{
-    public class WasteViewModel : BaseViewModel
-    {
+namespace ACLager.ViewModels {
+    public class WasteViewModel : BaseViewModel {
         public WasteViewModel(){
             base.SelectSectionSpecials("Waste-Index");
         }

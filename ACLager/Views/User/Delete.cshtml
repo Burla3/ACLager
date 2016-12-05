@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("DeleteUser", "User")) {
+@using (Html.BeginForm("Delete", "User")) {
     @Html.AntiForgeryToken()
 
     @Html.HiddenFor(model => Model.User.UID)

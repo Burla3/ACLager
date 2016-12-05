@@ -8,7 +8,7 @@
 
 <div class="container panel">
     <div class="row">
-        @using (Html.BeginForm("EditItemType", "ItemType")) {
+        @using (Html.BeginForm("Edit", "ItemType")) {
             @Html.AntiForgeryToken()
 
             @Html.HiddenFor(model => Model.ItemType.UID)
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                 </fieldset>
-                <button name="submitAction" class="btn btn-raised btn-success pull-right" type="submit" value="AddItemType">Gem type</button>
+                <button name="submitAction" class="btn btn-raised btn-success pull-right" type="submit" value="Add">Gem type</button>
                 <a href="@Url.Action("Index")" class="btn btn-default pull-right flowout-close">Annuller</a>
             </div>
         }

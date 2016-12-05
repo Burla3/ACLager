@@ -50,7 +50,7 @@ namespace ACLager.Controllers {
         }
 
         [HttpPost]
-        public ActionResult CreateLocation(Location location) {
+        public ActionResult Create(Location location) {
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 db.LocationSet.Add(location);
                 db.SaveChanges();
@@ -71,7 +71,7 @@ namespace ACLager.Controllers {
         }
 
         [HttpGet]
-        public ActionResult EditLocation(string id) {
+        public ActionResult Edit(string id) {
             if (id == null) {
                 return RedirectToAction("Index");
             }
@@ -92,7 +92,7 @@ namespace ACLager.Controllers {
         }
 
         [HttpPost]
-        public ActionResult EditLocation(Location location) {
+        public ActionResult Edit(Location location) {
             Location oldLocation;
             Location newLocation;
 
@@ -126,7 +126,7 @@ namespace ACLager.Controllers {
 
 
         [HttpGet]
-        public ActionResult DeleteLocation(string id) {
+        public ActionResult Delete(string id) {
             if (id == null) {
                 return RedirectToAction("Index");
             }
@@ -148,7 +148,7 @@ namespace ACLager.Controllers {
         }
 
         [HttpPost]
-        public ActionResult DeleteLocation(long id) {
+        public ActionResult Delete(long id) {
             Location location;
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 location = db.LocationSet.Find(id);

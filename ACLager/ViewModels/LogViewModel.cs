@@ -6,8 +6,7 @@ using ACLager.Models;
 
 namespace ACLager.ViewModels
 {
-    public class LogViewModel : BaseViewModel
-    {
+    public class LogViewModel : BaseViewModel {
         public IEnumerable<LogEntry> LogEntries { get; set; }
         public LogEntry LogEntry { get; set; }
 

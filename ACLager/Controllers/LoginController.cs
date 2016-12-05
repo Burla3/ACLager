@@ -13,19 +13,15 @@ namespace ACLager.Controllers {
     public class LoginController : Controller {
         [RequireAuthorization(IsDisabled = true)]
         [HttpGet]
-        public ActionResult Index()
-        {
+        public ActionResult Index() {
             return View(new LoginViewModel { RenderNavBar = false});
         }
 
         [RequireAuthorization(IsDisabled = true)]
         [HttpPost]
-        public ActionResult Index(User user)
-        {
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
-                if (db.UserSet.Any(u => u.PIN == user.PIN))
-                {
+        public ActionResult Index(User user) {
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                if (db.UserSet.Any(u => u.PIN == user.PIN)) {
                     User dbUser = db.UserSet.First(u => u.PIN == user.PIN);
 
                     object cookieData = new {dbUser.UID, dbUser.Name, dbUser.IsAdmin};
@@ -35,17 +31,12 @@ namespace ACLager.Controllers {
 
                     string nextAction = HttpUtility.UrlDecode(HttpContext.Request["nextAction"]);
 
-                    if (!string.IsNullOrEmpty(nextAction))
-                    {
+                    if (!string.IsNullOrEmpty(nextAction)) {
                         return Redirect(nextAction);
-                    }
-                    else
-                    {
+                    } else {
                         return RedirectToAction("Index", "Home");
                     }
-                }
-                else
-                {
+                } else {
                     return View(new LoginViewModel { RenderNavBar = false, RenderUserNotFoundWarning = true});
                 }
             }
@@ -56,8 +47,7 @@ namespace ACLager.Controllers {
             return RedirectToAction("Index");
         }
 
-        public ActionResult NoPermission()
-        {
+        public ActionResult NoPermission() {
             HttpContext.Response.AppendHeader("Refresh", "5;url=" + Url.Action("Index", "Home"));
             return View(new BaseViewModel());
         }

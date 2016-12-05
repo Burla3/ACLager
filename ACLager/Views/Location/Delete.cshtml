@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("DeleteLocation", "Location")) {
+@using (Html.BeginForm("Delete", "Location")) {
     @Html.AntiForgeryToken()
 
     @Html.HiddenFor(model => Model.ItemLocationPair.Location.UID)

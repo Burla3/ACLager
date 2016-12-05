@@ -8,8 +8,7 @@ namespace ACLager.Models {
     [MetadataType(typeof(UserMetadata))]
     [DisplayName("Bruger")]
     public partial class User {
-        private class UserMetadata
-        {
+        private class UserMetadata {
             [DisplayName("Brugernummer")]
             public long UID { get; set; }
             [Required(ErrorMessage = "Brugeren skal have et navn")]

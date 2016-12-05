@@ -12,8 +12,7 @@ namespace ACLager.CustomClasses {
         /// </summary>
         /// <param name="itemType"></param>
         /// <param name="itemLocationPairs"></param>
-        public ItemGroup(ItemType itemType, IEnumerable<ItemLocationPair> itemLocationPairs)
-        {
+        public ItemGroup(ItemType itemType, IEnumerable<ItemLocationPair> itemLocationPairs) {
             ItemType = itemType;
             ItemLocationPairs = itemLocationPairs;
         }

@@ -2,12 +2,12 @@
 @model ACLager.ViewModels.CreateWasteViewModel
 
 @{
-    ViewBag.Title = "CreateWasteReport";
+    ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="panel container">
-    @using (Html.BeginForm("CreateWasteReport", "Waste")) {
+    @using (Html.BeginForm("Create", "Waste")) {
         @Html.AntiForgeryToken()
         <fieldset>
             <Legend>Opret spildrapport</Legend>

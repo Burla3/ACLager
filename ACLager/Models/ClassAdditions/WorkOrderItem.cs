@@ -9,8 +9,7 @@ namespace ACLager.Models {
     [MetadataType(typeof(WorkOrderItemMetadata))]
     [DisplayName("Ordrelinje")]
     public partial class WorkOrderItem {
-        private class WorkOrderItemMetadata
-        {
+        private class WorkOrderItemMetadata {
             [DisplayName("Ordrelinjenummer")]
             public long UID { get; set; }
             [DisplayName("Mængde")]

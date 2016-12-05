@@ -9,7 +9,7 @@ using ACLager.Models;
 namespace ACLager.ViewModels {
     public class CreateWasteViewModel : BaseViewModel {
         public CreateWasteViewModel() {
-            base.SelectSectionSpecials("Waste-CreateWasteReport");
+            base.SelectSectionSpecials("Waste-Create");
         }
 
         public CreateWasteViewModel(WasteReport wasteReport, IEnumerable<SelectListItem> items, IEnumerable<SelectListItem> workorders) : this() {

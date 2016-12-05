@@ -8,16 +8,13 @@ using ACLager.Interfaces;
 using ACLager.Models;
 using ACLager.ViewModels;
 
-namespace ACLager.Controllers
-{
-    public class WasteController : Controller, ILoggable
-    {
+namespace ACLager.Controllers {
+    public class WasteController : Controller, ILoggable {
         public WasteController() {
             new Logger().Subcribe(this);
         }
 
         public ActionResult Index() {
-
             List<WasteReportGroup> wasteReportGroups = new List<WasteReportGroup>();
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
@@ -45,9 +42,7 @@ namespace ACLager.Controllers
         }
 
         [HttpGet]
-        public ActionResult CreateWasteReport()
-        {
-
+        public ActionResult Create() {
             IEnumerable<Item> items;
             List<SelectListItem> SelectItemList = new List<SelectListItem>();
 
@@ -77,8 +72,7 @@ namespace ACLager.Controllers
         /// </summary>
         /// <param name="wasteReportViewModel"></param>
         [HttpPost]
-        public ActionResult CreateWasteReport(CreateWasteViewModel wasteReportViewModel)
-        {
+        public ActionResult Create(CreateWasteViewModel wasteReportViewModel) {
             WorkOrder dbWorkOrder;
             Item dbItem;
             ItemType dbItemType;

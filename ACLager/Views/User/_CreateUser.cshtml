@@ -2,7 +2,7 @@
 @model ACLager.ViewModels.UserViewModel
 
 
-@using (Html.BeginForm("CreateUser", "User")) {
+@using (Html.BeginForm("Create", "User")) {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">

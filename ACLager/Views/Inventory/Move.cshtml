@@ -50,7 +50,7 @@
 
                                     <div class="form-group">
                                         @{
-                                            long availableAmount = Model.Item.Amount - Model.Item.Reserved;
+                                            double availableAmount = Model.Item.Amount - Model.Item.Reserved;
                                         }
 
                                         @Html.LabelFor(model => model.Item.Amount, new {@class = "control-label"})

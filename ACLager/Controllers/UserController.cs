@@ -59,7 +59,7 @@ namespace ACLager.Controllers {
         /// <param name="user"></param>
         /// <returns>Redirects to /User.</returns>
         [HttpPost]
-        public ActionResult CreateUser(User user) {
+        public ActionResult Create(User user) {
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 user.PIN = GenerateUniquePIN();
                 db.UserSet.Add(user);
@@ -86,7 +86,7 @@ namespace ACLager.Controllers {
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult EditUser(string id) {
+        public ActionResult Edit(string id) {
             if (id == null) {
                 return RedirectToAction("Index");
             }
@@ -112,7 +112,7 @@ namespace ACLager.Controllers {
         /// <param name="user"></param>
         /// <returns>Redirects to /User.</returns>
         [HttpPost]
-        public ActionResult EditUser(User user) {
+        public ActionResult Edit(User user) {
             User oldUser;
             User newUser;
 
@@ -150,7 +150,7 @@ namespace ACLager.Controllers {
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult DeleteUser(string id) {
+        public ActionResult Delete(string id) {
             if (id == null) {
                 return RedirectToAction("Index");
             }
@@ -176,7 +176,7 @@ namespace ACLager.Controllers {
         /// <param name="id"></param>
         /// <returns>Redirects to /User.</returns>
         [HttpPost]
-        public ActionResult DeleteUser(long id) {
+        public ActionResult Delete(long id) {
             User user;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {

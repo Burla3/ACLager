@@ -7,7 +7,7 @@
 }
 
 <div class="container panel">
-    @using (Html.BeginForm("PickItem", "Inventory"))
+    @using (Html.BeginForm("Pick", "Inventory"))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.Item.UID)

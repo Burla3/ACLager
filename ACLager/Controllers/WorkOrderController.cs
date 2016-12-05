@@ -18,6 +18,7 @@ namespace ACLager.Controllers {
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 workorders = db.WorkOrderSet.ToList();
             }
+
             return View(new WorkOrderBaseViewModel(workorders, new WorkOrder(), null));
         }
 
@@ -28,6 +29,7 @@ namespace ACLager.Controllers {
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 workorders = db.WorkOrderSet.Where(wo => wo.Type == "Produktion").ToList();
             }
+
             return View("Index", new WorkOrderProductionViewModel(workorders, new WorkOrder(), null));
         }
 
@@ -38,6 +40,7 @@ namespace ACLager.Controllers {
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 workorders = db.WorkOrderSet.Where(wo => wo.Type == "Pakkeri").ToList();
             }
+
             return View("Index", new WorkOrderPackagingViewModel(workorders, new WorkOrder(), null));
         }
 
@@ -65,7 +68,7 @@ namespace ACLager.Controllers {
         /// <param name="id">UID of the workorder.</param>
         /// <returns>Redirects to /WorkOrder.</returns>
         [HttpPost]
-        public ActionResult CancelWorkOrder(long id) {
+        public ActionResult Cancel(long id) {
             WorkOrder dbWorkOrder;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
@@ -104,6 +107,7 @@ namespace ACLager.Controllers {
         public ActionResult UpdateWorkOrderItem(long id, long progress) {
             WorkOrderItem dbWorkOrderItem;
             WorkOrder dbWorkOrder;
+
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 dbWorkOrderItem = db.WorkOrderItemSet.Find(id);
 
@@ -133,7 +137,7 @@ namespace ACLager.Controllers {
         }
 
         [HttpPost]
-        public ActionResult CompleteWorkOrder(long id) {
+        public ActionResult Complete(long id) {
             WorkOrder dbWorkOrder;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {

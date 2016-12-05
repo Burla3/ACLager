@@ -1,12 +1,12 @@
 ﻿@using ACLager.Models
-@model ACLager.ViewModels.UserViewModel
+@model ACLager.ViewModels.LocationViewModel
 
 @{
-    ViewBag.Title = "Rediger bruger";
+    ViewBag.Title = "Rediger lokation";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("EditUser", "User")) {
+@using (Html.BeginForm("Edit", "Location")) {
     @Html.AntiForgeryToken()
 
 
@@ -26,8 +26,8 @@
                         <div class="form-horizontal">
                             <fieldset>
                                 <div class="col-md-12">
-                                    <Legend>Rediger bruger</Legend>
-                                    @Html.Partial("_UserForm", Model.User)
+                                    <Legend>Rediger lokation</Legend>
+                                    @Html.Partial("_LocationForm", Model.ItemLocationPair.Location)
                                 </div>
                             </fieldset>
 

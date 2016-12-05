@@ -9,8 +9,7 @@ namespace ACLager.Models {
     [MetadataType(typeof(LogEntryMetadata))]
     [DisplayName("Journallinje")]
     public partial class LogEntry {
-        private class LogEntryMetadata
-        {
+        private class LogEntryMetadata {
             [DisplayName("Journallinjenummer")]
             public long UID { get; set; }
             [DisplayName("Hændelsestype")]

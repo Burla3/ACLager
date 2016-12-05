@@ -11,36 +11,63 @@ using ACLager.Interfaces;
 using ACLager.Models;
 using ACLager.ViewModels;
 
-namespace ACLager.Controllers
-{
+namespace ACLager.Controllers {
     [AdminOnly]
-    public class ItemTypeController : Controller, ILoggable
-    {
+    public class ItemTypeController : Controller, ILoggable {
         public ItemTypeController() {
             new Logger().Subcribe(this);
         }
 
         // GET: ItemType
-        public ActionResult Index()
-        {
+        public ActionResult Index() {
             IEnumerable<ItemType> itemTypes;
 
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
                 itemTypes = db.ItemTypeSet.ToList();
             }
 
             return View(new ItemTypeViewModel(itemTypes, new ItemType()));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Detailed(string id) {
+            if (id == null) {
+                return RedirectToAction("Index");
+            }
+
+            ItemTypeViewModel itemTypeViewModel = new ItemTypeViewModel();
+
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                ItemType itemType = db.ItemTypeSet.Find(long.Parse(id));
+
+                itemTypeViewModel.ItemType = itemType;
+                itemTypeViewModel.ItemType.Items = itemType.Items;
+                itemTypeViewModel.Ingredients = itemType.IngredientsForRecipe;
+
+                foreach (Item item in itemTypeViewModel.ItemType.Items) {
+                    item.Location = db.LocationSet.Single(l => l.UID == item.Location.UID);
+                }
+                foreach (Ingredient ingredient in itemTypeViewModel.Ingredients) {
+                    ingredient.ItemType = db.ItemTypeSet.Single(i => i.UID == ingredient.ItemType.UID);
+                }
+            }
+
+            return View(itemTypeViewModel);
+        }
+
         [HttpPost]
         public ActionResult AddSubmitAction(ItemType itemType, string submitAction) {
             switch (submitAction) {
-                case "AddItemType":
-                    return AddItemType(itemType);
-                case "EditItemType":
+                case "Add":
+                    return Add(itemType);
+                case "Edit":
                     AddItemTypeToDb(itemType);
-                    return RedirectToAction("EditItemType", new { id = itemType.UID.ToString() });
+                    return RedirectToAction("Edit", new { id = itemType.UID.ToString() });
                 default:
                     throw new InvalidOperationException("No valid submit action is specified");
             }
@@ -52,7 +79,7 @@ namespace ACLager.Controllers
         /// <param name="itemType">The item type to add to the database.</param>
         /// <returns>true if successful</returns>
         [HttpPost]
-        public ActionResult AddItemType(ItemType itemType) {
+        public ActionResult Add(ItemType itemType) {
             AddItemTypeToDb(itemType);
 
             return RedirectToAction("Index");
@@ -80,7 +107,7 @@ namespace ACLager.Controllers
         }
 
         [HttpGet]
-        public ActionResult EditItemType(string id) {
+        public ActionResult Edit(string id) {
             if (id == null) {
                 return RedirectToAction("Index");
             }
@@ -120,7 +147,7 @@ namespace ACLager.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditItemType(ItemType itemType) {
+        public ActionResult Edit(ItemType itemType) {
             ItemType oldItemType;
             ItemType newItemType;
 
@@ -193,7 +220,7 @@ namespace ACLager.Controllers
                     )
             );
 
-            return RedirectToAction("EditItemType", new { id = id });
+            return RedirectToAction("Edit", new { id = id });
         }
 
         [HttpPost]
@@ -235,11 +262,11 @@ namespace ACLager.Controllers
                     )
             );
 
-            return RedirectToAction("EditItemType", new { id = itemTypeId });
+            return RedirectToAction("Edit", new { id = itemTypeId });
         }
 
         [HttpGet]
-        public ActionResult DeleteItemType(string id) {
+        public ActionResult Delete(string id) {
             if (id == null) {
                 return RedirectToAction("Index");
             }
@@ -275,7 +302,7 @@ namespace ACLager.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteItemType(long id) {
+        public ActionResult Delete(long id) {
             ItemType dbItemType;
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 dbItemType = db.ItemTypeSet.Find(id);
@@ -305,40 +332,6 @@ namespace ACLager.Controllers
             );
 
             return RedirectToAction("Index");
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpGet]
-        public ActionResult Detailed(string id) {
-            if (id == null) {
-                return RedirectToAction("Index");
-            }
-
-            ItemTypeViewModel itemTypeViewModel = new ItemTypeViewModel();
-
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
-                ItemType itemType = db.ItemTypeSet.Find(long.Parse(id));
-
-                itemTypeViewModel.ItemType = itemType;
-                itemTypeViewModel.ItemType.Items = itemType.Items;
-                itemTypeViewModel.Ingredients = itemType.IngredientsForRecipe;
-
-                foreach (Item item in itemTypeViewModel.ItemType.Items)
-                {
-                    item.Location = db.LocationSet.Single(l => l.UID == item.Location.UID);
-                }
-                foreach (Ingredient ingredient in itemTypeViewModel.Ingredients)
-                {
-                    ingredient.ItemType = db.ItemTypeSet.Single(i => i.UID == ingredient.ItemType.UID);
-                }
-            }
-
-            return View(itemTypeViewModel);
         }
 
         public event ChangedEventHandler Changed;

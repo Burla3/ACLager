@@ -12,8 +12,7 @@ namespace ACLager.CustomClasses.Attributes {
         public bool IsDisabled { get; set; }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
-            if (!IsDisabled)
-            {
+            if (!IsDisabled) {
                 bool redirect = false;
                 bool cookieExists = filterContext.HttpContext.Request.Cookies.AllKeys.Contains("UserInfo");
 

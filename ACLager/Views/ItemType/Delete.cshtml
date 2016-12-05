@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("DeleteItemType", "ItemType")) {
+@using (Html.BeginForm("Delete", "ItemType")) {
     @Html.AntiForgeryToken()
 
     @Html.HiddenFor(model => Model.ItemType.UID)
@@ -54,12 +54,12 @@
                                         <dd>@Model.ItemType.Department</dd>
                                         <dt>@Html.DisplayNameFor(model => model.ItemType.Department):</dt>
                                     </dl>
-                                    @if (Model.ItemType.WorkOrderItem.Count > 0) {
+                                    @if (Model.ItemType.WorkOrderItems.Count > 0) {
                                         <hr />
                                         <span>Nederstående ordre indeholder denne varetype. Disse vil også blive <strong>slettet</strong> fra systemet.</span><br />
-                                        foreach (WorkOrderItem workOrderItem in Model.ItemType.WorkOrderItem) {
+                                        foreach (WorkOrderItem workOrderItem in Model.ItemType.WorkOrderItems) {
                                             <a href="@Url.Action("Detailed", "WorkOrder", new {id = workOrderItem.WorkOrder.UID})">
-                                                @Html.DisplayNameFor(model => model.ItemType.WorkOrderItem.First().WorkOrder.BatchNumber): @workOrderItem.WorkOrder.BatchNumber
+                                                @Html.DisplayNameFor(model => model.ItemType.WorkOrderItems.First().WorkOrder.BatchNumber): @workOrderItem.WorkOrder.BatchNumber
                                             </a>
                                             <br />
                                         }
@@ -67,8 +67,7 @@
                                     @if (Model.ItemType.Items.Count > 0) {
                                         <hr />
                                         <span>Nederstående lokationer indeholder varer af denne varetype. Disse vil også blive <strong>slettet</strong> fra systemet.</span><br/>
-                                        foreach (Item item in Model.ItemType.Items)
-                                        {
+                                        foreach (Item item in Model.ItemType.Items) {
                                             <a href="@Url.Action("Detailed", "Location", new {id = item.Location.UID})">
                                                 @Html.DisplayNameFor(model => model.ItemType.Items.First().Location.Name): @item.Location.Name
                                             </a>

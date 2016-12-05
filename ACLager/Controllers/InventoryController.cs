@@ -14,19 +14,15 @@ using ACLager.Models;
 using ACLager.ViewModels;
 using Newtonsoft.Json.Linq;
 
-namespace ACLager.Controllers
-{
-    public class InventoryController : Controller, ILoggable, INotifier
-    {
-        public InventoryController()
-        {
+namespace ACLager.Controllers {
+    public class InventoryController : Controller, ILoggable, INotifier {
+        public InventoryController() {
             new Logger().Subcribe(this);
             new Notifier().Subscribe(this);
         }
 
         // GET: Inventory
-        public ActionResult Index()
-        {
+        public ActionResult Index() {
             IEnumerable<ItemType> itemTypes;
             IEnumerable<Item> items;
             IEnumerable<Location> locations;
@@ -35,8 +31,7 @@ namespace ACLager.Controllers
 
             List<ItemGroup> itemGroups = new List<ItemGroup>();
 
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
                 items = db.ItemSet.Where(i => i.Amount > 0);
                 itemTypes = db.ItemTypeSet.Where(it => it.IsActive);
                 locations = db.LocationSet.Where(l => l.IsActive);
@@ -76,6 +71,7 @@ namespace ACLager.Controllers
             if (id == null) {
                 return RedirectToAction("Index");
             }
+
             Item item;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
@@ -122,7 +118,6 @@ namespace ACLager.Controllers
 
         [HttpGet]
         public ActionResult Pick(string id) {
-
             if (id == null) {
                 return RedirectToAction("Index");
             }
@@ -232,12 +227,10 @@ namespace ACLager.Controllers
         }
 
         [HttpPost]
-        public ActionResult Move(Item item)
-        {
+        public ActionResult Move(Item item) {
             double moveAmount = item.Amount;
 
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
                 Item dbItem = db.ItemSet.Find(item.UID);
                 Location newLocation = db.LocationSet.Find(item.Location.UID);
                 Item newLocationItem = db.ItemSet.Find(newLocation.Item.UID);
@@ -249,8 +242,7 @@ namespace ACLager.Controllers
                 item.Location.Item = newLocationItem;
             }
 
-            if (!PickItem(item) || !AddItem(item, false))
-            {
+            if (!PickItem(item) || !AddItem(item, false)) {
                 return RedirectToAction("Move");
             }
 
@@ -260,34 +252,25 @@ namespace ACLager.Controllers
         public event ChangedEventHandler Changed;
         public event NotificationEventHandler Notify;
 
-        public bool AddItem(Item item, bool addReserved)
-        {
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
+        public bool AddItem(Item item, bool addReserved) {
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
                 Item locationItem = db.ItemSet.Find(item.Location.Item.UID);
 
-                if (locationItem == null)
-                {
+                if (locationItem == null) {
                     db.ItemSet.Add(item);
-                }
-                else
-                {
+                } else {
                     locationItem.ItemType = locationItem.ItemType;
 
                     if (item.ExpirationDate == locationItem.ExpirationDate &&
                         item.DeliveryDate == locationItem.DeliveryDate &&
                         item.Supplier == locationItem.Supplier &&
-                        item.ItemType.UID == locationItem.ItemType.UID)
-                    {
+                        item.ItemType.UID == locationItem.ItemType.UID) {
                         locationItem.Amount += item.Amount;
 
-                        if (addReserved)
-                        {
+                        if (addReserved) {
                             locationItem.Reserved += item.Reserved;
                         }
-                    }
-                    else
-                    {
+                    } else {
                         return false;
                     }
                 }
@@ -298,22 +281,15 @@ namespace ACLager.Controllers
             return true;
         }
 
-        public bool PickItem(Item item)
-        {
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
+        public bool PickItem(Item item) {
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
                 Item dbItem = db.ItemSet.Find(item.UID);
 
-                if (item.Amount < dbItem.Amount)
-                {
+                if (item.Amount < dbItem.Amount) {
                     dbItem.Amount -= item.Amount;
-                }
-                else if (item.Amount == dbItem.Amount)
-                {
+                } else if (item.Amount == dbItem.Amount) {
                     db.ItemSet.Remove(dbItem);
-                }
-                else
-                {
+                } else {
                     return false;
                 }
 

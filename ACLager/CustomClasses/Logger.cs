@@ -9,8 +9,7 @@ using ACLager.Models;
 
 namespace ACLager.CustomClasses
 {
-    public class Logger
-    {
+    public class Logger {
         /// <summary>
         /// Saves a <see cref="LogEntry"/> to the database.
         /// </summary>
@@ -19,8 +18,7 @@ namespace ACLager.CustomClasses
         protected void CreateLogEntry(object sender, LogEntryEventArgs eventArgs) {
             string objectData = Json.Encode(eventArgs.ObjectData);
 
-            LogEntry logEntry = new LogEntry
-            {
+            LogEntry logEntry = new LogEntry {
                 Date = DateTime.Now,
                 Type = eventArgs.LogType,
                 LogBody = eventArgs.LogBody,
@@ -28,8 +26,7 @@ namespace ACLager.CustomClasses
                
             };
 
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
                 db.LogEntrySet.Add(logEntry);
                 db.SaveChanges();
             }
@@ -39,8 +36,7 @@ namespace ACLager.CustomClasses
         /// A method to subscribe to the Changed event.
         /// </summary>
         /// <param name="loggableController">A controller which use the Changed event</param>
-        public void Subcribe(ILoggable loggableController)
-        {
+        public void Subcribe(ILoggable loggableController) {
             loggableController.Changed += CreateLogEntry;
         }
     }

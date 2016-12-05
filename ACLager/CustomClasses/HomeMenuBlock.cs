@@ -14,8 +14,7 @@ namespace ACLager.CustomClasses {
         /// <param name="controller"></param>
         /// <param name="action"></param>
         /// <param name="isAdminOnly"></param>
-        public HomeMenuBlock(string color, string title, string description, string controller, string action, bool isAdminOnly)
-        {
+        public HomeMenuBlock(string color, string title, string description, string controller, string action, bool isAdminOnly) {
             Color = color;
             Title = title;
             Description = description;

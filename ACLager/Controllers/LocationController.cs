@@ -141,7 +141,12 @@ namespace ACLager.Controllers {
                     return RedirectToAction("Index");
                 }
 
-                locationViewModel.ItemLocationPair = new ItemLocationPair(dbLocation.Item, dbLocation);
+                Item item = dbLocation.Item;
+                if (item != null) {
+                    item.ItemType = dbLocation.Item.ItemType;
+                }
+
+                locationViewModel.ItemLocationPair = new ItemLocationPair(item, dbLocation);
             }
 
             return View(locationViewModel);
@@ -152,6 +157,10 @@ namespace ACLager.Controllers {
             Location location;
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 location = db.LocationSet.Find(id);
+                if (location.Item != null) {
+                    db.ItemSet.Remove(location.Item);
+                }
+                
                 db.LocationSet.Remove(location);
                 db.SaveChanges();
             }

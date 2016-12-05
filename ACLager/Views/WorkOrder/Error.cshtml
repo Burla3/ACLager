@@ -1,0 +1,20 @@
+﻿@model ACLager.ViewModels.WorkOrderBaseViewModel
+
+@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel container">
+    <fieldset>
+        <Legend>Fejl</Legend>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    Der er ikke nok vare på lager til at starte ordrer @Model.Workorder.OrderNumber .
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
+

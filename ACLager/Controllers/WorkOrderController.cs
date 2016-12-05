@@ -204,7 +204,12 @@ namespace ACLager.Controllers {
                         workOrderItem.Amount = amountAvailable;
                         workOrderItem.Item = item;
 
-                        newWorkOrderItems = CreateNewWorkOrderItems(amountNeeded, workOrderItem, items, workOrder);
+                        try {
+                            newWorkOrderItems = CreateNewWorkOrderItems(amountNeeded, workOrderItem, items, workOrder);
+                        } catch (Exception) {
+                            return View("Error", new WorkOrderBaseViewModel(null, workOrder, null));
+                        }
+                        
                     }            
                 }
                 db.WorkOrderItemSet.AddRange(newWorkOrderItems);

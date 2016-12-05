@@ -418,6 +418,7 @@
     <Content Include="Views\Waste\Create.cshtml" />
     <Content Include="Views\Waste\Detailed.cshtml" />
     <Content Include="Views\WorkOrder\Detailed.cshtml" />
+    <Content Include="Views\WorkOrder\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\i18n\" />

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/05/2016 00:03:37
+-- Date Created: 12/05/2016 02:48:17
 -- Generated from EDMX file: C:\Users\Nyggi\Documents\GitHub\ACLager\ACLager\Models\Model.edmx
 -- --------------------------------------------------
 
@@ -144,6 +144,7 @@ CREATE TABLE [dbo].[WorkOrderSet] (
     [IsComplete] bit  NOT NULL,
     [ShippingInfo] nvarchar(max)  NULL,
     [OrderNumber] bigint  NOT NULL,
+    [IsStarted] bit  NOT NULL,
     [CompletedByUser_UID] bigint  NULL,
     [ItemType_UID] bigint  NULL
 );

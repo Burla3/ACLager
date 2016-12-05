@@ -117,6 +117,7 @@
     <Property Name="IsComplete" Type="bit" Nullable="false" DefaultValue="false" />
     <Property Name="ShippingInfo" Type="nvarchar(max)" Nullable="true" />
     <Property Name="OrderNumber" Type="bigint" Nullable="false" />
+    <Property Name="IsStarted" Type="bit" Nullable="false" DefaultValue="false" />
     <Property Name="CompletedByUser_UID" Type="bigint" Nullable="true" />
     <Property Name="ItemType_UID" Type="bigint" Nullable="true" />
   </EntityType>
@@ -386,6 +387,7 @@
           <Property Name="ShippingInfo" Type="String" Nullable="true" MaxLength="Max" />
           <NavigationProperty Name="ItemType" Relationship="Model.WorkOrderItemType" FromRole="WorkOrder" ToRole="ItemType" />
           <Property Name="OrderNumber" Type="Int64" Nullable="false" ConcurrencyMode="None" />
+          <Property Name="IsStarted" Type="Boolean" Nullable="false" DefaultValue="False" />
         </EntityType>
         <EntityType Name="WorkOrderItem">
           <Key>
@@ -525,6 +527,7 @@
           <ScalarProperty Name="IsComplete" ColumnName="IsComplete" />
           <ScalarProperty Name="ShippingInfo" ColumnName="ShippingInfo" />
           <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+          <ScalarProperty Name="IsStarted" ColumnName="IsStarted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

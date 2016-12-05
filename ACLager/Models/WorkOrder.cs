@@ -18,6 +18,7 @@ namespace ACLager.Models
         public WorkOrder()
         {
             this.IsComplete = false;
+            this.IsStarted = false;
             this.WorkOrderItems = new HashSet<WorkOrderItem>();
         }
     
@@ -28,6 +29,7 @@ namespace ACLager.Models
         public bool IsComplete { get; set; }
         public string ShippingInfo { get; set; }
         public long OrderNumber { get; set; }
+        public bool IsStarted { get; set; }
     
         public virtual User CompletedByUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

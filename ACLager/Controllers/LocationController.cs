@@ -155,10 +155,15 @@ namespace ACLager.Controllers {
         [HttpPost]
         public ActionResult Delete(long id) {
             Location location;
+            Item item;
+            ItemType itemType = null;
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 location = db.LocationSet.Find(id);
-                if (location.Item != null) {
-                    db.ItemSet.Remove(location.Item);
+                item = location.Item;
+                
+                if (item != null) {
+                    itemType = item.ItemType;
+                    db.ItemSet.Remove(item);
                 }
                 
                 db.LocationSet.Remove(location);
@@ -171,7 +176,9 @@ namespace ACLager.Controllers {
                         $"Lokationen {location.Name} er blevet slettet.",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),
-                            Lokation = location
+                            Lokation = location,
+                            Vare = item?.ToLoggable(),
+                            Varetype = itemType?.ToLoggable()
                         }
                     )
             );

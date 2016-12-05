@@ -4,11 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ACLager.CustomClasses;
+using ACLager.CustomClasses.Attributes;
 using ACLager.Interfaces;
 using ACLager.Models;
 using ACLager.ViewModels;
 
 namespace ACLager.Controllers {
+    [AdminOnly]
     public class WasteController : Controller, ILoggable {
         public WasteController() {
             new Logger().Subcribe(this);

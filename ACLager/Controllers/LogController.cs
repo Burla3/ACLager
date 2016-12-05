@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ACLager.CustomClasses.Attributes;
 using ACLager.Models;
 using ACLager.ViewModels;
 using Microsoft.Owin.Security.Provider;
 
 namespace ACLager.Controllers {
+    [AdminOnly]
     public class LogController : Controller {
         // GET: Log
         public ActionResult Index() {

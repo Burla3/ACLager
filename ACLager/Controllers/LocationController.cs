@@ -22,7 +22,7 @@ namespace ACLager.Controllers {
         public ActionResult Index() {
             List<ItemLocationPair> itemLocationPairs = new List<ItemLocationPair>();
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                foreach (Location location in db.LocationSet) {
+                foreach (Location location in db.LocationSet.ToList()) {
                     itemLocationPairs.Add(new ItemLocationPair(location.Item, location));
                 }
             }
@@ -141,7 +141,12 @@ namespace ACLager.Controllers {
                     return RedirectToAction("Index");
                 }
 
-                locationViewModel.ItemLocationPair = new ItemLocationPair(dbLocation.Item, dbLocation);
+                Item item = dbLocation.Item;
+                if (item != null) {
+                    item.ItemType = dbLocation.Item.ItemType;
+                }
+
+                locationViewModel.ItemLocationPair = new ItemLocationPair(item, dbLocation);
             }
 
             return View(locationViewModel);
@@ -150,8 +155,17 @@ namespace ACLager.Controllers {
         [HttpPost]
         public ActionResult Delete(long id) {
             Location location;
+            Item item;
+            ItemType itemType = null;
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 location = db.LocationSet.Find(id);
+                item = location.Item;
+                
+                if (item != null) {
+                    itemType = item.ItemType;
+                    db.ItemSet.Remove(item);
+                }
+                
                 db.LocationSet.Remove(location);
                 db.SaveChanges();
             }
@@ -162,7 +176,9 @@ namespace ACLager.Controllers {
                         $"Lokationen {location.Name} er blevet slettet.",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),
-                            Lokation = location
+                            Lokation = location,
+                            Vare = item?.ToLoggable(),
+                            Varetype = itemType?.ToLoggable()
                         }
                     )
             );

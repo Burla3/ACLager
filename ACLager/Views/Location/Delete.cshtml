@@ -26,36 +26,56 @@
                         <div class="form-horizontal">
                             <fieldset>
                                 <div class="col-md-12">
-                                    <Legend>Slet bruger</Legend>
-                                    Er du sikker på du vil slette denne bruger <strong>permanent</strong> fra systemet?
-                                    <hr />
-                                    <dl class="dl-horizontal">
-                                        <dt>Brugernummer:</dt>
-                                        <dd>@Model.ItemLocationPair.Location.UID</dd>
-                                        <dt>Navn:</dt>
-                                        <dd>@Model.ItemLocationPair.Location.Name</dd>
-                                        <dt>Status:</dt>
-                                        <dd>
-                                            @if (Model.ItemLocationPair.Location.IsActive) {
-                                                <span class="label label-success">Aktiv</span>
-                                            } else {
-                                                <span class="label label-default">Inaktiv</span>
-                                            }
-                                        </dd>
-                                        <dt>Optaget/Ledig:</dt>
-                                        <dd>
-                                            @if (@Model.ItemLocationPair.Item == null) {
-                                                <span class="label label-success">Ledig</span>
-                                            } else {
-                                                <span class="label label-default">Optaget</span>
-                                            }
-                                        </dd>
-                                </dl>
-                                <hr />
-                            </div>
-                        </fieldset>
-
-                        <input class="btn btn-raised btn-danger pull-right" type="submit" value="Slet">
+                                    <Legend>Slet lokation</Legend>
+                                    @if (Model.ItemLocationPair.Item == null || 
+                                        (Model.ItemLocationPair.Item != null && Model.ItemLocationPair.Item.Reserved == 0)) {
+                                        <span>Er du sikker på du vil slette denne lokation <strong>permanent</strong> fra systemet?</span>
+                                        <hr />
+                                        <dl class="dl-horizontal">
+                                            <dt>Lokationnummer:</dt>
+                                            <dd>@Model.ItemLocationPair.Location.UID</dd>
+                                            <dt>Navn:</dt>
+                                            <dd>@Model.ItemLocationPair.Location.Name</dd>
+                                            <dt>Status:</dt>
+                                            <dd>
+                                                @if (Model.ItemLocationPair.Location.IsActive) {
+                                                    <span class="label label-success">Aktiv</span>
+                                                } else {
+                                                    <span class="label label-default">Inaktiv</span>
+                                                }
+                                            </dd>
+                                            <dt>Optaget/Ledig:</dt>
+                                            <dd>
+                                                @if (@Model.ItemLocationPair.Item == null) {
+                                                    <span class="label label-success">Ledig</span>
+                                                } else {
+                                                    <span class="label label-default">Optaget</span>
+                                                }
+                                            </dd>
+                                        </dl>
+                                        <hr />
+                                        if (Model.ItemLocationPair.Item != null) {
+                                            <span>Den tilknyttede vare vil også blive slettet <strong>permanent</strong> fra systemet.</span>
+                                            <hr />
+                                            <dl class="dl-horizontal">
+                                                <dt>Varenummer:</dt>
+                                                <dd>@Model.ItemLocationPair.Item.UID</dd>
+                                                <dt>Navn:</dt>
+                                                <dd>@Model.ItemLocationPair.Item.ItemType.Name</dd>
+                                                <dt>Mængde:</dt>
+                                                <dd>@Model.ItemLocationPair.Item.Amount</dd>
+                                            </dl>
+                                            <hr />
+                                        }
+                                    } else {
+                                        <span>Det er <strong>ikke</strong> muligt at slette denne lokation, da den vare tilknyttet er reserveret.</span>
+                                    }
+                                </div>
+                            </fieldset>
+                        @if (Model.ItemLocationPair.Item == null ||
+                            (Model.ItemLocationPair.Item != null && Model.ItemLocationPair.Item.Reserved == 0)) {
+                            <input class="btn btn-raised btn-danger pull-right" type="submit" value="Slet">
+                        }
                         <a href="@Url.Action("Index")" class="btn btn-default pull-right flowout-close">Behold</a>
                     </div>
                 </div>

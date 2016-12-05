@@ -31,6 +31,10 @@ namespace ACLager.Controllers {
 
         [HttpGet]
         public ActionResult Detailed(string id) {
+            if (id == null) {
+                return RedirectToAction("Index");
+            }
+
             WasteViewModel wasteViewModel = new WasteViewModel();
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {

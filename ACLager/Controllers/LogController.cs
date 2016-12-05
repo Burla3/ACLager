@@ -16,7 +16,7 @@ namespace ACLager.Controllers {
             IEnumerable<LogEntry> logEntries;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                logEntries = db.LogEntrySet.ToList();
+                logEntries = db.LogEntrySet.OrderByDescending(le => le.Date).ToList();
             }
 
             return View(new LogViewModel(logEntries, null));

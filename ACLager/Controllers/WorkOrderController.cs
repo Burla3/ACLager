@@ -163,6 +163,33 @@ namespace ACLager.Controllers {
             return RedirectToAction("Index");
         }
 
+        public void CreateFromC5(IEnumerable<ItemTypeAmountPair> itemTypeAmountPairs, string shippingInfo, DateTime duedate, long orderNumber) {
+            WorkOrder workOrder = new WorkOrder {
+                DueDate = duedate,
+                OrderNumber = orderNumber,
+                ShippingInfo = shippingInfo,
+                Type = "Pakkeri",
+            };
+
+            List<WorkOrderItem> workOrderItems = new List<WorkOrderItem>();
+
+            foreach (ItemTypeAmountPair itemTypeAmountPair in itemTypeAmountPairs) {
+                WorkOrderItem workOrderItem = new WorkOrderItem {
+                    Amount = itemTypeAmountPair.Amount,
+                    ItemType = itemTypeAmountPair.ItemType,
+                    WorkOrder = workOrder
+                };
+
+                workOrderItems.Add(workOrderItem);
+            }
+
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                db.WorkOrderSet.Add(workOrder);
+                db.SaveChanges();
+                db.WorkOrderItemSet.AddRange(workOrderItems);
+            }
+        }
+
         public event ChangedEventHandler Changed;
     }
 }

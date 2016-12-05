@@ -13,9 +13,10 @@ using ACLager.ViewModels;
 
 namespace ACLager.Controllers {
     [AdminOnly]
-    public class ItemTypeController : Controller, ILoggable {
+    public class ItemTypeController : Controller, ILoggable, INotifier {
         public ItemTypeController() {
             new Logger().Subcribe(this);
+            new Notifier().Subscribe(this);
         }
 
         // GET: ItemType
@@ -168,6 +169,10 @@ namespace ACLager.Controllers {
                 newItemType = dbItemType.ToLoggable();
 
                 db.SaveChanges();
+
+                if (dbItemType.Items.Sum(i => i.Amount) < dbItemType.MinimumAmount) {
+                    Notify?.Invoke(this, new NotificationEventArgs(dbItemType));
+                }
             }
 
             Changed?.Invoke(this,
@@ -335,5 +340,6 @@ namespace ACLager.Controllers {
         }
 
         public event ChangedEventHandler Changed;
+        public event NotificationEventHandler Notify;
     }
 }

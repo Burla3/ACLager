@@ -46,6 +46,10 @@ namespace ACLager.Controllers {
 
         [HttpGet]
         public ActionResult Detailed(string id) {
+            if (id == null) {
+                return RedirectToAction("Index");
+            }
+
             WorkOrder workorder;
             List<WorkOrderItemGroup> workOrderItemGroups = new List<WorkOrderItemGroup>();
 

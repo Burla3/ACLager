@@ -55,7 +55,7 @@ namespace ACLager.Controllers {
 
             IEnumerable<WorkOrder> workorder;
             List<SelectListItem> selectWorkorderList = new List<SelectListItem>();
-            selectWorkorderList.Add(new SelectListItem {Text = "Ingen arbejdsopgave", Value = "-1"});
+            selectWorkorderList.Add(new SelectListItem {Text = "Ingen ordre", Value = "-1"});
             using (ACLagerDatabase db = new ACLagerDatabase())
             {
                 items = db.ItemSet.ToList();
@@ -116,7 +116,7 @@ namespace ACLager.Controllers {
                             SpildRapport = wasteReport.ToLoggable(),
                             Varetype = dbItemType.ToLoggable(),
                             Vare = dbItem.ToLoggable(),
-                            ArbejdsOpgave = dbWorkOrder?.ToLoggable()
+                            Ordre = dbWorkOrder?.ToLoggable()
                         }
                     )
             );

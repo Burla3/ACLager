@@ -96,11 +96,11 @@ namespace ACLager.Controllers {
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "Arbejdsopgave annulleret",
-                        $"Arbejdsopgave nr. {dbWorkOrder.OrderNumber} annulleret",
+                        "Ordre annulleret",
+                        $"Ordre nr. {dbWorkOrder.OrderNumber} annulleret",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),
-                            ArbejdsOpgave = dbWorkOrder.ToLoggable()
+                            Ordre = dbWorkOrder.ToLoggable()
                         }
                     )
             );
@@ -133,12 +133,12 @@ namespace ACLager.Controllers {
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "Opdateret arbejdsopgave punkt",
-                        $"Opdateret arbejdsopgave punkt på arbejdsopgave nr. {dbWorkOrder.OrderNumber}",
+                        "Opdateret Ordre punkt",
+                        $"Opdateret Ordre punkt på arbejdsopgave nr. {dbWorkOrder.OrderNumber}",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),
-                            ArbejdsOpgave = dbWorkOrder.ToLoggable(),
-                            ArbejdsOpgavePunkt = dbWorkOrder.ToLoggable()
+                            Ordre = dbWorkOrder.ToLoggable(),
+                            OrdrePunkt = dbWorkOrder.ToLoggable()
                         }
                     )
             );
@@ -165,11 +165,11 @@ namespace ACLager.Controllers {
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "Arbejdsopgave færdig",
-                        $"Arbejdsopgave nr. {dbWorkOrder.OrderNumber} er færdig",
+                        "Ordre færdig",
+                        $"Ordre nr. {dbWorkOrder.OrderNumber} er færdig",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),
-                            ArbejdsOpgave = dbWorkOrder.ToLoggable()
+                            Ordre = dbWorkOrder.ToLoggable()
                         }
                     )
             );

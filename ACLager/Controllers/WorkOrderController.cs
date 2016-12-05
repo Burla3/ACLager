@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ACLager.CustomClasses;
+using ACLager.CustomClasses.Attributes;
 using ACLager.Models;
 using ACLager.Interfaces;
 using ACLager.ViewModels;
@@ -71,6 +72,7 @@ namespace ACLager.Controllers {
         /// </summary>
         /// <param name="id">UID of the workorder.</param>
         /// <returns>Redirects to /WorkOrder.</returns>
+        [AdminOnly]
         [HttpPost]
         public ActionResult Cancel(long id) {
             WorkOrder dbWorkOrder;

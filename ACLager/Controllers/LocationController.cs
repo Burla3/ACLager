@@ -22,7 +22,7 @@ namespace ACLager.Controllers {
         public ActionResult Index() {
             List<ItemLocationPair> itemLocationPairs = new List<ItemLocationPair>();
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                foreach (Location location in db.LocationSet) {
+                foreach (Location location in db.LocationSet.ToList()) {
                     itemLocationPairs.Add(new ItemLocationPair(location.Item, location));
                 }
             }

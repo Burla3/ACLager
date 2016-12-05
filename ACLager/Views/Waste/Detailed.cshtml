@@ -52,12 +52,20 @@
                         <strong>Arbejdsopgave batchnummer:</strong>
                     </div>
                 </div>
+                @{dynamic workorder = Model.WasteReportGroup.ObjectData["WorkOrder"];}
+
+                
                 <div class="row">
                     <div class="col-xs-6">
-                        <h4>@Model.WasteReportGroup.ObjectData["WorkOrder"]["Type"]</h4>
+                        <h4>@if (workorder != null){@workorder["Type"];}
+                        else
+                        { @:Ingen varetype 
+                        }</h4>
                     </div>
                     <div class="col-xs-6">
-                        <h4>@Model.WasteReportGroup.ObjectData["WorkOrder"]["BatchNumber"]</h4>
+                        <h4>@if (workorder != null){@workorder["BatchNumber"];}
+                        else { @:Intet Bachnummer
+                            }</h4>
                     </div>
                 </div>
                 <div class="row">

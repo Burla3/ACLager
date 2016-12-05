@@ -27,14 +27,16 @@
         <div class="col-sm-4">
             <dl class="dl-horizontal">
                 @foreach (KeyValuePair<string, object> ob in objectData) {
-                    <h3>@ob.Key</h3>
-                    foreach (KeyValuePair<string, object> v in (dynamic) ob.Value) {
-                        if (v.Value != null) {
-                            <dt>@v.Key:</dt>
-                            <dd>@v.Value.ToString()</dd>
+                    if (ob.Value != null) {   
+                        <h3>@ob.Key</h3>
+                        foreach (KeyValuePair<string, object> v in (dynamic) ob.Value) {
+                            if (v.Value != null) {
+                                <dt>@v.Key:</dt>
+                                <dd>@v.Value.ToString()</dd>
+                            }
                         }
+                        <br/>
                     }
-                    <br/>
                 }
             </dl>
         </div>

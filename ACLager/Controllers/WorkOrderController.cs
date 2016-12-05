@@ -56,15 +56,18 @@ namespace ACLager.Controllers {
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 workorder = db.WorkOrderSet.Find(Int64.Parse(id));
+                if (workorder.ItemType != null) {
+                    workorder.ItemType.UID = workorder.ItemType.UID;
+                }
+                
                 foreach (WorkOrderItem workorderitem in workorder.WorkOrderItems) {
                     Item item = workorderitem.Item;
-                    WorkOrderItemGroup workOrderItemGroup = new WorkOrderItemGroup(item, item.ItemType, item.Location,
-                        workorderitem);
+                    WorkOrderItemGroup workOrderItemGroup = new WorkOrderItemGroup(item, workorderitem.ItemType, item?.Location, workorderitem);
                     workOrderItemGroups.Add(workOrderItemGroup);
                 }
             }
 
-            return View(new WorkOrderBaseViewModel(null, workorder, workOrderItemGroups));
+            return View(new WorkOrderProductionViewModel(null, workorder, workOrderItemGroups));
         }
 
         /// <summary>

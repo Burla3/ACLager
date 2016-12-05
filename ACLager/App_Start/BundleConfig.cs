@@ -27,7 +27,8 @@ namespace ACLager {
                       "~/Scripts/event.js",
                       "~/Scripts/supplemental.js",
                       "~/Scripts/globalize.js",
-                      "~/Scripts/number.js"
+                      "~/Scripts/number.js",
+                      "~/Scripts/langjson.js"
                       ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

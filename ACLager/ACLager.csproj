@@ -361,6 +361,7 @@
     <Content Include="Scripts\jquery.transit.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\langjson.js" />
     <Content Include="Scripts\list.min.js" />
     <Content Include="Scripts\material.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />

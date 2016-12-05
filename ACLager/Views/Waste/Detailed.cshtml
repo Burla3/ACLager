@@ -66,7 +66,7 @@
                 <div class="col-sx-12">
                     <div class="row">
                         <div class="col-xs-12">
-                            <h3><strong>Arbejdsopgave</strong></h3>
+                            <h3><strong>Ordre</strong></h3>
                         </div>
                     </div>
                     @{dynamic workorder = Model.WasteReportGroup.ObjectData["WorkOrder"];}
@@ -74,13 +74,13 @@
                     @if (workorder == null) {
                         <div class="row">
                             <div class="col-xs-12">
-                                <h4>Ingen arbejdsopgave tilknyttet.</h4>
+                                <h4>Ingen ordre tilknyttet.</h4>
                             </div>
                         </div>
                     } else {
                         <div class="row">
                             <div class="col-xs-6">
-                                <strong>Type:</strong>
+                                <strong>Afdeling:</strong>
                             </div>
                             <div class="col-xs-6">
                                 <strong>

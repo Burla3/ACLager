@@ -12,7 +12,6 @@ namespace ACLager.ViewModels {
         public string SectionName { get; set; } = "";
         public bool UserIsAdmin {
             get {
-                Debug.WriteLine("noget fra baseviewmodel");
                 HttpCookie cookie = HttpContext.Current.Request.Cookies["UserInfo"];
                 return Json.Decode(cookie?.Value)["IsAdmin"];
             }

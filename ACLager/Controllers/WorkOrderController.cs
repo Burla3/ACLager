@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace ACLager.Controllers {
         [HttpGet]
         public ActionResult Detailed(string id) {
             if (id == null) {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
 
             WorkOrder workorder;
@@ -113,11 +114,11 @@ namespace ACLager.Controllers {
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "Arbejdsopgave annulleret",
-                        $"Arbejdsopgave nr. {dbWorkOrder.OrderNumber} annulleret",
+                        "Ordre annulleret",
+                        $"Ordre nr. {dbWorkOrder.OrderNumber} annulleret",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),
-                            ArbejdsOpgave = dbWorkOrder.ToLoggable()
+                            Ordre = dbWorkOrder.ToLoggable()
                         }
                     )
             );
@@ -150,12 +151,12 @@ namespace ACLager.Controllers {
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "Opdateret arbejdsopgave punkt",
-                        $"Opdateret arbejdsopgave punkt på arbejdsopgave nr. {dbWorkOrder.OrderNumber}",
+                        "Opdateret Ordre punkt",
+                        $"Opdateret Ordre punkt på arbejdsopgave nr. {dbWorkOrder.OrderNumber}",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),
-                            ArbejdsOpgave = dbWorkOrder.ToLoggable(),
-                            ArbejdsOpgavePunkt = dbWorkOrder.ToLoggable()
+                            Ordre = dbWorkOrder.ToLoggable(),
+                            OrdrePunkt = dbWorkOrder.ToLoggable()
                         }
                     )
             );
@@ -182,17 +183,87 @@ namespace ACLager.Controllers {
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "Arbejdsopgave færdig",
-                        $"Arbejdsopgave nr. {dbWorkOrder.OrderNumber} er færdig",
+                        "Ordre færdig",
+                        $"Ordre nr. {dbWorkOrder.OrderNumber} er færdig",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),
-                            ArbejdsOpgave = dbWorkOrder.ToLoggable()
+                            Ordre = dbWorkOrder.ToLoggable()
                         }
                     )
             );
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public ActionResult Start(long id) {
+
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                WorkOrder workOrder = db.WorkOrderSet.Find(id);
+                workOrder.IsStarted = true;
+
+                IEnumerable<WorkOrderItem> workOrderItems = workOrder.WorkOrderItems;
+                IEnumerable<WorkOrderItem> newWorkOrderItems = new List<WorkOrderItem>();
+
+                foreach (WorkOrderItem workOrderItem in workOrderItems) {
+                    IEnumerable<Item> items =
+                        workOrderItem.ItemType.Items.OrderBy(i => i.ExpirationDate ?? DateTime.MaxValue);
+
+                    double amountNeeded = workOrderItem.Amount;
+                    Item item = items.First(i => i.Amount > i.Reserved);
+                    double amountAvailable = item.Amount - item.Reserved;
+
+                    if (amountAvailable >= amountNeeded) {
+                        item.Reserved += amountNeeded;
+                        workOrderItem.Item = item;
+                    } else {
+                        item.Reserved += amountAvailable;
+                        amountNeeded -= amountAvailable;
+                        workOrderItem.Amount = amountAvailable;
+                        workOrderItem.Item = item;
+
+                        try {
+                            newWorkOrderItems = CreateNewWorkOrderItems(amountNeeded, workOrderItem, items, workOrder);
+                        } catch (Exception) {
+                            return View("Error", new WorkOrderBaseViewModel(null, workOrder, null));
+                        }
+                        
+                    }            
+                }
+                db.WorkOrderItemSet.AddRange(newWorkOrderItems);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Detailed", id);
+        }
+
+        private IEnumerable<WorkOrderItem> CreateNewWorkOrderItems(double amountNeeded, WorkOrderItem workOrderItem, IEnumerable<Item> items, WorkOrder workOrder) {
+            List<WorkOrderItem> newWorkOrderItems = new List<WorkOrderItem>();
+            while (amountNeeded > 0) {
+                Item item = items.First(i => i.Amount > i.Reserved);
+                double amountAvailable = item.Amount - item.Reserved;
+
+                WorkOrderItem newWorkOrderItem = new WorkOrderItem {
+                    ItemType = workOrderItem.ItemType,
+                    WorkOrder = workOrder
+                };
+
+                if (amountAvailable >= amountNeeded) {
+                    newWorkOrderItem.Amount = amountNeeded;
+                    item.Reserved += amountNeeded;
+                    amountNeeded -= amountNeeded;
+                    newWorkOrderItem.Item = item;
+                } else {
+                    newWorkOrderItem.Amount = amountAvailable;
+                    item.Reserved += amountAvailable;
+                    amountNeeded -= amountAvailable;
+                    newWorkOrderItem.Item = item;
+                }
+
+                newWorkOrderItems.Add(newWorkOrderItem);
+            }
+            return newWorkOrderItems;
+        } 
 
         public void CreateFromC5(IEnumerable<ItemTypeAmountPair> itemTypeAmountPairs, string shippingInfo, DateTime duedate, long orderNumber) {
             WorkOrder workOrder = new WorkOrder {

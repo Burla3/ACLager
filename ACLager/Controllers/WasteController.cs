@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Web;
 using System.Web.Mvc;
 using ACLager.CustomClasses;
@@ -54,7 +55,7 @@ namespace ACLager.Controllers {
 
             IEnumerable<WorkOrder> workorder;
             List<SelectListItem> selectWorkorderList = new List<SelectListItem>();
-
+            selectWorkorderList.Add(new SelectListItem {Text = "Ingen ordre", Value = "-1"});
             using (ACLagerDatabase db = new ACLagerDatabase())
             {
                 items = db.ItemSet.ToList();
@@ -115,7 +116,7 @@ namespace ACLager.Controllers {
                             SpildRapport = wasteReport.ToLoggable(),
                             Varetype = dbItemType.ToLoggable(),
                             Vare = dbItem.ToLoggable(),
-                            ArbejdsOpgave = dbWorkOrder?.ToLoggable()
+                            Ordre = dbWorkOrder?.ToLoggable()
                         }
                     )
             );

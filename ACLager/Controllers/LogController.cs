@@ -55,8 +55,18 @@ namespace ACLager.Controllers {
                         IsActive = true,
                         Name = "C" + i
                     };
+                    Location location3 = new Location {
+                        IsActive = true,
+                        Name = "D" + i
+                    };
+                    Location location4 = new Location {
+                        IsActive = true,
+                        Name = "E" + i
+                    };
                     db.LocationSet.Add(location);
                     db.LocationSet.Add(location2);
+                    db.LocationSet.Add(location3);
+                    db.LocationSet.Add(location4);
 
                     ItemType itemType = new ItemType {
                         Barcode = "BARCODE",
@@ -83,7 +93,7 @@ namespace ACLager.Controllers {
 
                     Item item = new Item {
                         ItemType = itemType,
-                        Amount = i*50,
+                        Amount = i*567,
                         DeliveryDate = DateTime.Now,
                         Location = location,
                         Supplier = "SCRIPT", 
@@ -92,15 +102,35 @@ namespace ACLager.Controllers {
                     };
                     Item item2 = new Item {
                         ItemType = itemType2,
-                        Amount = i * 23,
+                        Amount = i * 555,
                         DeliveryDate = DateTime.Now,
                         Location = location2,
                         Supplier = "SCRIPT",
                         Reserved = 0,
                         ExpirationDate = DateTime.MaxValue
                     };
+                    Item item3 = new Item {
+                        ItemType = itemType2,
+                        Amount = i * 2,
+                        DeliveryDate = DateTime.Now,
+                        Location = location3,
+                        Supplier = "SCRIPT",
+                        Reserved = 0,
+                        ExpirationDate = DateTime.Now.AddDays(100),
+                    };
+                    Item item4 = new Item {
+                        ItemType = itemType2,
+                        Amount = i * 3,
+                        DeliveryDate = DateTime.Now,
+                        Location = location4,
+                        Supplier = "SCRIPT",
+                        Reserved = 0,
+                        ExpirationDate = DateTime.Now,
+                    };
                     db.ItemSet.Add(item);
                     db.ItemSet.Add(item2);
+                    db.ItemSet.Add(item3);
+                    db.ItemSet.Add(item4);
 
                     Ingredient ingredient = new Ingredient {
                         ItemType = itemType,
@@ -122,14 +152,14 @@ namespace ACLager.Controllers {
                     db.WorkOrderSet.Add(workOrder);
 
                     WorkOrderItem workOrderItem = new WorkOrderItem {
-                        Amount = i*56,
+                        Amount = 5,
                         Progress = 0,
                         WorkOrder = workOrder,
                         ItemType = itemType
                     };
                     WorkOrderItem workOrderItem2 = new WorkOrderItem {
-                        Amount = i * 31,
-                        Progress = 2,
+                        Amount = 99,
+                        Progress = 0,
                         WorkOrder = workOrder,
                         ItemType = itemType2
                     };

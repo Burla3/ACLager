@@ -88,14 +88,7 @@ namespace ACLager.Controllers {
         /// <returns>true if successful</returns>
         [HttpPost]
         public ActionResult Add(Item item) {
-            using (ACLagerDatabase db = new ACLagerDatabase()) {
-                item.ItemType = db.ItemTypeSet.Find(item.ItemType.UID);
-                item.Location = db.LocationSet.Find(item.Location.UID);
-   
-
-                db.ItemSet.Add(item);
-                db.SaveChanges();
-            }
+            AddItem(item, false);
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
@@ -136,34 +129,25 @@ namespace ACLager.Controllers {
 
         [HttpPost]
         public ActionResult Pick(Item item) {
-            ItemType itemType;
-            Location location;
-            Item dbItem;
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
-                dbItem = db.ItemSet.Find(item.UID);
+            PickItem(item);
 
-                itemType = dbItem.ItemType.ToLoggable();
-                location = dbItem.Location.ToLoggable();
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                ItemType dbItemType = db.ItemTypeSet.Find(item.ItemType.UID);
 
-                dbItem.Amount -= item.Amount;
-
-                db.SaveChanges();
-
-                if (dbItem.ItemType.Items.Sum(i => i.Amount) < dbItem.ItemType.MinimumAmount) {
-                    Notify?.Invoke(this, new NotificationEventArgs(dbItem.ItemType));
+                if (dbItemType.Items.Sum(i => i.Amount) < dbItemType.MinimumAmount) {
+                    Notify?.Invoke(this, new NotificationEventArgs(dbItemType));
                 }
             }
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
                         "Vare plukket",
-                        $"{dbItem.Amount} {itemType.Unit} {itemType.Name} plukket fra {location.Name}.",
+                        $"{item.Amount} {item.ItemType.Unit} {item.ItemType.Name} plukket fra {item.Location.Name}.",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),
-                            Vare = dbItem.ToLoggable(),
-                            Varetype = itemType,
-                            Lokation = location
+                            Vare = item.ToLoggable(),
+                            Varetype = item.ItemType.ToLoggable(),
+                            Lokation = item.Location.ToLoggable()
                         }
                     )
             );
@@ -230,7 +214,10 @@ namespace ACLager.Controllers {
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 Item dbItem = db.ItemSet.Find(item.UID);
                 Location newLocation = db.LocationSet.Find(item.Location.UID);
-                Item newLocationItem = db.ItemSet.Find(newLocation.Item.UID);
+                Item newLocationItem = null;
+                if (newLocation.Item != null) {
+                    newLocationItem = db.ItemSet.Find(newLocation.Item.UID);
+                }
 
                 item = dbItem;
                 item.Amount = moveAmount;
@@ -251,9 +238,17 @@ namespace ACLager.Controllers {
 
         public bool AddItem(Item item, bool addReserved) {
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                Item locationItem = db.ItemSet.Find(item.Location.Item.UID);
 
+                Location location = db.LocationSet.Find(item.Location.UID);
+                Item locationItem = null;
+
+                if (location.Item != null) {
+                    locationItem = db.ItemSet.Find(location.Item.UID);
+                }
+                
                 if (locationItem == null) {
+                    /*item.ItemType = db.ItemTypeSet.Find(item.ItemType.UID);
+                    item.Location = db.LocationSet.Find(item.Location.UID);*/
                     db.ItemSet.Add(item);
                 } else {
                     locationItem.ItemType = locationItem.ItemType;
@@ -262,6 +257,7 @@ namespace ACLager.Controllers {
                         item.DeliveryDate == locationItem.DeliveryDate &&
                         item.Supplier == locationItem.Supplier &&
                         item.ItemType.UID == locationItem.ItemType.UID) {
+
                         locationItem.Amount += item.Amount;
 
                         if (addReserved) {
@@ -281,6 +277,9 @@ namespace ACLager.Controllers {
         public bool PickItem(Item item) {
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 Item dbItem = db.ItemSet.Find(item.UID);
+
+                /*item.ItemType = dbItem.ItemType;
+                item.Location = dbItem.Location;*/
 
                 if (item.Amount < dbItem.Amount) {
                     dbItem.Amount -= item.Amount;

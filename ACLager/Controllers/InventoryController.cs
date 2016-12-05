@@ -23,18 +23,15 @@ namespace ACLager.Controllers {
 
         // GET: Inventory
         public ActionResult Index() {
-            IEnumerable<ItemType> itemTypes;
-            IEnumerable<Item> items;
-            IEnumerable<Location> locations;
             List<SelectListItem> locationSelectListItems = new List<SelectListItem>();
             List<SelectListItem> itemTypeSelectListItems = new List<SelectListItem>();
 
             List<ItemGroup> itemGroups = new List<ItemGroup>();
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                items = db.ItemSet.Where(i => i.Amount > 0);
-                itemTypes = db.ItemTypeSet.Where(it => it.IsActive);
-                locations = db.LocationSet.Where(l => l.IsActive);
+                IEnumerable<Item> items = db.ItemSet.Where(i => i.Amount > 0).ToList();
+                IEnumerable<ItemType> itemTypes = db.ItemTypeSet.Where(it => it.IsActive).ToList();
+                IEnumerable<Location> locations = db.LocationSet.Where(l => l.IsActive).ToList();
 
                 foreach (ItemType itemType in itemTypes) {
                     List<ItemLocationPair> itemLocationPairs = new List<ItemLocationPair>();

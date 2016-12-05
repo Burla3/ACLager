@@ -70,6 +70,24 @@ namespace ACLager.Controllers {
             return View(new WorkOrderProductionViewModel(null, workorder, workOrderItemGroups));
         }
 
+        [HttpPost]
+        public ActionResult Pick(long id) {
+            Item item;
+            long woid;
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                WorkOrderItem dbwoi = db.WorkOrderItemSet.Find(id);
+                item = dbwoi.Item;
+                item.Amount = dbwoi.Amount;
+                woid = dbwoi.WorkOrder.UID;
+            }
+
+            InventoryController.PickItem(item, true);
+            return RedirectToAction("Detailed", new { id = woid });
+            
+            
+        }
+
+
         /// <summary>
         /// Cancels a workorder and its items.
         /// </summary>

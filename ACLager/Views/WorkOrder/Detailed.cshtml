@@ -9,7 +9,7 @@
 <div class="container panel">
     <div class="row">
         <div class="col-sm-4">
-            <a href="@Url.Action("Production")" class="btn btn-default pull-left"><i class="material-icons">arrow_back</i>Tilbage til "Production"</a>
+            <a href="@Url.Action(Model.Workorder.Type == "Pakkeri" ? "Packaging" : "Production")" class="btn btn-default pull-left"><i class="material-icons">arrow_back</i>Tilbage til @Model.Workorder.Type</a>
         </div>
         <div class="col-sm-8">
             <h3 class="text-center">Ordredetaljer</h3>
@@ -20,43 +20,47 @@
     <div class="clearfix"></div>
     <hr />
     <div class="row">
-        <div class="col-sm-8">
-            @if (Model.Workorder.Type == "Produktion") {
+        
+            @if (Model.Workorder.Type == "Produktion")
+            {
                 <div class="col-sm-4">
                     <small>Varetype:</small>
-                    <h3>@if (Model.Workorder.ItemType != null) { <a href="@Url.Action("Detailed", "ItemType", new { id = Model.Workorder.ItemType.UID })">@Model.Workorder.ItemType.Name</a>}</h3>
+                    <h3>@if (Model.Workorder.ItemType != null)
+                    { <a href="@Url.Action("Detailed", "ItemType", new { id = Model.Workorder.ItemType.UID })">@Model.Workorder.ItemType.Name</a>}</h3>
                 </div>
                 <div class="col-sm-4">
                     <small>Batchstørrelse:</small>
-                    <h3>@if (Model.Workorder.ItemType != null) { @Model.Workorder.ItemType.BatchSize }</h3>
+                    <h3>@if (Model.Workorder.ItemType != null)
+                    { @Model.Workorder.ItemType.BatchSize }</h3>
+                </div>
+                <div class="col-sm-4">
+                    <small>Batchnummer:</small> <h3>@Model.Workorder.BatchNumber</h3>
                 </div>
 
             }
             else if (Model.Workorder.Type == "Pakkeri")
             {
-                <small>Shipping Info:</small>
-                <h1>@Model.Workorder.ShippingInfo</h1>
-            }
+                <div class="col-sm-8">
+                    <small>Shipping Info:</small>
+                    <h1>@Model.Workorder.ShippingInfo</h1>
+                    }
 
-        </div>
-        <div class="col-sm-4">
-            @if (Model.Workorder.Type == "Produktion")
-            {
-                <small>Batchnummer:</small> <h3>@Model.Workorder.BatchNumber</h3>
+                </div>
+                <div class="col-sm-4">
+                    <small>Ordrenummer:</small> <h3>@Model.Workorder.OrderNumber</h3>
+                </div>
             }
-            else if (Model.Workorder.Type == "Pakkeri")
-            {
-                <small>Ordrenummer:</small> <h3>@Model.Workorder.OrderNumber</h3>
-            }
-
-
-        </div>
     </div>
-
     <div class="row">
-
+        <div class="col-sm-12">
+            @using (Html.BeginForm("Start", "WorkOrder", new { id = Model.Workorder.UID }))
+            {
+                @Html.AntiForgeryToken()
+                <button class="btn btn-raised btn-lg btn-primary pull-right" type="submit" value="Start">Påbegynd ordre</button>
+            }
+        </div>
     </div>
-
+    <hr />
     <div class="row">
         <table class="table table-striped">
             <thead>
@@ -95,8 +99,13 @@
                                         </strong></h3>
                                 </td>
                                 <td>
-                                    @if (!itempicked) {
-                                        <button class="btn btn-raised btn-info pull-right">Pluk</button>
+                                    @if (!itempicked)
+                                    {
+                                        using (Html.BeginForm("Pick", "WorkOrder", new { id = workorderitemgroup.WorkOrderItem.UID }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button class="btn btn-raised btn-info pull-right" type="submit" value="Pick">Pluk</button>
+                                        }
                                     } else {
                                         <h3>Er plukket</h3>
                                     }

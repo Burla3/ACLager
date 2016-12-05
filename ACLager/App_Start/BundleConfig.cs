@@ -22,7 +22,12 @@ namespace ACLager {
                       "~/Scripts/jquery.transit.js",
                       "~/Scripts/snackbar.min.js",
                       "~/Scripts/select2.full.js",
-                      "~/Scripts/i18n/da.js"
+                      "~/Scripts/i18n/da.js",
+                      "~/Scripts/cldr.js",
+                      "~/Scripts/event.js",
+                      "~/Scripts/supplemental.js",
+                      "~/Scripts/globalize.js",
+                      "~/Scripts/number.js"
                       ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

@@ -21,7 +21,7 @@ namespace ACLager.Controllers {
         [HttpPost]
         public ActionResult Index(User user) {
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                if (db.UserSet.Any(u => u.PIN == user.PIN)) {
+                if (db.UserSet.Any(u => u.PIN == user.PIN && u.IsActive)) {
                     User dbUser = db.UserSet.First(u => u.PIN == user.PIN);
 
                     object cookieData = new {dbUser.UID, dbUser.Name, dbUser.IsAdmin};
@@ -36,6 +36,8 @@ namespace ACLager.Controllers {
                     } else {
                         return RedirectToAction("Index", "Home");
                     }
+                } else if (db.UserSet.Any(u => u.PIN == user.PIN && !u.IsActive)) {
+                    return View(new LoginViewModel { RenderNavBar = false, RenderUserIsDeactivated = true});
                 } else {
                     return View(new LoginViewModel { RenderNavBar = false, RenderUserNotFoundWarning = true});
                 }

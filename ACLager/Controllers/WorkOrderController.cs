@@ -72,19 +72,25 @@ namespace ACLager.Controllers {
 
         [HttpPost]
         public ActionResult Pick(long id) {
-            Item item = new Item();
-            long woid;
+            long workOrderUID;
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                WorkOrderItem dbwoi = db.WorkOrderItemSet.Find(id);
-                item.UID = dbwoi.Item.UID;
-                item.Amount = dbwoi.Amount;
-                woid = dbwoi.WorkOrder.UID;
-                dbwoi.Progress += item.Amount;
+                WorkOrderItem workOrderItem = db.WorkOrderItemSet.Find(id);
+                workOrderUID = workOrderItem.WorkOrder.UID;
+
+                Item item = new Item {
+                    UID = workOrderItem.Item.UID,
+                    Amount = workOrderItem.Amount
+                };
+
+                if (!InventoryController.PickItem(item, true)) {
+                    return View("Error", new WorkOrderBaseViewModel());
+                }
+                
+                workOrderItem.Progress += item.Amount;
                 db.SaveChanges();
             }
 
-            InventoryController.PickItem(item, true);
-            return RedirectToAction("Detailed", new { id = woid });
+            return RedirectToAction("Detailed", new { id = workOrderUID });
             
             
         }
@@ -106,7 +112,7 @@ namespace ACLager.Controllers {
                 if (dbWorkOrder == null) {
                     return RedirectToAction("Index");
                 }
-               
+
                 db.WorkOrderItemSet.RemoveRange(dbWorkOrder.WorkOrderItems);
 
                 db.WorkOrderSet.Remove(dbWorkOrder);

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace ACLager.Models {
     [MetadataType(typeof(LocationMetadata))]
@@ -13,6 +14,7 @@ namespace ACLager.Models {
             [DisplayName("Lokationsnummer")]
             public long UID { get; set; }
             [DisplayName("Lokationsnavn")]
+            [Remote("DoesLocationNameExist", "Location", HttpMethod = "POST", ErrorMessage = "Lokation med samme navn eksistere allerede. Indtast venligst et andet navn.")]
             public string Name { get; set; }
             [DisplayName("Status")]
             public bool IsActive { get; set; }

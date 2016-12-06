@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using Microsoft.Owin.Security.Provider;
 
 namespace ACLager.Models {
@@ -16,6 +17,7 @@ namespace ACLager.Models {
             [Required(ErrorMessage = "Varetypen skal have et navn")]
             [StringLength(127, MinimumLength = 1, ErrorMessage = "Varetypens navn skal være mellem 1 og 127 tegn")]
             [DisplayName("Varetypenavn")]
+            [Remote("DoesItemTypeNameExist", "ItemType", HttpMethod = "POST", ErrorMessage = "Lokation med samme navn eksistere allerede. Indtast venligst et andet navn.")]
             public string Name { get; set; }
             [Range(0, Double.MaxValue, ErrorMessage = "Mindste mængde skal være positiv")]
             [DisplayName("Mindste beholdning")]

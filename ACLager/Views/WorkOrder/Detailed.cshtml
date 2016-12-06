@@ -15,18 +15,17 @@
             <h3 class="text-center">Ordredetaljer</h3>
         </div>
     </div>
-
-
     <div class="clearfix"></div>
     <hr />
     <div class="row">
-
         @if (Model.Workorder.Type == "Produktion") {
             <div class="col-sm-4">
                 <strong>Varetype:</strong>
-                <h3>@if (Model.Workorder.ItemType != null) {
-                    <a href="@Url.Action("Detailed", "ItemType", new { id = Model.Workorder.ItemType.UID })">@Model.Workorder.ItemType.Name</a>
-                }</h3>
+                <h3>
+                    @if (Model.Workorder.ItemType != null) {
+                        <a href="@Url.Action("Detailed", "ItemType", new {id = Model.Workorder.ItemType.UID})">@Model.Workorder.ItemType.Name</a>
+                    }
+                </h3>
             </div>
             <div class="col-sm-4">
                 <strong>Batchstørrelse:</strong>
@@ -39,7 +38,6 @@
             <div class="col-sm-4">
                 <strong>Batchnummer:</strong> <h3>@Model.Workorder.BatchNumber</h3>
             </div>
-
         } else if (Model.Workorder.Type == "Pakkeri") {
             <div class="col-sm-8">
                 <strong>Shipping Info:</strong>
@@ -77,7 +75,6 @@
             } else if (Model.Workorder.IsComplete) {
                 <h3>Ordre afsluttet</h3>
             }
-
         </div>
     </div>
     <hr />
@@ -93,20 +90,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (Model.Workorder.IsStarted && !Model.Workorder.IsComplete) {
-                        foreach (WorkOrderItemGroup workorderitemgroup in Model.Workorderitems) {
-                            if (workorderitemgroup.WorkOrderItem.WorkOrder == Model.Workorder) {
-                                bool itempicked = (workorderitemgroup.WorkOrderItem.Progress == workorderitemgroup.WorkOrderItem.Amount);
-                                <tr>
-                                    <td>
-                                        @workorderitemgroup.ItemType.Name
-                                    </td>
-                                    <td>
-                                        <h3>
-                                            <strong>
-                                                @if (!itempicked) {
-                                                @workorderitemgroup.Location.Name
-                                                ;
+                @if (Model.Workorder.IsStarted && !Model.Workorder.IsComplete) {
+                    foreach (WorkOrderItemGroup workorderitemgroup in Model.Workorderitems) {
+                        if (workorderitemgroup.WorkOrderItem.WorkOrder == Model.Workorder) {
+                            bool itempicked = (workorderitemgroup.WorkOrderItem.Progress == workorderitemgroup.WorkOrderItem.Amount);
+                            <tr>
+                                <td>
+                                    @workorderitemgroup.ItemType.Name
+                                </td>
+                                <td>
+                                    <h3>
+                                        <strong>
+                                            @if (!itempicked) {
+                                                @workorderitemgroup.Location.Name                                               
                                             } else {
                                                 @:--
                                             }
@@ -134,12 +130,11 @@
 
                                 </td>
                             </tr>
-                            }
                         }
-                    } else if (!Model.Workorder.IsStarted) {
+                    }
+                } else if (!Model.Workorder.IsStarted) {
                         foreach (WorkOrderItemGroup workorderitemgroup in Model.Workorderitems) {
                             if (workorderitemgroup.WorkOrderItem.WorkOrder == Model.Workorder) {
-
                                 <tr>
                                     <td>
                                         @workorderitemgroup.WorkOrderItem.ItemType.Name

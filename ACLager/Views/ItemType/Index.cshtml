@@ -66,7 +66,9 @@
                 <div class="row expansion-content" id="ExpansionContentContainer_@itemType.UID">
                     <div class="col-sm-4"></div>
                     <div class="col-sm-8">
-                        <a href="@Url.Action("Edit", new {id = itemType.UID})" class="btn btn-raised btn-info pull-right">Rediger</a>
+                        @if (Model.UserIsAdmin) {
+                            <a href="@Url.Action("Edit", new {id = itemType.UID})" class="btn btn-raised btn-info pull-right">Rediger</a>
+                        }
                         <a href="@Url.Action("Detailed", new {id = itemType.UID})" class="btn btn-raised btn-primary pull-right">Mere info</a>
                     </div>
                 </div>
@@ -75,12 +77,14 @@
     </div>
 </div>
 
-<div class="fixed-button-container">
-    <div class="btn btn-success btn-fab btn-flowout btn-page-flowout-up" data-content-element="#AddFormPanel">
-        <i class="material-icons normal">add circle</i>
-        <i class="material-icons flowing hidden">close</i>
+@if (Model.UserIsAdmin) {
+    <div class="fixed-button-container">
+        <div class="btn btn-success btn-fab btn-flowout btn-page-flowout-up" data-content-element="#AddFormPanel">
+            <i class="material-icons normal">add circle</i>
+            <i class="material-icons flowing hidden">close</i>
+        </div>
     </div>
-</div>
+}
 
 <div class="flow-content flowout-close" id="ItemTypeInlineInfoAndFormPanel">
     <div class="container"></div>

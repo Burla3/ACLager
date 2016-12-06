@@ -118,6 +118,8 @@
     <Property Name="ShippingInfo" Type="nvarchar(max)" Nullable="true" />
     <Property Name="OrderNumber" Type="bigint" Nullable="false" />
     <Property Name="IsStarted" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="Amount" Type="float" Nullable="true" />
+    <Property Name="Progress" Type="float" Nullable="true" />
     <Property Name="CompletedByUser_UID" Type="bigint" Nullable="true" />
     <Property Name="ItemType_UID" Type="bigint" Nullable="true" />
   </EntityType>
@@ -388,6 +390,8 @@
           <NavigationProperty Name="ItemType" Relationship="Model.WorkOrderItemType" FromRole="WorkOrder" ToRole="ItemType" />
           <Property Name="OrderNumber" Type="Int64" Nullable="false" ConcurrencyMode="None" />
           <Property Name="IsStarted" Type="Boolean" Nullable="false" DefaultValue="False" />
+          <Property Name="Amount" Type="Double" Nullable="true" />
+          <Property Name="Progress" Type="Double" Nullable="true" />
         </EntityType>
         <EntityType Name="WorkOrderItem">
           <Key>
@@ -528,6 +532,8 @@
           <ScalarProperty Name="ShippingInfo" ColumnName="ShippingInfo" />
           <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
           <ScalarProperty Name="IsStarted" ColumnName="IsStarted" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="Progress" ColumnName="Progress" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

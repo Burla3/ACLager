@@ -40,5 +40,22 @@ namespace ACLager.Models {
                 WorkOrderItem = null
             };
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) {
+                return false;
+            }
+
+            Item item = (Item)obj;
+            return UID.Equals(item.UID) &&
+                   Amount.Equals(item.Amount) &&
+                   ExpirationDate.Equals(item.ExpirationDate) &&
+                   DeliveryDate.Equals(item.DeliveryDate) &&
+                   Supplier.Equals(item.Supplier) &&
+                   Reserved.Equals(item.Reserved) &&
+                   Location.Equals(item.Location) &&
+                   ItemType.Equals(item.ItemType);
+        }
     }
 }

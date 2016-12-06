@@ -6,6 +6,10 @@ using ACLager.Models;
 
 namespace ACLager.CustomClasses {
     public class ItemGroup {
+        public ItemGroup()
+        {
+
+        }
 
         /// <summary>
         /// Class to contain a item type with all associated items and their locations.
@@ -19,5 +23,17 @@ namespace ACLager.CustomClasses {
 
         public ItemType ItemType { get; set; }
         public IEnumerable<ItemLocationPair> ItemLocationPairs { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            ItemGroup itemGroup = (ItemGroup)obj;
+            return ItemType.Equals(itemGroup.ItemType) &&
+                   ItemLocationPairs.SequenceEqual(itemGroup.ItemLocationPairs);
+        }
     }
 }

@@ -9,16 +9,21 @@ using System.Web.Script.Serialization;
 
 namespace ACLager.CustomClasses.Attributes {
     public class AdminOnly : ActionFilterAttribute {
+        public bool IsDisabled { get; set; }
+
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
-            HttpCookie cookie = filterContext.HttpContext.Request.Cookies["UserInfo"];
+            if (!IsDisabled)
+            {
+                HttpCookie cookie = filterContext.HttpContext.Request.Cookies["UserInfo"];
 
-            dynamic cookieData = Json.Decode(cookie.Value);
-            bool isAdmin = cookieData["IsAdmin"];
+                dynamic cookieData = Json.Decode(cookie.Value);
+                bool isAdmin = cookieData["IsAdmin"];
 
-            if (isAdmin) {
-                // Do nothing
-            } else {
-                filterContext.Result = new RedirectResult("/Login/NoPermission");
+                if (isAdmin) {
+                    // Do nothing
+                } else {
+                    filterContext.Result = new RedirectResult("/Login/NoPermission");
+                }
             }
         }
     }

@@ -24,33 +24,18 @@ namespace ACLager.Controllers {
 
         // GET: Inventory
         public ActionResult Index() {
-            List<SelectListItem> locationSelectListItems = new List<SelectListItem>();
-            List<SelectListItem> itemTypeSelectListItems = new List<SelectListItem>();
-
-            List<ItemGroup> itemGroups = new List<ItemGroup>();
+            IEnumerable<ItemGroup> itemGroups;
+            IEnumerable<SelectListItem> locationSelectListItems;
+            IEnumerable<SelectListItem> itemTypeSelectListItems;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                IEnumerable<Item> items = db.ItemSet.Where(i => i.Amount > 0).ToList();
-                IEnumerable<ItemType> itemTypes = db.ItemTypeSet.Where(it => it.IsActive).ToList();
-                IEnumerable<Location> locations = db.LocationSet.Where(l => l.IsActive).ToList();
+                IEnumerable<Item> items = db.ItemSet.Where(i => i.Amount > 0);
+                IEnumerable<ItemType> itemTypes = db.ItemTypeSet.Where(it => it.IsActive);
+                IEnumerable<Location> locations = db.LocationSet.Where(l => l.IsActive);
 
-                foreach (ItemType itemType in itemTypes) {
-                    List<ItemLocationPair> itemLocationPairs = new List<ItemLocationPair>();
-
-                    foreach (Item item in items.Where(i => itemType.UID == i.ItemType.UID)) {
-                        itemLocationPairs.Add(new ItemLocationPair(item, locations.Single(l => l.UID == item.Location.UID)));
-                    }
-
-                    itemGroups.Add(new ItemGroup(itemType, itemLocationPairs));
-                }
-
-                foreach (Location location in locations.Where(l => l.Item == null)) {
-                    locationSelectListItems.Add(new SelectListItem { Text = location.Name, Value = location.UID.ToString()});
-                }
-
-                foreach (ItemType itemType in itemTypes) {
-                    itemTypeSelectListItems.Add(new SelectListItem { Text = itemType.Name, Value = itemType.UID.ToString() });
-                }
+                itemGroups = GenerateItemGroups(items, itemTypes, locations);
+                locationSelectListItems = GenerateLocationSelectListItems(locations);
+                itemTypeSelectListItems = GenerateItemTypeSelectListItems(itemTypes);
             }
 
             Item sitem = new Item();
@@ -89,14 +74,7 @@ namespace ACLager.Controllers {
         /// <returns>true if successful</returns>
         [HttpPost]
         public ActionResult Add(Item item) {
-            using (ACLagerDatabase db = new ACLagerDatabase()) {
-                item.ItemType = db.ItemTypeSet.Find(item.ItemType.UID);
-                item.Location = db.LocationSet.Find(item.Location.UID);
-   
-
-                db.ItemSet.Add(item);
-                db.SaveChanges();
-            }
+            AddItem(item, false);
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
@@ -127,6 +105,7 @@ namespace ACLager.Controllers {
                 if (dbItem == null) {
                     return RedirectToAction("Index");
                 }
+
                 inventoryViewModel.Item = dbItem;
                 inventoryViewModel.Item.ItemType = dbItem.ItemType;
                 inventoryViewModel.Item.Location = dbItem.Location;
@@ -137,34 +116,33 @@ namespace ACLager.Controllers {
 
         [HttpPost]
         public ActionResult Pick(Item item) {
-            ItemType itemType;
-            Location location;
+            PickItem(item);
+
+            Location dbLocation;
+            ItemType dbItemType;
             Item dbItem;
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
+
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
                 dbItem = db.ItemSet.Find(item.UID);
+                dbItemType = dbItem.ItemType;
+                dbLocation = dbItem.Location;
 
-                itemType = dbItem.ItemType.ToLoggable();
-                location = dbItem.Location.ToLoggable();
+                
 
-                dbItem.Amount -= item.Amount;
-
-                db.SaveChanges();
-
-                if (dbItem.ItemType.Items.Sum(i => i.Amount) < dbItem.ItemType.MinimumAmount) {
-                    Notify?.Invoke(this, new NotificationEventArgs(dbItem.ItemType));
+                if (dbItemType.Items.Sum(i => i.Amount) < dbItemType.MinimumAmount) {
+                    Notify?.Invoke(this, new NotificationEventArgs(dbItemType));
                 }
             }
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
                         "Vare plukket",
-                        $"{dbItem.Amount} {itemType.Unit} {itemType.Name} plukket fra {location.Name}.",
+                        $"{item.Amount} {dbItemType.Unit} {dbItemType.Name} plukket fra {dbLocation.Name}.",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),
-                            Vare = dbItem.ToLoggable(),
-                            Varetype = itemType,
-                            Lokation = location
+                            Vare = item.ToLoggable(),
+                            Varetype = dbItemType.ToLoggable(),
+                            Lokation = dbLocation.ToLoggable()
                         }
                     )
             );
@@ -227,11 +205,17 @@ namespace ACLager.Controllers {
         [HttpPost]
         public ActionResult Move(Item item) {
             double moveAmount = item.Amount;
+            Location fromLocation;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 Item dbItem = db.ItemSet.Find(item.UID);
                 Location newLocation = db.LocationSet.Find(item.Location.UID);
-                Item newLocationItem = db.ItemSet.Find(newLocation.Item.UID);
+                Item newLocationItem = null;
+                if (newLocation.Item != null) {
+                    newLocationItem = db.ItemSet.Find(newLocation.Item.UID);
+                }
+
+                fromLocation = db.ItemSet.Find(item.UID).Location;
 
                 item = dbItem;
                 item.Amount = moveAmount;
@@ -244,6 +228,20 @@ namespace ACLager.Controllers {
                 return RedirectToAction("Move");
             }
 
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "Vare flyttet",
+                        $"{moveAmount} {item.ItemType.Unit} {item.ItemType.Name} flyttet fra {fromLocation.Name} til {item.Location.Name}.",
+                        new {
+                            KontekstBruger = UserController.GetContextUser().ToLoggable(),
+                            Mængde = new { Amount = moveAmount},
+                            Varetype = item.ItemType.ToLoggable(),
+                            LokationFra = fromLocation.ToLoggable(),
+                            LokationTil = item.Location.ToLoggable()
+                        }
+                    )
+            );
+
             return RedirectToAction("Index");
         }
 
@@ -252,9 +250,17 @@ namespace ACLager.Controllers {
 
         public bool AddItem(Item item, bool addReserved) {
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                Item locationItem = db.ItemSet.Find(item.Location.Item.UID);
 
+                Location location = db.LocationSet.Find(item.Location.UID);
+                item.Location = location;
+                Item locationItem = null;
+
+                if (location.Item != null) {
+                    locationItem = db.ItemSet.Find(location.Item.UID);
+                }
+                
                 if (locationItem == null) {
+                    item.ItemType = db.ItemTypeSet.Find(item.ItemType.UID);
                     db.ItemSet.Add(item);
                 } else {
                     locationItem.ItemType = locationItem.ItemType;
@@ -263,6 +269,7 @@ namespace ACLager.Controllers {
                         item.DeliveryDate == locationItem.DeliveryDate &&
                         item.Supplier == locationItem.Supplier &&
                         item.ItemType.UID == locationItem.ItemType.UID) {
+
                         locationItem.Amount += item.Amount;
 
                         if (addReserved) {
@@ -292,7 +299,7 @@ namespace ACLager.Controllers {
                 } else {
                     compAmount = dbItem.Amount - dbItem.Reserved;
                 }
-                
+
                 if (item.Amount < compAmount) {
                     dbItem.Amount -= item.Amount;
 
@@ -322,6 +329,48 @@ namespace ACLager.Controllers {
             }
 
             return true;
+        }
+
+        public IEnumerable<ItemGroup> GenerateItemGroups(
+            IEnumerable<Item> items,
+            IEnumerable<ItemType> itemTypes,
+            IEnumerable<Location> locations)
+        {
+            List<ItemGroup> itemGroups = new List<ItemGroup>();
+
+            foreach (ItemType itemType in itemTypes.Where(it => it.Items.Count > 0)) {
+                List<ItemLocationPair> itemLocationPairs = new List<ItemLocationPair>();
+
+                foreach (Item item in items.Where(i => itemType.UID == i.ItemType.UID)) {
+                    itemLocationPairs.Add(new ItemLocationPair(item, locations.Single(l => l.UID == item.Location.UID)));
+                }
+
+                itemGroups.Add(new ItemGroup(itemType, itemLocationPairs));
+            }
+
+            return itemGroups;
+        }
+
+        public IEnumerable<SelectListItem> GenerateLocationSelectListItems(IEnumerable<Location> locations)
+        {
+            List<SelectListItem> locationSelectListItems = new List<SelectListItem>();
+
+            foreach (Location location in locations.Where(l => l.Item == null)) {
+                locationSelectListItems.Add(new SelectListItem { Text = location.Name, Value = location.UID.ToString() });
+            }
+
+            return locationSelectListItems;
+        }
+
+        public IEnumerable<SelectListItem> GenerateItemTypeSelectListItems(IEnumerable<ItemType> itemTypes)
+        {
+            List<SelectListItem> itemTypeSelectListItems = new List<SelectListItem>();
+
+            foreach (ItemType itemType in itemTypes) {
+                itemTypeSelectListItems.Add(new SelectListItem { Text = itemType.Name, Value = itemType.UID.ToString() });
+            }
+
+            return itemTypeSelectListItems;
         }
     }
 }

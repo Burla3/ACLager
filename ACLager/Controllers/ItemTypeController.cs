@@ -19,7 +19,7 @@ namespace ACLager.Controllers {
             new Notifier().Subscribe(this);
         }
 
-        // GET: ItemType
+        [AdminOnly(IsDisabled = true)]
         public ActionResult Index() {
             IEnumerable<ItemType> itemTypes;
 
@@ -35,6 +35,7 @@ namespace ACLager.Controllers {
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [AdminOnly(IsDisabled = true)]
         [HttpGet]
         public ActionResult Detailed(string id) {
             if (id == null) {

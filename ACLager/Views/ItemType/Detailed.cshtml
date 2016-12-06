@@ -84,19 +84,21 @@
     </div>
     <div class="row"></div>    
     <hr />
-    <div class="row">
-        <div class="col-xs-12">
-            <a href="@Url.Action("Delete", new {id = Model.ItemType.UID})" class="btn btn-raised btn-danger pull-right">Slet</a>
-            <a href="@Url.Action("Edit", new {id = Model.ItemType.UID})" class="btn btn-raised btn-info pull-right">Rediger</a>
+    @if (Model.UserIsAdmin) {
+        <div class="row">
+            <div class="col-xs-12">
+                <a href="@Url.Action("Delete", new {id = Model.ItemType.UID})" class="btn btn-raised btn-danger pull-right">Slet</a>
+                <a href="@Url.Action("Edit", new {id = Model.ItemType.UID})" class="btn btn-raised btn-info pull-right">Rediger</a>
+            </div>
         </div>
-    </div>
-    <hr />
-
-
+        <hr />
+    }
 
     <ul class="nav nav-tabs nav-justified" style="margin-bottom: 15px;">
         <li class="active"><a href="#instock" data-toggle="tab">Lagerbeholdning</a></li>
-        <li><a href="#procedure" data-toggle="tab">Procedure og ingredienser</a></li>
+        @if (Model.UserIsAdmin) {
+            <li><a href="#procedure" data-toggle="tab">Procedure og ingredienser</a></li>
+        }
     </ul>
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade active in" id="instock">
@@ -165,60 +167,58 @@
                 }
             </div>
         </div>
-        <div class="tab-pane fade" id="procedure">  
-            <div class="row">
-                @if (!string.IsNullOrEmpty(Model.ItemType.Procedure)) {
-                    <div class="col-xs-12">
-                        <strong>@Html.DisplayNameFor(model => model.ItemType.Procedure):</strong>
-                        <h4>@Model.ItemType.Procedure</h4>
-                    </div>
-                }
-            </div>         
-            <div class="row">
-                @if (Model.Ingredients.Any())
-                {
-                    <div class="col-xs-12">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        <strong>Ingrediens</strong>
-                                    </th>
-                                    <th>
-                                        <strong>Mængde</strong>
-                                    </th>
-                                    <th>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (Ingredient ingredient in Model.Ingredients)
-                                {
+        @if (Model.UserIsAdmin) {
+            <div class="tab-pane fade" id="procedure">
+                <div class="row">
+                    @if (!string.IsNullOrEmpty(Model.ItemType.Procedure)) {
+                        <div class="col-xs-12">
+                            <strong>@Html.DisplayNameFor(model => model.ItemType.Procedure):</strong>
+                            <h4>@Model.ItemType.Procedure</h4>
+                        </div>
+                    }
+                </div>
+                <div class="row">
+                    @if (Model.Ingredients.Any()) {
+                        <div class="col-xs-12">
+                            <table class="table table-striped">
+                                <thead>
                                     <tr>
-                                        <td>
-                                            <h4>@ingredient.ItemType.Name</h4>
-                                        </td>
-                                        <td>
-                                            <h4 class="sort-amount">@ingredient.Amount @ingredient.ItemType.Unit</h4>
-                                        </td>
-                                        <td>
-                                            <a href="@Url.Action("Detailed", "ItemType", new {id = ingredient.ItemType.UID})" class="btn btn-raised btn-primary pull-right">Gå til vare</a>
-                                        </td>
+                                        <th>
+                                            <strong>Ingrediens</strong>
+                                        </th>
+                                        <th>
+                                            <strong>Mængde</strong>
+                                        </th>
+                                        <th>
+                                        </th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                }
-                else
-                {                    
+                                </thead>
+                                <tbody>
+                                    @foreach (Ingredient ingredient in Model.Ingredients) {
+                                        <tr>
+                                            <td>
+                                                <h4>@ingredient.ItemType.Name</h4>
+                                            </td>
+                                            <td>
+                                                <h4 class="sort-amount">@ingredient.Amount @ingredient.ItemType.Unit</h4>
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("Detailed", "ItemType", new {id = ingredient.ItemType.UID})" class="btn btn-raised btn-primary pull-right">Gå til vare</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    } else {
                         <div class="col-xs-12">
                             <h3 class="text-center">@Model.ItemType.Name har ingen ingredienser</h3>
                             <br />
-                        </div>                 
-                }
+                        </div>
+                    }
                 </div>
-        </div>
+            </div>
+        }
     </div>
     <div class="row">
             <br />

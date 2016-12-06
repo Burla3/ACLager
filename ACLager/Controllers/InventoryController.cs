@@ -23,33 +23,18 @@ namespace ACLager.Controllers {
 
         // GET: Inventory
         public ActionResult Index() {
-            List<SelectListItem> locationSelectListItems = new List<SelectListItem>();
-            List<SelectListItem> itemTypeSelectListItems = new List<SelectListItem>();
-
-            List<ItemGroup> itemGroups = new List<ItemGroup>();
+            IEnumerable<ItemGroup> itemGroups;
+            IEnumerable<SelectListItem> locationSelectListItems;
+            IEnumerable<SelectListItem> itemTypeSelectListItems;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                IEnumerable<Item> items = db.ItemSet.Where(i => i.Amount > 0).ToList();
-                IEnumerable<ItemType> itemTypes = db.ItemTypeSet.Where(it => it.IsActive).ToList();
-                IEnumerable<Location> locations = db.LocationSet.Where(l => l.IsActive).ToList();
+                IEnumerable<Item> items = db.ItemSet.Where(i => i.Amount > 0);
+                IEnumerable<ItemType> itemTypes = db.ItemTypeSet.Where(it => it.IsActive);
+                IEnumerable<Location> locations = db.LocationSet.Where(l => l.IsActive);
 
-                foreach (ItemType itemType in itemTypes) {
-                    List<ItemLocationPair> itemLocationPairs = new List<ItemLocationPair>();
-
-                    foreach (Item item in items.Where(i => itemType.UID == i.ItemType.UID)) {
-                        itemLocationPairs.Add(new ItemLocationPair(item, locations.Single(l => l.UID == item.Location.UID)));
-                    }
-
-                    itemGroups.Add(new ItemGroup(itemType, itemLocationPairs));
-                }
-
-                foreach (Location location in locations.Where(l => l.Item == null)) {
-                    locationSelectListItems.Add(new SelectListItem { Text = location.Name, Value = location.UID.ToString()});
-                }
-
-                foreach (ItemType itemType in itemTypes) {
-                    itemTypeSelectListItems.Add(new SelectListItem { Text = itemType.Name, Value = itemType.UID.ToString() });
-                }
+                itemGroups = GenerateItemGroups(items, itemTypes, locations);
+                locationSelectListItems = GenerateLocationSelectListItems(locations);
+                itemTypeSelectListItems = GenerateItemTypeSelectListItems(itemTypes);
             }
 
             Item sitem = new Item();
@@ -294,6 +279,48 @@ namespace ACLager.Controllers {
             }
 
             return true;
+        }
+
+        public IEnumerable<ItemGroup> GenerateItemGroups(
+            IEnumerable<Item> items,
+            IEnumerable<ItemType> itemTypes,
+            IEnumerable<Location> locations)
+        {
+            List<ItemGroup> itemGroups = new List<ItemGroup>();
+
+            foreach (ItemType itemType in itemTypes.Where(it => it.Items.Count > 0)) {
+                List<ItemLocationPair> itemLocationPairs = new List<ItemLocationPair>();
+
+                foreach (Item item in items.Where(i => itemType.UID == i.ItemType.UID)) {
+                    itemLocationPairs.Add(new ItemLocationPair(item, locations.Single(l => l.UID == item.Location.UID)));
+                }
+
+                itemGroups.Add(new ItemGroup(itemType, itemLocationPairs));
+            }
+
+            return itemGroups;
+        }
+
+        public IEnumerable<SelectListItem> GenerateLocationSelectListItems(IEnumerable<Location> locations)
+        {
+            List<SelectListItem> locationSelectListItems = new List<SelectListItem>();
+
+            foreach (Location location in locations.Where(l => l.Item == null)) {
+                locationSelectListItems.Add(new SelectListItem { Text = location.Name, Value = location.UID.ToString() });
+            }
+
+            return locationSelectListItems;
+        }
+
+        public IEnumerable<SelectListItem> GenerateItemTypeSelectListItems(IEnumerable<ItemType> itemTypes)
+        {
+            List<SelectListItem> itemTypeSelectListItems = new List<SelectListItem>();
+
+            foreach (ItemType itemType in itemTypes) {
+                itemTypeSelectListItems.Add(new SelectListItem { Text = itemType.Name, Value = itemType.UID.ToString() });
+            }
+
+            return itemTypeSelectListItems;
         }
     }
 }

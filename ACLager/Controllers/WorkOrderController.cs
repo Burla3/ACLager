@@ -77,9 +77,10 @@ namespace ACLager.Controllers {
                 WorkOrderItem workOrderItem = db.WorkOrderItemSet.Find(id);
                 workOrderUID = workOrderItem.WorkOrder.UID;
 
-                Item item = new Item();
-                item.UID = workOrderItem.Item.UID;
-                item.Amount = workOrderItem.Amount;
+                Item item = new Item {
+                    UID = workOrderItem.Item.UID,
+                    Amount = workOrderItem.Amount
+                };
 
                 if (!InventoryController.PickItem(item, true)) {
                     return View("Error", new WorkOrderBaseViewModel());

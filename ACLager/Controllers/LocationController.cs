@@ -186,6 +186,15 @@ namespace ACLager.Controllers {
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public JsonResult DoesLocationNameExist(string Name) {
+            Location location;
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                location = db.LocationSet.FirstOrDefault(l => l.Name == Name);
+            }
+            return Json(location == null);
+        }
+
         public event ChangedEventHandler Changed;
     }
 }

@@ -26,8 +26,10 @@ namespace ACLager.Controllers {
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 workorders = db.WorkOrderSet.Where(wo => wo.Type == "Produktion" && !wo.IsComplete).ToList();
             }
+            WorkOrder workorder = new WorkOrder();
+            workorder.Type = "Produktion";
 
-            return View("Index", new WorkOrderProductionViewModel(workorders, new WorkOrder(), null));
+            return View("Index", new WorkOrderProductionViewModel(workorders, workorder, null));
         }
 
         [HttpGet]
@@ -37,8 +39,10 @@ namespace ACLager.Controllers {
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 workorders = db.WorkOrderSet.Where(wo => wo.Type == "Pakkeri" && !wo.IsComplete).ToList();
             }
+            WorkOrder workorder = new WorkOrder();
+            workorder.Type = "Pakkeri";
 
-            return View("Index", new WorkOrderPackagingViewModel(workorders, new WorkOrder(), null));
+            return View("Index", new WorkOrderPackagingViewModel(workorders, workorder, null));
         }
 
         [HttpGet]

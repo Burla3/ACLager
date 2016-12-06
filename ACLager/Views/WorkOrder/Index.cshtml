@@ -28,14 +28,26 @@
             <span class="label label-primary desc">Sorteret faldende</span>
             <br>
         </div>
-        <div class="sort noselect col-sm-2" data-sort="sort-shippinginfo">
-            <strong>@Html.DisplayNameFor(model => model.Workorder.ShippingInfo)</strong>
-            <br>
-            <span class="label label-default">Klik for at sortere</span>
-            <span class="label label-primary asc">Sorteret stigende</span>
-            <span class="label label-primary desc">Sorteret faldende</span>
-            <br>
-        </div>
+        @if (Model.Workorder.Type == "Pakkeri") {
+            <div class="sort noselect col-sm-2" data-sort="sort-shippinginfo">
+                <strong>@Html.DisplayNameFor(model => model.Workorder.ShippingInfo)</strong>
+                <br>
+                <span class="label label-default">Klik for at sortere</span>
+                <span class="label label-primary asc">Sorteret stigende</span>
+                <span class="label label-primary desc">Sorteret faldende</span>
+                <br>
+            </div>
+        }
+        else if (Model.Workorder.Type == "Produktion") {
+            <div class="sort noselect col-sm-2" data-sort="sort-itemtype">
+                <strong>@Html.DisplayNameFor(model => model.Workorder.ItemType)</strong>
+                <br>
+                <span class="label label-default">Klik for at sortere</span>
+                <span class="label label-primary asc">Sorteret stigende</span>
+                <span class="label label-primary desc">Sorteret faldende</span>
+                <br>
+            </div>
+        }
         <div class="sort noselect col-sm-2" data-sort="sort-duedate">
             <strong>@Html.DisplayNameFor(model => model.Workorder.DueDate)</strong>
             <br>
@@ -58,9 +70,16 @@
                     <div class="col-sm-2 sort-batchnumber">
                         <h4>@workorder.BatchNumber</h4>
                     </div>
-                    <div class="col-sm-2 sort-shippinginfo">
-                        <h4>@workorder.ShippingInfo</h4>
-                    </div>
+                    @if (Model.Workorder.Type == "Pakkeri") {
+                        <div class="col-sm-2 sort-shippinginfo">
+                            <h4>@workorder.ShippingInfo</h4>
+                        </div>
+                    }
+                    else if (Model.Workorder.Type == "Produktion") {
+                        <div class="col-sm-2 sort-itemtype">
+                            <h4>@workorder.ItemType</h4>
+                        </div>
+                    }
                     <div class="col-sm-2 sort-duedate">
                         @if (workorder.DueDate.HasValue) {
                               <h4>@workorder.DueDate.Value.ToString("yyyy-MM-dd")</h4>
@@ -77,9 +96,7 @@
                     <div class="col-sm-12">
                         <a href="@Url.Action("Detailed", new {id = workorder.UID})" class="btn btn-raised btn-primary pull-right">Mere info</a>
                     </div>
-
                 </div>
-
             </div>
         }
     </div>
@@ -90,7 +107,7 @@
         $(document).ready(function () {
 
             var options = {
-                valueNames: ['sort-UID', 'sort-batchnumber', 'sort-shippinginfo', 'sort-duedate']
+                valueNames: ['sort-UID', 'sort-batchnumber', 'sort-shippinginfo', 'sort-duedate', 'sort-itemtype']
             };
 
             var workorderList = new List('workorderSort', options);

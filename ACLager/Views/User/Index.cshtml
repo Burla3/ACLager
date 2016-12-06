@@ -66,7 +66,13 @@
                         <h4>@user.UID</h4>
                     </div>
                     <div class="col-xs-2 sort-role">
-                    <h4>@String.Format(user.IsAdmin ? "Administrator" : "Almindelig bruger")</h4>
+                        @if(user.IsAdmin == true){
+                            <h4 style="color:blue">Administrator</h4>
+                        }
+                        else {
+                            <h4 class="text-primary">Almindelig bruger</h4>
+                        }
+                    @*<h4>@String.Format(user.IsAdmin ? "Administrator" : "Almindelig bruger")</h4>*@
                     </div>
                     <div class="expansion-control col-sm-2" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@user.UID">
                         <div class="btn btn-default pull-right">

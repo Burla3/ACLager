@@ -56,17 +56,17 @@
         @foreach (WasteReportGroup wasteReportGroup in Model.WasteReportGroups) {
             <div class="expansionpanel row panel">
                 <div class="row">
-                    <div class="col-sm-2 sort-date">
-                        <h4>@wasteReportGroup.WasteReport.Date.ToString("yyyy-MM-dd HH:mm")</h4>
+                    <div class="col-sm-2">
+                        <h4 class="sort-date">@wasteReportGroup.WasteReport.Date.ToString("yyyy-MM-dd HH:mm")</h4>
                     </div>
-                    <div class="col-sm-3 sort-user">
-                        <h4>@wasteReportGroup.ObjectData["ContextUser"]["Name"]</h4>
+                    <div class="col-sm-3">
+                        <h4 class="sort-user">@wasteReportGroup.ObjectData["ContextUser"]["Name"]</h4>
                     </div>
-                    <div class="col-sm-3 sort-item">
-                        <h4>@wasteReportGroup.ObjectData["ItemType"]["Name"]</h4>
+                    <div class="col-sm-3">
+                        <h4 class="sort-item">@wasteReportGroup.ObjectData["ItemType"]["Name"]</h4>
                     </div>
                     <div class="col-sm-2">
-                        <h4>@wasteReportGroup.WasteReport.UID</h4>
+                        <h4 class="sort-id">@wasteReportGroup.WasteReport.UID</h4>
                     </div>
                     <div class="expansion-control col-sm-2" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@wasteReportGroup.WasteReport.UID">
                         <div class="btn btn-default pull-right">

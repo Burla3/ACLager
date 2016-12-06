@@ -41,25 +41,25 @@
             foreach (ItemLocationPair itemLocationPair in itemGroup.ItemLocationPairs) {
                 <div class="expansionpanel row panel">
                     <div class="row">
-                        <div class="col-xs-3 sort-name">
+                        <div class="col-xs-3">
                             @if (Model.UserIsAdmin) {
                                 <a href="@Url.Action("Detailed", "ItemType", new {id = itemGroup.ItemType.UID})">
-                                    <h4>@itemGroup.ItemType.Name</h4>
+                                    <h4 class="sort-name">@itemGroup.ItemType.Name</h4>
                                 </a>
                             } else {
-                                <h4>@itemGroup.ItemType.Name</h4>
+                                <h4 class="sort-name">@itemGroup.ItemType.Name</h4>
                             }
                         </div>
-                        <div class="col-xs-3 sort-location">
-                            <h4>@itemLocationPair.Location.Name</h4>
+                        <div class="col-xs-3">
+                            <h4 class="sort-location">@itemLocationPair.Location.Name</h4>
                         </div>
                         <div class="col-xs-2">
                             <h4 class="sort-amount">@(itemLocationPair.Item.Amount - itemLocationPair.Item.Reserved) @itemGroup.ItemType.Unit</h4>
                             <small>@itemLocationPair.Item.Reserved / @itemLocationPair.Item.Amount</small>
                         </div>
-                        <div class="col-xs-2 sort-expdate">
+                        <div class="col-xs-2">
                             @if (itemLocationPair.Item.ExpirationDate != null) {
-                                <h4>@itemLocationPair.Item.ExpirationDate.Value.ToShortDateString()</h4>
+                                <h4 class="sort-expdate">@itemLocationPair.Item.ExpirationDate.Value.ToShortDateString()</h4>
                             }
                         </div>
                         <div class="expansion-control col-xs-2" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@itemLocationPair.Item.UID">
@@ -70,9 +70,9 @@
                         </div>
                     </div>
                     <div class="row expansion-content" id="ExpansionContentContainer_@itemLocationPair.Item.UID">
-                        <div class="col-xs-2 sort-supplier">
+                        <div class="col-xs-2">
                             <strong>Leverandør:</strong>
-                            @itemLocationPair.Item.Supplier
+                            <span class="sort-supplier">@itemLocationPair.Item.Supplier</span>
                         </div>
                         <div class="col-xs-2">
                             <strong>Leveret dato:</strong>

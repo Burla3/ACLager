@@ -32,27 +32,27 @@
         @foreach (ItemType itemType in Model.ItemTypes) {
             <div class="expansionpanel row panel">
                 <div class="row">
-                    <div class="col-xs-2 sort-is-active">
+                    <div class="col-xs-2">
                         <h4>
                             @if (itemType.IsActive) {
-                                <span class="label label-success">Aktiv</span>
+                                <span class="label label-success sort-is-active">Aktiv</span>
                             } else {
-                                <span class="label label-default">Inaktiv</span>
+                                <span class="label label-default sort-is-active">Inaktiv</span>
                             }
                         </h4>
                     </div>
-                    <div class="col-xs-3 sort-name">
-                        <h4>
+                    <div class="col-xs-3">
+                        <h4 class="sort-name">
                             @itemType.Name
                         </h4>
                     </div>
-                    <div class="col-xs-3 sort-minimum-amount">
-                        <h4>
+                    <div class="col-xs-3">
+                        <h4 class="sort-minimum-amount">
                             @itemType.MinimumAmount
                         </h4>
                     </div>
-                    <div class="col-xs-2 sort-unit">
-                        <h4>
+                    <div class="col-xs-2">
+                        <h4 class="sort-unit">
                             @itemType.Unit
                         </h4>
                     </div>

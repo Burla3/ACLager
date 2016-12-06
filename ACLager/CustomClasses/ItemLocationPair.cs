@@ -22,5 +22,16 @@ namespace ACLager.CustomClasses {
 
         public Item Item { get; set; }
         public Location Location { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) {
+                return false;
+            }
+
+            ItemLocationPair itemLocationPair = (ItemLocationPair)obj;
+            return Item.Equals(itemLocationPair.Item) &&
+                   Location.Equals(itemLocationPair.Location);
+        }
     }
 }

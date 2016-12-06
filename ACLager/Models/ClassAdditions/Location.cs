@@ -26,5 +26,17 @@ namespace ACLager.Models {
                 Item = null
             };
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) {
+                return false;
+            }
+
+            Location location = (Location)obj;
+            return UID.Equals(location.UID) &&
+                   Name.Equals(location.Name) &&
+                   IsActive.Equals(location.IsActive);
+        }
     }
 }

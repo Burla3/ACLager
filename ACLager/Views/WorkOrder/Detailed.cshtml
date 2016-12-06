@@ -20,52 +20,61 @@
     <div class="clearfix"></div>
     <hr />
     <div class="row">
-        
-            @if (Model.Workorder.Type == "Produktion")
-            {
-                <div class="col-sm-4">
-                    <small>Varetype:</small>
-                    <h3>@if (Model.Workorder.ItemType != null)
-                    { <a href="@Url.Action("Detailed", "ItemType", new { id = Model.Workorder.ItemType.UID })">@Model.Workorder.ItemType.Name</a>}</h3>
-                </div>
-                <div class="col-sm-4">
-                    <small>Batchstørrelse:</small>
-                    <h3>@if (Model.Workorder.ItemType != null)
-                    { @Model.Workorder.ItemType.BatchSize }</h3>
-                </div>
-                <div class="col-sm-4">
-                    <small>Batchnummer:</small> <h3>@Model.Workorder.BatchNumber</h3>
-                </div>
 
-            }
-            else if (Model.Workorder.Type == "Pakkeri")
-            {
-                <div class="col-sm-8">
-                    <small>Shipping Info:</small>
-                    <h1>@Model.Workorder.ShippingInfo</h1>
+        @if (Model.Workorder.Type == "Produktion") {
+            <div class="col-sm-4">
+                <strong>Varetype:</strong>
+                <h3>@if (Model.Workorder.ItemType != null) {
+                    <a href="@Url.Action("Detailed", "ItemType", new { id = Model.Workorder.ItemType.UID })">@Model.Workorder.ItemType.Name</a>
+                }</h3>
+            </div>
+            <div class="col-sm-4">
+                <strong>Batchstørrelse:</strong>
+                <h3>
+                    @if (Model.Workorder.ItemType != null) {
+                        @Model.Workorder.ItemType.BatchSize
                     }
+                </h3>
+            </div>
+            <div class="col-sm-4">
+                <strong>Batchnummer:</strong> <h3>@Model.Workorder.BatchNumber</h3>
+            </div>
 
-                </div>
-                <div class="col-sm-4">
-                    <small>Ordrenummer:</small> <h3>@Model.Workorder.OrderNumber</h3>
-                </div>
-            }
+        } else if (Model.Workorder.Type == "Pakkeri") {
+            <div class="col-sm-8">
+                <strong>Shipping Info:</strong>
+                <h1>@Model.Workorder.ShippingInfo</h1>
+            </div>
+            <div class="col-sm-4">
+                <strong>Ordrenummer:</strong> <h3>@Model.Workorder.OrderNumber</h3>
+            </div>
+        }
     </div>
+    <hr />
     <div class="row">
         <div class="col-sm-12">
             @if (!Model.Workorder.IsStarted) {
                 using (Html.BeginForm("Start", "WorkOrder", new { id = Model.Workorder.UID })) {
                     @Html.AntiForgeryToken()
-                    <button class="btn btn-raised btn-lg btn-primary pull-right" type="submit" value="Start">Påbegynd ordre</button>
+                    <button class="btn btn-raised btn-lg btn-success pull-right" type="submit" value="Start">Påbegynd ordre</button>
                 }
-            }
-            else if (Model.Workorder.IsStarted && !Model.Workorder.IsComplete) {
-                using (Html.BeginForm("Complete", "WorkOrder", new { id = Model.Workorder.UID })) {
-                    @Html.AntiForgeryToken()
-                    <button class="btn btn-raised btn-lg btn-primary pull-right" type="submit" value="Start">Afslut ordre</button>
+            } else if (Model.Workorder.IsStarted && !Model.Workorder.IsComplete) {
+                <div class="pull-right">
+                    @using (Html.BeginForm("Complete", "WorkOrder", new { id = Model.Workorder.UID })) {
+                        @Html.AntiForgeryToken()
+                        bool allWorkOrderItemsComplete = Model.Workorderitems.All(woig => woig.WorkOrderItem.Progress == woig.WorkOrderItem.Amount);
+                        <button class="btn btn-raised btn-lg btn-@(allWorkOrderItemsComplete ? "success" : "disabled")" type="submit" @(!allWorkOrderItemsComplete ? "disabled" : "") value="Complete">Afslut ordre</button>
+                    }
+                </div>
+                if (Model.UserIsAdmin) {
+                    <div class="pull-right">
+                        @using (Html.BeginForm("Cancel", "WorkOrder", new { id = Model.Workorder.UID })) {
+                            @Html.AntiForgeryToken()
+                            <button class="btn btn-raised btn-lg btn-danger" type="submit" value="Cancel">Annuller ordre</button>
+                        }
+                    </div>
                 }
-            }
-            else if (Model.Workorder.IsComplete) {
+            } else if (Model.Workorder.IsComplete) {
                 <h3>Ordre afsluttet</h3>
             }
 
@@ -73,47 +82,49 @@
     </div>
     <hr />
     <div class="row">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th><small>Beskrivelse</small></th>
-                    <th><small>Plukke lokation</small></th>
-                    <th><small>Plukkemængde / Tilgængelig mængde</small></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-
-                @if (Model.Workorder.IsStarted && !Model.Workorder.IsComplete)
-                {
-                    foreach (WorkOrderItemGroup workorderitemgroup in Model.Workorderitems)
-                    {
-                        if (workorderitemgroup.WorkOrderItem.WorkOrder == Model.Workorder)
-                        {
-                            bool itempicked = (workorderitemgroup.WorkOrderItem.Progress == workorderitemgroup.WorkOrderItem.Amount);
-                            <tr>
-                                <td>
-                                    @workorderitemgroup.ItemType.Name
+        <div class="col-xs-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th><small>Beskrivelse</small></th>
+                        <th><small>Plukke lokation</small></th>
+                        <th><small>Plukkemængde / Tilgængelig mængde</small></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Workorder.IsStarted && !Model.Workorder.IsComplete) {
+                        foreach (WorkOrderItemGroup workorderitemgroup in Model.Workorderitems) {
+                            if (workorderitemgroup.WorkOrderItem.WorkOrder == Model.Workorder) {
+                                bool itempicked = (workorderitemgroup.WorkOrderItem.Progress == workorderitemgroup.WorkOrderItem.Amount);
+                                <tr>
+                                    <td>
+                                        @workorderitemgroup.ItemType.Name
+                                    </td>
+                                    <td>
+                                        <h3>
+                                            <strong>
+                                                @if (!itempicked) {
+                                                @workorderitemgroup.Location.Name
+                                                ;
+                                            } else {
+                                                @:--
+                                            }
+                                        </strong>
+                                    </h3>
                                 </td>
                                 <td>
-                                    <h3><strong>@if (!itempicked) { 
-                                        @workorderitemgroup.Location.Name;
-                                    } else {
-                                        @:--
-                                    }
-                                        </strong></h3>
+                                    <h3>
+                                        <strong>
+                                            @workorderitemgroup.WorkOrderItem.Amount @if (!itempicked) {
+                                                <small>/@workorderitemgroup.Item.Amount</small>
+                                            }
+                                        </strong>
+                                    </h3>
                                 </td>
                                 <td>
-                                    <h3><strong>@workorderitemgroup.WorkOrderItem.Amount @if (!itempicked) {
-                                        <small>/@workorderitemgroup.Item.Amount</small>
-                                    }
-                                        </strong></h3>
-                                </td>
-                                <td>
-                                    @if (!itempicked)
-                                    {
-                                        using (Html.BeginForm("Pick", "WorkOrder", new { id = workorderitemgroup.WorkOrderItem.UID }))
-                                        {
+                                    @if (!itempicked) {
+                                        using (Html.BeginForm("Pick", "WorkOrder", new { id = workorderitemgroup.WorkOrderItem.UID })) {
                                             @Html.AntiForgeryToken()
                                             <button class="btn btn-raised btn-info pull-right" type="submit" value="Pick">Pluk</button>
                                         }
@@ -123,36 +134,36 @@
 
                                 </td>
                             </tr>
+                            }
+                        }
+                    } else if (!Model.Workorder.IsStarted) {
+                        foreach (WorkOrderItemGroup workorderitemgroup in Model.Workorderitems) {
+                            if (workorderitemgroup.WorkOrderItem.WorkOrder == Model.Workorder) {
+
+                                <tr>
+                                    <td>
+                                        @workorderitemgroup.WorkOrderItem.ItemType.Name
+
+                                    </td>
+                                    <td>
+                                        <h3>
+                                            <strong>--</strong>
+                                        </h3>
+                                    </td>
+                                    <td>
+                                        <h3>
+                                            <strong>@workorderitemgroup.WorkOrderItem.Amount</strong>
+                                        </h3>
+                                    </td>
+                                    <td>
+                                        --
+                                    </td>
+                                </tr>
+                            }
                         }
                     }
-                }
-                else if (!Model.Workorder.IsStarted)
-                {
-                    foreach (WorkOrderItemGroup workorderitemgroup in Model.Workorderitems)
-                    {
-                        if (workorderitemgroup.WorkOrderItem.WorkOrder == Model.Workorder)
-                        {
-
-                            <tr>
-                                <td>
-                                    @workorderitemgroup.WorkOrderItem.ItemType.Name
-
-                                </td>
-                                <td>
-                                    <h3><strong>--</strong></h3>
-                                </td>
-                                <td>
-                                    <h3><strong>@workorderitemgroup.WorkOrderItem.Amount</strong></h3>
-                                </td>
-                                <td>
-                                    --
-                                </td>
-                            </tr>
-                        }
-                    }
-                }
-        </tbody>
-    </table>
-</div>
-                
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

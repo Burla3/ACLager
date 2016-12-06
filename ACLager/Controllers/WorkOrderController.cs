@@ -14,14 +14,9 @@ using ACLager.ViewModels;
 namespace ACLager.Controllers {
     public class WorkOrderController : Controller, ILoggable {
         // GET: WorkOrder
-        public ActionResult Index() {
-            IEnumerable<WorkOrder> workorders;
-
-            using (ACLagerDatabase db = new ACLagerDatabase()) {
-                workorders = db.WorkOrderSet.ToList();
-            }
-
-            return View(new WorkOrderBaseViewModel(workorders, new WorkOrder(), null));
+        public ActionResult Index()
+        {
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -29,7 +24,7 @@ namespace ACLager.Controllers {
             IEnumerable<WorkOrder> workorders;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                workorders = db.WorkOrderSet.Where(wo => wo.Type == "Produktion").ToList();
+                workorders = db.WorkOrderSet.Where(wo => wo.Type == "Produktion" && !wo.IsComplete).ToList();
             }
 
             return View("Index", new WorkOrderProductionViewModel(workorders, new WorkOrder(), null));
@@ -40,7 +35,7 @@ namespace ACLager.Controllers {
             IEnumerable<WorkOrder> workorders;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                workorders = db.WorkOrderSet.Where(wo => wo.Type == "Pakkeri").ToList();
+                workorders = db.WorkOrderSet.Where(wo => wo.Type == "Pakkeri" && !wo.IsComplete).ToList();
             }
 
             return View("Index", new WorkOrderPackagingViewModel(workorders, new WorkOrder(), null));
@@ -68,7 +63,11 @@ namespace ACLager.Controllers {
                 }
             }
 
-            return View(new WorkOrderProductionViewModel(null, workorder, workOrderItemGroups));
+            if (workorder.Type == "Pakkeri") {
+                return View(new WorkOrderPackagingViewModel(null, workorder, workOrderItemGroups));
+            } else {
+                return View(new WorkOrderProductionViewModel(null, workorder, workOrderItemGroups));
+            }
         }
 
         [HttpPost]
@@ -237,7 +236,7 @@ namespace ACLager.Controllers {
                 db.SaveChanges();
             }
 
-            return RedirectToAction("Detailed", id);
+            return RedirectToAction("Detailed", new {id = id});
         }
 
         private IEnumerable<WorkOrderItem> CreateNewWorkOrderItems(double amountNeeded, WorkOrderItem workOrderItem, IEnumerable<Item> items, WorkOrder workOrder) {

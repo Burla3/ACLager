@@ -53,5 +53,23 @@ namespace ACLager.Models {
                 WorkOrders = null
             };
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) {
+                return false;
+            }
+
+            ItemType itemType = (ItemType)obj;
+            return UID.Equals(itemType.UID) &&
+                   Name.Equals(itemType.Name) &&
+                   MinimumAmount.Equals(itemType.MinimumAmount) &&
+                   Unit.Equals(itemType.Unit) &&
+                   IsActive.Equals(itemType.IsActive) &&
+                   Procedure.Equals(itemType.Procedure) &&
+                   Barcode.Equals(itemType.Barcode) &&
+                   BatchSize.Equals(itemType.BatchSize) &&
+                   Department.Equals(itemType.Department);
+        }
     }
 }

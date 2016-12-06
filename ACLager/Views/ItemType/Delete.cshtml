@@ -45,28 +45,28 @@
                                                 <span class="label label-default">Inaktiv</span>
                                             }
                                         </dd>
-                                        <dd>@Model.ItemType.Procedure</dd>
-                                        <dt>@Html.DisplayNameFor(model => model.ItemType.Procedure):</dt>
-                                        <dd>@Model.ItemType.Barcode</dd>
                                         <dt>@Html.DisplayNameFor(model => model.ItemType.Barcode):</dt>
-                                        <dd>@Model.ItemType.BatchSize</dd>
+                                        <dd>@Model.ItemType.Barcode</dd>
                                         <dt>@Html.DisplayNameFor(model => model.ItemType.BatchSize):</dt>
-                                        <dd>@Model.ItemType.Department</dd>
+                                        <dd>@Model.ItemType.BatchSize</dd>
                                         <dt>@Html.DisplayNameFor(model => model.ItemType.Department):</dt>
+                                        <dd>@Model.ItemType.Department</dd>
+                                        <dt>@Html.DisplayNameFor(model => model.ItemType.Procedure):</dt>
+                                        <dd>@Model.ItemType.Procedure</dd>
                                     </dl>
                                     @if (Model.ItemType.WorkOrderItems.Count > 0) {
                                         <hr />
-                                        <span>Nederstående ordre indeholder denne varetype. Disse vil også blive <strong>slettet</strong> fra systemet.</span><br />
+                                        <span>Nederstående <strong>ordre</strong> indeholder denne varetype. Disse vil også blive <strong>slettet</strong> fra systemet.</span><br />
                                         foreach (WorkOrderItem workOrderItem in Model.ItemType.WorkOrderItems) {
                                             <a href="@Url.Action("Detailed", "WorkOrder", new {id = workOrderItem.WorkOrder.UID})">
-                                                @Html.DisplayNameFor(model => model.ItemType.WorkOrderItems.First().WorkOrder.BatchNumber): @workOrderItem.WorkOrder.BatchNumber
+                                                @Html.DisplayNameFor(model => model.ItemType.WorkOrderItems.First().WorkOrder.OrderNumber): @workOrderItem.WorkOrder.OrderNumber
                                             </a>
                                             <br />
                                         }
                                     }
                                     @if (Model.ItemType.Items.Count > 0) {
                                         <hr />
-                                        <span>Nederstående lokationer indeholder varer af denne varetype. Disse vil også blive <strong>slettet</strong> fra systemet.</span><br/>
+                                        <span>Nederstående <strong>lokationer</strong> indeholder varer af denne varetype. Disse vil også blive <strong>slettet</strong> fra systemet.</span><br/>
                                         foreach (Item item in Model.ItemType.Items) {
                                             <a href="@Url.Action("Detailed", "Location", new {id = item.Location.UID})">
                                                 @Html.DisplayNameFor(model => model.ItemType.Items.First().Location.Name): @item.Location.Name
@@ -76,7 +76,7 @@
                                     }
                                     @if (Model.ItemType.IsIngredientFor.Count > 0) {
                                         <hr />
-                                        <span>Nederstående varetyper indeholder denne varetype som ingrediens. Disse ingredienser vil også blive <strong>slettet</strong> fra systemet.</span><br />
+                                        <span>Nederstående <strong>varetyper</strong> indeholder denne varetype som ingrediens. Disse ingredienser vil også blive <strong>slettet</strong> fra systemet.</span><br />
                                         foreach (Ingredient ingredient in Model.ItemType.IsIngredientFor){
                                             <a href="@Url.Action("Detailed", "ItemType", new {id = ingredient.ForItemType.UID})">
                                                 @Html.DisplayNameFor(model => model.ItemType.IsIngredientFor.First().ForItemType.Name): @ingredient.ForItemType.Name

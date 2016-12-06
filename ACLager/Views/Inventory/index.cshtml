@@ -42,7 +42,13 @@
                 <div class="expansionpanel row panel">
                     <div class="row">
                         <div class="col-xs-3 sort-name">
-                            <h4>@itemGroup.ItemType.Name</h4>
+                            @if (Model.UserIsAdmin) {
+                                <a href="@Url.Action("Detailed", "ItemType", new {id = itemGroup.ItemType.UID})">
+                                    <h4>@itemGroup.ItemType.Name</h4>
+                                </a>
+                            } else {
+                                <h4>@itemGroup.ItemType.Name</h4>
+                            }
                         </div>
                         <div class="col-xs-3 sort-location">
                             <h4>@itemLocationPair.Location.Name</h4>

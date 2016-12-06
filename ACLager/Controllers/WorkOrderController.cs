@@ -14,14 +14,9 @@ using ACLager.ViewModels;
 namespace ACLager.Controllers {
     public class WorkOrderController : Controller, ILoggable {
         // GET: WorkOrder
-        public ActionResult Index() {
-            IEnumerable<WorkOrder> workorders;
-
-            using (ACLagerDatabase db = new ACLagerDatabase()) {
-                workorders = db.WorkOrderSet.ToList();
-            }
-
-            return View(new WorkOrderBaseViewModel(workorders, new WorkOrder(), null));
+        public ActionResult Index()
+        {
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]

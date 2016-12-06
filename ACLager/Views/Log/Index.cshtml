@@ -15,25 +15,24 @@
 
         <div class="row">
             <div class="row">
-                <div class="sort noselect col-sm-2" data-sort="sort-date">
-                    <strong>Tidspunkt</strong>
-                    <br>
-                    <span class="label label-default">Klik for at sortere</span>
-                    <span class="label label-primary asc">Sorteret stigende</span>
-                    <span class="label label-primary desc">Sorteret faldende</span>
-                    <br>
-                </div>
-                <div class="sort noselect col-sm-2" data-sort="sort-type">
-                    <strong>@Html.DisplayNameFor(model => model.LogEntry.Type)</strong>
-                    <br>
-                    <span class="label label-default">Klik for at sortere</span>
-                    <span class="label label-primary asc">Sorteret stigende</span>
-                    <span class="label label-primary desc">Sorteret faldende</span>
-                    <br>
-                </div>
-                <div class="col-sm-6">
-                    <strong>@Html.DisplayNameFor(model => model.LogEntry.LogBody)</strong>
-                </div>
+            <div class="sort noselect col-sm-2" data-sort="sort-date">
+                <strong>@Html.DisplayNameFor(model => model.LogEntry.Date)</strong>
+                <br>
+                <span class="label label-default">Klik for at sortere</span>
+                <span class="label label-primary asc">Sorteret stigende</span>
+                <span class="label label-primary desc">Sorteret faldende</span>
+                <br>
+            </div>
+            <div class="sort noselect col-sm-2" data-sort="sort-type">
+                <strong>@Html.DisplayNameFor(model => model.LogEntry.Type)</strong>
+                <br>
+                <span class="label label-default">Klik for at sortere</span>
+                <span class="label label-primary asc">Sorteret stigende</span>
+                <span class="label label-primary desc">Sorteret faldende</span>
+                <br>
+            </div>
+            <div class="col-sm-6">
+                <strong>@Html.DisplayNameFor(model => model.LogEntry.LogBody)</strong>
             </div>
         </div>
 

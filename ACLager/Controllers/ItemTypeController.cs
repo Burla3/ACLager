@@ -342,7 +342,6 @@ namespace ACLager.Controllers {
 
         [HttpPost]
         public JsonResult DoesItemTypeNameExist(ItemType itemType) {
-            ItemType dbItemType;
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 itemType = db.ItemTypeSet.FirstOrDefault(it => it.Name == itemType.Name);
             }

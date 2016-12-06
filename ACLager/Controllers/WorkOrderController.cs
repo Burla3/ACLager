@@ -27,7 +27,7 @@ namespace ACLager.Controllers {
                 workorders = db.WorkOrderSet.Where(wo => wo.Type == "Produktion" && !wo.IsComplete).ToList();
             }
 
-            return View("Index", new WorkOrderProductionViewModel(workorders, new WorkOrder(), null));
+            return View("Index", new WorkOrderProductionViewModel(workorders, new WorkOrder(), null, null));
         }
 
         [HttpGet]
@@ -38,7 +38,7 @@ namespace ACLager.Controllers {
                 workorders = db.WorkOrderSet.Where(wo => wo.Type == "Pakkeri" && !wo.IsComplete).ToList();
             }
 
-            return View("Index", new WorkOrderPackagingViewModel(workorders, new WorkOrder(), null));
+            return View("Index", new WorkOrderPackagingViewModel(workorders, new WorkOrder(), null, null));
         }
 
         [HttpGet]
@@ -48,12 +48,13 @@ namespace ACLager.Controllers {
             }
 
             WorkOrder workorder;
+            ItemType itemType = null;
             List<WorkOrderItemGroup> workOrderItemGroups = new List<WorkOrderItemGroup>();
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 workorder = db.WorkOrderSet.Find(Int64.Parse(id));
                 if (workorder.ItemType != null) {
-                    workorder.ItemType.UID = workorder.ItemType.UID;
+                    itemType = workorder.ItemType;
                 }
                 
                 foreach (WorkOrderItem workorderitem in workorder.WorkOrderItems) {
@@ -64,9 +65,9 @@ namespace ACLager.Controllers {
             }
 
             if (workorder.Type == "Pakkeri") {
-                return View(new WorkOrderPackagingViewModel(null, workorder, workOrderItemGroups));
+                return View(new WorkOrderPackagingViewModel(null, workorder, workOrderItemGroups, itemType));
             } else {
-                return View(new WorkOrderProductionViewModel(null, workorder, workOrderItemGroups));
+                return View(new WorkOrderProductionViewModel(null, workorder, workOrderItemGroups, itemType));
             }
         }
 
@@ -139,36 +140,39 @@ namespace ACLager.Controllers {
         /// <param name="progress">Workorder item to be updated.</param>
         /// <returns>Redirects to /WorkOrder.</returns>
         [HttpPost]
-        public ActionResult UpdateWorkOrderItem(long id, long progress) {
-            WorkOrderItem dbWorkOrderItem;
+        public ActionResult Update(long id, WorkOrder workOrder) {
+            WorkOrder oldWorkOrder;
             WorkOrder dbWorkOrder;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                dbWorkOrderItem = db.WorkOrderItemSet.Find(id);
+                dbWorkOrder = db.WorkOrderSet.Find(id);
 
-                if (dbWorkOrderItem == null) {
-                    return RedirectToAction("Index");
+                if (dbWorkOrder == null) {
+                    return RedirectToAction(dbWorkOrder.Type == "Pakkeri" ? "Packaging" : "Production");
                 }
 
-                dbWorkOrder = dbWorkOrderItem.WorkOrder.ToLoggable();
+                oldWorkOrder = dbWorkOrder.ToLoggable();
 
-                dbWorkOrderItem.Progress = progress;
+                if (workOrder.Progress.HasValue) {
+                    dbWorkOrder.Progress = workOrder.Progress.Value;
+                }
+
                 db.SaveChanges();
             }
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "Opdateret Ordre punkt",
-                        $"Opdateret Ordre punkt på arbejdsopgave nr. {dbWorkOrder.OrderNumber}",
+                        "Opdateret Ordre",
+                        $"Opdateret Ordre nr. {dbWorkOrder.OrderNumber}",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),
-                            Ordre = dbWorkOrder.ToLoggable(),
-                            OrdrePunkt = dbWorkOrder.ToLoggable()
+                            Før = oldWorkOrder,
+                            Efter = dbWorkOrder.ToLoggable(),
                         }
                     )
             );
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Detailed", new {id = id});
         }
 
         [HttpPost]
@@ -233,7 +237,7 @@ namespace ACLager.Controllers {
                         try {
                             newWorkOrderItems = CreateNewWorkOrderItems(amountNeeded, workOrderItem, items, workOrder);
                         } catch (Exception) {
-                            return View("Error", new WorkOrderBaseViewModel(null, workOrder, null));
+                            return View("Error", new WorkOrderBaseViewModel(null, workOrder, null, null));
                         }
                         
                     }            

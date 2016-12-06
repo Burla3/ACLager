@@ -70,22 +70,22 @@ namespace ACLager.Controllers {
 
                     ItemType itemType = new ItemType {
                         Barcode = "BARCODE",
-                        Department = "DEPARTMENT",
+                        Department = "Produktion",
                         IsActive = true,
                         MinimumAmount = 1234,
                         Name = i * 43 % 100 + "% Chokolade",
                         Unit = "Gram",
-                        Procedure = "Some procedure",
+                        Procedure = "Bland lortet.",
                         BatchSize = 765
                     };
                     ItemType itemType2 = new ItemType {
                         Barcode = "BARCODE",
-                        Department = "DEPARTMENT",
+                        Department = "Produktion",
                         IsActive = true,
                         MinimumAmount = 1234,
                         Name = i * 33 % 100 + "% Hvid Chokolade",
-                        Unit = "Gram",
-                        Procedure = "Some procedure",
+                        Unit = "Kg",
+                        Procedure = "Bland lortet.",
                         BatchSize = 765
                     };
                     db.ItemTypeSet.Add(itemType);
@@ -139,15 +139,15 @@ namespace ACLager.Controllers {
                     };
                     db.IngredientSet.Add(ingredient);
 
-                    Random rn = new Random();
-
                     WorkOrder workOrder = new WorkOrder {
                         BatchNumber = i*12,
                         IsComplete = false,
-                        Type = rn.Next(Int32.MinValue, Int32.MaxValue) % 2 == 0 ? "Produktion" : "Pakkeri",
+                        Type = "Produktion",
+                        ItemType = itemType,
+                        Amount = 100,
+                        Progress = 0,
                         DueDate = DateTime.Now.AddMonths(i*3),
                         OrderNumber = i*3,
-                        ShippingInfo = "Send til MATHIAS MED DET SAMME! UDEN KAGE!"
                     };
                     db.WorkOrderSet.Add(workOrder);
 
@@ -163,8 +163,35 @@ namespace ACLager.Controllers {
                         WorkOrder = workOrder,
                         ItemType = itemType2
                     };
+
                     db.WorkOrderItemSet.Add(workOrderItem);
                     db.WorkOrderItemSet.Add(workOrderItem2);
+
+                    WorkOrder workOrder2 = new WorkOrder {
+                        BatchNumber = i * 12,
+                        IsComplete = false,
+                        Type = "Pakkeri",
+                        DueDate = DateTime.Now.AddMonths(i * 3),
+                        OrderNumber = i * 3,
+                        ShippingInfo = "Send til MATHIAS MED DET SAMME! UDEN KAGE!"
+                    };
+                    db.WorkOrderSet.Add(workOrder2);
+
+                    WorkOrderItem workOrderItem3 = new WorkOrderItem {
+                        Amount = 5,
+                        Progress = 0,
+                        WorkOrder = workOrder2,
+                        ItemType = itemType
+                    };
+                    WorkOrderItem workOrderItem4 = new WorkOrderItem {
+                        Amount = 99,
+                        Progress = 0,
+                        WorkOrder = workOrder2,
+                        ItemType = itemType2
+                    };
+
+                    db.WorkOrderItemSet.Add(workOrderItem3);
+                    db.WorkOrderItemSet.Add(workOrderItem4);
                     db.SaveChanges();
                 }
                 

@@ -22,22 +22,54 @@
             <div class="col-sm-4">
                 <strong>Varetype:</strong>
                 <h3>
-                    @if (Model.Workorder.ItemType != null) {
-                        <a href="@Url.Action("Detailed", "ItemType", new {id = Model.Workorder.ItemType.UID})">@Model.Workorder.ItemType.Name</a>
+                    @if (Model.ItemType != null) {
+                        <a href="@Url.Action("Detailed", "ItemType", new {id = Model.ItemType.UID})">@Model.ItemType.Name</a>
                     }
                 </h3>
             </div>
             <div class="col-sm-4">
                 <strong>Batchstørrelse:</strong>
                 <h3>
-                    @if (Model.Workorder.ItemType != null) {
-                        @Model.Workorder.ItemType.BatchSize
+                    @if (Model.ItemType != null) {
+                        @Model.ItemType.BatchSize
                     }
                 </h3>
             </div>
             <div class="col-sm-4">
-                <strong>Batchnummer:</strong> <h3>@Model.Workorder.BatchNumber</h3>
+                <strong>Batchnummer:</strong>
+                <h3>@Model.Workorder.BatchNumber</h3>
             </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <br />
+                </div>
+            </div>           
+            <div class="col-xs-2">
+                <strong>Status:</strong>
+                <h3>@Model.Workorder.Progress / @Model.Workorder.Amount</h3>
+            </div>
+            <div class="col-xs-2">
+                @using (Html.BeginForm("Update", "WorkOrder", new {id = Model.Workorder.UID})) {
+                    @Html.AntiForgeryToken()
+                    <div class="col-sx-6">
+                        <div class="form-group label-floating">
+                            <label class="control-label" for="Workorder.Progress">Færdige enheder</label>
+                            @Html.EditorFor(model => model.Workorder.Progress, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Workorder.Progress, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-sx-6">
+                        <button class="btn btn-raised btn-lg btn-success" type="submit" value="Start">Updater</button>
+                    </div>
+                }
+            </div>
+            <div class="col-xs-8">
+                <strong>Fremgangsmåde:</strong> <br/>
+                @if (Model.ItemType != null) {
+                    @Model.ItemType.Procedure
+                }
+            </div>
+
         } else if (Model.Workorder.Type == "Pakkeri") {
             <div class="col-sm-8">
                 <strong>Shipping Info:</strong>

@@ -11,12 +11,13 @@ using ACLager.Models;
 using ACLager.ViewModels;
 
 namespace ACLager.Controllers {
-    [AdminOnly]
+    
     public class WasteController : Controller, ILoggable {
         public WasteController() {
             new Logger().Subcribe(this);
         }
 
+        [AdminOnly]
         public ActionResult Index() {
             List<WasteReportGroup> wasteReportGroups = new List<WasteReportGroup>();
 
@@ -32,6 +33,7 @@ namespace ACLager.Controllers {
             return View(new WasteViewModel(wasteReportGroups, null));
         }
 
+        [AdminOnly]
         [HttpGet]
         public ActionResult Detailed(string id) {
             if (id == null) {

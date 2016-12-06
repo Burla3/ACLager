@@ -53,11 +53,22 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            @using (Html.BeginForm("Start", "WorkOrder", new { id = Model.Workorder.UID }))
-            {
-                @Html.AntiForgeryToken()
-                <button class="btn btn-raised btn-lg btn-primary pull-right" type="submit" value="Start">Påbegynd ordre</button>
+            @if (!Model.Workorder.IsStarted) {
+                using (Html.BeginForm("Start", "WorkOrder", new { id = Model.Workorder.UID })) {
+                    @Html.AntiForgeryToken()
+                    <button class="btn btn-raised btn-lg btn-primary pull-right" type="submit" value="Start">Påbegynd ordre</button>
+                }
             }
+            else if (Model.Workorder.IsStarted && !Model.Workorder.IsComplete) {
+                using (Html.BeginForm("Complete", "WorkOrder", new { id = Model.Workorder.UID })) {
+                    @Html.AntiForgeryToken()
+                    <button class="btn btn-raised btn-lg btn-primary pull-right" type="submit" value="Start">Afslut ordre</button>
+                }
+            }
+            else if (Model.Workorder.IsComplete) {
+                <h3>Ordre afsluttet</h3>
+            }
+
         </div>
     </div>
     <hr />

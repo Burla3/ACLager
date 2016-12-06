@@ -73,13 +73,15 @@ namespace ACLager.Controllers {
 
         [HttpPost]
         public ActionResult Pick(long id) {
-            Item item;
+            Item item = new Item();
             long woid;
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 WorkOrderItem dbwoi = db.WorkOrderItemSet.Find(id);
-                item = dbwoi.Item;
+                item.UID = dbwoi.Item.UID;
                 item.Amount = dbwoi.Amount;
                 woid = dbwoi.WorkOrder.UID;
+                dbwoi.Progress += item.Amount;
+                db.SaveChanges();
             }
 
             InventoryController.PickItem(item, true);
@@ -123,7 +125,7 @@ namespace ACLager.Controllers {
                     )
             );
 
-            return RedirectToAction("Index");
+            return RedirectToAction(dbWorkOrder.Type == "Pakkeri" ? "Packaging" : "Production");
         }
 
         /// <summary>
@@ -176,7 +178,8 @@ namespace ACLager.Controllers {
                 }
 
                 dbWorkOrder.IsComplete = true;
-                dbWorkOrder.CompletedByUser = UserController.GetContextUser();
+                User user = db.UserSet.Find(UserController.GetContextUser().UID);
+                dbWorkOrder.CompletedByUser = user;
 
                 db.SaveChanges();
             }
@@ -192,7 +195,7 @@ namespace ACLager.Controllers {
                     )
             );
 
-            return RedirectToAction("Index");
+            return RedirectToAction(dbWorkOrder.Type == "Pakkeri" ? "Packaging" : "Production");
         }
 
         [HttpPost]

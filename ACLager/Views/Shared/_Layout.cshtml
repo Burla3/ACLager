@@ -55,7 +55,7 @@
                 return this.optional(element) || (value >= param[0] && value <= param[1]);
             }
             moment.locale("da");
-            $('.chosen-select').select2({
+            $('.chosen-select').not(".flowout-content .chosen-select").select2({
                 language: "da"
             });
             $('.btn[data-toggle="popover"]').popover();
@@ -154,6 +154,12 @@
                     'display': 'block',
                     'z-index': backdrop.css('z-index') + 1
                 });
+
+                // attachs select2 in order to calculate size properly
+                $(options.content_element).find('.chosen-select').select2({
+                    language: "da"
+                });
+
                 options.content_element.transition({
                     'top': (backdrop.height() - options.content_element.height()) / 2
                 }, 300);

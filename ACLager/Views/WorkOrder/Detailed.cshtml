@@ -21,31 +21,29 @@
     <hr />
     <div class="row">
 
-            @if (Model.Workorder.Type == "Produktion")
-            {
-                <div class="col-sm-4">
-                    <strong>Varetype:</strong>
-                    <h3>@if (Model.Workorder.ItemType != null) {
-                        <a href="@Url.Action("Detailed", "ItemType", new { id = Model.Workorder.ItemType.UID })">@Model.Workorder.ItemType.Name</a>
-                    }</h3>
-                </div>
-                <div class="col-sm-4">
-                    <strong>Batchstørrelse:</strong>
-                    <h3>@if (Model.Workorder.ItemType != null)
-                    { @Model.Workorder.ItemType.BatchSize }</h3>
+        @if (Model.Workorder.Type == "Produktion") {
+            <div class="col-sm-4">
+                <strong>Varetype:</strong>
+                <h3>@if (Model.Workorder.ItemType != null) {
+                    <a href="@Url.Action("Detailed", "ItemType", new { id = Model.Workorder.ItemType.UID })">@Model.Workorder.ItemType.Name</a>
+                }</h3>
+            </div>
+            <div class="col-sm-4">
+                <strong>Batchstørrelse:</strong>
+                <h3>
+                    @if (Model.Workorder.ItemType != null) {
+                        @Model.Workorder.ItemType.BatchSize
+                    }
+                </h3>
             </div>
             <div class="col-sm-4">
                 <strong>Batchnummer:</strong> <h3>@Model.Workorder.BatchNumber</h3>
             </div>
 
-        }
-        else if (Model.Workorder.Type == "Pakkeri")
-        {
+        } else if (Model.Workorder.Type == "Pakkeri") {
             <div class="col-sm-8">
                 <strong>Shipping Info:</strong>
                 <h1>@Model.Workorder.ShippingInfo</h1>
-                }
-
             </div>
             <div class="col-sm-4">
                 <strong>Ordrenummer:</strong> <h3>@Model.Workorder.OrderNumber</h3>
@@ -60,14 +58,12 @@
                     @Html.AntiForgeryToken()
                     <button class="btn btn-raised btn-lg btn-primary pull-right" type="submit" value="Start">Påbegynd ordre</button>
                 }
-            }
-            else if (Model.Workorder.IsStarted && !Model.Workorder.IsComplete) {
+            } else if (Model.Workorder.IsStarted && !Model.Workorder.IsComplete) {
                 using (Html.BeginForm("Complete", "WorkOrder", new { id = Model.Workorder.UID })) {
                     @Html.AntiForgeryToken()
                     <button class="btn btn-raised btn-lg btn-primary pull-right" type="submit" value="Start">Afslut ordre</button>
                 }
-            }
-            else if (Model.Workorder.IsComplete) {
+            } else if (Model.Workorder.IsComplete) {
                 <h3>Ordre afsluttet</h3>
             }
 

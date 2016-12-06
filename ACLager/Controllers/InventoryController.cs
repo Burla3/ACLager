@@ -116,18 +116,17 @@ namespace ACLager.Controllers {
 
         [HttpPost]
         public ActionResult Pick(Item item) {
-            PickItem(item);
-
             Location dbLocation;
-            ItemType dbItemType;
-            Item dbItem;
+            ItemType dbItemType;         
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                dbItem = db.ItemSet.Find(item.UID);
+                Item dbItem = db.ItemSet.Find(item.UID);
                 dbItemType = dbItem.ItemType;
                 dbLocation = dbItem.Location;
 
-                
+                if (!PickItem(item)) {
+                    return View("Error", new InventoryViewModel());
+                }
 
                 if (dbItemType.Items.Sum(i => i.Amount) < dbItemType.MinimumAmount) {
                     Notify?.Invoke(this, new NotificationEventArgs(dbItemType));

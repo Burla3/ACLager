@@ -21,11 +21,13 @@ namespace ACLager.Controllers {
             List<WasteReportGroup> wasteReportGroups = new List<WasteReportGroup>();
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                foreach (WasteReport wasteReport in db.WasteReportSet) {
+                foreach (WasteReport wasteReport in db.WasteReportSet.ToList()) {
                     dynamic objectData = System.Web.Helpers.Json.Decode(wasteReport.ObjectData);
                     wasteReportGroups.Add(new WasteReportGroup(wasteReport, objectData));
                 }
             }
+
+            wasteReportGroups = wasteReportGroups.OrderByDescending(wrg => wrg.WasteReport.Date).ToList();
 
             return View(new WasteViewModel(wasteReportGroups, null));
         }

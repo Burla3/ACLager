@@ -240,6 +240,7 @@ namespace ACLager.Controllers {
             using (ACLagerDatabase db = new ACLagerDatabase()) {
 
                 Location location = db.LocationSet.Find(item.Location.UID);
+                item.Location = location;
                 Item locationItem = null;
 
                 if (location.Item != null) {
@@ -247,8 +248,7 @@ namespace ACLager.Controllers {
                 }
                 
                 if (locationItem == null) {
-                    /*item.ItemType = db.ItemTypeSet.Find(item.ItemType.UID);
-                    item.Location = db.LocationSet.Find(item.Location.UID);*/
+                    item.ItemType = db.ItemTypeSet.Find(item.ItemType.UID);
                     db.ItemSet.Add(item);
                 } else {
                     locationItem.ItemType = locationItem.ItemType;
@@ -278,8 +278,12 @@ namespace ACLager.Controllers {
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 Item dbItem = db.ItemSet.Find(item.UID);
 
-                /*item.ItemType = dbItem.ItemType;
-                item.Location = dbItem.Location;*/
+                if (item.ItemType == null) {
+                    item.ItemType = dbItem.ItemType;
+                }
+                if (item.Location == null) {
+                    item.Location = dbItem.Location;
+                }
 
                 if (item.Amount < dbItem.Amount) {
                     dbItem.Amount -= item.Amount;

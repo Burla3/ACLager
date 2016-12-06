@@ -68,7 +68,11 @@ namespace ACLager.Controllers {
                 }
             }
 
-            return View(new WorkOrderProductionViewModel(null, workorder, workOrderItemGroups));
+            if (workorder.Type == "Pakkeri") {
+                return View(new WorkOrderPackagingViewModel(null, workorder, workOrderItemGroups));
+            } else {
+                return View(new WorkOrderProductionViewModel(null, workorder, workOrderItemGroups));
+            }
         }
 
         [HttpPost]

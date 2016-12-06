@@ -63,7 +63,7 @@
                     </div>
                     <div class="col-sm-2 sort-duedate">
                         @if (workorder.DueDate.HasValue) {
-                              <h4>@workorder.DueDate.Value.ToString("dd-MM-yyyy")</h4>
+                              <h4>@workorder.DueDate.Value.ToString("yyyy-MM-dd")</h4>
                         }
                     </div>
                     <div class="expansion-control col-sm-4" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@workorder.UID">

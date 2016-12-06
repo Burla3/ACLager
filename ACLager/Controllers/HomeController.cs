@@ -10,15 +10,15 @@ using ACLager.ViewModels;
 namespace ACLager.Controllers {
     public class HomeController : Controller {
         public List<HomeMenuBlock> homeMenuBlocks = new List<HomeMenuBlock> {
-                new HomeMenuBlock("purple", "Lagerstyring", "Tilføj, rediger og pluk lagervarer.", "Inventory", "Index", false),
-                new HomeMenuBlock("brown", "Produktion", "Ordrer til produktionen.", "WorkOrder", "Production", false),
-                new HomeMenuBlock("orange", "Pakkeri", "Ordrer til pakkeriet.", "WorkOrder", "Packaging", false),
-                new HomeMenuBlock("deep-orange", "Spildrapport", "Rapportering af spild.", "Waste", "Create", false),
-                new HomeMenuBlock("amber", "Brugere", "Håndtering af brugere.", "User", "Index", true),
-                new HomeMenuBlock("indigo", "Varetyper", "Håndtering af varetyper.", "ItemType", "Index", true),
-                new HomeMenuBlock("blue", "Lokationer", "Håndtering af lokationer.", "Location", "Index", true),
-                new HomeMenuBlock("cyan", "Aktivitetshistorik", "Se aktivitetshistorik.", "Log", "Index", true),
-                new HomeMenuBlock("green", "Oversigt over spild", "Se spildrapporter.", "Waste", "Index", true)
+                new HomeMenuBlock("purple", "Vare", "Tilføj, rediger og pluk lagervarer.", "Inventory", "Index", false),
+                new HomeMenuBlock("brown", "Produktion", "Påbegynde og afslut ordrer til produktion.", "WorkOrder", "Production", false),
+                new HomeMenuBlock("orange", "Pakkeri", "Påbegynde og afslut ordrer til pakkeriet.", "WorkOrder", "Packaging", false),
+                new HomeMenuBlock("deep-orange", "Spildrapport", "Rapporter spild her.", "Waste", "Create", false),
+                new HomeMenuBlock("amber", "Brugere", "Tilføj, rediger eller slet brugere.", "User", "Index", true),
+                new HomeMenuBlock("indigo", "Varetyper", "Tilføj, rediger eller slet varetyper og opskrifter.", "ItemType", "Index", true),
+                new HomeMenuBlock("blue", "Lokationer", "Tilføj, rediger og slet lokationer.", "Location", "Index", true),
+                new HomeMenuBlock("cyan", "Aktivitetshistorik", "Se hele aktivitetshistorik.", "Log", "Index", true),
+                new HomeMenuBlock("green", "Oversigt over spild", "Se alle spildrapporter.", "Waste", "Index", true)
             };
 
         public ActionResult Index() {

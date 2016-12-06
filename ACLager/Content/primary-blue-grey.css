@@ -3606,6 +3606,9 @@ fieldset[disabled] .select2.select2-container {
 .nav-tabs > li > a {
   color: #607d8b !important;
 }
+.nav-tabs > li:hover > a {
+  color: #607d8b !important;
+}
 .nav-tabs > li.active {
   background-color: #607d8b;
 }

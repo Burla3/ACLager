@@ -25,8 +25,9 @@
             {
                 <div class="col-sm-4">
                     <small>Varetype:</small>
-                    <h3>@if (Model.Workorder.ItemType != null)
-                    { <a href="@Url.Action("Detailed", "ItemType", new { id = Model.Workorder.ItemType.UID })">@Model.Workorder.ItemType.Name</a>}</h3>
+                    <h3>@if (Model.Workorder.ItemType != null) { 
+                        <a href="@Url.Action("Detailed", "ItemType", new { id = Model.Workorder.ItemType.UID })">@Model.Workorder.ItemType.Name</a>
+                    }</h3>
                 </div>
                 <div class="col-sm-4">
                     <small>Batchstørrelse:</small>

@@ -7,16 +7,19 @@
 }
 
 <div class="panel container">
-    @using (Html.BeginForm("Create", "Waste")) {
-        @Html.AntiForgeryToken()
-        <fieldset>
-            <Legend>Opret spildrapport</Legend>
-            <div class="col-sm-12">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.ItemType, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.ItemType.UID, Model.ItemTypes, new { @class = "form-control chosen-select" })
+    <div class="row">
+        @using (Html.BeginForm("Create", "Waste")) {
+            @Html.AntiForgeryToken()
+            <fieldset>
+                <div class="col-sm-12">
+                    <h3>Opret spildrapport</h3>
                 </div>
-            </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ItemType, new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.ItemType.UID, Model.ItemTypes, new { @class = "form-control chosen-select" })
+                    </div>
+                </div>
                 <div class="col-sm-2">
                     <div class="form-group">
                         @Html.LabelFor(model => model.WasteReport.Amount, new { @class = "control-label" })
@@ -26,8 +29,8 @@
                 </div>
                 <div class="col-sm-5">
                     <div class="form-group">
-                        @Html.LabelFor(model => model.WorkOrder, new {@class = "control-label"})
-                        @Html.DropDownListFor(model => model.WorkOrder.UID, Model.WorkOrders, new {@class = "form-control chosen-select"})
+                        @Html.LabelFor(model => model.WorkOrder, new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.WorkOrder.UID, Model.WorkOrders, new { @class = "form-control chosen-select" })
                     </div>
                 </div>
                 <div class="col-sm-5">
@@ -36,7 +39,7 @@
                         @Html.DropDownListFor(model => model.Location.UID, Model.Locations, new { @class = "form-control chosen-select" })
                     </div>
                 </div>
-            <div class="col-sm-6"></div>
+                <div class="col-sm-6"></div>
 
                 <div class="col-sm-12">
                     <div>
@@ -44,10 +47,9 @@
                         @Html.TextAreaFor(model => model.WasteReport.Description, new { @class = "form-control", rows = 6, placeholder = "Beskriv hvordan spildet skete" })
                     </div>
                 </div>
-        </fieldset>
-
-
-        <input class="btn btn-raised btn-success pull-right" type="submit" value="Opret">
-        <a href="@Url.Action("Index", "Home")" class="btn btn-raised btn-primary pull-right">Annuller</a>
-    }
+            </fieldset>
+            <input class="btn btn-raised btn-success pull-right" type="submit" value="Opret">
+            <a href="@Url.Action("Index", "Home")" class="btn btn-raised btn-primary pull-right">Annuller</a>
+        }
+    </div>
 </div>

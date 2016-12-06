@@ -164,10 +164,16 @@
                     </div>
                 }
             </div>
-
         </div>
-        <div class="tab-pane fade" id="procedure">
-            
+        <div class="tab-pane fade" id="procedure">  
+            <div class="row">
+                @if (!string.IsNullOrEmpty(Model.ItemType.Procedure)) {
+                    <div class="col-xs-12">
+                        <strong>@Html.DisplayNameFor(model => model.ItemType.Procedure):</strong>
+                        <h4>@Model.ItemType.Procedure</h4>
+                    </div>
+                }
+            </div>         
             <div class="row">
                 @if (Model.Ingredients.Any())
                 {
@@ -205,32 +211,15 @@
                     </div>
                 }
                 else
-                {
-                    
+                {                    
                         <div class="col-xs-12">
                             <h3 class="text-center">@Model.ItemType.Name har ingen ingredienser</h3>
                             <br />
-                        </div>
-                   
+                        </div>                 
                 }
                 </div>
-                <div class="row">
-                @if (!string.IsNullOrEmpty(Model.ItemType.Procedure))
-                {
-
-                    <div class="col-xs-12">
-                        <strong>@Html.DisplayNameFor(model => model.ItemType.Procedure):</strong>
-                        <h4>@Model.ItemType.Procedure</h4>
-                    </div>
-                    
-                }
-            </div>
-
         </div>
     </div>
-
-
-
     <div class="row">
             <br />
     </div> 

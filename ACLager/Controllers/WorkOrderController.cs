@@ -29,7 +29,7 @@ namespace ACLager.Controllers {
             IEnumerable<WorkOrder> workorders;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                workorders = db.WorkOrderSet.Where(wo => wo.Type == "Produktion").ToList();
+                workorders = db.WorkOrderSet.Where(wo => wo.Type == "Produktion" && !wo.IsComplete).ToList();
             }
 
             return View("Index", new WorkOrderProductionViewModel(workorders, new WorkOrder(), null));
@@ -40,7 +40,7 @@ namespace ACLager.Controllers {
             IEnumerable<WorkOrder> workorders;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                workorders = db.WorkOrderSet.Where(wo => wo.Type == "Pakkeri").ToList();
+                workorders = db.WorkOrderSet.Where(wo => wo.Type == "Pakkeri" && !wo.IsComplete).ToList();
             }
 
             return View("Index", new WorkOrderPackagingViewModel(workorders, new WorkOrder(), null));
@@ -237,7 +237,7 @@ namespace ACLager.Controllers {
                 db.SaveChanges();
             }
 
-            return RedirectToAction("Detailed", id);
+            return RedirectToAction("Detailed", new {id = id});
         }
 
         private IEnumerable<WorkOrderItem> CreateNewWorkOrderItems(double amountNeeded, WorkOrderItem workOrderItem, IEnumerable<Item> items, WorkOrder workOrder) {

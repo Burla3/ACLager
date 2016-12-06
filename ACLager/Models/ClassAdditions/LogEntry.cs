@@ -12,11 +12,11 @@ namespace ACLager.Models {
         private class LogEntryMetadata {
             [DisplayName("Journallinjenummer")]
             public long UID { get; set; }
-            [DisplayName("Hændelsestype")]
+            [DisplayName("Type")]
             public string Type { get; set; }
-            [DisplayName("Hændelsesdato")]
+            [DisplayName("Tidspunkt")]
             public System.DateTime Date { get; set; }
-            [DisplayName("Hændelsesbeskrivelse")]
+            [DisplayName("Beskrivelse")]
             public string LogBody { get; set; }
         }
     }

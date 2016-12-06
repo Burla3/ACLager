@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/05/2016 02:48:17
--- Generated from EDMX file: C:\Users\Nyggi\Documents\GitHub\ACLager\ACLager\Models\Model.edmx
+-- Date Created: 12/06/2016 16:02:25
+-- Generated from EDMX file: C:\Users\Jens\Documents\ACLager\ACLager\Models\Model.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -145,6 +145,8 @@ CREATE TABLE [dbo].[WorkOrderSet] (
     [ShippingInfo] nvarchar(max)  NULL,
     [OrderNumber] bigint  NOT NULL,
     [IsStarted] bit  NOT NULL,
+    [Amount] float  NULL,
+    [Progress] float  NULL,
     [CompletedByUser_UID] bigint  NULL,
     [ItemType_UID] bigint  NULL
 );

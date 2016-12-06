@@ -30,6 +30,8 @@ namespace ACLager.Models
         public string ShippingInfo { get; set; }
         public long OrderNumber { get; set; }
         public bool IsStarted { get; set; }
+        public Nullable<double> Amount { get; set; }
+        public Nullable<double> Progress { get; set; }
     
         public virtual User CompletedByUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

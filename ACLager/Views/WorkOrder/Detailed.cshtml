@@ -56,12 +56,23 @@
             @if (!Model.Workorder.IsStarted) {
                 using (Html.BeginForm("Start", "WorkOrder", new { id = Model.Workorder.UID })) {
                     @Html.AntiForgeryToken()
-                    <button class="btn btn-raised btn-lg btn-primary pull-right" type="submit" value="Start">Påbegynd ordre</button>
+                    <button class="btn btn-raised btn-lg btn-success pull-right" type="submit" value="Start">Påbegynd ordre</button>
                 }
             } else if (Model.Workorder.IsStarted && !Model.Workorder.IsComplete) {
-                using (Html.BeginForm("Complete", "WorkOrder", new { id = Model.Workorder.UID })) {
-                    @Html.AntiForgeryToken()
-                    <button class="btn btn-raised btn-lg btn-primary pull-right" type="submit" value="Start">Afslut ordre</button>
+                <div class="pull-right">
+                    @using (Html.BeginForm("Complete", "WorkOrder", new { id = Model.Workorder.UID })) {
+                        @Html.AntiForgeryToken()
+                        bool allWorkOrderItemsComplete = Model.Workorderitems.All(woig => woig.WorkOrderItem.Progress == woig.WorkOrderItem.Amount);
+                        <button class="btn btn-raised btn-lg btn-@(allWorkOrderItemsComplete ? "success" : "disabled")" type="submit" @(!allWorkOrderItemsComplete ? "disabled" : "") value="Complete">Afslut ordre</button>
+                    }
+                </div>
+                if (Model.UserIsAdmin) {
+                    <div class="pull-right">
+                        @using (Html.BeginForm("Cancel", "WorkOrder", new { id = Model.Workorder.UID })) {
+                            @Html.AntiForgeryToken()
+                            <button class="btn btn-raised btn-lg btn-danger" type="submit" value="Cancel">Annuller ordre</button>
+                        }
+                    </div>
                 }
             } else if (Model.Workorder.IsComplete) {
                 <h3>Ordre afsluttet</h3>

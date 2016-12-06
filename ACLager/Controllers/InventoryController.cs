@@ -13,6 +13,7 @@ using ACLager.Interfaces;
 using ACLager.Models;
 using ACLager.ViewModels;
 using Newtonsoft.Json.Linq;
+using WebGrease.Css.Extensions;
 
 namespace ACLager.Controllers {
     public class InventoryController : Controller, ILoggable, INotifier {
@@ -291,7 +292,6 @@ namespace ACLager.Controllers {
                 } else {
                     compAmount = dbItem.Amount - dbItem.Reserved;
                 }
-
                 
                 if (item.Amount < compAmount) {
                     dbItem.Amount -= item.Amount;
@@ -307,9 +307,11 @@ namespace ACLager.Controllers {
                             dbItem.Reserved = reservedtmp;
                         }
                     }
-                
+
                 // if the amounts exactly match we remove the item and no further logic is required
                 } else if (item.Amount == compAmount) {
+                    dbItem.Location.Item = null;
+                    dbItem.WorkOrderItem.ForEach(woi => woi.Item = null);
                     db.ItemSet.Remove(dbItem);
                 } else {
                     // if we reach this it means we could not successfully pick from this item.

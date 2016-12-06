@@ -340,6 +340,15 @@ namespace ACLager.Controllers {
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public JsonResult DoesItemTypeNameExist(ItemType itemType) {
+            ItemType dbItemType;
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                itemType = db.ItemTypeSet.FirstOrDefault(it => it.Name == itemType.Name);
+            }
+            return Json(itemType == null);
+        }
+
         public event ChangedEventHandler Changed;
         public event NotificationEventHandler Notify;
     }

@@ -64,11 +64,11 @@
         @foreach (WorkOrder workorder in Model.Workorders) {
             <div class="expansionpanel row panel">
                 <div class="row">
-                    <div class="col-sm-2 sort-UID">
-                        <h4>@workorder.UID</h4>
+                    <div class="col-sm-2">
+                        <h4 class="sort-UID">@workorder.UID</h4>
                     </div>
-                    <div class="col-sm-2 sort-batchnumber">
-                        <h4>@workorder.BatchNumber</h4>
+                    <div class="col-sm-2">
+                        <h4 class="sort-batchnumber">@workorder.BatchNumber</h4>
                     </div>
                     @if (Model.Workorder.Type == "Pakkeri") {
                         <div class="col-sm-2 sort-shippinginfo">
@@ -82,7 +82,7 @@
                     }
                     <div class="col-sm-2 sort-duedate">
                         @if (workorder.DueDate.HasValue) {
-                              <h4>@workorder.DueDate.Value.ToString("yyyy-MM-dd")</h4>
+                              <h4 class="sort-duedate">@workorder.DueDate.Value.ToString("yyyy-MM-dd")</h4>
                         }
                     </div>
                     <div class="expansion-control col-sm-4" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@workorder.UID">

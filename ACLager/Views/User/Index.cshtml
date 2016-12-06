@@ -50,20 +50,20 @@
         @foreach (User user in Model.Users) {
             <div class="expansionpanel row panel">
                 <div class="row">
-                    <div class="col-xs-3 sort-status">
+                    <div class="col-xs-3">
                         <h4>
                              @if (user.IsActive) {
-                                <span class="label label-success">Aktiv</span>
+                                <span class="label label-success sort-status">Aktiv</span>
                              } else {
-                                <span class="label label-default">Inaktiv</span>
+                                <span class="label label-default sort-status">Inaktiv</span>
                              }
                         </h4>
                     </div>
-                    <div class="col-xs-3 sort-name">
-                        <h4>@user.Name</h4>
+                    <div class="col-xs-3">
+                        <h4 class="sort-name">@user.Name</h4>
                     </div>
-                    <div class="col-xs-2 sort-uid">
-                        <h4>@user.UID</h4>
+                    <div class="col-xs-2">
+                        <h4 class="sort-uid">@user.UID</h4>
                     </div>
                     <div class="col-xs-2 sort-role">
                         @if(user.IsAdmin == true){
@@ -72,7 +72,6 @@
                         else {
                             <h4 class="text-primary">Almindelig bruger</h4>
                         }
-                    @*<h4>@String.Format(user.IsAdmin ? "Administrator" : "Almindelig bruger")</h4>*@
                     </div>
                     <div class="expansion-control col-sm-2" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@user.UID">
                         <div class="btn btn-default pull-right">
@@ -84,12 +83,12 @@
                 <div class="row expansion-content" id="ExpansionContentContainer_@user.UID">
                     <div class="col-sm-4">
                     </div>
-                    <div class="col-sm-8">    
-                        <a href="@Url.Action("Delete", new {id = user.UID})" class="btn btn-raised btn-danger pull-right">Slet</a>                     
+                    <div class="col-sm-8">
+                        <a href="@Url.Action("Delete", new {id = user.UID})" class="btn btn-raised btn-danger pull-right">Slet</a>
                         <a href="@Url.Action("Edit", new {id = user.UID})" class="btn btn-raised btn-info pull-right">Rediger</a>
-                        <a href="@Url.Action("Detailed", new {id = user.UID})" class="btn btn-raised btn-primary pull-right">Mere info</a>                     
+                        <a href="@Url.Action("Detailed", new {id = user.UID})" class="btn btn-raised btn-primary pull-right">Mere info</a>
                     </div>
-                </div>                
+                </div>
             </div>
         }
     </div>
@@ -140,6 +139,6 @@
 
             var userList = new List('userSort', options);
 
-            
+
         });
 </script>

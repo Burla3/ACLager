@@ -43,27 +43,27 @@
             @foreach (ItemLocationPair itemLocationPair in Model.ItemLocationPairs) {
                 <div class="expansionpanel row panel">
                     <div class="row">
-                        <div class="col-xs-2 sort-status">
+                        <div class="col-xs-2">
                             <h4>
                                 @if (itemLocationPair.Location.IsActive)
                                 {
-                                    <span class="label label-success">Aktiv</span>
+                                    <span class="label label-success sort-status">Aktiv</span>
                                 }
                                 else
                                 {
-                                    <span class="label label-default">Inaktiv</span>
+                                    <span class="label label-default sort-status">Inaktiv</span>
                                 }
                             </h4>
                         </div>
-                        <div class="col-xs-2 sort-name">
-                            <h4>@itemLocationPair.Location.Name</h4>
+                        <div class="col-xs-2">
+                            <h4 class="sort-name">@itemLocationPair.Location.Name</h4>
                         </div>
-                        <div class="col-xs-2 sort-empty">
+                        <div class="col-xs-2">
                             <h4>
                                 @if (itemLocationPair.Item == null) {
-                                    <span class="label label-success">Ledig</span>
+                                    <span class="label label-success sort-empty">Ledig</span>
                                 } else {
-                                    <span class="label label-default">Optaget</span>
+                                    <span class="label label-default sort-empty">Optaget</span>
                                 }
                             </h4>
                         </div>

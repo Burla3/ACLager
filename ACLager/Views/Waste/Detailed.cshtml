@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <br />
+                    <br/>
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
@@ -45,8 +45,15 @@
             </div>
             <div class="col-xs-8">
                 <div class="row">
+                    <div class="col-xs-12">
+                        <h3>
+                            <strong>Vare</strong>
+                        </h3>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-xs-6">
-                        <strong>Varens navn:</strong>
+                        <strong>Navn:</strong>
                     </div>
                     <div class="col-xs-6">
                         <strong>Mængde:</strong>
@@ -61,12 +68,14 @@
                     </div>
                 </div>
                 <div class="row">
-                    <br />
+                    <br/>
                 </div>
                 <div class="col-sx-12">
                     <div class="row">
                         <div class="col-xs-12">
-                            <h3><strong>Ordre</strong></h3>
+                            <h3>
+                                <strong>Ordre</strong>
+                            </h3>
                         </div>
                     </div>
                     @{dynamic workorder = Model.WasteReportGroup.ObjectData["WorkOrder"];}
@@ -109,10 +118,44 @@
                             </div>
                         </div>
                         <div class="row">
-                            <br />
+                            <br/>
                         </div>
                     }
                 </div>
+
+                <div class="col-sx-12">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3><strong>Lokation</strong>
+                            </h3>
+                        </div>
+                    </div>
+                    @{dynamic location = Model.WasteReportGroup.ObjectData["Location"];}
+
+                    @if (workorder == null) {
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h4>Ingen lokation tilknyttet.</h4>
+                            </div>
+                        </div>
+                    } else {
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <strong>Navn:</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <strong>
+                                    @location["Name"]
+                                </strong>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+
+
             </div>
         </div>
         <hr />        

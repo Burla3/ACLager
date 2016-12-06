@@ -15,7 +15,7 @@
 
         <div class="row">
             <div class="sort noselect col-sm-2" data-sort="sort-date">
-                <strong>Hændelsestidspunkt</strong>
+                <strong>Tidspunkt</strong>
                 <br>
                 <span class="label label-default">Klik for at sortere</span>
                 <span class="label label-primary asc">Sorteret stigende</span>
@@ -40,23 +40,23 @@
         {
             <div class="expansionpanel row panel">
                 <div class="row">
-                    <div class="col-sm-2 sort-date">
-                        <h4>
+                    <div class="col-sm-2">
+                        <h4 class="sort-date">
                             @entry.Date.ToString("yyyy-MM-dd HH:mm")
                         </h4>
                     </div>
-                    <div class="col-sm-2 sort-type">
-                        <h4>
+                    <div class="col-sm-2">
+                        <h4 class="sort-type">
                             @entry.Type
                         </h4>
                     </div>
-                    <div class="col-sm-6 sort-body">
-                        <h4>
+                    <div class="col-sm-5">
+                        <h4 class="sort-body">
                             @entry.LogBody
                         </h4>
                     </div>
-                    <div class="col-sm-2">
-                        <a href="@Url.Action("Detailed", new {id = entry.UID})" class="btn btn-raised btn-primary">Mere info</a>
+                    <div class="col-sm-3">
+                        <a href="@Url.Action("Detailed", new {id = entry.UID})" class="btn btn-raised btn-primary pull-right">Mere info</a>
                     </div>
                 </div>
             </div>

@@ -50,28 +50,29 @@ namespace ACLager.Controllers {
 
         [HttpGet]
         public ActionResult Create() {
-            IEnumerable<Item> items;
-            List<SelectListItem> SelectItemList = new List<SelectListItem>();
+            List<SelectListItem> itemTypeSelectList = new List<SelectListItem>();
+            List<SelectListItem> workorderSelectList = new List<SelectListItem>();
+            List<SelectListItem> locationSelectList = new List<SelectListItem>();
 
-            IEnumerable<WorkOrder> workorder;
-            List<SelectListItem> selectWorkorderList = new List<SelectListItem>();
-            selectWorkorderList.Add(new SelectListItem {Text = "Ingen ordre", Value = "-1"});
-            using (ACLagerDatabase db = new ACLagerDatabase())
-            {
-                items = db.ItemSet.ToList();
-                workorder = db.WorkOrderSet.ToList();
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
 
-                foreach(Item item in items){
-                    SelectItemList.Add(new SelectListItem { Text = $"Lokation: {item.Location.Name} || Enhed: {item.ItemType.Unit} || Navn: {item.ItemType.Name}", Value = item.UID.ToString() });
+                foreach(ItemType itemType in db.ItemTypeSet) {
+                    itemTypeSelectList.Add(new SelectListItem { Text = itemType.Name, Value = itemType.UID.ToString() });
                 }
 
-                foreach (WorkOrder work in workorder){
-                    selectWorkorderList.Add(new SelectListItem { Text = work.UID.ToString(), Value = work.UID.ToString() });
+                workorderSelectList.Add(new SelectListItem { Text = "Ingen ordre", Value = "-1" });
+                foreach (WorkOrder work in db.WorkOrderSet) {
+                    workorderSelectList.Add(new SelectListItem { Text = work.UID.ToString(), Value = work.UID.ToString() });
+                }
+
+                locationSelectList.Add(new SelectListItem { Text = "Ingen lokation", Value = "-1" });
+                foreach (Location location in db.LocationSet) {
+                    locationSelectList.Add(new SelectListItem { Text = location.Name, Value = location.UID.ToString() });
                 }
 
             }
 
-            return View(new CreateWasteViewModel(new WasteReport(), SelectItemList, selectWorkorderList));
+            return View(new CreateWasteViewModel(new WasteReport(), itemTypeSelectList, workorderSelectList, locationSelectList));
         }
 
         /// <summary>
@@ -81,23 +82,23 @@ namespace ACLager.Controllers {
         [HttpPost]
         public ActionResult Create(CreateWasteViewModel wasteReportViewModel) {
             WorkOrder dbWorkOrder;
-            Item dbItem;
             ItemType dbItemType;
+            Location dbLocation;
 
             WasteReport wasteReport = wasteReportViewModel.WasteReport;
             wasteReport.Date = DateTime.Now;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                dbWorkOrder = db.WorkOrderSet.Find(wasteReportViewModel.WorkOrderUID);
-                dbItem = db.ItemSet.Find(wasteReportViewModel.Item.UID);
-                dbItemType = dbItem.ItemType;
+                dbItemType = db.ItemTypeSet.Find(wasteReportViewModel.ItemType.UID).ToLoggable();
+                dbWorkOrder = db.WorkOrderSet.Find(wasteReportViewModel.WorkOrder.UID)?.ToLoggable();
+                dbLocation = db.LocationSet.Find(wasteReportViewModel.Location.UID)?.ToLoggable();
             }
 
             object objectData = new {
                     ContextUser = UserController.GetContextUser().ToLoggable(),
-                    Item = dbItem.ToLoggable(),
-                    WorkOrder = dbWorkOrder?.ToLoggable(),
-                    ItemType = dbItemType.ToLoggable()
+                    WorkOrder = dbWorkOrder,
+                    Location = dbLocation,
+                    ItemType = dbItemType
                 };
 
             wasteReport.ObjectData = System.Web.Helpers.Json.Encode(objectData);
@@ -115,7 +116,7 @@ namespace ACLager.Controllers {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),
                             SpildRapport = wasteReport.ToLoggable(),
                             Varetype = dbItemType.ToLoggable(),
-                            Vare = dbItem.ToLoggable(),
+                            Lokation = dbLocation?.ToLoggable(),
                             Ordre = dbWorkOrder?.ToLoggable()
                         }
                     )

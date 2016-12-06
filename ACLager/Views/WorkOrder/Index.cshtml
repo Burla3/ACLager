@@ -12,39 +12,41 @@
 
 
     <div class="row">
-        <div class="sort noselect col-sm-2" data-sort="sort-UID">
-            <strong>@Html.DisplayNameFor(model => model.Workorder.UID)</strong>
-            <br>
-            <span class="label label-default">Klik for at sortere</span>
-            <span class="label label-primary asc">Sorteret stigende</span>
-            <span class="label label-primary desc">Sorteret faldende</span>
-            <br>
+        <div class="row">
+            <div class="sort noselect col-sm-2" data-sort="sort-UID">
+                <strong>@Html.DisplayNameFor(model => model.Workorder.UID)</strong>
+                <br>
+                <span class="label label-default">Klik for at sortere</span>
+                <span class="label label-primary asc">Sorteret stigende</span>
+                <span class="label label-primary desc">Sorteret faldende</span>
+                <br>
+            </div>
+            <div class="sort noselect col-sm-2" data-sort="sort-batchnumber">
+                <strong>@Html.DisplayNameFor(model => model.Workorder.BatchNumber)</strong>
+                <br>
+                <span class="label label-default">Klik for at sortere</span>
+                <span class="label label-primary asc">Sorteret stigende</span>
+                <span class="label label-primary desc">Sorteret faldende</span>
+                <br>
+            </div>
+            <div class="sort noselect col-sm-2" data-sort="sort-shippinginfo">
+                <strong>@Html.DisplayNameFor(model => model.Workorder.ShippingInfo)</strong>
+                <br>
+                <span class="label label-default">Klik for at sortere</span>
+                <span class="label label-primary asc">Sorteret stigende</span>
+                <span class="label label-primary desc">Sorteret faldende</span>
+                <br>
+            </div>
+            <div class="sort noselect col-sm-2" data-sort="sort-duedate">
+                <strong>@Html.DisplayNameFor(model => model.Workorder.DueDate)</strong>
+                <br>
+                <span class="label label-default">Klik for at sortere</span>
+                <span class="label label-primary asc">Sorteret stigende</span>
+                <span class="label label-primary desc">Sorteret faldende</span>
+                <br>
+            </div>
+            <div class="col-sm-2"></div>
         </div>
-        <div class="sort noselect col-sm-2" data-sort="sort-batchnumber">
-            <strong>@Html.DisplayNameFor(model => model.Workorder.BatchNumber)</strong>
-            <br>
-            <span class="label label-default">Klik for at sortere</span>
-            <span class="label label-primary asc">Sorteret stigende</span>
-            <span class="label label-primary desc">Sorteret faldende</span>
-            <br>
-        </div>
-        <div class="sort noselect col-sm-2" data-sort="sort-shippinginfo">
-            <strong>@Html.DisplayNameFor(model => model.Workorder.ShippingInfo)</strong>
-            <br>
-            <span class="label label-default">Klik for at sortere</span>
-            <span class="label label-primary asc">Sorteret stigende</span>
-            <span class="label label-primary desc">Sorteret faldende</span>
-            <br>
-        </div>
-        <div class="sort noselect col-sm-2" data-sort="sort-duedate">
-            <strong>@Html.DisplayNameFor(model => model.Workorder.DueDate)</strong>
-            <br>
-            <span class="label label-default">Klik for at sortere</span>
-            <span class="label label-primary asc">Sorteret stigende</span>
-            <span class="label label-primary desc">Sorteret faldende</span>
-            <br>
-        </div>
-        <div class="col-sm-2"></div>
     </div>
 
 

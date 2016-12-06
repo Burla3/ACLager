@@ -29,7 +29,7 @@ namespace ACLager.Controllers {
             IEnumerable<WorkOrder> workorders;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                workorders = db.WorkOrderSet.Where(wo => wo.Type == "Produktion").ToList();
+                workorders = db.WorkOrderSet.Where(wo => wo.Type == "Produktion" && !wo.IsComplete).ToList();
             }
 
             return View("Index", new WorkOrderProductionViewModel(workorders, new WorkOrder(), null));
@@ -40,7 +40,7 @@ namespace ACLager.Controllers {
             IEnumerable<WorkOrder> workorders;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                workorders = db.WorkOrderSet.Where(wo => wo.Type == "Pakkeri").ToList();
+                workorders = db.WorkOrderSet.Where(wo => wo.Type == "Pakkeri" && !wo.IsComplete).ToList();
             }
 
             return View("Index", new WorkOrderPackagingViewModel(workorders, new WorkOrder(), null));
@@ -70,6 +70,26 @@ namespace ACLager.Controllers {
 
             return View(new WorkOrderProductionViewModel(null, workorder, workOrderItemGroups));
         }
+
+        [HttpPost]
+        public ActionResult Pick(long id) {
+            Item item = new Item();
+            long woid;
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                WorkOrderItem dbwoi = db.WorkOrderItemSet.Find(id);
+                item.UID = dbwoi.Item.UID;
+                item.Amount = dbwoi.Amount;
+                woid = dbwoi.WorkOrder.UID;
+                dbwoi.Progress += item.Amount;
+                db.SaveChanges();
+            }
+
+            InventoryController.PickItem(item, true);
+            return RedirectToAction("Detailed", new { id = woid });
+            
+            
+        }
+
 
         /// <summary>
         /// Cancels a workorder and its items.
@@ -105,7 +125,7 @@ namespace ACLager.Controllers {
                     )
             );
 
-            return RedirectToAction("Index");
+            return RedirectToAction(dbWorkOrder.Type == "Pakkeri" ? "Packaging" : "Production");
         }
 
         /// <summary>
@@ -158,7 +178,8 @@ namespace ACLager.Controllers {
                 }
 
                 dbWorkOrder.IsComplete = true;
-                dbWorkOrder.CompletedByUser = UserController.GetContextUser();
+                User user = db.UserSet.Find(UserController.GetContextUser().UID);
+                dbWorkOrder.CompletedByUser = user;
 
                 db.SaveChanges();
             }
@@ -174,7 +195,7 @@ namespace ACLager.Controllers {
                     )
             );
 
-            return RedirectToAction("Index");
+            return RedirectToAction(dbWorkOrder.Type == "Pakkeri" ? "Packaging" : "Production");
         }
 
         [HttpPost]
@@ -216,7 +237,7 @@ namespace ACLager.Controllers {
                 db.SaveChanges();
             }
 
-            return RedirectToAction("Detailed", id);
+            return RedirectToAction("Detailed", new {id = id});
         }
 
         private IEnumerable<WorkOrderItem> CreateNewWorkOrderItems(double amountNeeded, WorkOrderItem workOrderItem, IEnumerable<Item> items, WorkOrder workOrder) {

@@ -263,15 +263,41 @@ namespace ACLager.Controllers {
             return true;
         }
 
-        public bool PickItem(Item item) {
+        public static bool PickItem(Item item, bool pickReserved=false) {
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 Item dbItem = db.ItemSet.Find(item.UID);
 
-                if (item.Amount < dbItem.Amount) {
+                double compAmount;
+                double reservedtmp = dbItem.Reserved;
+
+                // if we pick into reserved we ignore it. If not we must compute the actual amount available
+                if (pickReserved) {
+                    compAmount = dbItem.Amount;
+                } else {
+                    compAmount = dbItem.Amount - dbItem.Reserved;
+                }
+
+                
+                if (item.Amount < compAmount) {
                     dbItem.Amount -= item.Amount;
-                } else if (item.Amount == dbItem.Amount) {
+
+                    //if we are picking into reserved we subtract from that field as well
+                    if (pickReserved) {
+                        reservedtmp -= item.Amount;
+                        
+                        // but only down to zero
+                        if (reservedtmp <= 0) {
+                            dbItem.Reserved = 0;
+                        } else {
+                            dbItem.Reserved = reservedtmp;
+                        }
+                    }
+                
+                // if the amounts exactly match we remove the item and no further logic is required
+                } else if (item.Amount == compAmount) {
                     db.ItemSet.Remove(dbItem);
                 } else {
+                    // if we reach this it means we could not successfully pick from this item.
                     return false;
                 }
 

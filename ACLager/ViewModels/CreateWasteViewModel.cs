@@ -12,17 +12,19 @@ namespace ACLager.ViewModels {
             base.SelectSectionSpecials("Waste-Create");
         }
 
-        public CreateWasteViewModel(WasteReport wasteReport, IEnumerable<SelectListItem> items, IEnumerable<SelectListItem> workorders) : this() {
+        public CreateWasteViewModel(WasteReport wasteReport, IEnumerable<SelectListItem> itemTypes, IEnumerable<SelectListItem> workorders, IEnumerable<SelectListItem> locations) : this() {
             WasteReport = wasteReport;
-            Items = items;
+            ItemTypes = itemTypes;
             WorkOrders = workorders;
+            Locations = locations;
         }
 
-        public long? WorkOrderUID { get; set; }
-        public Item Item { get; set; }
+        public ItemType ItemType { get; set; }
         public WorkOrder WorkOrder { get; set; }
+        public Location Location { get; set; }
         public WasteReport WasteReport { get; set; }
-        public IEnumerable<SelectListItem> Items { get; set; }
+        public IEnumerable<SelectListItem> ItemTypes { get; set; }
         public IEnumerable<SelectListItem> WorkOrders { get; set; }
+        public IEnumerable<SelectListItem> Locations { get; set; }
     }
 }

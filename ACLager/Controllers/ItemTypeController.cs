@@ -66,7 +66,8 @@ namespace ACLager.Controllers {
         public ActionResult AddSubmitAction(ItemType itemType, string submitAction) {
             switch (submitAction) {
                 case "Add":
-                    return Add(itemType);
+                    AddItemTypeToDb(itemType);
+                    return RedirectToAction("Index");
                 case "Edit":
                     AddItemTypeToDb(itemType);
                     return RedirectToAction("Edit", new { id = itemType.UID.ToString() });
@@ -75,25 +76,10 @@ namespace ACLager.Controllers {
             }
         }
 
-        /// <summary>
-        /// Adds the <paramref name="itemType"/> to the database
-        /// </summary>
-        /// <param name="itemType">The item type to add to the database.</param>
-        /// <returns>true if successful</returns>
-        [HttpPost]
-        public ActionResult Add(ItemType itemType) {
-            AddItemTypeToDb(itemType);
-
-            return RedirectToAction("Index");
-        }
-
         private void AddItemTypeToDb(ItemType itemType) {
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                if (!db.ItemTypeSet.Any(it => it.Name == itemType.Name && it.Unit == itemType.Unit))
-                {
                     db.ItemTypeSet.Add(itemType);
                     db.SaveChanges();
-                }
             }
 
             Changed?.Invoke(this,
@@ -126,21 +112,11 @@ namespace ACLager.Controllers {
 
                 itemTypeViewModel.ItemType = dbItemType;
                 itemTypeViewModel.Ingredients = db.IngredientSet.Where(it => it.ForItemType.UID == uid).ToList();
-                foreach (Ingredient ingredient in itemTypeViewModel.Ingredients)
-                {
+                foreach (Ingredient ingredient in itemTypeViewModel.Ingredients) {
                     ingredient.ItemType = db.ItemTypeSet.SingleOrDefault(it => it.UID == ingredient.UID);
                 }
                 itemTypeViewModel.Ingredient = new Ingredient();
-                itemTypeViewModel.UnitSelectListItems = new[] {
-                    new SelectListItem() {Text = "Gram"},
-                    new SelectListItem() {Text = "Stk."},
-                    new SelectListItem() {Text = "Liter"}
-                };
-                itemTypeViewModel.DepartmentSelectListItems = new[] {
-                    new SelectListItem() {Text = "Produktion", Value = "Production"},
-                    new SelectListItem() {Text = "Pakkeri", Value = "Packaging"},
-                    new SelectListItem() {Text = "Bestilling", Value = "Order"}
-                };
+
                 itemTypeViewModel.ItemTypeSelectListItems = db.ItemTypeSet.Where(it => it.IsActive && it.UID != uid).ToList()
                     .Select(itemType => new SelectListItem {Text = itemType.Name, Value = itemType.UID.ToString()}).ToList();
             }

@@ -69,10 +69,10 @@
                     </div>
                     <div class="col-xs-2 sort-role">
                         @if(user.IsAdmin == true){
-                            <h4 style="color:blue">Administrator</h4>
+                            <h4 class="label background-override-blue">Administrator</h4>
                         }
                         else {
-                            <h4 class="text-primary">Almindelig bruger</h4>
+                            <h4 class="label label-primary">Bruger</h4>
                         }
                     </div>
                     <div class="expansion-control col-sm-2" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@user.UID">

@@ -107,13 +107,41 @@ namespace ACLager.Controllers {
             
         }
 
+        [HttpGet]
+        public ActionResult Cancel(string id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            WorkOrder dbWorkOrder;
+
+            using (ACLagerDatabase db = new ACLagerDatabase())
+            {
+                dbWorkOrder = db.WorkOrderSet.Find(Int64.Parse(id));
+
+                if (dbWorkOrder == null)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
+            if (dbWorkOrder.Type == "Pakkeri")
+            {
+                return View(new WorkOrderPackagingViewModel(null, dbWorkOrder, null, null));
+            }
+            else
+            {
+                return View(new WorkOrderProductionViewModel(null, dbWorkOrder, null, null));
+            }
+        }
 
         /// <summary>
         /// Cancels a workorder and its items.
         /// </summary>
         /// <param name="id">UID of the workorder.</param>
         /// <returns>Redirects to /WorkOrder.</returns>
-        [AdminOnly]
         [HttpPost]
         public ActionResult Cancel(long id) {
             WorkOrder dbWorkOrder;

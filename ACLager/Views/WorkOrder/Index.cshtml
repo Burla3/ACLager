@@ -1,4 +1,5 @@
-﻿@using ACLager.Models
+﻿@using ACLager.CustomClasses
+@using ACLager.Models
 @model ACLager.ViewModels.WorkOrderBaseViewModel
 
 
@@ -71,40 +72,40 @@
 
 
     <div class="list" id="ExpansionPanelsContainer">
-        @foreach (WorkOrder workorder in Model.Workorders) {
+        @foreach (WorkOrderItemTypePair pair in Model.WorkOrderItemTypePairs) {
             <div class="expansionpanel row panel">
                 <div class="row">
                     <div class="col-sm-2">
-                        <h4 class="sort-UID">@workorder.UID</h4>
+                        <h4 class="sort-UID">@pair.WorkOrder.UID</h4>
                     </div>
                     <div class="col-sm-2">
-                        <h4 class="sort-batchnumber">@workorder.BatchNumber</h4>
+                        <h4 class="sort-batchnumber">@pair.WorkOrder.BatchNumber</h4>
                     </div>
                     @if (Model.Workorder.Type == "Pakkeri") {
                         <div class="col-sm-2 sort-shippinginfo">
-                            <h4>@workorder.ShippingInfo</h4>
+                            <h4>@pair.WorkOrder.ShippingInfo</h4>
                         </div>
                     }
                     else if (Model.Workorder.Type == "Produktion") {
                         <div class="col-sm-2 sort-itemtype">
-                            <h4>@workorder.ItemType</h4>
+                            <h4>@pair.WorkOrder.ItemType.Name</h4>
                         </div>
                     }
                     <div class="col-sm-2 sort-duedate">
-                        @if (workorder.DueDate.HasValue) {
-                              <h4 class="sort-duedate">@workorder.DueDate.Value.ToString("yyyy-MM-dd")</h4>
+                        @if (pair.WorkOrder.DueDate.HasValue) {
+                              <h4 class="sort-duedate">@pair.WorkOrder.DueDate.Value.ToString("yyyy-MM-dd")</h4>
                         }
                     </div>
-                    <div class="expansion-control col-sm-6" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@workorder.UID">
+                    <div class="expansion-control col-sm-4" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@pair.WorkOrder.UID">
                         <div class="btn btn-default pull-right">
                             <i class="material-icons">expand_more</i>
                             <i class="material-icons hidden">expand_less</i>
                         </div>
                     </div>
                 </div>
-                <div class="row expansion-content" id="ExpansionContentContainer_@workorder.UID">
+                <div class="row expansion-content" id="ExpansionContentContainer_@pair.WorkOrder.UID">
                     <div class="col-sm-12">
-                        <a href="@Url.Action("Detailed", new {id = workorder.UID})" class="btn btn-raised btn-primary pull-right">Mere info</a>
+                        <a href="@Url.Action("Detailed", new {id = pair.WorkOrder.UID})" class="btn btn-raised btn-primary pull-right">Mere info</a>
                     </div>
                 </div>
             </div>

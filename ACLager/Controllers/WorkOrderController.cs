@@ -21,28 +21,35 @@ namespace ACLager.Controllers {
 
         [HttpGet]
         public ActionResult Production() {
-            IEnumerable<WorkOrder> workorders;
-
+            List<WorkOrderItemTypePair> workOrderItemTypePairs = new List<WorkOrderItemTypePair>();
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                workorders = db.WorkOrderSet.Where(wo => wo.Type == "Produktion" && !wo.IsComplete).ToList();
+                IEnumerable<WorkOrder> workorders = db.WorkOrderSet.Where(wo => wo.Type == "Produktion" && !wo.IsComplete).ToList();
+                IEnumerable<ItemType> itemTypes = db.ItemTypeSet.ToList();
+                foreach (WorkOrder workOrder in workorders) {
+                   workOrderItemTypePairs.Add(new WorkOrderItemTypePair(itemTypes.FirstOrDefault(it => it.UID == workOrder.ItemType.UID), workOrder));
+                }
             }
-            WorkOrder workorder = new WorkOrder();
-            workorder.Type = "Produktion";
+            WorkOrder workorder = new WorkOrder {
+                Type = "Produktion"
+            };
 
-            return View("Index", new WorkOrderProductionViewModel(workorders, workorder, null, null));
+            return View("Index", new WorkOrderProductionViewModel(workOrderItemTypePairs, workorder, null, null));
         }
 
         [HttpGet]
         public ActionResult Packaging() {
-            IEnumerable<WorkOrder> workorders;
-
+            List<WorkOrderItemTypePair> workOrderItemTypePairs = new List<WorkOrderItemTypePair>();
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                workorders = db.WorkOrderSet.Where(wo => wo.Type == "Pakkeri" && !wo.IsComplete).ToList();
+                IEnumerable<WorkOrder>  workorders = db.WorkOrderSet.Where(wo => wo.Type == "Pakkeri" && !wo.IsComplete);
+                foreach (WorkOrder workOrder in workorders) {
+                    workOrderItemTypePairs.Add(new WorkOrderItemTypePair(workOrder.ItemType, workOrder));
+                }
             }
-            WorkOrder workorder = new WorkOrder();
-            workorder.Type = "Pakkeri";
+            WorkOrder workorder = new WorkOrder {
+                Type = "Pakkeri"
+            };
 
-            return View("Index", new WorkOrderPackagingViewModel(workorders, workorder, null, null));
+            return View("Index", new WorkOrderPackagingViewModel(workOrderItemTypePairs, workorder, null, null));
         }
 
         [HttpGet]

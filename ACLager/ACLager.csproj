@@ -221,6 +221,7 @@
     <Compile Include="CustomClasses\NotificationEventArgs.cs" />
     <Compile Include="CustomClasses\Notifier.cs" />
     <Compile Include="CustomClasses\WasteReportGroup.cs" />
+    <Compile Include="CustomClasses\WorkOrderItemTypePair.cs" />
     <Compile Include="CustomClasses\WorkOrderItemGroup.cs" />
     <Compile Include="Interfaces\INotifier.cs" />
     <Compile Include="CustomClasses\ItemGroup.cs" />

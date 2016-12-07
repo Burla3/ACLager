@@ -7,7 +7,7 @@ using ACLager.Models;
 
 namespace ACLager.ViewModels {
     public class WorkOrderPackagingViewModel : WorkOrderBaseViewModel {
-        public WorkOrderPackagingViewModel(IEnumerable<WorkOrder> workorders, WorkOrder workorder, IEnumerable<WorkOrderItemGroup> workorderitems, ItemType itemType) : base(workorders, workorder, workorderitems, itemType) {
+        public WorkOrderPackagingViewModel(IEnumerable<WorkOrderItemTypePair> workOrderItemTypePairs, WorkOrder workorder, IEnumerable<WorkOrderItemGroup> workorderitems, ItemType itemType) : base(workOrderItemTypePairs, workorder, workorderitems, itemType) {
             base.SelectSectionSpecials("WorkOrder-Packaging");
         }
     }

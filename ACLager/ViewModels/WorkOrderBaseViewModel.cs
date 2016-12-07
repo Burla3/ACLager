@@ -13,8 +13,8 @@ namespace ACLager.ViewModels{
 
         }
 
-        public WorkOrderBaseViewModel(IEnumerable<WorkOrder> workorders, WorkOrder workorder, IEnumerable<WorkOrderItemGroup> workorderitems, ItemType itemType) : this() {
-            Workorders = workorders;
+        public WorkOrderBaseViewModel(IEnumerable<WorkOrderItemTypePair> workOrderItemTypePairs, WorkOrder workorder, IEnumerable<WorkOrderItemGroup> workorderitems, ItemType itemType) : this() {
+            WorkOrderItemTypePairs = workOrderItemTypePairs;
             Workorder = workorder;
             Workorderitems = workorderitems;
             ItemType = itemType;
@@ -23,7 +23,7 @@ namespace ACLager.ViewModels{
        
         public IEnumerable<WorkOrderItemGroup> Workorderitems { get; set; }
         public WorkOrder Workorder { get; set; }
-        public IEnumerable<WorkOrder> Workorders { get; set; }
+        public IEnumerable<WorkOrderItemTypePair> WorkOrderItemTypePairs { get; set; }
         public ItemType ItemType { get; set; }     
     }
 }

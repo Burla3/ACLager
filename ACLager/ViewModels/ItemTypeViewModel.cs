@@ -24,9 +24,9 @@ namespace ACLager.ViewModels {
                 new SelectListItem() {Text = "Liter"}
             };
             DepartmentSelectListItems = new[] {
+                new SelectListItem() {Text = "Bestilling", Value = "Bestilling"},
                 new SelectListItem() {Text = "Produktion", Value = "Produktion"},
-                new SelectListItem() {Text = "Pakkeri", Value = "Pakkeri"},
-                new SelectListItem() {Text = "Bestilling", Value = "Bestilling"}
+                new SelectListItem() {Text = "Pakkeri", Value = "Pakkeri"}
             };
         }
 

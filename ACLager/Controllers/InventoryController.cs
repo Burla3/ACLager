@@ -78,7 +78,7 @@ namespace ACLager.Controllers {
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "Vare Tilføjet",
+                        "Vare tilføjet",
                         $"{item.Amount} {item.ItemType.Unit} {item.ItemType.Name} tilføjet.",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),

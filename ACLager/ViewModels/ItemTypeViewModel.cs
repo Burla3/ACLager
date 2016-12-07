@@ -17,13 +17,9 @@ namespace ACLager.ViewModels {
 
         public ItemTypeViewModel() {
             base.SelectSectionSpecials("ItemType");
-        }
-
-        public ItemTypeViewModel(IEnumerable<ItemType> itemTypes, ItemType itemType) : this() {
-            ItemTypes = itemTypes;
-            ItemType = itemType;
             UnitSelectListItems = new[] {
                 new SelectListItem() {Text = "Gram"},
+                new SelectListItem() {Text = "Kilogram"},
                 new SelectListItem() {Text = "Stk."},
                 new SelectListItem() {Text = "Liter"}
             };
@@ -32,6 +28,11 @@ namespace ACLager.ViewModels {
                 new SelectListItem() {Text = "Pakkeri", Value = "Pakkeri"},
                 new SelectListItem() {Text = "Bestilling", Value = "Bestilling"}
             };
+        }
+
+        public ItemTypeViewModel(IEnumerable<ItemType> itemTypes, ItemType itemType) : this() {
+            ItemTypes = itemTypes;
+            ItemType = itemType;          
         }
     }
 }

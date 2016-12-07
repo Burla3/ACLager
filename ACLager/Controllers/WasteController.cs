@@ -114,8 +114,8 @@ namespace ACLager.Controllers {
 
             Changed?.Invoke(this,
                     new LogEntryEventArgs(
-                        "Spild rapport oprettet",
-                        $"Spild rapport med ID: {wasteReport.UID} oprettet.",
+                        "Spildrapport oprettet",
+                        $"Spildrapport med ID: {wasteReport.UID} oprettet.",
                         new {
                             KontekstBruger = UserController.GetContextUser().ToLoggable(),
                             SpildRapport = wasteReport.ToLoggable(),

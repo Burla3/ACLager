@@ -421,6 +421,7 @@
     <Content Include="Views\WorkOrder\Detailed.cshtml" />
     <Content Include="Views\WorkOrder\Error.cshtml" />
     <Content Include="Views\Inventory\Error.cshtml" />
+    <Content Include="Views\WorkOrder\Cancel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\i18n\" />

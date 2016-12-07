@@ -97,7 +97,7 @@
     <ul class="nav nav-tabs nav-justified" style="margin-bottom: 15px;">
         <li class="active"><a href="#instock" data-toggle="tab">Lagerbeholdning</a></li>
         @if (Model.UserIsAdmin) {
-            <li><a href="#procedure" data-toggle="tab">Procedure og ingredienser</a></li>
+            <li><a href="#procedure" data-toggle="tab">Opskrift</a></li>
         }
     </ul>
     <div id="myTabContent" class="tab-content">
@@ -203,7 +203,7 @@
                                                 <h4 class="sort-amount">@ingredient.Amount @ingredient.ItemType.Unit</h4>
                                             </td>
                                             <td>
-                                                <a href="@Url.Action("Detailed", "ItemType", new {id = ingredient.ItemType.UID})" class="btn btn-raised btn-primary pull-right">Gå til vare</a>
+                                                <a href="@Url.Action("Detailed", "ItemType", new {id = ingredient.ItemType.UID})" class="btn btn-raised btn-primary pull-right">Gå til varetype</a>
                                             </td>
                                         </tr>
                                     }

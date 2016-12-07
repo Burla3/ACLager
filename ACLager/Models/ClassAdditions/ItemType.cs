@@ -58,6 +58,10 @@ namespace ACLager.Models {
 
         public override bool Equals(object obj)
         {
+            if (ReferenceEquals(this, obj)) {
+                return true;
+            }
+
             if (obj == null || GetType() != obj.GetType()) {
                 return false;
             }

@@ -85,14 +85,22 @@ namespace ACLager.Controllers {
         [HttpPost]
         public ActionResult Pick(long id) {
             long workOrderUID;
+            Item item;
+            ItemType dbItemType;
+            Location dbLocation;
+
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 WorkOrderItem workOrderItem = db.WorkOrderItemSet.Find(id);
                 workOrderUID = workOrderItem.WorkOrder.UID;
 
-                Item item = new Item {
+                item = new Item {
                     UID = workOrderItem.Item.UID,
                     Amount = workOrderItem.Amount
                 };
+
+                Item dbItem = db.ItemSet.Find(item.UID);
+                dbItemType = dbItem.ItemType;
+                dbLocation = dbItem.Location;
 
                 if (!InventoryController.PickItem(item, true)) {
                     return View("Error", new WorkOrderBaseViewModel());
@@ -101,6 +109,19 @@ namespace ACLager.Controllers {
                 workOrderItem.Progress += item.Amount;
                 db.SaveChanges();
             }
+
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "Vare plukket",
+                        $"{item.Amount} {dbItemType.Unit} {dbItemType.Name} plukket fra {dbLocation.Name}.",
+                        new {
+                            KontekstBruger = UserController.GetContextUser().ToLoggable(),
+                            Vare = item.ToLoggable(),
+                            Varetype = dbItemType.ToLoggable(),
+                            Lokation = dbLocation.ToLoggable()
+                        }
+                    )
+            );
 
             return RedirectToAction("Detailed", new { id = workOrderUID });
             
@@ -220,13 +241,16 @@ namespace ACLager.Controllers {
 
         [HttpPost]
         public ActionResult Start(long id) {
+            IEnumerable<WorkOrderItem> loggableWorkOrderItems = new List<WorkOrderItem>();
+            WorkOrder workOrder;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                WorkOrder workOrder = db.WorkOrderSet.Find(id);
+                workOrder = db.WorkOrderSet.Find(id);
                 workOrder.IsStarted = true;
 
                 IEnumerable<WorkOrderItem> workOrderItems = workOrder.WorkOrderItems;
                 IEnumerable<WorkOrderItem> newWorkOrderItems = new List<WorkOrderItem>();
+                loggableWorkOrderItems = loggableWorkOrderItems.Concat(workOrderItems);
 
                 foreach (WorkOrderItem workOrderItem in workOrderItems) {
                     IEnumerable<Item> items =
@@ -247,6 +271,7 @@ namespace ACLager.Controllers {
 
                         try {
                             newWorkOrderItems = CreateNewWorkOrderItems(amountNeeded, workOrderItem, items, workOrder);
+                            loggableWorkOrderItems = loggableWorkOrderItems.Concat(newWorkOrderItems);
                         } catch (Exception) {
                             return View("Error", new WorkOrderBaseViewModel(null, workOrder, null, null));
                         }
@@ -256,6 +281,18 @@ namespace ACLager.Controllers {
                 db.WorkOrderItemSet.AddRange(newWorkOrderItems);
                 db.SaveChanges();
             }
+
+            Changed?.Invoke(this,
+                    new LogEntryEventArgs(
+                        "Ordre startet",
+                        $"Ordre {workOrder.OrderNumber} startet og vare er blevet reseveret.",
+                        new {
+                            KontekstBruger = UserController.GetContextUser().ToLoggable(),
+                            Ordre = workOrder.ToLoggable(),
+                            OrdrePunkter = loggableWorkOrderItems
+                        }
+                    )
+            );
 
             return RedirectToAction("Detailed", new {id = id});
         }
@@ -310,8 +347,8 @@ namespace ACLager.Controllers {
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 db.WorkOrderSet.Add(workOrder);
-                db.SaveChanges();
                 db.WorkOrderItemSet.AddRange(workOrderItems);
+                db.SaveChanges();
             }
         }
 

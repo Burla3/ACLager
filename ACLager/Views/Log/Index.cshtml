@@ -7,14 +7,12 @@
     ViewBag.Title = "Aktivitetshistorik";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="container"></div>
 
 <div class="container" id="logSort">
     @Html.Partial("_SearchPanel")
 
-
+    <div class="row">
         <div class="row">
-            <div class="row">
             <div class="sort noselect col-sm-2" data-sort="sort-date">
                 <strong>@Html.DisplayNameFor(model => model.LogEntry.Date)</strong>
                 <br>
@@ -36,32 +34,33 @@
             </div>
         </div>
 
-    <div class="list" id="ExpansionPanelsContainer">
-        @foreach (LogEntry entry in Model.LogEntries)
-        {
-            <div class="expansionpanel row panel">
-                <div class="row">
-                    <div class="col-sm-2">
-                        <h4 class="sort-date">
-                            @entry.Date.ToString("yyyy-MM-dd HH:mm")
-                        </h4>
-                    </div>
-                    <div class="col-sm-2">
-                        <h4 class="sort-type">
-                            @entry.Type
-                        </h4>
-                    </div>
-                    <div class="col-sm-5">
-                        <h4 class="sort-body">
-                            @entry.LogBody
-                        </h4>
-                    </div>
-                    <div class="col-sm-3">
-                        <a href="@Url.Action("Detailed", new {id = entry.UID})" class="btn btn-raised btn-primary pull-right">Mere info</a>
+        <div class="list" id="ExpansionPanelsContainer">
+            @foreach (LogEntry entry in Model.LogEntries) {
+                <div class="expansionpanel row panel">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <h4>
+                                @entry.Date.ToString("dd. MMM yyyy HH:mm")
+                            </h4>
+                            <span class="hidden sort-date">@entry.Date</span>
+                        </div>
+                        <div class="col-sm-2">
+                            <h4 class="sort-type">
+                                @entry.Type
+                            </h4>
+                        </div>
+                        <div class="col-sm-5">
+                            <h4 class="sort-body">
+                                @entry.LogBody
+                            </h4>
+                        </div>
+                        <div class="col-sm-3">
+                            <a href="@Url.Action("Detailed", new {id = entry.UID})" class="btn btn-raised btn-primary pull-right">Mere info</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
 </div>
 

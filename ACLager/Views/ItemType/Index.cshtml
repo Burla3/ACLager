@@ -9,24 +9,26 @@
 <div class="container" id="itemTypeSort">
     @Html.Partial("_SearchPanel")
     <div class="row">
-        <div class="sort noselect col-sm-2" data-sort="sort-is-active">
-            <strong>@Html.DisplayNameFor(model => model.ItemType.IsActive)</strong>
-            <br>
-            <span class="label label-default">Klik for at sortere</span>
-            <span class="label label-primary asc">Sorteret stigende</span>
-            <span class="label label-primary desc">Sorteret faldende</span>
-            <br>
+        <div class="row">
+            <div class="sort noselect col-sm-2" data-sort="sort-is-active">
+                <strong>@Html.DisplayNameFor(model => model.ItemType.IsActive)</strong>
+                <br>
+                <span class="label label-default">Klik for at sortere</span>
+                <span class="label label-primary asc">Sorteret stigende</span>
+                <span class="label label-primary desc">Sorteret faldende</span>
+                <br>
+            </div>
+            <div class="col-xs-3">
+                <strong>@Html.DisplayNameFor(model => model.ItemType.Name)</strong>
+            </div>
+            <div class="col-xs-3">
+                <strong>@Html.DisplayNameFor(model => model.ItemType.MinimumAmount)</strong>
+            </div>
+            <div class="col-xs-2">
+                <strong>@Html.DisplayNameFor(model => model.ItemType.Unit)</strong>
+            </div>
+            <div class="col-sm-2"></div>
         </div>
-        <div class="col-xs-3">
-            <strong>@Html.DisplayNameFor(model => model.ItemType.Name)</strong>
-        </div>
-        <div class="col-xs-3">
-            <strong>@Html.DisplayNameFor(model => model.ItemType.MinimumAmount)</strong>
-        </div>
-        <div class="col-xs-2">
-            <strong>@Html.DisplayNameFor(model => model.ItemType.Unit)</strong>
-        </div>
-        <div class="col-sm-2"></div>
     </div>
     <div class="list" id="ExpansionPanelsContainer">
         @foreach (ItemType itemType in Model.ItemTypes) {

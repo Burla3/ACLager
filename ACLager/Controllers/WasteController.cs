@@ -11,25 +11,29 @@ using ACLager.Models;
 using ACLager.ViewModels;
 
 namespace ACLager.Controllers {
-    [AdminOnly]
+    
     public class WasteController : Controller, ILoggable {
         public WasteController() {
             new Logger().Subcribe(this);
         }
 
+        [AdminOnly]
         public ActionResult Index() {
             List<WasteReportGroup> wasteReportGroups = new List<WasteReportGroup>();
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                foreach (WasteReport wasteReport in db.WasteReportSet) {
+                foreach (WasteReport wasteReport in db.WasteReportSet.ToList()) {
                     dynamic objectData = System.Web.Helpers.Json.Decode(wasteReport.ObjectData);
                     wasteReportGroups.Add(new WasteReportGroup(wasteReport, objectData));
                 }
             }
 
+            wasteReportGroups = wasteReportGroups.OrderByDescending(wrg => wrg.WasteReport.Date).ToList();
+
             return View(new WasteViewModel(wasteReportGroups, null));
         }
 
+        [AdminOnly]
         [HttpGet]
         public ActionResult Detailed(string id) {
             if (id == null) {

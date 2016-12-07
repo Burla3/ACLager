@@ -13,12 +13,12 @@ namespace ACLager.Controllers {
                 new HomeMenuBlock("purple", "Varer", "Tilføj, rediger og pluk lagervarer.", "Inventory", "Index", false),
                 new HomeMenuBlock("brown", "Produktion", "Påbegynd og afslut ordrer til produktion.", "WorkOrder", "Production", false),
                 new HomeMenuBlock("orange", "Pakkeri", "Påbegynd og afslut ordrer til pakkeri.", "WorkOrder", "Packaging", false),
-                new HomeMenuBlock("deep-orange", "Spildrapport", "Rapportér spild.", "Waste", "Create", false),
-                new HomeMenuBlock("amber", "Brugere", "Tilføj, rediger og slet brugere.", "User", "Index", true),
                 new HomeMenuBlock("indigo", "Varetyper", "Tilføj, rediger og slet varetyper samt opskrifter.", "ItemType", "Index", true),
+                new HomeMenuBlock("deep-orange", "Spildrapport", "Rapportér spild.", "Waste", "Create", false),
+                new HomeMenuBlock("green", "Spildoversigt", "Se spildrapporter.", "Waste", "Index", true),
+                new HomeMenuBlock("amber", "Brugere", "Tilføj, rediger og slet brugere.", "User", "Index", true),
                 new HomeMenuBlock("blue", "Lokationer", "Tilføj, rediger og slet lokationer.", "Location", "Index", true),
-                new HomeMenuBlock("cyan", "Aktivitetshistorik", "Se aktivitetshistorik.", "Log", "Index", true),
-                new HomeMenuBlock("green", "Spildoversigt", "Se spildrapporter.", "Waste", "Index", true)
+                new HomeMenuBlock("cyan", "Aktivitetshistorik", "Se aktivitetshistorik.", "Log", "Index", true)
             };
 
         public ActionResult Index() {

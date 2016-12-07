@@ -29,9 +29,9 @@ namespace ACLager.Controllers {
             IEnumerable<SelectListItem> itemTypeSelectListItems;
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                IEnumerable<Item> items = db.ItemSet.Where(i => i.Amount > 0);
-                IEnumerable<ItemType> itemTypes = db.ItemTypeSet.Where(it => it.IsActive);
-                IEnumerable<Location> locations = db.LocationSet.Where(l => l.IsActive);
+                IEnumerable<Item> items = db.ItemSet.Where(i => i.Amount > 0).ToList();
+                IEnumerable<ItemType> itemTypes = db.ItemTypeSet.Where(it => it.IsActive).ToList();
+                IEnumerable<Location> locations = db.LocationSet.Where(l => l.IsActive).ToList();
 
                 itemGroups = GenerateItemGroups(items, itemTypes, locations);
                 locationSelectListItems = GenerateLocationSelectListItems(locations);
@@ -337,7 +337,7 @@ namespace ACLager.Controllers {
         {
             List<ItemGroup> itemGroups = new List<ItemGroup>();
 
-            foreach (ItemType itemType in itemTypes.Where(it => it.Items.Count > 0)) {
+            foreach (ItemType itemType in itemTypes) {
                 List<ItemLocationPair> itemLocationPairs = new List<ItemLocationPair>();
 
                 foreach (Item item in items.Where(i => itemType.UID == i.ItemType.UID)) {

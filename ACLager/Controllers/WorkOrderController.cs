@@ -42,7 +42,6 @@ namespace ACLager.Controllers {
             WorkOrder workorder = new WorkOrder();
             workorder.Type = "Pakkeri";
 
-
             return View("Index", new WorkOrderPackagingViewModel(workorders, workorder, null, null));
         }
 

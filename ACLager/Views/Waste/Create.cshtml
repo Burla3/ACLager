@@ -14,42 +14,46 @@
                 <div class="col-sm-12">
                     <h3>Opret spildrapport</h3>
                 </div>
-                <div class="col-sm-12">
+                <div class="col-xs-8">
                     <div class="form-group">
-                        @Html.LabelFor(model => model.ItemType, new { @class = "control-label" })
-                        @Html.DropDownListFor(model => model.ItemType.UID, Model.ItemTypes, new { @class = "form-control chosen-select" })
+                        @Html.LabelFor(model => model.ItemType, new {@class = "control-label"})
+                        @Html.DropDownListFor(model => model.ItemType.UID, Model.ItemTypes, new {@class = "form-control chosen-select"})
                     </div>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-xs-2">
                     <div class="form-group">
-                        @Html.LabelFor(model => model.WasteReport.Amount, new { @class = "control-label" })
-                        @Html.EditorFor(model => model.WasteReport.Amount, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.WasteReport.Amount, "", new { @class = "text-danger" })
+                        @Html.LabelFor(model => model.WasteReport.Amount, new {@class = "control-label"})
+                        @Html.EditorFor(model => model.WasteReport.Amount, new {htmlAttributes = new {@class = "form-control"}})
+                        @Html.ValidationMessageFor(model => model.WasteReport.Amount, "", new {@class = "text-danger"})
                     </div>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-xs-2">
+                </div>
+                <div class="col-xs-3">
                     <div class="form-group">
                         @Html.LabelFor(model => model.WorkOrder, new { @class = "control-label" })
                         @Html.DropDownListFor(model => model.WorkOrder.UID, Model.WorkOrders, new { @class = "form-control chosen-select" })
                     </div>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-xs-3">
                     <div class="form-group">
                         @Html.LabelFor(model => model.Location, new { @class = "control-label" })
                         @Html.DropDownListFor(model => model.Location.UID, Model.Locations, new { @class = "form-control chosen-select" })
                     </div>
                 </div>
-                <div class="col-sm-6"></div>
-
-                <div class="col-sm-12">
+                <div class="col-xs-6">                 
+                </div>
+                <div class="col-xs-12">
                     <div>
                         @Html.LabelFor(model => model.WasteReport.Description, new { @class = "control-label" })
                         @Html.TextAreaFor(model => model.WasteReport.Description, new { @class = "form-control", rows = 6, placeholder = "Beskriv hvordan spildet skete" })
                     </div>
                 </div>
             </fieldset>
-            <input class="btn btn-raised btn-success pull-right" type="submit" value="Opret">
-            <a href="@Url.Action("Index", "Home")" class="btn btn-raised btn-primary pull-right">Annuller</a>
+            <div class="col-xs-12">
+                <input class="btn btn-raised btn-success pull-right" type="submit" value="Opret">
+                <a href="@Url.Action("Index", "Home")" class="btn btn-raised btn-primary pull-right">Annuller</a>
+            </div>
         }
     </div>
 </div>

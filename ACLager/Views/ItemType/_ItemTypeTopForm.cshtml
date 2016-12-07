@@ -29,9 +29,15 @@
             </div>
         </div>
         <div class="col-xs-2">
-            <br />
-            <span class="popover-trigger noselect" data-container="body" data-toggle="popover" data-placement="top" data-content="Skabes der nye varer af denne type i pakkeriet, produktionen eller på bestilling?">
-                <i class="material-icons">help</i>
+            @{
+                string helpText =
+                    "Bestilling: Bestilte råvarer der leveres til lageret.<br/><br/>" +
+                    "Produktion: Varer der produceres i produktionen.<br/><br/>" +
+                    "Pakkeri: Varer der pakkes i pakkeriet.";
+            }
+            <br/>
+            <span class="popover-trigger noselect" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="@helpText">
+                <i class="material-icons pointer">help</i>
             </span>
         </div>
         <div class="col-xs-1"></div>

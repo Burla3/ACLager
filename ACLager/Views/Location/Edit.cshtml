@@ -30,8 +30,8 @@
                                     @Html.Partial("_LocationForm", Model.ItemLocationPair.Location)
                                 </div>
                             </fieldset>
-
-                            <input class="btn btn-raised btn-info pull-right" type="submit" value="Gem ændringer">
+                            
+                            <a href="@Url.Action("Detailed", new {id = Model.ItemLocationPair.Location.UID})" class="btn btn-raised btn-info pull-right">Gem Ændringer</a>
                             <a href="@Url.Action("Index")" class="btn btn-default pull-right flowout-close">Annuller</a>
                         </div>
                     </div>

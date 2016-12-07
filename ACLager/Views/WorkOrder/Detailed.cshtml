@@ -45,8 +45,8 @@
                 </div>
             </div>           
             <div class="col-xs-2">
-                <strong>Status:</strong>
-                <h3>@Model.Workorder.Progress / @Model.Workorder.Amount</h3>
+                <strong>Enheder Produceret:</strong>
+                <h3>@Model.Workorder.Progress / @Model.ItemType.BatchSize</h3>
             </div>
             <div class="col-xs-2">
                 @using (Html.BeginForm("Update", "WorkOrder", new {id = Model.Workorder.UID})) {

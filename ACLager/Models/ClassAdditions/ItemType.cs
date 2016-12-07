@@ -17,7 +17,7 @@ namespace ACLager.Models {
             [Required(ErrorMessage = "Varetypen skal have et navn")]
             [StringLength(127, MinimumLength = 1, ErrorMessage = "Varetypens navn skal være mellem 1 og 127 tegn")]
             [DisplayName("Varetypenavn")]
-            //[Remote("DoesItemTypeNameExist", "ItemType", HttpMethod = "POST", ErrorMessage = "Lokation med samme navn eksistere allerede. Indtast venligst et andet navn.")]
+            [Remote("DoesItemTypeNameExist", "ItemType", HttpMethod = "POST", ErrorMessage = "Lokation med samme navn eksistere allerede. Indtast venligst et andet navn.", AdditionalFields = "UID")]
             public string Name { get; set; }
             [Range(0, Double.MaxValue, ErrorMessage = "Mindste mængde skal være positiv")]
             [DisplayName("Mindste beholdning")]
@@ -58,6 +58,10 @@ namespace ACLager.Models {
 
         public override bool Equals(object obj)
         {
+            if (ReferenceEquals(this, obj)) {
+                return true;
+            }
+
             if (obj == null || GetType() != obj.GetType()) {
                 return false;
             }

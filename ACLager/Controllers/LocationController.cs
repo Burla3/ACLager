@@ -187,10 +187,14 @@ namespace ACLager.Controllers {
         }
 
         [HttpPost]
-        public JsonResult DoesLocationNameExist(string Name) {
+        public JsonResult DoesLocationNameExist(string Name, long UID) {
             Location location;
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                location = db.LocationSet.FirstOrDefault(l => l.Name == Name);
+                if (UID == 0) {
+                    location = db.LocationSet.FirstOrDefault(l => l.Name == Name);
+                } else {
+                    location = db.LocationSet.FirstOrDefault(l => l.Name == Name && l.UID != UID);
+                }
             }
             return Json(location == null);
         }

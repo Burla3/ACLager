@@ -319,7 +319,11 @@ namespace ACLager.Controllers {
         [HttpPost]
         public JsonResult DoesItemTypeNameExist(ItemType itemType) {
             using (ACLagerDatabase db = new ACLagerDatabase()) {
-                itemType = db.ItemTypeSet.FirstOrDefault(it => it.Name == itemType.Name);
+                if (itemType.UID == 0) {
+                    itemType = db.ItemTypeSet.FirstOrDefault(it => it.Name == itemType.Name);
+                } else {
+                    itemType = db.ItemTypeSet.FirstOrDefault(it => it.Name == itemType.Name && it.UID != itemType.UID);
+                }
             }
             return Json(itemType == null);
         }

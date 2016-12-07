@@ -14,7 +14,7 @@ namespace ACLager.Models {
             [DisplayName("Lokationsnummer")]
             public long UID { get; set; }
             [DisplayName("Lokationsnavn")]
-            [Remote("DoesLocationNameExist", "Location", HttpMethod = "POST", ErrorMessage = "Lokation med samme navn eksistere allerede. Indtast venligst et andet navn.")]
+            [Remote("DoesLocationNameExist", "Location", HttpMethod = "POST", ErrorMessage = "Lokation med samme navn eksistere allerede. Indtast venligst et andet navn.", AdditionalFields = "UID")]
             public string Name { get; set; }
             [DisplayName("Status")]
             public bool IsActive { get; set; }

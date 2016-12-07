@@ -20,6 +20,8 @@ namespace ACLager.Models {
             public System.DateTime DueDate { get; set; }
             [DisplayName("Status")]
             public bool IsComplete { get; set; }
+            [DisplayName("Status")]
+            public bool IsStarted { get; set; }
             [DisplayName("Leveringsoplysninger")]
             public string ShippingInfo { get; set; }        
         }

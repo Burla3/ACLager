@@ -168,7 +168,12 @@ namespace ACLager.Tests.Controllers {
                             Location = locations.First(l => l.UID == 3)
                         } 
                     }
-                } 
+                },
+                new ItemGroup
+                {
+                    ItemType = itemTypes.First(it => it.UID == 3),
+                    ItemLocationPairs = new ItemLocationPair[0]
+                }
             };
 
             /* Act */

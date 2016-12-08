@@ -62,6 +62,11 @@ namespace ACLager.Controllers {
             return View(itemTypeViewModel);
         }
 
+        [HttpGet]
+        public ActionResult Create() {
+            return View(new ItemTypeViewModel(null, new ItemType()));
+        }
+
         [HttpPost]
         public ActionResult AddSubmitAction(ItemType itemType, string submitAction) {
             switch (submitAction) {
@@ -274,6 +279,8 @@ namespace ACLager.Controllers {
                     workOrderItem.WorkOrder = db.WorkOrderSet.SingleOrDefault(wo => wo.UID == workOrderItem.WorkOrder.UID);
                 }
 
+                viewModel.ItemType.WorkOrders = dbItemType.WorkOrders.Where(wo => wo.ItemType.UID == viewModel.ItemType.UID).ToList();
+
                 viewModel.ItemType.IsIngredientFor = dbItemType.IsIngredientFor;
                 foreach (Ingredient ingredient in viewModel.ItemType.IsIngredientFor) {
                     ingredient.ForItemType = db.ItemTypeSet.SingleOrDefault(it => it.UID == ingredient.ForItemType.UID);
@@ -293,10 +300,14 @@ namespace ACLager.Controllers {
                     return RedirectToAction("Index");
                 }
                 
-                db.ItemSet.RemoveRange(dbItemType.Items);
-                db.WorkOrderItemSet.RemoveRange(dbItemType.WorkOrderItems);
                 db.IngredientSet.RemoveRange(dbItemType.IsIngredientFor);
                 db.IngredientSet.RemoveRange(dbItemType.IngredientsForRecipe);
+                db.ItemSet.RemoveRange(dbItemType.Items);
+                foreach (WorkOrder workOrder in dbItemType.WorkOrders) {
+                    db.WorkOrderItemSet.RemoveRange(workOrder.WorkOrderItems);
+                }
+                db.WorkOrderSet.RemoveRange(dbItemType.WorkOrders);
+                db.WorkOrderItemSet.RemoveRange(dbItemType.WorkOrderItems);
                 db.ItemTypeSet.Remove(dbItemType);
 
                 db.SaveChanges();

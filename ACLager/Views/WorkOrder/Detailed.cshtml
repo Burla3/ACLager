@@ -45,7 +45,7 @@
                 </div>
             </div>           
             <div class="col-xs-2">
-                <strong>Enheder Produceret:</strong>
+                <strong>Enheder produceret:</strong>
                 <h3>@Model.Workorder.Progress / @Model.ItemType.BatchSize</h3>
             </div>
             <div class="col-xs-2">
@@ -87,8 +87,10 @@
                 using (Html.BeginForm("Start", "WorkOrder", new { id = Model.Workorder.UID })) {
                     @Html.AntiForgeryToken()
                     <button class="btn btn-raised btn-lg btn-success pull-right" type="submit" value="Start">Påbegynd ordre</button>
-                }
-            } else if (Model.Workorder.IsStarted && !Model.Workorder.IsComplete) {
+                                    }
+            }
+            else if (Model.Workorder.IsStarted && !Model.Workorder.IsComplete)
+            {
                 <div class="pull-right">
                     @using (Html.BeginForm("Complete", "WorkOrder", new { id = Model.Workorder.UID })) {
                         @Html.AntiForgeryToken()
@@ -96,17 +98,13 @@
                         <button class="btn btn-raised btn-lg btn-@(allWorkOrderItemsComplete ? "success" : "disabled")" type="submit" @(!allWorkOrderItemsComplete ? "disabled" : "") value="Complete">Afslut ordre</button>
                     }
                 </div>
-                if (Model.UserIsAdmin) {
-                    <div class="pull-right">
-                        @using (Html.BeginForm("Cancel", "WorkOrder", new { id = Model.Workorder.UID })) {
-                            @Html.AntiForgeryToken()
-                            <button class="btn btn-raised btn-lg btn-danger" type="submit" value="Cancel">Annuller ordre</button>
-                        }
-                    </div>
-                }
+
             } else if (Model.Workorder.IsComplete) {
                 <h3>Ordre afsluttet</h3>
             }
+            <div class="pull-right">
+                <a href="@Url.Action("Cancel", new {id = Model.Workorder.UID})" class="btn btn-raised btn-danger pull-right">Annuller ordre</a>
+            </div>
         </div>
     </div>
     <hr />
@@ -116,7 +114,7 @@
                 <thead>
                     <tr>
                         <th><small>Beskrivelse</small></th>
-                        <th><small>Plukke lokation</small></th>
+                        <th><small>Plukkelokation</small></th>
                         <th><small>Plukkemængde / Tilgængelig mængde</small></th>
                         <th></th>
                     </tr>
@@ -183,7 +181,11 @@
                                         </h3>
                                     </td>
                                     <td>
-                                        --
+                                        <h3>
+                                            <strong>
+                                                --
+                                            </strong>
+                                        </h3>
                                     </td>
                                 </tr>
                             }

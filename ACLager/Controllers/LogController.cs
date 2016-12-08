@@ -261,6 +261,15 @@ namespace ACLager.Controllers {
                 });
                 db.UserSet.AddRange(users);
 
+                ItemType kokosbrød = new ItemType {
+                    Name = "Kokosbrød",
+                    BatchSize = 750,
+                    Unit = "stk.",
+                    Department = "Produktion",
+                    IsActive = true,
+                    MinimumAmount = 0,
+                    Procedure = "Tag chokoladebrød og drys med kokos."
+                };
                 ItemType chokolademus = new ItemType {
                     Name = "Chokolademus",
                     BatchSize = 750,
@@ -314,6 +323,8 @@ namespace ACLager.Controllers {
                     IsActive = true,
                     MinimumAmount = 0
                 };
+
+                db.ItemTypeSet.Add(kokosbrød);
                 db.ItemTypeSet.Add(farvestof);
                 db.ItemTypeSet.Add(chokolade);
                 db.ItemTypeSet.Add(chokolademus);

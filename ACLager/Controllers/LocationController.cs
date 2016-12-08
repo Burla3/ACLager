@@ -49,6 +49,11 @@ namespace ACLager.Controllers {
             return View(new LocationViewModel(null, itemLocationPair));
         }
 
+        [HttpGet]
+        public ActionResult Create (){
+            return View(new LocationViewModel(null, new ItemLocationPair(new Item(), new Location())));
+        }
+
         [HttpPost]
         public ActionResult Create(Location location) {
             using (ACLagerDatabase db = new ACLagerDatabase()) {

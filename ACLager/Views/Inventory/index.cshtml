@@ -55,7 +55,8 @@
                         </div>
                         <div class="col-xs-2">
                             @if (itemLocationPair.Item.ExpirationDate != null) {
-                                <h4 class="sort-expdate">@itemLocationPair.Item.ExpirationDate.Value.ToShortDateString()</h4>
+                                <h4>@itemLocationPair.Item.ExpirationDate.Value.ToString("dd. MMM yyyy")</h4>
+                                <span class="hidden sort-expdate">@itemLocationPair.Item.ExpirationDate.Value</span>
                             }
                         </div>
                         <div class="expansion-control col-xs-2" data-expandmaxheight="100px" data-expandtarget="#ExpansionContentContainer_@itemLocationPair.Item.UID">
@@ -72,7 +73,7 @@
                         </div>
                         <div class="col-xs-2">
                             <strong>Leveret dato:</strong>
-                            @itemLocationPair.Item.DeliveryDate.ToShortDateString()
+                            @itemLocationPair.Item.DeliveryDate.ToString("dd. MMM yyyy")
                         </div>
                         <div class="col-xs-8">
                             <a href="@Url.Action("Pick", new {id = itemLocationPair.Item.UID})" class="btn btn-raised btn-success pull-right">Pluk</a>
@@ -99,30 +100,6 @@
 <div class="flow-content flowout-close" id="InventoryItemInlineInfoAndFormPanel">
     <div class="container"></div>
 </div>
-
-<div class="flow-content flowout-close" id="AddInventoryItemFormPanel">
-    <div class="container">
-
-        <div class="row">
-            <div class="col-md-3"></div>
-
-            <div class="col-md-6">
-                <div class="panel panel-success flowout-noclose">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"> <br></h3>
-                    </div>
-                    <div class="panel-body">
-                        @Html.Partial("_AddItem")
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="col-md-3"></div>
-        </div>
-    </div>
-</div>
-
 
 <script type="text/javascript">
     $(document).ready(function() {

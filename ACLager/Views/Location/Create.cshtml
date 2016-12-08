@@ -1,0 +1,27 @@
+﻿@model ACLager.ViewModels.LocationViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="panel container">
+    <div class="row">
+        @using (Html.BeginForm("Create", "Location"))
+        {
+            @Html.AntiForgeryToken()
+
+            <fieldset>
+                <div class="col-sm-12">
+                    <h3>Opret Lokation</h3>
+                </div>
+                <div class="col-md-12">
+                    @Html.Partial("_LocationForm", Model.ItemLocationPair.Location)
+                </div>
+            </fieldset>
+            <div class="col-xs-12">
+                <input class="btn btn-raised btn-success pull-right" type="submit" value="Opret">
+                <a href="@Url.Action("Index")" class="btn btn-default pull-right flowout-close">Annuller</a>
+            </div>
+        }
+    </div>
+</div>

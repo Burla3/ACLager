@@ -1,0 +1,26 @@
+﻿@model ACLager.ViewModels.ItemTypeViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel container">
+    <div class="row">
+        @using (Html.BeginForm("AddSubmitAction", "ItemType")) {
+            @Html.AntiForgeryToken()
+
+            <fieldset>
+                <div class="col-sm-12">
+                    <h3>Opret ny varetype</h3>
+                </div>
+                @Html.Partial("_ItemTypeTopForm")
+            </fieldset>
+            <div class="col-xs-12">
+                <button name="submitAction" class="btn btn-raised btn-success pull-right" type="submit" value="Add">Gem type</button>
+                <button name="submitAction" class="btn btn-raised btn-success pull-right" type="submit" value="Edit">Gem og tilføj ingredienser</button>
+                <a href="@Url.Action("Index")" class="btn btn-default pull-right flowout-close">Annuller</a>
+            </div>
+        }
+    </div>
+</div>

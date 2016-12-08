@@ -54,6 +54,17 @@
                                         <dt>@Html.DisplayNameFor(model => model.ItemType.Procedure):</dt>
                                         <dd>@Model.ItemType.Procedure</dd>
                                     </dl>
+                                    @if (Model.ItemType.WorkOrders.Count > 0) {
+                                        <hr />
+                                        <span>Nederstående <strong>ordre</strong> producere denne varetype. Disse vil også blive <strong>slettet</strong> fra systemet.</span><br />
+                                        foreach (WorkOrder workOrder in Model.ItemType.WorkOrders)
+                                        {
+                                            <a href="@Url.Action("Detailed", "WorkOrder", new {id = workOrder.UID})">
+                                                @Html.DisplayNameFor(model => model.ItemType.WorkOrderItems.First().WorkOrder.OrderNumber): @workOrder.OrderNumber
+                                            </a>
+                                            <br />
+                                        }
+                                    }
                                     @if (Model.ItemType.WorkOrderItems.Count > 0) {
                                         <hr />
                                         <span>Nederstående <strong>ordre</strong> indeholder denne varetype. Disse vil også blive <strong>slettet</strong> fra systemet.</span><br />

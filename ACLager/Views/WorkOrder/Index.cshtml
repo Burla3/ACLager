@@ -120,22 +120,23 @@
                     }
                     <div class="col-sm-2 sort-duedate sort-isstarted">
                         @if (pair.WorkOrder.DueDate.HasValue && Model.Workorder.Type == "Pakkeri") {
-                              <h4 class="sort-duedate">@pair.WorkOrder.DueDate.Value.ToString("yyyy-MM-dd")</h4>
+                            <h4>@pair.WorkOrder.DueDate.Value.ToString("yy. mmm dd")</h4>
+                            <span class="hidden sort-duedate">@pair.WorkOrder.DueDate.Value</span>
                         }
                         else if (Model.Workorder.Type == "Produktion" && pair.WorkOrder.IsStarted == false){
-                            <h4 class="sort-isstarted">Ikke påbegyndt</h4>
+                            <h4 class="label label-default sort-isstarted">Ikke påbegyndt</h4>
                         }
                         else if (Model.Workorder.Type == "Produktion" && pair.WorkOrder.IsStarted == true){
-                            <h4 class="sort-isstarted">Påbegyndt</h4>
+                            <h4 class="label label-success sort-isstarted">Påbegyndt</h4>
                         }
                     </div>
 
                     <div class="col-sm-2">
                         @if (Model.Workorder.Type == "Pakkeri" && pair.WorkOrder.IsStarted == false){
-                        <h4 class="sort-isstarted">Ikke påbegyndt</h4>
+                        <h4 class="label label-default sort-isstarted">Ikke påbegyndt</h4>
                         }
                         else if (Model.Workorder.Type == "Pakkeri" && pair.WorkOrder.IsStarted == true){
-                        <h4 class="sort-isstarted">Påbegyndt</h4>
+                        <h4 class="label label-success sort-isstarted">Påbegyndt</h4>
                         }
                     </div>
 

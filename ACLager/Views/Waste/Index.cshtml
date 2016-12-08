@@ -58,7 +58,8 @@
             <div class="expansionpanel row panel">
                 <div class="row">
                     <div class="col-sm-2">
-                        <h4 class="sort-date">@wasteReportGroup.WasteReport.Date.ToString("yyyy-MM-dd HH:mm")</h4>
+                        <h4>@wasteReportGroup.WasteReport.Date.ToString("yy. MMM dd HH:mm")</h4>
+                        <span class="hidden sort-date">@wasteReportGroup.WasteReport.Date</span>
                     </div>
                     <div class="col-sm-3">
                         <h4 class="sort-user">@wasteReportGroup.ObjectData["ContextUser"]["Name"]</h4>

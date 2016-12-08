@@ -68,7 +68,7 @@ namespace ACLager.Controllers {
         }
 
         [HttpGet]
-        public ActionResult Add() {
+        public ActionResult Create() {
             IEnumerable<SelectListItem> locationSelectListItems;
             IEnumerable<SelectListItem> itemTypeSelectListItems;
 

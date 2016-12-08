@@ -63,7 +63,7 @@ namespace ACLager.Controllers {
         }
 
         [HttpGet]
-        public ActionResult Add() {
+        public ActionResult Create() {
             return View(new ItemTypeViewModel(null, new ItemType()));
         }
 

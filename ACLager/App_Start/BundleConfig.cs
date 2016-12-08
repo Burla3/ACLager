@@ -26,9 +26,9 @@ namespace ACLager {
                       "~/Scripts/cldr.js",
                       "~/Scripts/event.js",
                       "~/Scripts/supplemental.js",
+                      "~/Scripts/langjson.js",
                       "~/Scripts/globalize.js",
-                      "~/Scripts/number.js",
-                      "~/Scripts/langjson.js"
+                      "~/Scripts/number.js"
                       ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

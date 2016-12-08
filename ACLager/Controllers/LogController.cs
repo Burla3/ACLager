@@ -200,6 +200,7 @@ namespace ACLager.Controllers {
             return RedirectToAction("Index");
         }
 
+        [RequireAuthorization(IsDisabled = true)]
         public ActionResult TestDatabase() {
 
             using (ACLagerDatabase db = new ACLagerDatabase()) {
@@ -494,6 +495,7 @@ namespace ACLager.Controllers {
             return RedirectToAction("Index", "Home");
         }
 
+        [RequireAuthorization(IsDisabled = true)]
         public ActionResult ICLEAN() {
             using (ACLagerDatabase db = new ACLagerDatabase()) {
                 db.WasteReportSet.RemoveRange(db.WasteReportSet.ToList());

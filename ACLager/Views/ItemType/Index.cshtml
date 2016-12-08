@@ -6,6 +6,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+
 <div class="container" id="itemTypeSort">
     @Html.Partial("_SearchPanel")
     <div class="row">
@@ -79,14 +81,6 @@
     </div>
 </div>
 
-@if (Model.UserIsAdmin) {
-    <div class="fixed-button-container">
-        <div class="btn btn-success btn-fab btn-flowout btn-page-flowout-up" data-content-element="#AddFormPanel">
-            <i class="material-icons normal">add circle</i>
-            <i class="material-icons flowing hidden">close</i>
-        </div>
-    </div>
-}
 
 <div class="flow-content flowout-close" id="ItemTypeInlineInfoAndFormPanel">
     <div class="container"></div>

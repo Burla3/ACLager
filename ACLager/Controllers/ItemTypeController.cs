@@ -62,6 +62,11 @@ namespace ACLager.Controllers {
             return View(itemTypeViewModel);
         }
 
+        [HttpGet]
+        public ActionResult Add() {
+            return View(new ItemTypeViewModel(null, new ItemType()));
+        }
+
         [HttpPost]
         public ActionResult AddSubmitAction(ItemType itemType, string submitAction) {
             switch (submitAction) {

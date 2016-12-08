@@ -67,6 +67,25 @@ namespace ACLager.Controllers {
             return View("Detailed", new InventoryViewModel(null, item, null, null));
         }
 
+        [HttpGet]
+        public ActionResult Add() {
+            IEnumerable<SelectListItem> locationSelectListItems;
+            IEnumerable<SelectListItem> itemTypeSelectListItems;
+
+            using (ACLagerDatabase db = new ACLagerDatabase()) {
+                IEnumerable<ItemType> itemTypes = db.ItemTypeSet.Where(it => it.IsActive).ToList();
+                IEnumerable<Location> locations = db.LocationSet.Where(l => l.IsActive).ToList();
+                
+                locationSelectListItems = GenerateLocationSelectListItems(locations);
+                itemTypeSelectListItems = GenerateItemTypeSelectListItems(itemTypes);
+            }
+
+            Item sitem = new Item();
+            sitem.DeliveryDate = DateTime.Now;
+
+            return View(new InventoryViewModel(null, sitem, locationSelectListItems, itemTypeSelectListItems));
+        }
+
         /// <summary>
         /// Adds the <paramref name="item"/> to the database
         /// </summary>

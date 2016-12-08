@@ -1,17 +1,22 @@
 ﻿@model ACLager.ViewModels.BaseViewModel
 
 @{
-    var controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.GetRequiredString("action");
     string[] cnames = { "ItemType", "User", "Inventory", "Location" };
+
 }
 <div class="navbar navbar-default">
     <div class="container-fluid">
-        @if (Model.UserIsAdmin && cnames.Contains(controllerName)) {
-            <div class="fixed-button-container">
-                <div class="btn btn-success btn-fab btn-flowout clickable" data-href="@Url.Action("Create")">
-                    <i class="material-icons normal">add circle</i>
+        @if (cnames.Contains(controllerName) && actionName == "Index") {
+            if (controllerName == "Inventory" || Model.UserIsAdmin) {
+
+                <div class="fixed-button-container">
+                    <div class="btn btn-success btn-fab btn-flowout clickable" data-href="@Url.Action("Create")">
+                        <i class="material-icons normal">add circle</i>
+                    </div>
                 </div>
-            </div>
+            }
         }
         <ul class="nav navbar-nav navbar-left">
             <li class="hidden-xs"><a href="/"><h5 class="text-uppercase"><strong><i class="material-icons va-tb">home</i> Forside</strong></h5></a></li>

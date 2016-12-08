@@ -422,9 +422,9 @@
     <Content Include="Views\WorkOrder\Error.cshtml" />
     <Content Include="Views\Inventory\Error.cshtml" />
     <Content Include="Views\WorkOrder\Cancel.cshtml" />
-    <Content Include="Views\ItemType\Add.cshtml" />
+    <Content Include="Views\ItemType\Create.cshtml" />
     <Content Include="Views\Location\Create.cshtml" />
-    <Content Include="Views\Inventory\Add.cshtml" />
+    <Content Include="Views\Inventory\Create.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>

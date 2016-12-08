@@ -1,13 +1,13 @@
 ﻿@model ACLager.ViewModels.InventoryViewModel
 
 @{
-    ViewBag.Title = "Add";
+    ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="panel container">
     <div class="row">
-        @using (Html.BeginForm("Add", "Inventory")) {
+        @using (Html.BeginForm("Create", "Inventory")) {
             @Html.AntiForgeryToken()
 
             <fieldset>

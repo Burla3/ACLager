@@ -92,7 +92,7 @@ namespace ACLager.Controllers {
         /// <param name="item">The item to add to the database.</param>
         /// <returns>true if successful</returns>
         [HttpPost]
-        public ActionResult Add(Item item) {
+        public ActionResult Create(Item item) {
             AddItem(item, false);
 
             Changed?.Invoke(this,

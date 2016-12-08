@@ -425,6 +425,7 @@
     <Content Include="Views\ItemType\Add.cshtml" />
     <Content Include="Views\Location\Create.cshtml" />
     <Content Include="Views\Inventory\Add.cshtml" />
+    <Content Include="Views\User\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\i18n\" />

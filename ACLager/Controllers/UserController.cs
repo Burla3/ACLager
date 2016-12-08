@@ -51,7 +51,10 @@ namespace ACLager.Controllers {
             return View(new UserViewModel(null, user));
         }
 
-
+        [HttpGet]
+        public ActionResult Create() {
+            return View(new UserViewModel(null, new User()));
+        }
 
         /// <summary>
         /// Creates a User.

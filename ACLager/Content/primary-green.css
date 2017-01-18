@@ -3617,3 +3617,6 @@ fieldset[disabled] .select2.select2-container {
   color: white !important;
   text-decoration: none;
 }
+body {
+  padding-bottom: 300px;
+}

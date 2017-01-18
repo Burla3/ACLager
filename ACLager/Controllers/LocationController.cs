@@ -126,7 +126,7 @@ namespace ACLager.Controllers {
                     )
             );
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Detailed", new {id = location.UID});
         }
 
 
